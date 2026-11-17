@@ -175,3 +175,14 @@ Continue Stage 2 by resolving the database-model dependencies that can be addres
 4. Critical workflow transaction, stock, subledger, journal and idempotency mapping.
 
 Keep owner/legal/accounting decisions explicitly gated. Do not generate physical schema until DBR-001 exit criteria and Gate D are satisfied.
+
+
+## 11. Tenant / branch / legal entity / accounting boundary analysis
+
+Created `docs/03-requirements/TENANT_BRANCH_LEGAL_ENTITY_AND_ACCOUNTING_BOUNDARY_ANALYSIS.md` (DBR-002) after reviewing the current glossary, core entity catalogue, ERS-001, ODR-001..003, module dependency map, ARC-TEN-001 and accounting scope references.
+
+The analysis preserves the existing project invariants: Tenant is the SaaS isolation boundary; Branch is an operating unit; OperatingLocation is a typed operational place; none is automatically a legal entity, GST registration or accounting book. It identifies the missing explicit LegalEntity, TaxRegistration and AccountingBook conceptual relationships, compares alternatives, provides representative scenarios and records the evidence/approval gates.
+
+ODR-001, ODR-002 and ODR-003 were not changed or closed. The analysis is indexed in `docs/DOCUMENTATION_STRUCTURE.md`. It is not a legal/tax opinion or final ERS cardinality decision. It specifically flags the ambiguous combined phrase “AccountingEntity/books scope” in ARC-SYS-001 for a later controlled terminology reconciliation.
+
+The new analysis and its index entry were fetched again from `main` and verified. No application code, SQL, DDL, migrations or physical database schema were created.
