@@ -88,7 +88,9 @@ The final catalogue must define resource semantics, state constraints, sensitive
 - **Read versus mutate:** Cross-branch reporting visibility may be granted separately from transaction mutation.
 - **Sensitive data scope:** Payroll, bank details, payment evidence, personal data and credentials may require separate permissions/field masking.
 
-Whether tenant-wide roles inherit all branch access or branch access is always explicit remains open under ODR-004/005. No fixed hierarchy is approved by this document.
+**Branch-isolation baseline:** An ordinary employee's default effective scope MUST be limited to their own assigned branch. Access to another branch MUST be denied unless a specific, audited cross-branch scope grant is assigned. Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. A role title alone (including Branch Manager or Business Administrator) does not grant that scope. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
+
+ODR-004/005 remain open for the final membership, role and delegation matrix, but their resolution MUST preserve this explicit product-owner branch-isolation constraint.
 
 ## 7. Role assignment, delegation and lifecycle
 
