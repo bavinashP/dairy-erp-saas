@@ -186,3 +186,20 @@ The analysis preserves the existing project invariants: Tenant is the SaaS isola
 ODR-001, ODR-002 and ODR-003 were not changed or closed. The analysis is indexed in `docs/DOCUMENTATION_STRUCTURE.md`. It is not a legal/tax opinion or final ERS cardinality decision. It specifically flags the ambiguous combined phrase “AccountingEntity/books scope” in ARC-SYS-001 for a later controlled terminology reconciliation.
 
 The new analysis and its index entry were fetched again from `main` and verified. No application code, SQL, DDL, migrations or physical database schema were created.
+
+
+## 12. Party model and explicit branch-isolation constraint
+
+Created `docs/03-requirements/PARTY_CUSTOMER_SUPPLIER_AND_FARMER_DOMAIN_ANALYSIS.md` (DBR-003) after reviewing ERS-001, FRS-001, the domain catalogue/glossary, actor/access model, IAM and tenancy architecture, procurement/farmer settlement, sales/billing/accounting and Tally specifications.
+
+DBR-003 analyses the shared Party/PartyRole model and role-specific CustomerAccount, SupplierAccount and FarmerProfile concepts; distinguishes Party, Person, UserAccount and PersonnelRecord; covers individual, household, cooperative, organization, shared-contact and multi-role scenarios; and proposes cautious duplicate detection and audited non-destructive merge controls. It identifies missing ERS relationships and privacy/legal evidence gates. ODR-001/002/003/004/005/009/010/013/014/017 remain unresolved.
+
+The product owner's explicit branch-isolation rule has been propagated into the Actor and Access Model, ARC-IAM-001, ARC-TEN-001, FRS-001, ERS-001 and the Core Domain Entity Catalogue:
+- Ordinary employees default to their own assigned branch only.
+- Cross-branch access requires an explicit, audited scope grant.
+- Tenant Owner is the explicit example of an all-branch operational visibility role.
+- Role title alone does not grant all-branch scope.
+- Cross-branch read/report access is distinct from cross-branch mutation, export and sensitive-field access.
+- Branch scope applies to API, search, reporting, export, files, caches, jobs, analytics and integrations; tenant-owned Party roots do not become globally visible to all branch staff.
+
+DBR-003 is indexed in the documentation structure. No application code, SQL, DDL, ORM models, migrations or physical database schema were created.
