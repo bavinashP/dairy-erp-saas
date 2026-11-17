@@ -58,7 +58,12 @@
 | Billing/Receivables | Fulfilment, sales, price/tax policy, customer account, adjustments | Customer balance, statements/invoices, finance, reports |
 | Payments/Reconciliation | Receipt/payment source, account/cash custody, open items | Allocated settlement, finance, customer/supplier balance |
 | Accounting/Finance | Financial events, chart of accounts, posting rules, payment reconciliation | Double-entry journals, subledger reconciliation, financial statements and audit reports |
-| External Accounting Integration (Tally) | Accounting ledger, mapping registry, sync agent, company identity | Tally voucher/master exchange, audit packages and reconciliation results |
+| Expense/Petty Cash | Vendor/employee, branch/custodian, approval policy, cash/bank accounts, budget | Expense postings, reimbursements, petty-cash movements and variance reports |
+| Cash/Bank Reconciliation | Cash/bank account registry, receipts/payments, statement evidence, import profiles | Reconciliation matches, exceptions, cash/bank control and settlement reports |
+| Payroll | Employee/engagement, attendance, compensation versions, statutory rule registry | Payslips, employee liabilities, payroll journals and labour-cost analytics |
+| Tax Configuration/Reporting | Tenant tax profile, product classification, transaction facts, effective-dated tax rules | Tax snapshots, statutory registers, tax-to-GL reconciliation and export data |
+| Budgeting/Financial Analytics | Posted ledger, reconciled operational facts, KPI definitions, dimensions and assumptions | Budget versions, variance reports, forecasts, scenarios and projections |
+| External Accounting Integration (Tally) | Accounting ledger, mapping registry, voucher/field mapping specification, sync agent, company identity | Tally master/voucher exchange, audit packages, compatibility and reconciliation results |
 | HR/Payroll | Employee records, shifts/attendance, compensation/policy | Payroll expense, workforce availability, reports |
 | Asset/Maintenance | Asset register, location, work orders, schedules | Availability, maintenance cost, compliance evidence |
 | Quality/Compliance | Applicable business profile, facility/process/equipment, evidence | Holds/releases, corrective actions, audit and compliance reporting |
