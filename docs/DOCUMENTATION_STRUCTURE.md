@@ -82,6 +82,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Tenant, Branch, Legal Entity and Accounting Boundary Analysis](03-requirements/TENANT_BRANCH_LEGAL_ENTITY_AND_ACCOUNTING_BOUNDARY_ANALYSIS.md)
 - [Party, Customer, Supplier and Farmer Domain Analysis](03-requirements/PARTY_CUSTOMER_SUPPLIER_AND_FARMER_DOMAIN_ANALYSIS.md)
 - [Quantity, UOM Precision and Money Rounding Analysis](03-requirements/QUANTITY_UOM_PRECISION_AND_MONEY_ROUNDING_ANALYSIS.md)
+- [Critical Workflow Transaction and Posting Boundary Analysis](03-requirements/CRITICAL_WORKFLOW_TRANSACTION_AND_POSTING_BOUNDARY_ANALYSIS.md)
 - [Requirements Traceability Matrix](03-requirements/REQUIREMENTS_TRACEABILITY_MATRIX.md)
 - [Business Rules Catalogue](03-requirements/BUSINESS_RULES_CATALOGUE.md)
 - [State Transition Matrix](03-requirements/STATE_TRANSITION_MATRIX.md)
