@@ -67,6 +67,7 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | FRS-IAM-006 | The system MUST support configurable approval/separation-of-duties policies for high-risk actions (financial posting, refunds, stock adjustment, payroll finalization, permission changes, Tally bulk sync); whether approval is required for a given action is governed by the approved policy. | Must |
 | FRS-IAM-007 | Device/session lifecycle, revocation and security event history MUST be supported. | Must |
 | FRS-IAM-008 | Customer self-service identities MUST NOT be provisioned under the current approved product scope. | Must |
+| FRS-IAM-009 | Ordinary employees MUST be restricted by default to their own assigned branch; cross-branch visibility requires an explicit, audited scope grant. Tenant Owner may be granted all-branch operational visibility, while cross-branch read and mutation permissions remain distinct. | Must | Branch A employee cannot retrieve Branch B data through UI, API, search, reports, exports, attachments or background jobs; owner all-branch view succeeds only with the required permissions |
 
 ## 5. Branches, locations and operating profile
 
