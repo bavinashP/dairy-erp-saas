@@ -203,3 +203,12 @@ The product owner's explicit branch-isolation rule has been propagated into the 
 - Branch scope applies to API, search, reporting, export, files, caches, jobs, analytics and integrations; tenant-owned Party roots do not become globally visible to all branch staff.
 
 DBR-003 is indexed in the documentation structure. No application code, SQL, DDL, ORM models, migrations or physical database schema were created.
+
+
+### DBR-003 consistency follow-up
+
+A subsequent consistency pass aligned the canonical business glossary and Core Domain Entity Catalogue with DBR-003's shared Party/PartyRole model and role-specific CustomerAccount, SupplierAccount and FarmerProfile concepts. The catalogue explicitly distinguishes customer/supplier accounts from the shared identity root and records that branch-specific visibility remains separately enforced.
+
+ODR-004 and ODR-005 were updated to carry the product-owner's branch-isolation constraint into the unresolved membership/authorization investigations. Their statuses remain Open; no final role matrix or membership cardinality was silently approved.
+
+The updated documents were saved to `main`. No application code, database schema, SQL, DDL, ORM models or migrations were changed.
