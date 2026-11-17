@@ -93,6 +93,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Backup, Restore and Disaster Recovery Architecture](04-architecture/BACKUP_RESTORE_AND_DISASTER_RECOVERY_ARCHITECTURE.md)
 - [Scalability, Performance and Capacity Architecture](04-architecture/SCALABILITY_PERFORMANCE_AND_CAPACITY_ARCHITECTURE.md)
 - [Analytics, Business Intelligence and Forecasting Architecture](04-architecture/ANALYTICS_BI_AND_FORECASTING_ARCHITECTURE.md)
+- [Production VPS Deployment and Infrastructure Architecture](04-architecture/PRODUCTION_VPS_DEPLOYMENT_AND_INFRASTRUCTURE_ARCHITECTURE.md)
 - [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
 - [Audit Logging and Observability Architecture](04-architecture/AUDIT_LOGGING_AND_OBSERVABILITY_ARCHITECTURE.md)
 - BI/analytics/forecasting; deployment, scalability and resilience (planned).
