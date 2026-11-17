@@ -53,7 +53,11 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [End-to-End Business Workflows](02-domain/END_TO_END_BUSINESS_WORKFLOWS.md)
 - [Actor and Access Model](02-domain/ACTOR_AND_ACCESS_MODEL.md)
 - [Module Dependency Map](02-domain/MODULE_DEPENDENCY_MAP.md)
-- Canonical glossary, entity concepts, lifecycle states, exception/reversal matrices, detailed domain rules (planned).
+- [Canonical Business Glossary](02-domain/CANONICAL_BUSINESS_GLOSSARY.md)
+- [Core Domain Entity Catalogue](02-domain/CORE_DOMAIN_ENTITY_CATALOGUE.md)
+- [Subscription Lifecycle and Recurrence Rules](02-domain/SUBSCRIPTION_LIFECYCLE_AND_RECURRENCE_RULES.md)
+- [Delivery Lifecycle and Exception Rules](02-domain/DELIVERY_LIFECYCLE_AND_EXCEPTION_RULES.md)
+- Procurement, inventory, stock, billing, payment and accounting lifecycle specifications (planned).
 
 ### 03 — Requirements
 Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
