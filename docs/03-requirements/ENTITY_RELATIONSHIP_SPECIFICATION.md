@@ -1,0 +1,380 @@
+# Entity Relationship Specification (ERS)
+
+**Document ID:** ERS-001  
+**Status:** Proposed logical baseline — not a physical database schema  
+**Product:** Dairy ERP SaaS (India)  
+**Purpose:** Define canonical entities, ownership, relationships, cardinalities, integrity invariants and data boundaries before physical ERD/database design.
+
+## 1. Scope and modelling boundary
+
+This is a logical/conceptual entity relationship specification. It does not prescribe SQL tables, ORM models, column types, indexes, partitions, database engine, microservices or deployment topology. Those choices require separate architecture and technology evaluation.
+
+The ERS is subordinate to the Project Vision and Scope and must remain consistent with the Canonical Business Glossary, Core Domain Entity Catalogue, Module Dependency Map, domain lifecycle specifications and FRS.
+
+## 2. Relationship notation and cardinality
+
+- **1 : 1** — one record relates to one record, where explicitly required.
+- **1 : 0..N** — one parent may have zero or many children.
+- **N : M** — many-to-many; implement through an explicit association concept with its own lifecycle where attributes/permissions exist.
+- **Optional** — relationship may be absent for valid operating profiles.
+- **Tenant-owned** — record must have an unambiguous tenant ownership path.
+- **Branch-attributed** — branch/location is recorded when the business event is performed at or belongs to a specific operating location; do not force branch on tenant-wide records.
+
+## 3. Global identity and ownership rules
+
+1. Every entity has a stable internal identity independent of names, mobile numbers, external system IDs or Tally identifiers.
+2. Every tenant-owned record has a provable tenant ownership path. Tenant scope is never inferred solely from a client-supplied branch ID.
+3. Branch/location attribution is explicit and validated against the tenant. A branch is not automatically a legal entity, GST registration, warehouse or outlet.
+4. Platform-owned records (plans, platform accounts, platform audit) are not tenant-owned. Tenant records must not be visible to platform users by default merely because they administer the SaaS.
+5. Cross-tenant relationships are prohibited unless a specifically designed, audited platform capability explicitly permits them.
+6. A user identity and tenant membership are distinct; the membership/assignment relationship defines tenant and branch scopes.
+7. A person/personnel record is distinct from a login account. A tenant owner can operate without an employee record.
+8. Master data, agreements, dated occurrences, execution records, financial postings, external mappings and analytical projections are separate entity classes.
+9. Historical transactions preserve effective versions/snapshots of relevant product, unit, rate, tax, schedule and policy facts.
+10. Balances are derived from immutable/append-only movement or posting histories; a mutable balance is not the sole evidence.
+11. Deletion, archival, retention, legal hold and anonymization rules are not assumed here; each entity class requires lifecycle policy.
+12. Any relationship that crosses tenant boundaries must be blocked by both domain validation and persistence-level integrity strategy.
+
+## 4. Platform and SaaS commercial entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| PlatformPrincipal | Platform | Has platform role assignments and sessions | Separate from tenant user membership |
+| PlatformRole / PlatformPermission | Platform | Assigned to PlatformPrincipal | Platform permissions never imply tenant data access |
+| Tenant | Platform-governed root | Has business profile, branches, tenant memberships, configuration and SaaS subscription | Root isolation boundary |
+| TenantBusinessProfile | Tenant | Belongs to one Tenant | Legal identity and operating profile are not branch |
+| TenantSubscription | Tenant | References one Plan and its effective entitlement snapshot(s) | SaaS commercial subscription, not dairy customer subscription |
+| Plan | Platform | Has versioned feature/limit definitions | Plan updates must not silently rewrite existing contractual snapshot |
+| FeatureEntitlement | Platform/tenant snapshot | Belongs to Plan version or tenant override | Grants feature availability/limits only |
+| TenantEntitlementOverride | Tenant-scoped governance | References entitlement, actor and effective interval | Must be audited and cannot weaken platform invariants |
+| TenantConfiguration | Tenant | Has typed settings and versions | Configuration schema/version controlled |
+| Branch | Tenant | Belongs to one Tenant; may have child operating locations | Branch count independent of GST profile |
+| OperatingLocation | Tenant | Belongs to tenant; optionally parented to Branch; typed as outlet, warehouse, collection centre, processing site, stock location, etc. | Type taxonomy and hierarchy require decision |
+| ServiceArea | Tenant | Served by one or more authorized branches under policy | Geographic coverage is not a physical branch |
+| BusinessCalendar / ShiftDefinition | Tenant or branch override | Used by schedules, collection, delivery, attendance and reporting | Versioned/effective-dated |
+| BusinessProfileCapability | Tenant/branch | Enables/configures optional capability | Entitlement and local configuration are separate |
+
+## 5. Identity, workforce and authorization entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| Person | Privacy/identity scope to be decided | May be linked to UserAccount and PersonnelRecord | Avoid duplicate identity silos; privacy scope open |
+| UserAccount | Platform identity | Has authentication factors, sessions/devices and memberships | Login credential identity |
+| TenantMembership | Tenant | Links UserAccount to Tenant and status | Defines tenant association |
+| PersonnelRecord | Tenant | May link to Person; belongs to one or more employment/engagement records | Not mandatory for owner-only operation |
+| Engagement | Tenant | Links PersonnelRecord to branch/department, engagement type and effective dates | Employee/contractor legal classification needs review |
+| Role | Platform template or tenant-defined, subject to policy | Assigned through scoped RoleAssignment | Role bundle does not itself grant record scope |
+| Permission | Platform catalogue | Linked to Role through RolePermission | Action/resource capability |
+| RoleAssignment | Tenant or platform scope | Links principal, role, tenant and optional branch/location scope | Effective dates and delegation |
+| DirectPermissionGrant | Tenant | Optional exceptional grant with reason/expiry | Guarded and audited |
+| ApprovalLimit | Tenant | Associated with role/person/scope/category/amount | Effective-dated |
+| DeviceRegistration | Platform/tenant association | Belongs to UserAccount and optional TenantMembership | Revocable, device policy |
+| UserSession | Platform identity | Belongs to UserAccount/device | Revocation and audit |
+
+## 6. Customer, supplier and product entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| Party | Tenant | Common identity root for customer, supplier, farmer, vendor or other party roles | Avoid duplicate records when one party has multiple roles |
+| PartyRole | Tenant | Associates Party with one or more business roles | Role-specific data in extensions |
+| CustomerAccount | Tenant | References Party; has addresses, contacts, pricing/credit policy | Customer login not in current scope |
+| SupplierAccount | Tenant | References Party; may be Farmer/MilkProducer | Supplier and farmer may be same party |
+| FarmerProfile | Tenant | Extends SupplierAccount with producer/collection attributes | Optional |
+| PartyContact | Tenant | Belongs to Party | Multiple contacts |
+| PartyAddress | Tenant | Belongs to Party; may be marked service/billing/supply address | Effective-dated and verified as needed |
+| CustomerServiceAddress | Tenant | Links CustomerAccount to Address and service branch/area | Subscription may use a specific address |
+| Product | Tenant/catalogue scope | Has variants/SKUs, units, tax classification and category | Sellable/procurable identity |
+| ProductVariant | Tenant | Belongs to Product | Optional |
+| SKU | Tenant | References product/variant and inventory identity | Uniqueness policy open |
+| ProductCategory | Tenant | Parent-child hierarchy | Optional classification |
+| UnitOfMeasure | Controlled catalogue/tenant extension | Used by products, procurement, stock, sales and processing | Unit conversion/precision policy open |
+| UnitConversion | Controlled/tenant scoped | Defines valid conversion between units | Versioned where changes affect calculations |
+| PackDefinition | Tenant | References product/SKU and content unit/quantity | Pack content differs from selling unit |
+| PriceList | Tenant | Has effective-dated price entries | Scope may be branch/customer/channel |
+| PriceEntry | Tenant | References product/SKU, unit, price list and effective interval | Snapshot at transaction |
+| TaxClassification | Controlled, effective-dated | Referenced by product/transaction and tax rule | Verified tax policy required |
+
+## 7. Subscription, order, sales and delivery entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| CustomerSubscription | Tenant | Belongs to CustomerAccount; has service address, branch and lines | Agreement/configuration |
+| SubscriptionLine | Tenant | Belongs to CustomerSubscription; references product/SKU, unit, quantity, price basis | Multiple lines per subscription |
+| RecurrenceRule | Tenant | Belongs to SubscriptionLine or schedule version | Daily, every-N-days, weekdays, calendar rules |
+| SubscriptionScheduleVersion | Tenant | Belongs to subscription/line; effective interval and recurrence definition | Immutable once used to generate occurrences |
+| ScheduleException | Tenant | References schedule and date/range/shift | Skip, pause, holiday, override, substitution |
+| ScheduleOccurrence | Tenant | Generated from subscription line and schedule version; one business date/shift | Unique generation key prevents duplicates |
+| CustomerOrder | Tenant | Belongs to customer; has order lines and demand source | One-time/ad-hoc |
+| OrderLine | Tenant | Belongs to order; product, quantity, unit and price snapshot | |
+| SalesTransaction | Tenant | Originates from POS/order/subscription fulfilment under explicit sales policy | Source references prevent double counting |
+| SalesLine | Tenant | Belongs to sales transaction | Quantity, price, tax, discount snapshots |
+| POSRegister | Tenant/branch | Belongs to a branch/outlet | Optional |
+| POSSession | Tenant | Belongs to register and operator | Opening/closing cash and reconciliation |
+| Tender/PaymentCapture | Tenant | Belongs to sale/receipt and method | Distinct from settlement evidence |
+| ServiceArea / RouteTemplate | Tenant | Links service geography and planned stop sequence | Reusable planning |
+| DeliveryRun | Tenant | References date, shift, branch, route/dispatch plan and assigned personnel | Execution instance |
+| DeliveryStop | Tenant | Belongs to DeliveryRun and references customer/service address/demand | |
+| DeliveryAttempt | Tenant | Belongs to stop; records time, actor and outcome | Multiple attempts allowed |
+| Fulfilment | Tenant | References source demand/occurrence/order and actual outcome | Planned and actual quantities distinct |
+| FulfilmentLine | Tenant | Belongs to fulfilment; references source line and product | Delivered/returned/billable quantities |
+| DeliveryEvidence | Tenant | Belongs to attempt/fulfilment | Evidence policy configurable |
+| SubscriptionChangeHistory | Tenant | References subscription/line and effective version | Historical audit |
+
+## 8. Procurement, quality, processing and inventory entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| PurchaseOrder | Tenant | References supplier, branch and lines | Optional policy |
+| PurchaseOrderLine | Tenant | References product/unit and expected quantity/rate | |
+| GoodsReceipt | Tenant | References PO or direct receipt and location | Partial receipt supported |
+| GoodsReceiptLine | Tenant | References PO line/product and accepted/rejected quantities | |
+| MilkCollectionSession | Tenant | Belongs to collection point/branch and shift/date | |
+| MilkCollectionEntry | Tenant | References farmer/supplier and session | Measurement event |
+| MilkSample | Tenant | References collection entry or lot | |
+| QualityTest / QualityResult | Tenant | Test references sample/material and versioned parameter | |
+| QualityDecision | Tenant | References tested material and decision actor/policy | Accept/reject/quarantine/release |
+| ProcurementRateVersion | Tenant | Effective-dated rate formula/quality bands | Snapshot used on collection |
+| FarmerSettlement | Tenant | Groups accepted collection entries for a farmer/period | Calculation separate from payment |
+| FarmerSettlementLine | Tenant | References collection entries/adjustments | Prevent duplicate settlement |
+| ProcessingDefinitionVersion | Tenant | Defines process steps and expected input/output | Optional capability |
+| ProductionBatch | Tenant | References definition version, facility and inputs/outputs | |
+| ProductionInputLine | Tenant | References source stock lot and consumed quantity | |
+| ProductionOutputLine | Tenant | References finished product/lot and output quantity | |
+| StockLocation | Tenant | Belongs to branch or independent operating location | |
+| StockLot | Tenant | References product/SKU, source receipt/production and expiry/batch | Optional tracking policy |
+| StockMovement | Tenant | References product, lot, from/to locations, source document and movement type | Authoritative stock history |
+| StockReservation | Tenant | References demand line and stock location/lot | Not a physical issue |
+| StockCountSession | Tenant | Belongs to stock location and cut-off | |
+| StockCountLine | Tenant | References product/lot and counted quantity | |
+| StockAdjustment | Tenant | References count/exception and approval | Creates movement |
+| WastageRecord | Tenant | References product/lot/reason and source | Creates controlled movement |
+| TraceabilityLink | Tenant | Connects input lots to output lots through production/transfer | Forward/backward lineage |
+
+## 9. Billing, payments and accounting entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| BillingProfile | Tenant | Defines customer billing preferences/cycle | Policy and legal document type separate |
+| BillingRun | Tenant | Period/branch/customer scope, status and run version | Idempotent |
+| BillableItem | Tenant | References fulfilment/sale/adjustment and source line | No double billing |
+| Invoice | Tenant/books scope | Belongs to customer and billing entity; has lines and tax snapshot | Document classification per applicability |
+| InvoiceLine | Tenant | References source billable item and product/service | |
+| CustomerStatement | Tenant | Periodic view of account activity | Not itself invoice |
+| CreditNote / DebitNote | Tenant/books scope | References original invoice or adjustment | Does not rewrite original |
+| CustomerAccountEntry | Tenant | Receivable subledger debit/credit event | Derived from posted documents |
+| Receipt | Tenant | Records money received and receiving account/method | Not bank confirmation |
+| ReceiptAllocation | Tenant | Allocates receipt to invoice/account items | Partial/multiple allocation |
+| Refund | Tenant | References original receipt/payment and approval | Separate outflow |
+| PaymentAccount | Tenant | Cash, bank, UPI, gateway or clearing account | Mask sensitive details |
+| BankStatementImport | Tenant | References account, source file, profile and import batch | |
+| BankStatementLine | Tenant | Belongs to import and account | External evidence |
+| ReconciliationSession | Tenant | Account and period | |
+| ReconciliationMatch | Tenant | Links internal transactions and statement lines | Many-to-many where supported |
+| SupplierBill | Tenant/books scope | References supplier and receipt/purchase | |
+| SupplierAccountEntry | Tenant | Payable subledger event | |
+| SupplierPayment | Tenant | References supplier and payment account | |
+| Expense | Tenant | References category, branch, vendor/claim and evidence | Expense recognition distinct from payment |
+| ExpenseClaim | Tenant | References claimant and expenses/lines | Approval workflow |
+| PettyCashFloat | Tenant | Belongs to branch/location and custodian | Balance from movements |
+| CashMovement | Tenant | References float/account and source voucher | |
+| EmployeeAdvance | Tenant | References personnel and disbursement/settlement events | |
+| AccountingEntity | Tenant | Represents books/legal accounting scope | Multiple entities only after ODR-003 |
+| FinancialYear / AccountingPeriod | Tenant/books | Belongs to AccountingEntity | Close/reopen history |
+| AccountGroup / LedgerAccount | Tenant/books | Chart of Accounts hierarchy | |
+| JournalEntry | Tenant/books | References source event/voucher type/period | Posted entry immutable |
+| JournalLine | Tenant/books | Belongs to JournalEntry and LedgerAccount | Debit/credit and dimensions |
+| PostingRuleVersion | Tenant/books or controlled template | Maps source event to journal lines | Effective-dated |
+| CostCentre | Tenant/books | Optional analytic dimension | Not necessarily branch |
+| FinancialClose | Tenant/books | Period close checklist and actor | |
+| ReversalLink | Tenant/books | Links original posting and reversal | |
+| OpeningBalanceBatch | Tenant/books | Controlled migration/opening entries | |
+| ExternalAccountingCompany | Tenant | References Tally company identity and desktop agent | Optional |
+| ExternalMasterMapping | Tenant | Maps SaaS master to external master/company | Versioned |
+| ExternalVoucherMapping | Tenant | Maps source journal/voucher to Tally voucher identity | Idempotency and reconciliation |
+| SyncDevice | Tenant/platform | Paired desktop agent identity | Revocable |
+| SyncBatch / SyncBatchItem | Tenant | Records direction, payload, checksum, result and retry | Per-record status |
+| SyncConflict | Tenant | References conflicting source/target records | Explicit resolution |
+
+## 10. HR, payroll, compliance and asset entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| Department / Team | Tenant | Optional organizational grouping | |
+| ShiftAssignment | Tenant | Links personnel to shift/location/date range | |
+| AttendanceRecord | Tenant | References personnel, shift and source evidence | Corrections audited |
+| LeaveType / LeaveRequest | Tenant | Leave policy and personnel request | |
+| CompensationStructureVersion | Tenant | Effective-dated pay components | |
+| PayrollPeriod | Tenant/books | Defines processing interval | |
+| PayrollRun | Tenant | References period, pay group and calculation version | |
+| PayrollLine | Tenant | References personnel and compensation snapshot | Sensitive |
+| PayrollComponentLine | Tenant | Earning/deduction/contribution details | |
+| Payslip | Tenant | Finalized employee document | Access restricted |
+| PayrollPayment | Tenant | References payroll payable and payment account | Partial settlement possible |
+| StatutoryRuleVersion | Controlled/tenant applicability | Source, jurisdiction, effective date and formula | Legal verification required |
+| StatutoryLiability | Tenant/books | Generated from approved payroll/tax calculation | |
+| Asset | Tenant | Belongs to location and optional cost centre | |
+| MaintenancePlan / WorkOrder | Tenant | References asset, schedule, tasks and vendor/personnel | |
+| ComplianceRequirement / Evidence | Tenant | Requirement applicability and attached evidence | Current-law review |
+| AuditEvent | Platform or tenant | Actor, action, target, timestamp, context and outcome | Append-only policy |
+| Attachment | Platform storage metadata with tenant ownership | Linked to source entity | Access/retention controls |
+| ApprovalRequest / ApprovalAction | Tenant/platform | References target record, policy, approver and outcome | Immutable history |
+| Notification / DeliveryAttempt | Tenant/platform | References recipient, template, channel and source event | Delivery is not business commit |
+| IntegrationConnection / Job | Tenant/platform | External provider, scoped credentials and job state | Secrets not exposed in logs |
+
+## 11. Reporting, KPI, budget and projection entities
+
+| Entity | Ownership | Core relationships | Notes |
+|---|---|---|---|
+| KPI definition/version | Platform template or tenant extension | Defines formula, grain, dimensions, date basis and source | Versioned |
+| ReportDefinition | Platform/tenant | Parameters, permissions and output contract | |
+| ReportRun | Tenant/platform | References definition, filters, snapshot/cut-off and requester | Async-capable |
+| AnalyticalFact / Aggregate | Tenant-isolated analytical store | Derived from source operational/financial events | Not transaction source of truth |
+| Dimension / DimensionMember | Platform/tenant | Branch, product, party, route, channel, cost centre etc. | Governed |
+| Budget | Tenant/books | Period, scenario and owner | |
+| BudgetVersion | Tenant/books | Draft/approved/revised version | Prior versions retained |
+| BudgetLine | Tenant/books | Account/dimension/period target | |
+| ForecastRun | Tenant | Model/version, data cut-off and horizon | |
+| ForecastValue | Tenant | Dimension, period, metric and predicted value/range | Never actual |
+| Scenario | Tenant | Assumption set and base reference | |
+| ScenarioResult | Tenant | Computed output for scenario/version | No posting side effects |
+| AssumptionSet | Tenant | Price, volume, yield, cost, collection and other assumptions | Auditable |
+
+## 12. Principal relationship map
+
+The following is the logical relationship spine. Optional relationships depend on tenant operating profile.
+
+1. PlatformPrincipal 1:N platform role assignments.
+2. Tenant 1:1/N TenantBusinessProfile versions; Tenant 1:N Branch, TenantMembership, TenantConfiguration and TenantSubscription history.
+3. Tenant 1:N OperatingLocation; Branch 1:N child operating locations where configured.
+4. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
+5. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
+6. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
+7. ScheduleOccurrence / OrderLine 1:N demand allocation and fulfilment references; a source demand line may be partially fulfilled by multiple fulfilment lines only under explicit policy.
+8. DeliveryRun 1:N DeliveryStop; DeliveryStop 1:N DeliveryAttempt; successful/partial attempts may create linked Fulfilment records.
+9. SupplierAccount 1:N MilkCollectionEntry and PurchaseOrder; MilkCollectionEntry N:1 MilkCollectionSession; collection entries N:1 effective ProcurementRateVersion snapshot.
+10. MilkCollectionEntry 1:N MilkSample/QualityResult and at most one active settlement allocation for the same payable quantity; split settlement requires explicit line-level allocation.
+11. ProductionBatch 1:N ProductionInputLine and ProductionOutputLine; StockLot may be consumed by many batches and each output lot must link to its producing batch.
+12. Product/SKU 1:N StockLot and StockMovement; StockMovement references source document and stock location(s).
+13. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
+14. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
+15. PaymentAccount 1:N Receipt, SupplierPayment, CashMovement and BankStatementImport as applicable.
+16. BankStatementImport 1:N BankStatementLine; ReconciliationSession 1:N ReconciliationMatch; match cardinality may be one-to-one, one-to-many or many-to-one under validation.
+17. Operational source event 0..1 or policy-defined N:1 JournalEntry through idempotent PostingRuleVersion; JournalEntry 1:N JournalLine; every posted journal balances.
+18. ExpenseClaim 1:N ApprovalAction and ExpenseLine; approved expenses generate posting instructions; payment is separately linked.
+19. PersonnelRecord 1:N Engagement, AttendanceRecord and PayrollLine over time; PayrollRun 1:N PayrollLine; PayrollLine 1:N PayrollComponentLine.
+20. AccountingEntity 1:N FinancialYear, LedgerAccount, AccountingPeriod and JournalEntry; period close applies to posting scope.
+21. SaaS accounting source record 0..1 active ExternalVoucherMapping per target company/export purpose; SyncBatch 1:N SyncBatchItem.
+22. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
+23. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
+
+## 13. Mandatory integrity invariants
+
+### 13.1 Tenant and scope integrity
+- Tenant-owned records cannot reference a party, product, branch, user membership, stock location, journal or document owned by another tenant.
+- A branch/location reference must belong to the same tenant and be active/valid for the event date.
+- Branch-neutral records are allowed only where the domain defines them as tenant-wide.
+- User-provided tenant/branch identifiers are never trusted without authorization and ownership validation.
+
+### 13.2 Temporal and historical integrity
+- Effective-dated rates, price lists, tax classifications, recurrence rules, posting rules, compensation and statutory rules must be selected by an explicit business timestamp/date.
+- Finalized transactions preserve the version/snapshot actually used.
+- Changes to master data cannot rewrite completed delivery, issued invoice, settled procurement, posted journal or finalized payroll history.
+
+### 13.3 Quantity and stock integrity
+- Quantity values must include unit and precision context.
+- Unit conversion must be explicit; incompatible units cannot be added or compared.
+- Posted stock movements cannot be edited in place; corrections use reversal/adjustment movements.
+- Available stock is derived from posted movements, reservations and status constraints.
+- Lot traceability must remain connected through transfers and production consumption/output.
+
+### 13.4 Financial integrity
+- Money uses exact decimal representation and an explicit rounding policy.
+- Posted JournalEntry contains at least one debit and credit and equal total debit/credit.
+- JournalLine has one positive side (debit or credit), not both.
+- Control-account postings reconcile with subledger entries.
+- Posted financial records are immutable; correction uses linked reversal/adjustment.
+- A source event cannot create duplicate postings when a request is retried.
+- Receipt, provider confirmation, bank settlement and reconciliation are different facts/states.
+
+### 13.5 Lifecycle and concurrency integrity
+- State transitions are validated against current persisted state, actor permission and version.
+- Schedule occurrence generation has a deterministic uniqueness key including subscription line, business date, shift and schedule version/policy.
+- A stale update cannot overwrite newer approved/posted state silently.
+- Approval actions reference the exact version/value approved; material changes after approval invalidate or restart approval as policy requires.
+- Closed periods and completed batches cannot be modified without controlled reopen/correction.
+
+### 13.6 Tally and external integration integrity
+- Tally names/IDs are external mapping attributes, never SaaS primary keys.
+- External mapping is company-scoped and versioned.
+- One source voucher cannot be exported twice as duplicate detailed and summarized accounting events.
+- Retry must check prior mapping/acknowledgement before creating a new target voucher.
+- Unsupported fields, transformations and lossy mappings are reported and may be blocked by policy.
+- Desktop agent pairing and company selection are explicit, revocable and audited.
+
+### 13.7 Privacy and audit
+- Sensitive personnel, bank, tax and identity attributes require field-level access classification.
+- Attachments inherit source tenant/record access constraints.
+- Audit history must identify actor, action, target, time, outcome and relevant correlation IDs.
+- Audit and integration logs must not contain passwords, OTPs, UPI PINs, access tokens or unnecessary full financial identifiers.
+
+## 14. Candidate uniqueness and alternate-key rules
+
+The following are logical candidates, not final database constraints. Each requires validation against business edge cases before physical design:
+
+- Tenant: stable tenant key/slug under platform uniqueness policy.
+- Tenant membership: one active membership per user and tenant unless multiple membership records are explicitly versioned.
+- Branch code: unique within tenant for active branch identity.
+- Operating location code: unique within tenant or parent scope per approved taxonomy.
+- SKU: unique within tenant under approved variant/location policy.
+- Schedule occurrence: unique by subscription line + schedule version + business date + shift + occurrence sequence.
+- POS receipt/voucher number: unique within register/branch/series and relevant period according to numbering policy.
+- Journal voucher number: unique within accounting entity + voucher series + financial period as configured.
+- Statement import: file checksum plus account/profile and row fingerprints for duplicate detection; identical amounts alone are not unique.
+- External voucher mapping: unique by tenant + accounting entity + target company + source event identity/version + export purpose.
+- Sync batch item: unique by batch + source record identity/version + direction.
+
+## 15. Entity lifecycle and deletion policy requirements
+
+Physical ERD must classify each entity as:
+- Mutable master with version/history.
+- Append-only event/ledger.
+- Draft workflow record.
+- Finalized immutable business document.
+- Derived analytical projection.
+- External mapping/technical record.
+- Sensitive personal data.
+
+For each class define create/update/delete/archive/restore, retention, legal hold, export and anonymization behavior. Hard deletion of posted accounting, stock, delivery, audit or finalized statutory evidence is prohibited except through a separately approved legal retention/deletion procedure that preserves required integrity.
+
+## 16. Unresolved modelling decisions
+
+1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
+2. ODR-002: branch/outlet/collection/warehouse/processing/service-area taxonomy and hierarchy.
+3. ODR-004/005: cross-tenant user identity, membership multiplicity, role scope and permission delegation.
+4. ODR-008: supported UOM, precision, conversion and rounding.
+5. ODR-011/012: processing and inventory valuation/ownership policy.
+6. ODR-014/016/017: billing legal document model, tax treatment and accounting books policy.
+7. ODR-018: employee/contractor classification and payroll statutory data model.
+8. ODR-020: offline local storage, sync conflict and data expiry.
+9. ODR-022/023/024: KPI grain, analytics history, forecast model and budget dimension policy.
+10. ODR-026: retention, archival, deletion and legal hold.
+11. ODR-027/028/031: scale, sharding/partitioning, tenancy isolation tier and recovery targets.
+12. Tally mapping depth: detailed versus summarized sales, inventory sync and TDL-specific fields.
+
+## 17. ERD readiness checklist
+
+Before physical schema design:
+- [ ] Resolve or explicitly model alternatives for legal entity/books and branch/location taxonomy.
+- [ ] Validate canonical Party/Customer/Supplier/Farmer identity model with realistic examples.
+- [ ] Complete cardinality and optionality review for all high-volume workflows.
+- [ ] Approve unit/quantity precision and monetary rounding policy.
+- [ ] Approve stock movement and accounting posting source-of-truth contracts.
+- [ ] Define lifecycle/state machine and immutable snapshot boundaries.
+- [ ] Define tenant/branch foreign-reference enforcement and row-scope threat tests.
+- [ ] Define uniqueness, concurrency and idempotency keys for critical events.
+- [ ] Define privacy classification, retention and audit requirements.
+- [ ] Validate Tally exchange mappings against a supported release proof of concept.
+- [ ] Map every FRS requirement to entities and acceptance tests.
+- [ ] Complete NFR workload model before indexes, partitioning and capacity design.
+
+**No physical database schema should be generated from this ERS until the ERD readiness checklist and Gate D review are complete.**
