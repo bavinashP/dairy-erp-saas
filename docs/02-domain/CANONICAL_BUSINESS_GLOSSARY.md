@@ -72,6 +72,16 @@
 | Process Loss | Input quantity not recovered as saleable output/by-product | Must be measured or estimated under a defined method and reason |
 | Stock Adjustment | Controlled correction for count variance, damage, loss, or other reason | Must not silently overwrite stock balance |
 | Accounts Payable | Amount owed to suppliers | Distinct from supplier master and payment record |
+| Chart of Accounts (CoA) | Structured hierarchy of ledger accounts | Tenant/books-specific and version-controlled |
+| General Ledger (GL) | Accounting record of posted financial effects | Operational subledgers should reconcile to GL under defined rules |
+| Journal Entry | Balanced set of debit and credit ledger lines | Posted entries are immutable; corrections use reversal/adjustment |
+| Voucher | Business/accounting document representing a transaction | Voucher type and numbering are configurable and mapped externally |
+| Cost Centre | Analytical dimension for attributing income/cost | Not automatically a legal entity or branch |
+| Trial Balance | Period-end listing of ledger balances | Total debits must equal total credits |
+| Financial Period | Configured accounting interval | Closed-period posting requires controlled authorization |
+| Reversal | Linked accounting entry that negates a prior posting | Does not delete or rewrite the original journal |
+| Tally Mapping | Versioned mapping between SaaS identity and Tally master/voucher identity | External mapping; never primary SaaS identity |
+| Synchronization Batch | Auditable set of records exchanged with an external system | Must support idempotency, checksums, results and retry |
 | General Ledger (GL) | Accounting record of posted financial effects | Operational subledgers should reconcile to GL under defined rules |
 | Business Date | Tenant-defined operational date used for shifts/cut-offs | May differ from server timestamp/calendar date |
 | Effective Date | Date/time from which a rate, rule, or configuration applies | Historical transactions retain the applied version |
