@@ -53,6 +53,8 @@ Unless explicitly identified as user-confirmed or an existing invariant, numeric
 | NFR-DATA-003 | Auditability | Material actions MUST preserve actor/service, tenant/scope, timestamp, source, reason and relevant before/after or event references. | Audit trail verification |
 | NFR-DATA-004 | Historical integrity | Finalized transactions MUST retain the versions/snapshots required to explain historical quantities, rates, prices, tax, policy and accounting outcomes. | Historical replay and master-data change tests |
 | NFR-DATA-005 | Precision | Quantity, currency, tax and measurement precision/rounding MUST be explicit per domain and consistent across clients and integrations. | Boundary and rounding test vectors; ODR-008/016/017 |
+| NFR-DATA-006 | Audit durability | Required audit intent for material/security-sensitive actions MUST be durably recorded with the business transaction or a proven outbox boundary; delivery must be recoverable. | Transaction failure and audit-outbox replay tests |
+| NFR-DATA-007 | Audit integrity | Security audit history MUST be append-oriented, access-restricted and protected against unauthorized alteration/deletion; corrections are recorded as linked events. | Audit tamper and access-control tests |
 | NFR-PERF-001 | Performance | User-facing operations MUST have defined response-time budgets by operation class and workload; budgets require workload evidence and approval. | Load tests and percentile reports |
 | NFR-PERF-002 | Throughput | API, schedule generation, billing, delivery planning, imports and reporting MUST be tested at approved expected and peak workload profiles. | Reproducible load test |
 | NFR-PERF-003 | Resource efficiency | Expensive reports, imports, exports and bulk integrations SHOULD use bounded asynchronous processing where synchronous completion is not appropriate. | Job architecture and load tests |
@@ -63,6 +65,9 @@ Unless explicitly identified as user-confirmed or an existing invariant, numeric
 | NFR-OBS-001 | Observability | Services and jobs MUST emit structured, correlated logs, metrics and traces sufficient to diagnose request and workflow outcomes. | Trace/correlation walkthrough |
 | NFR-OBS-002 | Alerting | Alerts MUST be actionable, severity-classified and linked to a runbook or owner. | Alert simulation and runbook review |
 | NFR-OBS-003 | Business monitoring | Operational queues MUST expose aged/failed schedules, deliveries, reconciliations, jobs and external sync items with tenant-safe access. | Operations dashboard acceptance |
+| NFR-OBS-004 | Correlation | Requests, events and jobs MUST carry stable correlation/causation references across synchronous and asynchronous boundaries without leaking secrets or personal data. | End-to-end trace walkthrough |
+| NFR-OBS-005 | Telemetry privacy | Logs, metrics and traces MUST minimize personal/business-sensitive data, redact secrets and restrict access by operational purpose. | Redaction scan and telemetry access review |
+| NFR-OBS-006 | Actionable alerting | Critical operational/security alerts MUST have severity, owner, escalation path and linked runbook; alert delivery and ownership MUST be tested. | Alert simulation and runbook exercise |
 | NFR-MNT-001 | Maintainability | Business rules MUST be separated from client presentation and external-provider implementations. | Architecture and change-impact review |
 | NFR-MNT-002 | Modularity | Domain boundaries and contracts MUST permit controlled evolution without duplicating authoritative business logic. | Dependency and contract review |
 | NFR-MNT-003 | Change safety | Material changes MUST include impact analysis across requirements, workflows, data, permissions, APIs, tests, reports and integrations. | Change record review |
