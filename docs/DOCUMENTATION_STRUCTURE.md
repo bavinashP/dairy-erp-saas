@@ -65,6 +65,12 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Billing, Receivables, Payments and Reconciliation](02-domain/BILLING_RECEIVABLES_PAYMENTS_AND_RECONCILIATION.md)
 - [Accounting, Double-Entry Bookkeeping and Financial Controls](02-domain/ACCOUNTING_DOUBLE_ENTRY_AND_FINANCIAL_CONTROL.md)
 - [Tally Desktop Synchronization and Data Exchange Architecture](02-domain/TALLY_DESKTOP_SYNC_AND_DATA_EXCHANGE_ARCHITECTURE.md)
+- [Expense Management and Petty Cash](02-domain/EXPENSE_MANAGEMENT_AND_PETTY_CASH.md)
+- [Cash, Bank Accounts and Financial Reconciliation](02-domain/CASH_BANK_MANAGEMENT_AND_RECONCILIATION.md)
+- [Payroll and Employee Financial Transactions](02-domain/PAYROLL_AND_EMPLOYEE_FINANCIAL_TRANSACTIONS.md)
+- [India Tax Configuration and Statutory Reporting](02-domain/INDIA_TAX_CONFIGURATION_AND_STATUTORY_REPORTING.md)
+- [Budgeting, Financial Analytics and Projections](02-domain/BUDGETING_FINANCIAL_ANALYTICS_AND_PROJECTIONS.md)
+- [Tally Field and Voucher Mapping Specification](02-domain/TALLY_FIELD_AND_VOUCHER_MAPPING_SPECIFICATION.md)
 
 ### 03 — Requirements
 Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
