@@ -18,9 +18,11 @@
 | Delivery Area / Service Area | Geographic area in which a branch serves customers | Not necessarily a physical branch |
 | Route | Ordered or planned set of delivery stops for a run/shift | Route plan can change without changing the customer's subscription |
 | Delivery Run | An execution instance of a route/dispatch plan for a date and shift | Distinct from reusable route template |
-| Customer | Person or organization buying goods/services from the dairy | No customer self-service login is in current product scope |
-| Supplier | Party providing goods/services to the dairy | Farmer is a supplier subtype or related party, not necessarily a separate identity |
-| Farmer / Milk Producer | Person/entity supplying raw milk | May be paid based on measured quantity and quality/rate rules |
+| Party | Tenant-owned counterparty identity root for a person or organization that may hold one or more business roles | Shared identity does not imply unrestricted branch visibility; see DBR-003 |
+| Party Role | Effective business role assigned to a Party, such as customer, supplier, farmer/milk producer or vendor | Role-specific accounts, balances, terms and lifecycle remain distinct |
+| Customer | Party acting as a buyer under a customer relationship/account | No customer self-service login is in current product scope |
+| Supplier | Party providing goods/services under a supplier relationship/account | A supplier may also hold customer or farmer roles |
+| Farmer / Milk Producer | Party acting as a raw-milk producer/supplier | May be an individual or organization; collection and settlement use measured quantity and approved quality/rate rules |
 | Product | Sellable or procurable good/service definition | Product identity is distinct from a stock lot or package instance |
 | Variant | Defined product option such as size, fat category, flavour, or pack | Only use when it has a distinct operational/commercial identity |
 | SKU | Stock-keeping identity used to distinguish inventory-managed items | SKU policy and uniqueness scope require final design |
