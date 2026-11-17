@@ -80,8 +80,6 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [State Transition Matrix](03-requirements/STATE_TRANSITION_MATRIX.md)
 - [Exception, Reversal and Recovery Matrix](03-requirements/EXCEPTION_REVERSAL_AND_RECOVERY_MATRIX.md)
 - [Non-Functional Requirements Specification](03-requirements/NON_FUNCTIONAL_REQUIREMENTS_SPECIFICATION.md)
-- [SaaS Multi-Tenancy and Data Isolation Architecture](04-architecture/SAAS_MULTI_TENANCY_AND_DATA_ISOLATION_ARCHITECTURE.md)
-- [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
 - Detailed executable test cases and API traceability remain planned.
 
 ### 04 — Architecture
