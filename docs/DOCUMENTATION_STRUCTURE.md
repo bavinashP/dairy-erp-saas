@@ -80,6 +80,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Entity Relationship Specification](03-requirements/ENTITY_RELATIONSHIP_SPECIFICATION.md)
 - [ERS Readiness and Database Design Gap Assessment](03-requirements/ERS_READINESS_AND_DATABASE_DESIGN_GAP_ASSESSMENT.md)
 - [Tenant, Branch, Legal Entity and Accounting Boundary Analysis](03-requirements/TENANT_BRANCH_LEGAL_ENTITY_AND_ACCOUNTING_BOUNDARY_ANALYSIS.md)
+- [Party, Customer, Supplier and Farmer Domain Analysis](03-requirements/PARTY_CUSTOMER_SUPPLIER_AND_FARMER_DOMAIN_ANALYSIS.md)
 - [Requirements Traceability Matrix](03-requirements/REQUIREMENTS_TRACEABILITY_MATRIX.md)
 - [Business Rules Catalogue](03-requirements/BUSINESS_RULES_CATALOGUE.md)
 - [State Transition Matrix](03-requirements/STATE_TRANSITION_MATRIX.md)
