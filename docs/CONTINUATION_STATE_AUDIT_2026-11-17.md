@@ -212,3 +212,12 @@ A subsequent consistency pass aligned the canonical business glossary and Core D
 ODR-004 and ODR-005 were updated to carry the product-owner's branch-isolation constraint into the unresolved membership/authorization investigations. Their statuses remain Open; no final role matrix or membership cardinality was silently approved.
 
 The updated documents were saved to `main`. No application code, database schema, SQL, DDL, ORM models or migrations were changed.
+
+
+## 13. Quantity precision and monetary rounding analysis
+
+Created `docs/03-requirements/QUANTITY_UOM_PRECISION_AND_MONEY_ROUNDING_ANALYSIS.md` (DBR-004) after reviewing ERS-001, FRS-001, NFR-001, inventory, milk collection/quality/farmer settlement, processing/yield, billing, accounting and Tally mapping specifications.
+
+DBR-004 separates source measurement precision, stored quantity precision, calculation precision, posting precision, display precision and device accuracy/tolerance. It proposes product-specific stock base UOMs, explicit versioned conversions, preservation of original measurements, no universal milk litre-to-kilogram conversion, exact decimal arithmetic, controlled rounding boundaries and Tally precision-loss detection. It records workflow-specific requirements, worked scenarios, test cases and ERS refinement needs.
+
+ODR-008 remains Open. No final UOM catalogue, fixed decimal scales, device tolerances, commercial rate precision, statutory tax-rounding rule, accounting policy or physical database decimal type has been approved. DBR-004 is indexed in the documentation structure. No application code, SQL, DDL, ORM models, migrations or physical schema were created.
