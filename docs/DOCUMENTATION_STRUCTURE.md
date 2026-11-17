@@ -85,7 +85,10 @@ Project governance, glossary, requirements traceability, change control, risk an
 ### 04 — Architecture
 - [SaaS Multi-Tenancy and Data Isolation Architecture](04-architecture/SAAS_MULTI_TENANCY_AND_DATA_ISOLATION_ARCHITECTURE.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
-- API/versioning; concurrency and transaction integrity; events/jobs/integrations; BI/analytics/forecasting; deployment, scalability and resilience (planned).
+- [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
+- [Concurrency, Transaction Integrity and Idempotency](04-architecture/CONCURRENCY_TRANSACTION_INTEGRITY_AND_IDEMPOTENCY.md)
+- [Event-Driven Processing, Background Jobs and Transactional Outbox](04-architecture/EVENT_DRIVEN_PROCESSING_BACKGROUND_JOBS_AND_OUTBOX.md)
+- BI/analytics/forecasting; deployment, scalability and resilience (planned).
 
 ### 05 — India requirements
 - [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
