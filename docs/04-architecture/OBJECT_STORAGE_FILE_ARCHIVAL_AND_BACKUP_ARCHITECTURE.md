@@ -1,7 +1,7 @@
 # Object Storage, File Archival and Backup Architecture
 
 **Document ID:** ARC-STO-001  
-**Status:** Proposed architecture baseline — provider and retention choices open  
+**Status:** Provider-neutral architecture baseline — provider selection and statutory retention remain explicit production approval dependencies  
 **Product:** Dairy ERP SaaS (India)  
 **Authority:** Project Vision and Scope, ERS-001, NFR-001, ARC-TEN-001, ARC-IAM-001, ARC-EVT-001, ODR-026/028/030/031.  
 **Evidence reviewed:** Official Cloudflare R2 and Backblaze B2 pricing, security, lifecycle and object-retention documentation, reviewed 17 November 2026. Vendor allowances and features are time-sensitive and must be revalidated before procurement or deployment.  
@@ -143,6 +143,9 @@ Keep the application provider-neutral and evaluate both providers through a smal
 No provider has been selected as the production standard. Record the final choice in an ADR after testing current pricing, region availability, data transfer paths, service terms, security controls, support and restore performance.
 
 ## 8. Backup architecture
+
+The operational recovery objectives, backup schedule, restore sequence, tenant-scoped recovery and disaster-recovery exercises are specified in [Backup, Restore and Disaster Recovery Architecture](BACKUP_RESTORE_AND_DISASTER_RECOVERY_ARCHITECTURE.md). This document remains authoritative for document/object storage mechanics; ARC-DR-001 is authoritative for backup and recovery operations.
+
 
 Backups must cover more than object files. A recoverable backup set may include:
 - Transactional database full/incremental backups and transaction-log/WAL/binlog archives as supported by the selected database.
