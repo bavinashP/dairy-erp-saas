@@ -19,7 +19,7 @@ Phasing may prioritize delivery but must not silently remove a quality requireme
 - **TBD/Open:** target or policy not approved; do not invent a value.
 
 ### 1.2 Target status
-Unless explicitly identified as user-confirmed or an existing invariant, numeric targets in this document are intentionally not assigned. ODR-027 and ODR-028 remain authoritative for scale and availability/recovery decisions. A target becomes binding only after evidence, impact assessment and explicit approval.
+Numeric workload and service objectives are not invented. The engineering baseline, capacity methodology and recovery planning defaults are specified in ARC-SCALE-001 and ARC-DR-001. ODR-027 and ODR-028 identify only the remaining owner-supplied workload envelope and production service-commitment approvals. A target becomes binding as an SLA only after evidence, impact assessment and explicit approval.
 
 ## 2. Quality requirement catalogue
 
@@ -59,6 +59,8 @@ Unless explicitly identified as user-confirmed or an existing invariant, numeric
 | NFR-PERF-002 | Throughput | API, schedule generation, billing, delivery planning, imports and reporting MUST be tested at approved expected and peak workload profiles. | Reproducible load test |
 | NFR-PERF-003 | Resource efficiency | Expensive reports, imports, exports and bulk integrations SHOULD use bounded asynchronous processing where synchronous completion is not appropriate. | Job architecture and load tests |
 | NFR-PERF-004 | Scalability | Capacity MUST be evaluated across tenants, branches, users, records, API traffic, concurrent transactions, background jobs and reporting workloads. | Capacity model and scale test |
+| NFR-PERF-005 | Tenant fairness | Shared compute, database connections, queues, reports and storage MUST have tenant-aware limits/fairness controls to prevent noisy-neighbour starvation. | Noisy-neighbour and quota-exhaustion tests |
+| NFR-PERF-006 | Overload handling | Under saturation, the platform MUST apply bounded queues, backpressure and safe degradation while preserving accepted financial/stock transactions and durable job state. | Spike, stress and dependency-failure tests |
 | NFR-AVAIL-001 | Availability | Availability objectives MUST be defined by service and business impact before production service commitments are made. | Approved SLO and monitoring evidence |
 | NFR-AVAIL-002 | Degraded operation | Failure of a non-critical integration or analytics workload MUST NOT unnecessarily prevent core sales, delivery, procurement or accounting operations. | Dependency failure tests |
 | NFR-AVAIL-003 | Maintenance | Maintenance, migration and deployment procedures MUST define user impact, compatibility, rollback and recovery behavior. | Release rehearsal |
