@@ -91,6 +91,22 @@
 | Projection / Forecast | Estimated future outcome based on data and assumptions | Never present as actual or guaranteed value |
 | KPI | Defined measurable indicator with formula, grain, and owner | Every KPI needs consistent calculation semantics |
 
+| Expense Claim | Request to reimburse an employee or authorized person for business spending | Distinct from vendor bill and actual payment |
+| Petty Cash Float | Controlled small cash balance assigned to a custodian/location | Balance is derived from recorded cash movements |
+| Cash Custodian | Authorized person responsible for a cash float/drawer | Custody and accounting ownership are distinct |
+| Bank Statement Line | External bank transaction evidence | Distinct from an internally recorded receipt/payment |
+| UTR | Unique Transaction Reference supplied for a bank transfer | User-entered reference is not proof of settlement until verified |
+| Bank Reconciliation | Matching internal cash/bank records with external statement evidence | Matching must not rewrite source transactions |
+| Payroll Period | Defined interval for calculating employee compensation | Finalized periods require controlled correction |
+| Payroll Component | Configurable earning, deduction, contribution or reimbursement element | Effective-dated with calculation and ledger mapping |
+| Statutory Rule | Versioned rule with applicability, source and effective date | Requires authoritative verification and review |
+| Tax Classification | Effective-dated tax treatment metadata for a product or transaction | Must not be inferred solely from product name |
+| Budget Version | Approved or draft plan for a defined period and dimension set | Revisions retain previous approved versions |
+| Forecast | Estimated future outcome based on historical/current data and assumptions | Distinct from actual and approved budget |
+| Scenario | Alternative set of assumptions used to compare possible outcomes | Must not create or alter posted transactions |
+| KPI Definition | Versioned formula and metadata for a key performance indicator | Includes source, grain, date basis and inclusion rules |
+| Reconciliation Exception | Unmatched, duplicate, inconsistent or unsupported item requiring review | Must retain evidence and resolution history |
+
 ## Terminology rules
 
 1. Use Tenant for the SaaS isolation boundary and Dairy Business for the real-world operation.
