@@ -45,6 +45,13 @@
 | Procurement | Acquisition of milk, products, services, or materials | Milk collection may require a specialized workflow |
 | Milk Collection | Recording raw milk received from a farmer/producer | Capture quantity, time, source, and relevant quality evidence |
 | Quality Test | Measurement/assessment of a sample or product | Parameters and acceptance policy depend on product/process |
+| Milk Collection Entry | Evidence record of raw milk received from a producer | Distinguish submitted, measured, accepted and rejected quantities |
+| Sample | Material portion taken for testing | Must retain linkage to source collection/lot |
+| Quality Result | Recorded value and outcome for a test parameter | Not tested, missing, zero and failed are distinct states |
+| Rate Chart | Versioned rule for calculating supplier/milk procurement rates | Effective-dated; historical calculations retain applied version |
+| Farmer Settlement | Periodic calculation of amount payable to a farmer/producer | Separate from individual collection and payment transaction |
+| Quarantine | Restricted stock status pending review or test | Not available for normal allocation until released |
+| Raw Milk Lot | Traceable group of accepted raw milk | May aggregate multiple collection entries under lineage rules |
 | Raw Milk | Milk received before the tenant's processing/packing step | Distinct from packaged finished goods |
 | Batch / Lot | Traceable group of material or products sharing production/receipt identity | Traceability depth depends on activity profile and applicable rules |
 | Processing | Transformation of raw materials into another product | Optional capability; requires yield, loss, and traceability controls |
