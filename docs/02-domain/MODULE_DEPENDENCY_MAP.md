@@ -57,7 +57,8 @@
 | Distribution/Delivery | Subscription/order, customer/address, route, stock allocation, workforce | Fulfilment, delivery exceptions, billing, performance reports |
 | Billing/Receivables | Fulfilment, sales, price/tax policy, customer account, adjustments | Customer balance, statements/invoices, finance, reports |
 | Payments/Reconciliation | Receipt/payment source, account/cash custody, open items | Allocated settlement, finance, customer/supplier balance |
-| Accounting/Finance | Financial events, chart/accounting policy, payment reconciliation | Ledgers, statements, profitability, compliance reports |
+| Accounting/Finance | Financial events, chart of accounts, posting rules, payment reconciliation | Double-entry journals, subledger reconciliation, financial statements and audit reports |
+| External Accounting Integration (Tally) | Accounting ledger, mapping registry, sync agent, company identity | Tally voucher/master exchange, audit packages and reconciliation results |
 | HR/Payroll | Employee records, shifts/attendance, compensation/policy | Payroll expense, workforce availability, reports |
 | Asset/Maintenance | Asset register, location, work orders, schedules | Availability, maintenance cost, compliance evidence |
 | Quality/Compliance | Applicable business profile, facility/process/equipment, evidence | Holds/releases, corrective actions, audit and compliance reporting |
