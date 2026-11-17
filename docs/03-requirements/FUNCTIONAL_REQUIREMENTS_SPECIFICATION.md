@@ -64,7 +64,7 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | FRS-IAM-003 | Authorization MUST evaluate tenant, branch/location, action, resource state, assignment and approval limit where applicable. | Must |
 | FRS-IAM-004 | The system MUST support platform-level, tenant-wide and branch/location-scoped permissions. | Must |
 | FRS-IAM-005 | Backend authorization MUST be applied to every API and background operation; hiding a UI control is insufficient. | Must |
-| FRS-IAM-006 | High-risk actions (financial posting, refunds, stock adjustment, payroll finalization, permission changes, Tally bulk sync) SHOULD support approval/separation-of-duties policy. | Must |
+| FRS-IAM-006 | The system MUST support configurable approval/separation-of-duties policies for high-risk actions (financial posting, refunds, stock adjustment, payroll finalization, permission changes, Tally bulk sync); whether approval is required for a given action is governed by the approved policy. | Must |
 | FRS-IAM-007 | Device/session lifecycle, revocation and security event history MUST be supported. | Must |
 | FRS-IAM-008 | Customer self-service identities MUST NOT be provisioned under the current approved product scope. | Must |
 
@@ -132,7 +132,7 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | FRS-DLV-003 | Assignment MUST restrict a delivery worker to assigned/authorized work and minimum necessary customer data. | Must |
 | FRS-DLV-004 | Delivery outcomes MUST support delivered, partial, failed, customer unavailable, refused, rescheduled, returned and other configured reasons. | Must |
 | FRS-DLV-005 | Corrections and redelivery MUST preserve original attempt and link compensating activity. | Must |
-| FRS-DLV-006 | Mobile delivery workflows SHOULD support poor connectivity through an explicit offline/conflict protocol; offline guarantees remain subject to ODR-020. | Must |
+| FRS-DLV-006 | The system MUST define and enforce an explicit offline/conflict protocol for mobile delivery; the guaranteed offline workflows and duration remain subject to ODR-020. | Must |
 | FRS-DLV-007 | Delivery execution MUST not itself imply billing or payment unless an explicit posting event/policy triggers it. | Must |
 
 ## 10. Billing, receivables and payments
