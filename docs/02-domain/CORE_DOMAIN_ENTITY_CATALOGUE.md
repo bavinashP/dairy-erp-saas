@@ -48,13 +48,12 @@ A person, employee profile, user account, and role assignment must not be collap
 
 | Conceptual entity | Responsibility |
 |---|---|
-| Party / Party Role | Shared tenant-owned counterparty identity with one or more role assignments | A common identity does not imply unrestricted visibility across branches; see DBR-003 |
-| Customer | Buyer/account party |
-| Customer Contact | Contact person and communication details |
-| Customer Address | Address with effective dates and purpose |
-| Customer Account | Commercial balance/credit relationship |
-| Supplier | Supplier/farmer identity and commercial terms |
-| Supplier Contact / Address | Supplier contact and operational locations |
+| Party / Party Role | Shared tenant-owned counterparty identity with one or more role assignments; branch-specific relationship visibility is separately enforced (DBR-003) |
+| Customer Account | Customer-specific commercial relationship linked to Party; pricing, credit, billing and status |
+| Customer Contact / Address | Contact people and purpose/effective-dated addresses linked to Party/account; not login identities |
+| Supplier Account | Supplier-specific commercial/procurement relationship linked to Party; terms and status |
+| Farmer Profile | Optional producer-specific extension of SupplierAccount; collection attributes and producer workflow data |
+| Party Relationship | Explicit household, representative, cooperative or other party-to-party relationship; authority is not inferred |
 | Product | Product definition and classification |
 | Product Variant | Distinct sellable/procurable variation |
 | SKU | Inventory/commercial identity |
