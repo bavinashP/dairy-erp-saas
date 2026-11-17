@@ -221,3 +221,12 @@ Created `docs/03-requirements/QUANTITY_UOM_PRECISION_AND_MONEY_ROUNDING_ANALYSIS
 DBR-004 separates source measurement precision, stored quantity precision, calculation precision, posting precision, display precision and device accuracy/tolerance. It proposes product-specific stock base UOMs, explicit versioned conversions, preservation of original measurements, no universal milk litre-to-kilogram conversion, exact decimal arithmetic, controlled rounding boundaries and Tally precision-loss detection. It records workflow-specific requirements, worked scenarios, test cases and ERS refinement needs.
 
 ODR-008 remains Open. No final UOM catalogue, fixed decimal scales, device tolerances, commercial rate precision, statutory tax-rounding rule, accounting policy or physical database decimal type has been approved. DBR-004 is indexed in the documentation structure. No application code, SQL, DDL, ORM models, migrations or physical schema were created.
+
+
+## 14. Critical workflow transaction and posting boundary analysis
+
+Created `docs/03-requirements/CRITICAL_WORKFLOW_TRANSACTION_AND_POSTING_BOUNDARY_ANALYSIS.md` (DBR-005) after reviewing end-to-end workflows, ARC-CONC-001, ARC-EVT-001, inventory, milk collection/farmer settlement, billing/payments, accounting controls, Tally sync/mapping and ERR-001.
+
+DBR-005 maps POS, delivery, milk collection, farmer settlement, packaged-goods receipt, inter-branch stock transfer, billing, receipt/refund, journal posting and Tally synchronization to authoritative source events, candidate local atomic commits, asynchronous stages, domain uniqueness/idempotency controls and recovery outcomes. It preserves the distinction between source operational facts, stock movements, subledger effects, immutable journals and external Tally vouchers. It explicitly avoids claims of distributed atomicity or exactly-once delivery and carries tenant/branch authorization through every transaction boundary.
+
+DBR-005 is indexed in the documentation structure. ODR decisions about accounting recognition, posting rules, branch permissions, UOM, tax, settlement, offline operation, technology and Tally compatibility remain open. No application code, SQL, DDL, ORM models, migrations or physical schema were created.
