@@ -86,6 +86,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [SaaS Multi-Tenancy and Data Isolation Architecture](04-architecture/SAAS_MULTI_TENANCY_AND_DATA_ISOLATION_ARCHITECTURE.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
 - [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
+- [Mobile Client and Offline Operation Architecture](04-architecture/MOBILE_CLIENT_AND_OFFLINE_OPERATION_ARCHITECTURE.md)
 - [Concurrency, Transaction Integrity and Idempotency](04-architecture/CONCURRENCY_TRANSACTION_INTEGRITY_AND_IDEMPOTENCY.md)
 - [Event-Driven Processing, Background Jobs and Transactional Outbox](04-architecture/EVENT_DRIVEN_PROCESSING_BACKGROUND_JOBS_AND_OUTBOX.md)
 - [Object Storage, File Archival and Backup Architecture](04-architecture/OBJECT_STORAGE_FILE_ARCHIVAL_AND_BACKUP_ARCHITECTURE.md)
