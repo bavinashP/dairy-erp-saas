@@ -98,6 +98,10 @@ Small businesses may choose simpler workflows where legally and operationally ap
 - A delivery worker should receive only the customer/contact/address details needed for assigned deliveries.
 - Financial, salary, bank, and identity fields should be field-restricted where appropriate.
 - Exports are a separate risk surface and require explicit authorization and audit.
+- Ordinary employees MUST default to only their own assigned branch; another branch's records remain inaccessible unless an explicit, audited cross-branch scope grant applies.
+- Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. This scope does not automatically grant every mutation, approval, export or sensitive-field permission.
+- Other roles, including branch managers and business administrators, MUST NOT receive all-branch visibility merely from their title. Their branch scope must be explicitly assigned.
+- Cross-branch reporting/read access and cross-branch transaction mutation MUST be separate capabilities. Tenant-wide master records must not become unrestricted merely because they are tenant-owned.
 - Platform support access must not be a silent tenant-scope bypass.
 - Access revocation must take effect for subsequent requests and sessions according to defined session invalidation policy.
 
