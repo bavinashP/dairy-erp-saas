@@ -50,8 +50,10 @@
 | Milk Collection and Farmer Settlement | Supplier/farmer, collection location, measurement, sample/test, rate chart | Accepted raw-milk stock, farmer payable/settlement, quality and procurement analytics |
 | Purchased Goods Procurement | Supplier, product, purchase/receipt, tax/accounting policy | Stock ledger, supplier payable, reports |
 | Quality and Testing | Product/material, supplier, sample, equipment, quality policy | Procurement acceptance, processing release, compliance |
-| Processing and Packaging | Raw-material stock, quality, process definitions, equipment | Finished goods, batch traceability, inventory, cost analysis |
-| Inventory/Warehouse | Product/unit, location, source transactions | Availability, allocation, stock valuation, reports |
+| Processing and Packaging | Raw-material stock, quality, versioned process definitions, equipment where used | WIP, finished goods, batch lineage, inventory, yield and cost analysis |
+| Inventory/Warehouse | Product/unit, location, source transactions, lot policy | Stock ledger, availability, reservations, transfers, valuation inputs and reports |
+| Batch/Lot Traceability | Supplier/collection lots, inventory movements, process batches | Expiry control, recalls, downstream traceability and compliance evidence |
+| Stock Count/Reconciliation | Stock ledger, location, count sessions, transaction cut-offs | Approved variance adjustments and inventory accuracy metrics |
 | Distribution/Delivery | Subscription/order, customer/address, route, stock allocation, workforce | Fulfilment, delivery exceptions, billing, performance reports |
 | Billing/Receivables | Fulfilment, sales, price/tax policy, customer account, adjustments | Customer balance, statements/invoices, finance, reports |
 | Payments/Reconciliation | Receipt/payment source, account/cash custody, open items | Allocated settlement, finance, customer/supplier balance |
