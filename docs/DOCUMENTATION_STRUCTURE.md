@@ -27,6 +27,8 @@
 | Superseded | Replaced by a newer decision; retain traceability |
 | Verified | Checked against evidence or an agreed acceptance method |
 
+For decision-specific classifications, use the authoritative classification protocol in [Open Decisions Register](01-product/OPEN_DECISIONS_REGISTER.md). Do not use a bare generic `Open` status where the decision classification, missing evidence/approval, owner and trigger can be stated explicitly.
+
 ## 3. Evidence labels
 | Label | Meaning |
 |---|---|
@@ -41,6 +43,7 @@ Claims about law, tax, compliance, or provider capability must record source, ap
 ## 4. Documentation catalogue
 
 ### 00 — Governance
+- [Continuation State Audit — 2026-11-17](CONTINUATION_STATE_AUDIT_2026-11-17.md)
 Project governance, glossary, requirements traceability, change control, risk and assumption register (planned).
 
 ### 01 — Product
@@ -96,7 +99,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Production VPS Deployment and Infrastructure Architecture](04-architecture/PRODUCTION_VPS_DEPLOYMENT_AND_INFRASTRUCTURE_ARCHITECTURE.md)
 - [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
 - [Audit Logging and Observability Architecture](04-architecture/AUDIT_LOGGING_AND_OBSERVABILITY_ARCHITECTURE.md)
-- BI/analytics/forecasting; deployment, scalability and resilience (planned).
+- Integrated system architecture overview and cross-document integration map (planned; next architecture task).
 
 ### 05 — India requirements
 - [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
