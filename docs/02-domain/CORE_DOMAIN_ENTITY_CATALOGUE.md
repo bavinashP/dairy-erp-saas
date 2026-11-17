@@ -48,6 +48,7 @@ A person, employee profile, user account, and role assignment must not be collap
 
 | Conceptual entity | Responsibility |
 |---|---|
+| Party / Party Role | Shared tenant-owned counterparty identity with one or more role assignments | A common identity does not imply unrestricted visibility across branches; see DBR-003 |
 | Customer | Buyer/account party |
 | Customer Contact | Contact person and communication details |
 | Customer Address | Address with effective dates and purpose |
