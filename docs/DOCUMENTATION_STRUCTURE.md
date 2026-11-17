@@ -41,17 +41,19 @@ Claims about law, tax, compliance, or provider capability must record source, ap
 ## 4. Documentation catalogue
 
 ### 00 — Governance
-Project governance, glossary, requirements traceability, change control, risk and assumption register.
+Project governance, glossary, requirements traceability, change control, risk and assumption register (planned).
 
 ### 01 — Product
 - [Project Vision and Scope](01-product/PROJECT_VISION_AND_SCOPE.md)
 - [Open Decisions Register](01-product/OPEN_DECISIONS_REGISTER.md)
-- Goals and success metrics, personas and actors, business models, roadmap (planned).
+- Goals and success metrics, personas, business models, roadmap (planned).
 
 ### 02 — Business domain
 - [Domain Landscape and Capability Model](02-domain/DOMAIN_LANDSCAPE_AND_CAPABILITY_MODEL.md)
 - [End-to-End Business Workflows](02-domain/END_TO_END_BUSINESS_WORKFLOWS.md)
-- Detailed domain models, lifecycle state models, exceptions, and domain-specific business rules (planned).
+- [Actor and Access Model](02-domain/ACTOR_AND_ACCESS_MODEL.md)
+- [Module Dependency Map](02-domain/MODULE_DEPENDENCY_MAP.md)
+- Canonical glossary, entity concepts, lifecycle states, exception/reversal matrices, detailed domain rules (planned).
 
 ### 03 — Requirements
 Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
@@ -61,7 +63,7 @@ Business, application and module architecture; SaaS tenancy and branch scope; id
 
 ### 05 — India requirements
 - [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
-- GST applicability and invoicing; payments and reconciliation; address/PIN/mobile handling; privacy and retention (research and detailed requirements planned).
+- GST applicability and invoicing; payments and reconciliation; address/PIN/mobile handling; privacy and retention (detailed research and requirements planned).
 
 ### 06 — Security and operations
 Threat model, tenant-isolation verification, audit and monitoring, backup/restore/DR, incident response, performance/concurrency/reliability (planned).
