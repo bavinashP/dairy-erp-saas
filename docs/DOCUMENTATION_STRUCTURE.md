@@ -73,7 +73,9 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Tally Field and Voucher Mapping Specification](02-domain/TALLY_FIELD_AND_VOUCHER_MAPPING_SPECIFICATION.md)
 
 ### 03 — Requirements
-Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
+- [Functional Requirements Specification](03-requirements/FUNCTIONAL_REQUIREMENTS_SPECIFICATION.md)
+- [Entity Relationship Specification](03-requirements/ENTITY_RELATIONSHIP_SPECIFICATION.md)
+- Functional and non-functional requirements traceability, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (further refinement planned).
 
 ### 04 — Architecture
 Business, application and module architecture; SaaS tenancy and branch scope; identity and authorization; API/versioning; data lifecycle; events/jobs/integrations; BI/analytics/forecasting; deployment, scalability and resilience (planned).
