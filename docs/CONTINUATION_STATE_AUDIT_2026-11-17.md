@@ -141,3 +141,18 @@ Technical baselines may be recommended where evidence supports them; they must r
 This audit verified repository metadata, the recursive file tree, the latest commit comparison and the listed document contents/sections. It is a continuation-state audit, not a line-by-line certification of every file in the repository, a complete legal opinion, or proof of production behavior.
 
 No application code, repository settings or repository visibility were changed during this audit.
+
+
+## 9. Post-audit continuation actions
+
+The following actions were completed after the read-only state assessment above:
+
+1. Created `docs/04-architecture/SYSTEM_ARCHITECTURE_OVERVIEW_AND_INTEGRATION_MAP.md` (ARC-SYS-001). It consolidates the system context, logical capability groups, client/API interaction, tenant/branch context flow, transactional/outbox path, data ownership, Tally boundary, storage/recovery, security boundaries and deployment topology. It references the detailed architecture documents rather than replacing them.
+2. Updated `docs/DOCUMENTATION_STRUCTURE.md` to index ARC-SYS-001, remove the stale planned labels for architecture areas that already have documents, record the continuation audit and identify physical database architecture/ERD as the next planned architecture artifact.
+3. Added decision-classification guidance to the documentation governance page so decision-specific items are not left with an unqualified generic `Open` status.
+
+The newly created ARC-SYS-001 and its index entry were fetched again from `main` after the writes. The saved content, document ID, three Mermaid diagrams and index references were verified.
+
+### Updated next concrete task
+
+Proceed to the ERS-001 readiness review and physical database architecture. Do not generate application code or assume that ERS-001 is already a complete physical schema. Review the authoritative domain workflows, requirements, accounting/inventory rules, concurrency/idempotency requirements, tenancy constraints, retention/privacy and Tally mappings; identify and classify unresolved modelling dependencies; then define the physical database architecture and ERD only to the extent supported by that review.
