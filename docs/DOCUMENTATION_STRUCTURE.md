@@ -87,6 +87,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 
 ### 04 — Architecture
 - [SaaS Multi-Tenancy and Data Isolation Architecture](04-architecture/SAAS_MULTI_TENANCY_AND_DATA_ISOLATION_ARCHITECTURE.md)
+- [System Architecture Overview and Integration Map](04-architecture/SYSTEM_ARCHITECTURE_OVERVIEW_AND_INTEGRATION_MAP.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
 - [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
 - [Mobile Client and Offline Operation Architecture](04-architecture/MOBILE_CLIENT_AND_OFFLINE_OPERATION_ARCHITECTURE.md)
@@ -99,7 +100,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Production VPS Deployment and Infrastructure Architecture](04-architecture/PRODUCTION_VPS_DEPLOYMENT_AND_INFRASTRUCTURE_ARCHITECTURE.md)
 - [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
 - [Audit Logging and Observability Architecture](04-architecture/AUDIT_LOGGING_AND_OBSERVABILITY_ARCHITECTURE.md)
-- Integrated system architecture overview and cross-document integration map (planned; next architecture task).
+- Physical database architecture and ERD (planned; dependent on ERS-001 readiness review).
 
 ### 05 — India requirements
 - [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
