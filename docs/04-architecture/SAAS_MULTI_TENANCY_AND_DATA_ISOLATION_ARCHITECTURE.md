@@ -29,16 +29,18 @@ It does not approve a physical schema, shared-database strategy, database-per-te
 3. Tenant context MUST be established before tenant-owned data access and MUST fail closed when missing, invalid, suspended or ambiguous.
 4. Tenant isolation MUST apply to reads, writes, aggregates, search, reports, exports, attachments, caches, background jobs, events, webhooks and integrations.
 5. Branch scope MUST be checked independently from tenant scope.
-6. A branch ID supplied by a client MUST be validated as belonging to the active tenant and within the actor's authorized branch scope.
-7. Tenant-wide records may be branch-neutral. Do not force branch attribution where the domain does not require it.
-8. Cross-tenant business relationships are prohibited unless a specifically designed, audited platform capability explicitly permits them.
-9. Platform administration and support access MUST be separate from tenant membership and business roles.
-10. Platform support MUST NOT use an implicit scope bypass. Any exceptional access requires a distinct grant, justification, permitted scope, expiry/revocation and audit.
-11. Plan entitlement controls feature availability and usage limits; it MUST NOT grant data access or override authorization.
-12. Tenant configuration MUST NOT disable isolation, authorization, audit, integrity or concurrency controls.
-13. A job/event MUST carry or securely resolve the tenant identity and any required branch scope; it MUST NOT depend on ambient context left by a previous request.
-14. Tenant context MUST be cleared at request/job completion and isolated between concurrent execution units.
-15. Errors and lookup behavior MUST not reveal whether another tenant owns a supplied identifier.
+6. Ordinary employees MUST default to access only their own assigned branch. Cross-branch access is denied unless a specific, audited scope grant authorizes it; Tenant Owner is the explicit example of an all-branch visibility role.
+7. A role title alone MUST NOT confer all-branch visibility. Cross-branch read/report scope MUST be separable from cross-branch create/update/approve/post/reverse/export capabilities.
+8. A branch ID supplied by a client MUST be validated as belonging to the active tenant and within the actor's authorized branch scope.
+9. Tenant-wide records may be branch-neutral. Do not force branch attribution where the domain does not require it.
+10. Cross-tenant business relationships are prohibited unless a specifically designed, audited platform capability explicitly permits them.
+11. Platform administration and support access MUST be separate from tenant membership and business roles.
+12. Platform support MUST NOT use an implicit scope bypass. Any exceptional access requires a distinct grant, justification, permitted scope, expiry/revocation and audit.
+13. Plan entitlement controls feature availability and usage limits; it MUST NOT grant data access or override authorization.
+14. Tenant configuration MUST NOT disable isolation, authorization, audit, integrity or concurrency controls.
+15. A job/event MUST carry or securely resolve the tenant identity and any required branch scope; it MUST NOT depend on ambient context left by a previous request.
+16. Tenant context MUST be cleared at request/job completion and isolated between concurrent execution units.
+17. Errors and lookup behavior MUST not reveal whether another tenant owns a supplied identifier.
 
 ## 4. Logical ownership model
 
@@ -89,7 +91,7 @@ The order is normative at the logical level; the exact middleware, framework and
 - Tenant identity MUST be part of every tenant-specific cache namespace/key and invalidation scope.
 - Branch-specific cached results MUST additionally encode branch scope and relevant permission/policy version.
 - Cache misses and stale entries MUST not fall back to unscoped data.
-- Search indexes/documents MUST retain tenant ownership and enforce scope at query and result retrieval boundaries.
+- Search indexes/documents MUST retain tenant ownership and enforce branch scope at query and result retrieval boundaries; tenant-wide Party/master records must not expose unrelated branch relationships to ordinary branch users.
 - Attachment storage references MUST be tenant-bound; unguessable identifiers are not authorization.
 - Generated exports/reports MUST capture the requesting actor, tenant, branch scope, filters, data cut-off and permission decision.
 - Download authorization MUST be rechecked when the artifact is accessed; a long-running job must not grant indefinite access.
@@ -117,7 +119,8 @@ No option is selected. Evaluation MUST include isolation assurance, tenant count
 The architecture and test strategy MUST include:
 - Identifier substitution across every resource family.
 - Cross-tenant list, search, aggregate, export and attachment access.
-- Cross-branch reads and writes for single-branch and multi-branch users.
+- Cross-branch reads and writes for ordinary single-branch users, explicitly multi-branch users and Tenant Owner all-branch visibility.
+- Branch-scoped search, aggregate, export, attachment, notification, cache and analytics access, including tenant-wide master records linked to branch-specific relationships.
 - Tenant-wide records accessed by branch-scoped users under explicit policy.
 - Tenant suspension during active sessions and queued jobs.
 - Revoked membership/session and stale role assignments.
