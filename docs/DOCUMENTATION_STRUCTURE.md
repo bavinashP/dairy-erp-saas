@@ -62,7 +62,9 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Inventory, Stock Ledger and Reconciliation](02-domain/INVENTORY_STOCK_LEDGER_AND_RECONCILIATION.md)
 - [Batch, Lot, Expiry and Traceability](02-domain/BATCH_LOT_EXPIRY_AND_TRACEABILITY.md)
 - [Dairy Processing, Packaging and Yield Management](02-domain/DAIRY_PROCESSING_PACKAGING_AND_YIELD.md)
-- Billing, payment and accounting lifecycle specifications (planned).
+- [Billing, Receivables, Payments and Reconciliation](02-domain/BILLING_RECEIVABLES_PAYMENTS_AND_RECONCILIATION.md)
+- [Accounting, Double-Entry Bookkeeping and Financial Controls](02-domain/ACCOUNTING_DOUBLE_ENTRY_AND_FINANCIAL_CONTROL.md)
+- [Tally Desktop Synchronization and Data Exchange Architecture](02-domain/TALLY_DESKTOP_SYNC_AND_DATA_EXCHANGE_ARCHITECTURE.md)
 
 ### 03 — Requirements
 Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
