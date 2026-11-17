@@ -47,6 +47,7 @@
 | Order Management | Customer, product, pricing, availability | Picking, delivery, billing, reporting |
 | POS/Sales | Product, price, branch/register, stock, payment | Stock ledger, receipts, receivables, reports |
 | Milk Procurement | Supplier/farmer, collection point, quantity/unit, quality/rate | Raw-milk stock, supplier payable, processing, reports |
+| Milk Collection and Farmer Settlement | Supplier/farmer, collection location, measurement, sample/test, rate chart | Accepted raw-milk stock, farmer payable/settlement, quality and procurement analytics |
 | Purchased Goods Procurement | Supplier, product, purchase/receipt, tax/accounting policy | Stock ledger, supplier payable, reports |
 | Quality and Testing | Product/material, supplier, sample, equipment, quality policy | Procurement acceptance, processing release, compliance |
 | Processing and Packaging | Raw-material stock, quality, process definitions, equipment | Finished goods, batch traceability, inventory, cost analysis |
