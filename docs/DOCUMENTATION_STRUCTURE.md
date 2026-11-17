@@ -59,7 +59,10 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Delivery Lifecycle and Exception Rules](02-domain/DELIVERY_LIFECYCLE_AND_EXCEPTION_RULES.md)
 - [Procurement Lifecycle and Controls](02-domain/PROCUREMENT_LIFECYCLE_AND_CONTROLS.md)
 - [Milk Collection, Quality and Farmer Settlement](02-domain/MILK_COLLECTION_QUALITY_AND_FARMER_SETTLEMENT.md)
-- Inventory, stock, billing, payment and accounting lifecycle specifications (planned).
+- [Inventory, Stock Ledger and Reconciliation](02-domain/INVENTORY_STOCK_LEDGER_AND_RECONCILIATION.md)
+- [Batch, Lot, Expiry and Traceability](02-domain/BATCH_LOT_EXPIRY_AND_TRACEABILITY.md)
+- [Dairy Processing, Packaging and Yield Management](02-domain/DAIRY_PROCESSING_PACKAGING_AND_YIELD.md)
+- Billing, payment and accounting lifecycle specifications (planned).
 
 ### 03 — Requirements
 Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
