@@ -57,7 +57,9 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Core Domain Entity Catalogue](02-domain/CORE_DOMAIN_ENTITY_CATALOGUE.md)
 - [Subscription Lifecycle and Recurrence Rules](02-domain/SUBSCRIPTION_LIFECYCLE_AND_RECURRENCE_RULES.md)
 - [Delivery Lifecycle and Exception Rules](02-domain/DELIVERY_LIFECYCLE_AND_EXCEPTION_RULES.md)
-- Procurement, inventory, stock, billing, payment and accounting lifecycle specifications (planned).
+- [Procurement Lifecycle and Controls](02-domain/PROCUREMENT_LIFECYCLE_AND_CONTROLS.md)
+- [Milk Collection, Quality and Farmer Settlement](02-domain/MILK_COLLECTION_QUALITY_AND_FARMER_SETTLEMENT.md)
+- Inventory, stock, billing, payment and accounting lifecycle specifications (planned).
 
 ### 03 — Requirements
 Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
