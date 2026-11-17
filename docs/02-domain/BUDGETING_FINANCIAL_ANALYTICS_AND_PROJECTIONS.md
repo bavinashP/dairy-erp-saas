@@ -1,6 +1,6 @@
 # Budgeting, Financial Analytics and Projections
 
-**Status:** Working baseline — domain requirements
+**Status:** Working baseline — domain requirements; architecture authority: [Analytics, Business Intelligence and Forecasting Architecture](../04-architecture/ANALYTICS_BI_AND_FORECASTING_ARCHITECTURE.md)
 
 ## 1. Purpose and distinctions
 Provide decision support without confusing actual, target, budget, forecast, projection and scenario. A forecast is an estimate based on data and assumptions, not a promise. Reports must disclose period, data freshness, formula, filters, assumptions and confidence/limitations.
