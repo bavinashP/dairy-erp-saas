@@ -44,31 +44,36 @@ Claims about law, tax, compliance, or provider capability must record source, ap
 Project governance, glossary, requirements traceability, change control, risk and assumption register.
 
 ### 01 — Product
-Vision and scope, goals and success metrics, personas and actors, business models, open decisions, roadmap.
+- [Project Vision and Scope](01-product/PROJECT_VISION_AND_SCOPE.md)
+- [Open Decisions Register](01-product/OPEN_DECISIONS_REGISTER.md)
+- Goals and success metrics, personas and actors, business models, roadmap (planned).
 
 ### 02 — Business domain
-Domain and bounded-context catalogue; customer/subscription lifecycle; supplier/farmer lifecycle; milk collection/procurement/processing/packaging; product/inventory/sales/POS/distribution; billing/collections/refunds/receivables; finance/HR/quality/assets/maintenance; exceptions and reconciliation.
+- [Domain Landscape and Capability Model](02-domain/DOMAIN_LANDSCAPE_AND_CAPABILITY_MODEL.md)
+- [End-to-End Business Workflows](02-domain/END_TO_END_BUSINESS_WORKFLOWS.md)
+- Detailed domain models, lifecycle state models, exceptions, and domain-specific business rules (planned).
 
 ### 03 — Requirements
-Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration.
+Functional and non-functional requirements, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (planned).
 
 ### 04 — Architecture
-Business, application and module architecture; SaaS tenancy and branch scope; identity and authorization; API/versioning; data lifecycle; events/jobs/integrations; BI/analytics/forecasting; deployment, scalability and resilience.
+Business, application and module architecture; SaaS tenancy and branch scope; identity and authorization; API/versioning; data lifecycle; events/jobs/integrations; BI/analytics/forecasting; deployment, scalability and resilience (planned).
 
 ### 05 — India requirements
-Indian business profiles and localization; GST applicability and invoicing; payments and reconciliation; address/PIN/mobile handling; legal and regulatory research; privacy and retention.
+- [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
+- GST applicability and invoicing; payments and reconciliation; address/PIN/mobile handling; privacy and retention (research and detailed requirements planned).
 
 ### 06 — Security and operations
-Threat model, tenant-isolation verification, audit and monitoring, backup/restore/DR, incident response, performance/concurrency/reliability.
+Threat model, tenant-isolation verification, audit and monitoring, backup/restore/DR, incident response, performance/concurrency/reliability (planned).
 
 ### 07 — Quality engineering
-Test strategy, unit/integration/API/E2E/security/performance tests, test data, acceptance/release gates, regression and compatibility.
+Test strategy, unit/integration/API/E2E/security/performance tests, test data, acceptance/release gates, regression and compatibility (planned).
 
 ### 08 — Technology evaluation
-Evaluation criteria, candidate comparisons, proof-of-concept findings, ADRs, approved technology baseline.
+Evaluation criteria, candidate comparisons, proof-of-concept findings, ADRs, approved technology baseline (planned).
 
 ### 09 — Delivery and maintenance
-Development workflow, environment setup, branching/releases, deployment/rollback, versioning, maintenance and support.
+Development workflow, environment setup, branching/releases, deployment/rollback, versioning, maintenance and support (planned).
 
 ## 5. Review gates
 - **Gate A — Foundation:** vision, scope, terminology, actors, business models, constraints, open decisions.
