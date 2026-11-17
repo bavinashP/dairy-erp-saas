@@ -156,3 +156,22 @@ The newly created ARC-SYS-001 and its index entry were fetched again from `main`
 ### Updated next concrete task
 
 Proceed to the ERS-001 readiness review and physical database architecture. Do not generate application code or assume that ERS-001 is already a complete physical schema. Review the authoritative domain workflows, requirements, accounting/inventory rules, concurrency/idempotency requirements, tenancy constraints, retention/privacy and Tally mappings; identify and classify unresolved modelling dependencies; then define the physical database architecture and ERD only to the extent supported by that review.
+
+
+## 10. Database readiness work completed after ARC-SYS-001
+
+A focused ERS readiness review was completed against ERS-001, FRS-001, RTM-001, NFR-001, the business rules/entity/domain documents, accounting and inventory specifications, subscription/delivery workflows, Tally mapping and the tenancy/concurrency/event/security/scale architecture.
+
+Created `docs/03-requirements/ERS_READINESS_AND_DATABASE_DESIGN_GAP_ASSESSMENT.md` (DBR-001). The assessment confirms that ERS-001 is a substantial logical model but its physical-schema gate is not satisfied. It records the evidence and gaps for all ERS readiness checklist areas, safe design baselines, owner/evidence dependencies, and explicit exit criteria.
+
+The assessment is indexed in `docs/DOCUMENTATION_STRUCTURE.md`. No SQL, DDL, ORM model, migration, application code or database provisioning was performed.
+
+### Updated next concrete task
+
+Continue Stage 2 by resolving the database-model dependencies that can be addressed through engineering analysis and worked domain scenarios, beginning with:
+1. Tenant, Branch, OperatingLocation and AccountingEntity relationship alternatives.
+2. Party/Customer/Supplier/Farmer identity and deduplication scenarios.
+3. UOM/quantity precision and money rounding policy proposal.
+4. Critical workflow transaction, stock, subledger, journal and idempotency mapping.
+
+Keep owner/legal/accounting decisions explicitly gated. Do not generate physical schema until DBR-001 exit criteria and Gate D are satisfied.
