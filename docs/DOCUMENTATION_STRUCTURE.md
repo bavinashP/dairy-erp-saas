@@ -89,6 +89,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Concurrency, Transaction Integrity and Idempotency](04-architecture/CONCURRENCY_TRANSACTION_INTEGRITY_AND_IDEMPOTENCY.md)
 - [Event-Driven Processing, Background Jobs and Transactional Outbox](04-architecture/EVENT_DRIVEN_PROCESSING_BACKGROUND_JOBS_AND_OUTBOX.md)
 - [Object Storage, File Archival and Backup Architecture](04-architecture/OBJECT_STORAGE_FILE_ARCHIVAL_AND_BACKUP_ARCHITECTURE.md)
+- [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
 - BI/analytics/forecasting; deployment, scalability and resilience (planned).
 
 ### 05 — India requirements
@@ -96,7 +97,8 @@ Project governance, glossary, requirements traceability, change control, risk an
 - GST applicability and invoicing; payments and reconciliation; address/PIN/mobile handling; privacy and retention (detailed research and requirements planned).
 
 ### 06 — Security and operations
-Threat model, tenant-isolation verification, audit and monitoring, backup/restore/DR, incident response, performance/concurrency/reliability (planned).
+- [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
+Tenant-isolation verification, audit and monitoring, backup/restore/DR, incident response, performance/concurrency/reliability (detailed operational documents planned).
 
 ### 07 — Quality engineering
 Test strategy, unit/integration/API/E2E/security/performance tests, test data, acceptance/release gates, regression and compatibility (planned).
