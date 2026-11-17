@@ -1,7 +1,7 @@
 # Open Decisions Register
 
 **Status:** Initial register  
-**Rule:** An open item is not an approved requirement. Do not silently resolve it through implementation or documentation wording.
+**Rule:** Do not leave a decision generically open. Every item must be classified as (a) resolved by an explicit project constraint, (b) recommended engineering baseline, (c) owner approval required, (d) external evidence/legal applicability required, or (e) intentionally deferred with a trigger and review date. Never label a recommendation as user-approved. For owner/evidence dependencies, document the safe interim baseline and the exact decision, owner, evidence, impact and latest decision date.
 
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
@@ -32,7 +32,7 @@
 | ODR-025 | SaaS plans | Define plans, entitlements, limits, trials, upgrades, downgrades, grace, suspension. | SaaS commercial operations | Platform billing and entitlement scenarios | Open |
 | ODR-026 | Data lifecycle | Define retention, archival, export, deletion, offboarding, legal holds. | Privacy, compliance, storage | Applicable law and customer-contract research | Open |
 | ODR-027 | Scale targets | Estimate tenants, branches, users, transactions, concurrency, and data volumes. | Capacity and architecture | Conservative/base/high growth scenarios | Open |
-| ODR-028 | Availability/recovery | Define uptime, RPO, RTO, backup frequency, disaster-recovery objectives. | Operational design and cost | Business impact analysis and service tiers | Open |
+| ODR-028 | Availability/recovery | Recovery architecture and an initial RPO/RTO/backup baseline are specified in ARC-DR-001. Remaining approval: accept or amend the proposed service objectives and name operational responders before production. | Business commitment, staffing and recovery cost | Monthly restore evidence, quarterly DR exercise, business impact review and named incident/restore/key-custody owners | Recommended baseline; owner approval required before production |
 | ODR-029 | Integrations | Which external systems and APIs are priority? | API, event, adapter boundaries | Integration inventory and prioritization | Open |
 | ODR-030 | Technology | Which languages, frameworks, databases, queues, caches, analytics, deployment model? | Maintainability and operating cost | Requirements-led comparison and proof of concept | Deferred |
 | ODR-031 | Deployment topology | Define production topology, regions, network boundaries, tenant isolation tiers. | Security, resilience, scale, cost | Threat model, workload model, provider evaluation | Open |
@@ -40,5 +40,20 @@
 | ODR-033 | Security governance | Approve MFA and session/recovery policies, privileged access governance, incident response ownership, vulnerability remediation targets and security risk-acceptance authority. | Account takeover, privileged misuse, incident impact and production risk | Threat model, risk assessment, operational/legal review and explicit policy approval | Open |
 | ODR-034 | Audit and observability governance | Approve durable audit event catalogue, audit/telemetry retention classes, access governance, alert ownership, escalation and incident evidence policy. | Accountability, privacy, investigation readiness, storage cost and operational response | Threat model, data inventory, workload baseline, legal/contract review and incident exercises | Open |
 
-## Decision protocol
-For each item: gather real scenarios and exceptions; research authoritative sources where legal, tax, regulatory, or provider claims are involved; identify alternatives and consequences; recommend only when evidence is sufficient; record decision owner and explicit approval; update dependent requirements, architecture, and acceptance criteria.
+## Decision closure protocol
+For every item, record the decision statement; classification; chosen baseline; alternatives; evidence/source and date; rationale; consequences/risks; affected documents/modules; verification method; decision owner; approval requirement; and review trigger/date.
+
+1. Close matters already determined by explicit product-owner constraints immediately and propagate them to dependent documents.
+2. For engineering choices that do not require a business/legal commitment, select and document a conservative, reversible, evidence-based recommended baseline. Do not leave a generic question merely because several technologies exist.
+3. For business policy, pricing/plan, staffing, legal applicability, contractual commitments, production provider/account, or named accountability, do not impersonate owner approval. Provide a safe interim default and a precise approval item with options and consequences.
+4. For legal/tax/security/provider claims, use current authoritative sources and record jurisdiction, effective date, applicability and confidence. If evidence is incomplete, isolate the uncertainty and specify what must be verified.
+5. An item may remain open only when a specific external fact or accountable human approval is genuinely indispensable. Assign an owner and due date/production gate; otherwise close or reclassify it.
+6. Update every dependent requirement, workflow, architecture, test and index in the same change set where possible. Run a cross-document contradiction and broken-link review before declaring completion.
+
+
+## Decision status classification
+- **Resolved — project constraint:** Explicitly settled by the product owner or fixed project boundary; propagate as a requirement.
+- **Recommended baseline:** Engineering default selected from available evidence for design and implementation planning; not a contractual SLA or owner-approved commercial/legal policy.
+- **Owner approval required:** A named business owner must approve a commercial, operational, risk-acceptance or accountability commitment before production.
+- **Evidence required:** A current external fact, provider capability or legal applicability question must be verified from authoritative evidence.
+- **Deferred with trigger:** Intentionally postponed with a specific trigger, owner and review date; it is not an unresolved design question.
