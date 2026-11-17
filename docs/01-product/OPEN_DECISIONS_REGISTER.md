@@ -37,6 +37,7 @@
 | ODR-030 | Technology | Which languages, frameworks, databases, queues, caches, analytics, deployment model? | Maintainability and operating cost | Requirements-led comparison and proof of concept | Deferred |
 | ODR-031 | Deployment topology | Define production topology, regions, network boundaries, tenant isolation tiers. | Security, resilience, scale, cost | Threat model, workload model, provider evaluation | Open |
 | ODR-032 | Localization | Which languages, translation workflow, number formats, localized templates are needed? | Consistent UX and compliance | User research and terminology glossary | Open |
+| ODR-033 | Security governance | Approve MFA and session/recovery policies, privileged access governance, incident response ownership, vulnerability remediation targets and security risk-acceptance authority. | Account takeover, privileged misuse, incident impact and production risk | Threat model, risk assessment, operational/legal review and explicit policy approval | Open |
 
 ## Decision protocol
 For each item: gather real scenarios and exceptions; research authoritative sources where legal, tax, regulatory, or provider claims are involved; identify alternatives and consequences; recommend only when evidence is sufficient; record decision owner and explicit approval; update dependent requirements, architecture, and acceptance criteria.
