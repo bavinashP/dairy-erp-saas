@@ -75,7 +75,11 @@ Project governance, glossary, requirements traceability, change control, risk an
 ### 03 — Requirements
 - [Functional Requirements Specification](03-requirements/FUNCTIONAL_REQUIREMENTS_SPECIFICATION.md)
 - [Entity Relationship Specification](03-requirements/ENTITY_RELATIONSHIP_SPECIFICATION.md)
-- Functional and non-functional requirements traceability, user stories, acceptance criteria, business rules, notifications/workflows, import/export and migration (further refinement planned).
+- [Requirements Traceability Matrix](03-requirements/REQUIREMENTS_TRACEABILITY_MATRIX.md)
+- [Business Rules Catalogue](03-requirements/BUSINESS_RULES_CATALOGUE.md)
+- [State Transition Matrix](03-requirements/STATE_TRANSITION_MATRIX.md)
+- [Exception, Reversal and Recovery Matrix](03-requirements/EXCEPTION_REVERSAL_AND_RECOVERY_MATRIX.md)
+- Detailed executable test cases, API traceability, and non-functional requirements remain planned.
 
 ### 04 — Architecture
 Business, application and module architecture; SaaS tenancy and branch scope; identity and authorization; API/versioning; data lifecycle; events/jobs/integrations; BI/analytics/forecasting; deployment, scalability and resilience (planned).
