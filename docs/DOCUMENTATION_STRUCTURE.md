@@ -110,7 +110,8 @@ Tenant-isolation verification and incident response (detailed operational docume
 Test strategy, unit/integration/API/E2E/security/performance tests, test data, acceptance/release gates, regression and compatibility (planned).
 
 ### 08 — Technology evaluation
-Evaluation criteria, candidate comparisons, proof-of-concept findings, ADRs, approved technology baseline (planned).
+- [Technology Evaluation and Provisional Technology Baseline](08-technology/TECHNOLOGY_EVALUATION_AND_PROVISIONAL_BASELINE.md)
+Proof-of-concept findings, final ADRs and approved technology baseline remain gated by reproducible evidence and explicit review.
 
 ### 09 — Delivery and maintenance
 Development workflow, environment setup, branching/releases, deployment/rollback, versioning, maintenance and support (planned).
