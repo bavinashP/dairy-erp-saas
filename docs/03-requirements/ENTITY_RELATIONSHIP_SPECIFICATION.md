@@ -34,6 +34,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 10. Balances are derived from immutable/append-only movement or posting histories; a mutable balance is not the sole evidence.
 11. Deletion, archival, retention, legal hold and anonymization rules are not assumed here; each entity class requires lifecycle policy.
 12. Any relationship that crosses tenant boundaries must be blocked by both domain validation and persistence-level integrity strategy.
+13. Ordinary employees are branch-isolated by default: branch-attributed records and branch-specific relationships are accessible only within the actor's assigned branch scope. A cross-branch exception requires an explicit, auditable authorization grant; Tenant Owner may receive all-branch visibility without thereby receiving every mutation or sensitive-field permission.
 
 ## 4. Platform and SaaS commercial entities
 
@@ -65,7 +66,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | Engagement | Tenant | Links PersonnelRecord to branch/department, engagement type and effective dates | Employee/contractor legal classification needs review |
 | Role | Platform template or tenant-defined, subject to policy | Assigned through scoped RoleAssignment | Role bundle does not itself grant record scope |
 | Permission | Platform catalogue | Linked to Role through RolePermission | Action/resource capability |
-| RoleAssignment | Tenant or platform scope | Links principal, role, tenant and optional branch/location scope | Effective dates and delegation |
+| RoleAssignment | Tenant or platform scope | Links principal, role, tenant and optional branch/location scope | Effective dates and delegation; ordinary employee default is own assigned branch; all-branch scope must be explicit and audited |
 | DirectPermissionGrant | Tenant | Optional exceptional grant with reason/expiry | Guarded and audited |
 | ApprovalLimit | Tenant | Associated with role/person/scope/category/amount | Effective-dated |
 | DeviceRegistration | Platform/tenant association | Belongs to UserAccount and optional TenantMembership | Revocable, device policy |
@@ -75,8 +76,8 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 
 | Entity | Ownership | Core relationships | Notes |
 |---|---|---|---|
-| Party | Tenant | Common identity root for customer, supplier, farmer, vendor or other party roles | Avoid duplicate records when one party has multiple roles |
-| PartyRole | Tenant | Associates Party with one or more business roles | Role-specific data in extensions |
+| Party | Tenant | Common identity root for customer, supplier, farmer, vendor or other party roles | Avoid duplicate records when one party has multiple roles; tenant ownership does not imply unrestricted visibility to every branch employee |
+| PartyRole | Tenant | Associates Party with one or more business roles | Role-specific data in extensions; branch-specific relationships/visibility must be explicit where applicable |
 | CustomerAccount | Tenant | References Party; has addresses, contacts, pricing/credit policy | Customer login not in current scope |
 | SupplierAccount | Tenant | References Party; may be Farmer/MilkProducer | Supplier and farmer may be same party |
 | FarmerProfile | Tenant | Extends SupplierAccount with producer/collection attributes | Optional |
