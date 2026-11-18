@@ -335,8 +335,8 @@ The following is the logical relationship spine. Optional relationships depend o
 48. Each ApprovalRequest references one exact target action/resource and source payload/version, and one matched ApprovalPolicyVersion. ApprovalRequest 1:N ApprovalAction; each ApprovalAction represents one required stage/reviewer and is immutable.
 49. ApprovalPolicyRule matches only registered domain permission keys, declared resource/scope, risk class, threshold type/value and effective interval. It cannot grant or substitute for the underlying domain action permission.
 50. ApprovalLimit is interpreted as a scoped limit on an approval policy/action or explicit principal-specific ceiling; it is not assigned by job title or role label. A stricter principal ceiling or domain limit prevails.
-47. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
-48. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
+51. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
+52. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
 
 ## 13. Mandatory integrity invariants
 
