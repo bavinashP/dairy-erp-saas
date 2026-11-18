@@ -77,7 +77,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | PermissionAssignment | Tenant (and platform scope only where defined) | Grants or denies one PermissionCatalogueEntry to a principal or governed access group, with explicit scope, limits, effective period and reason | Direct/group assignment is configurable only within the assigner's delegation authority; explicit deny, audit and revocation apply |
 | ExtensionPermissionRegistration | Platform registry entry for a versioned extension's namespaced resource/action keys | Belongs to an approved extension identity/version and records scope, risk, data and contract metadata | Registration does not grant access; Tenant assignment and any host permission grant remain separate |
 | ApprovalLimit | Tenant | Associated with role/person/scope/category/amount | Effective-dated |
-| ApprovalDelegation | Tenant | Links delegator, delegate, approval category/action, resource/Branch scope, limits and validity | Explicit `approval.delegate` permission; max 30 calendar days; non-transferable, non-renewing and revocable; cannot widen underlying authority |
+| ApprovalDelegation | Tenant | Links delegator, delegate, approval category/action, resource/Branch scope, limits and validity | Explicit `approval.delegation.create` permission; max 30 calendar days; non-transferable, non-renewing and revocable; cannot widen underlying authority |
 | DeviceRegistration | Platform/tenant association | Belongs to UserAccount and optional TenantMembership | Revocable, device policy |
 | UserSession | Platform identity | Belongs to UserAccount/device | Revocation and audit |
 
@@ -484,7 +484,7 @@ Authorization must be revalidated server-side and atomically coordinated with ev
 
 An ApprovalDelegation is a temporary, explicit authorization for a named delegate to perform only specified approval action(s) within a defined Tenant/Branch/resource scope and applicable limits. It does not transfer the delegator's identity, role, general permissions or general data access.
 
-The delegator must hold the current approval permission for the exact category/resource/scope and the separate `approval.delegate` permission for that same scope. The delegate must be an active authenticated user in the same Tenant and eligible for the delegated scope. The delegation itself grants only the specified approval capability; it does not silently grant general Branch membership or read access. Necessary decision information must be independently accessible to the delegate or provided through a minimum permission-filtered approval packet.
+The delegator must hold the current approval permission for the exact category/resource/scope and the separate `approval.delegation.create` permission for that same scope. The delegate must be an active authenticated user in the same Tenant and eligible for the delegated scope. The delegation itself grants only the specified approval capability; it does not silently grant general Branch membership or read access. Necessary decision information must be independently accessible to the delegate or provided through a minimum permission-filtered approval packet.
 
 Each record identifies delegator, delegate, Tenant, Branch/resource scope, approval category/action, applicable limits, reason, effective start/end and authorization evidence. The effective approval limit is the lowest applicable limit among the delegator's current authority, the delegation and governing policy. A delegation cannot exceed or outlive the delegator's effective authority.
 
