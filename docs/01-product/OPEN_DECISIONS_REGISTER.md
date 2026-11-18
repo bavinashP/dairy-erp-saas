@@ -274,7 +274,7 @@ A warehouse worker normally assigned to Branch A is also authorized to pick and 
 
 ### ODR-002 — Approved Route and Branch relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete cross-Branch permission matrix is approved in section 16.7.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for further scenario validation and external legal/contract/insurance ownership-liability review; the complete cross-Branch permission matrix is approved in section 16.7 and custody/accountability baseline is selected in section 16.36.
 
 **Approval evidence:** The product owner explicitly confirmed that the proposed Route/Branch structure was acceptable.
 
