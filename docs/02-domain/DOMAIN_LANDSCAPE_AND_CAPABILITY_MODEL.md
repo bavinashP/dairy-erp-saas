@@ -32,13 +32,13 @@
 | Milk Quality and Testing | Record quality evidence | Sample, test, parameter, result, equipment, rejection reason | Based on procurement/processing model and policy |
 | Processing and Packaging | Convert raw inputs to finished goods | Batch, recipe/formula, yield, loss, packaging, traceability | Only where tenant processes/packages |
 | Product and Price Catalogue | Define sellable/buyable items | Product types, units, packs, variants, price lists, effective dates | Every product-selling tenant |
-| Inventory and Warehousing | Control stock | Receipts, issues, transfers, adjustments, expiry, batch/lot, wastage | As stock is physically managed |
+| Inventory and Warehousing | Control stock | Receipts, issues, transfers, adjustments, expiry, batch/lot, wastage, linked custody events and reconciliation | As stock is physically managed |
 | Distribution and Delivery | Fulfil doorstep demand | Routes, stops, runs, allocation, dispatch, delivery outcome, returns | When delivery is offered |
 | Billing and Receivables | Charge customers and track dues | Billing cycles, statements, invoices where applicable, debit/credit adjustments, receipts | Customer credit/recurring billing |
 | Payments and Reconciliation | Record and reconcile money movement | Cash, UPI QR, bank transfer, gateway reference, matching, refund | Whenever money is received/paid |
 | Accounting and Finance | Represent financial position | Accounts, vouchers, journals, ledgers, cash/bank, expenses, statements | According to selected finance scope |
 | HR and Payroll | Manage workforce | Employee records, attendance, shifts, leave, payroll and statutory workflows | When workforce management is used |
-| Asset and Maintenance | Track operational assets | Equipment, chillers, vehicles, service, calibration, maintenance | When assets are tracked |
+| Asset and Maintenance | Track operational assets | Equipment, chillers, vehicles, service, calibration, maintenance, shared-resource availability/use and custody | When assets/resources are tracked |
 | Quality, Hygiene and Compliance | Record controlled practices | Checklists, cleaning logs, temperature checks, corrective actions, documents | According to actual operations and applicability |
 | Notifications and Workflow | Coordinate work | Reminders, approvals, alerts, escalation, templates | Cross-cutting |
 | Reporting and MIS | Explain recorded business activity | Operational, financial, inventory, delivery, procurement and management reports | Cross-cutting |
@@ -121,15 +121,19 @@ The following are cross-domain requirements to detail later:
 - Permission checks at the point of action and data retrieval.
 - Historical snapshots or reproducible calculations for reports where source values may later change.
 
-## 7. Exclusions and boundaries
+## 7. Shared-site accountability and custody capability
+
+Shared-site custody is a cross-cutting operational control used by inventory, procurement, milk collection, transport, processing, delivery and asset/resource management where the Tenant enables it. It distinguishes stock ownership and ledger attribution from physical custody, actual handling, workforce assignment and permission. The capability supports proportionate single-party capture through high-assurance handover evidence, without forcing the high-assurance process on every small Tenant. Custody events do not independently create stock or financial movements. Full domain policy is in [Shared-Site Accountability and Custody Management](SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md).
+
+## 8. Exclusions and boundaries
 Customer self-service login and consumer e-commerce storefront remain outside the approved current boundary. A future proposal must be handled through change control. No technical microservice boundaries are implied by this domain map.
 
-## 8. Research notes
+## 9. Research notes
 - NDDB describes milk collection operations involving producer identification, quantity measurement, sampling/testing, rate calculation, transaction receipt, shift summaries, and milk dispatch. This supports modelling collection as a controlled multi-step transaction rather than a single purchase entry.
 - NDDB describes raw-milk testing, chilling/storage, transport, receiving inspection, and processing as distinct stages. These capabilities apply only to tenants whose operating model includes those stages.
 - FSSAI materials distinguish hygiene requirements across petty food operators and manufacturing/processing/packaging/storage/distribution, with a specific dairy and milk-products hygiene section. Product workflows must therefore be configurable by actual activity and applicability; legal applicability must be separately verified.
 
-## 9. Sources
+## 10. Sources
 1. NDDB, Milkipedia — testing, storage, transportation, and processing of milk: https://www.nddb.coop/ccnddb/milkipedia
 2. NDDB, Dairying through Cooperatives — milk procurement infrastructure manual: https://beta.nddb.coop/wp-content/uploads/2025/11/Manual_Component_A_Strengthening_Milk_Procurement_Infrastructure.pdf
 3. FSSAI, Hygiene Requirements: https://fssai.gov.in/inspection/hygiene-requirements
@@ -138,7 +142,7 @@ Customer self-service login and consumer e-commerce storefront remain outside th
 
 **Caution:** This is domain analysis, not legal advice or a final compliance applicability determination.
 
-## 10. Product variability and growth
+## 11. Product variability and growth
 
 The platform must present a composable capability model rather than separate product editions with permanently different code. Tenant business profiles and starter templates are editable starting points only; one Tenant may combine capabilities and evolve over time. Plan entitlement, capability activation, operational configuration, permission assignment and extension enablement are independent controls.
 
