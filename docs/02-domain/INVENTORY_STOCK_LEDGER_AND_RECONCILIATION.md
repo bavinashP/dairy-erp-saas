@@ -1,6 +1,6 @@
 # Inventory, Stock Ledger and Reconciliation
 
-**Status:** Working baseline — domain requirements  
+**Status:** Recommended domain baseline — stock ownership, ledger and safe negative-stock baseline selected; costing/valuation remains policy-gated  
 **Related decisions:** ODR-008, ODR-011, ODR-012, ODR-016, ODR-017  
 **Scope:** Inventory for raw milk, packaged goods, resale products, ingredients, packaging materials, consumables and finished products.
 
@@ -145,13 +145,13 @@ Every report must specify business date, posting date, location scope, status in
 11. Reversal links to the original movement and preserves audit history.
 12. Stock ledger totals reconcile to derived balances.
 
-## 12. Open decisions
+## 12. Configuration and evidence dependencies
 
-- Base UOM, supported precision, conversion and rounding (ODR-008).
-- Lot/batch and expiry tracking profiles (ODR-011).
-- Transfer and stock custody rules (ODR-012).
-- Valuation method and accounting integration (ODR-016/017).
-- Reservation timing and allocation priority.
-- Negative stock policy and authorized exception.
-- Count cut-off and closed-period correction.
-- Whether vehicles and delivery bags/cans are stock locations or custody containers.
+- ODR-008 precision architecture is selected: use the governed UOM precision catalogue, product base UOM and validated conversion profiles; do not impose a universal scale.
+- Tracking profile determines whether lot/batch/expiry/serial details are mandatory by product, shelf life, traceability and quality risk. A product cannot disable tracking required by its verified profile.
+- Transfer, custody and adjustment boundaries follow ODR-002/012. Inter-Branch ownership transfer is a separate workflow; a shared-site stock grant is not ownership transfer.
+- Negative available stock is denied by default. A narrow Tenant-configured exception may apply only to eligible non-serialized/non-lot-controlled items, with explicit permission, audit and reconciliation; never bypass quality hold, expiry, ownership or closed-period controls.
+- Reservation priority, expiry and release policy are configured per demand workflow and must be deterministic and auditable.
+- Count sessions define cut-off/version; variance capture, approval and adjustment are separately permissioned. Closed-period changes use linked correction/reconciliation, not history rewrite.
+- Vehicles and bags/cans are custody containers by default. A vehicle may be a StockLocation only where it physically holds controlled stock with explicit stock ownership, location scope and custody controls. Returnable cans are tracked through container/deposit/custody records, not mixed with saleable stock unless a separately defined SKU process requires it.
+- Valuation/costing method and financial period treatment remain under ODR-017 and relevant accounting review.
