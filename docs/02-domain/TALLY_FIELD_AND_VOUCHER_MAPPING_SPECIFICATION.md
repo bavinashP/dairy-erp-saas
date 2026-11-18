@@ -20,9 +20,27 @@ Store SaaS accounting entity ID, tenant ID, Tally company name, company GUID/ide
 | Cost centre | Cost Centre | Name/identity, category/hierarchy | Feature enabled and allocation supported |
 | Tax classification | Tax ledger/configuration | GST/tax ledger references, classification and effective date | Tax configuration matches company and period |
 | Stock item | Stock Item | Item identity, unit, group, tax metadata | Unit and inventory configuration compatible |
-| Unit of measure | Unit | Symbol, formal name, decimal precision | Conversion/precision verified |
+| Unit of measure | Unit | Stable SaaS unit identity, dimension, canonical symbol/formal name, target symbol/formal name mapping, target decimal precision and compound/alternate-unit mapping | Target UOM exists; dimensional semantics and conversion verified; unsupported precision/loss is blocked or explicitly approved |
+| Currency/amount precision | Currency master/company settings | Base currency, number of decimal places, amount-in-words precision, currency symbol and adapter version | Target currency configuration is read/verified; internal posting precision and target representation are reconciled |
 | Stock location | Godown | External identity and hierarchy | Inventory feature and location enabled |
 | Batch/lot | Batch allocation fields | Lot identifier, expiry/manufacturing metadata | Release-specific behavior tested |
+
+### 3.1 Tally UOM and currency precision capability boundary
+
+TallyHelp's current TallyPrime UOM guidance (last updated 14 October 2026) documents simple, compound and alternate units and states that UOMs support up to four decimal places; calculations beyond the configured precision are rounded by TallyPrime. Tally's base-currency setup guidance documents two decimal places by default and allows configuration up to four decimal places.
+
+This is a target-system compatibility constraint, not a cap on SaaS internal precision. The adapter MUST:
+- Identify the selected Tally company and exact product/release/build before validating unit/currency settings.
+- Read or verify the configured UOM and currency decimal places plus compound/alternate unit support for the target company.
+- Compare the exact SaaS source value and conversion/policy version with target representability before export.
+- Block lossy export by default. A lossy conversion is allowed only through a separate explicit, versioned mapping/rounding policy with reason, actor/approval where required, pre/post values, delta and reconciliation acknowledgement.
+- Never silently truncate/round the SaaS source quantity, rate or money value; never change a Tally UOM's declared precision automatically to force export.
+- Preserve the original SaaS precision and report target precision limitations in the batch compatibility report.
+- Treat post-transaction changes to Tally UOM precision as a migration/compatibility risk and validate against disposable company data before a supported-version claim.
+
+Official TallyHelp references:
+- UOMs in TallyPrime (updated 14 October 2026): https://help.tallysolutions.com/units-of-measurement/
+- Base currency setup (amount precision): https://help.tallysolutions.com/set-up-base-currency/
 
 ## 4. Voucher mapping matrix
 
@@ -65,7 +83,7 @@ Stable idempotency key should derive from immutable SaaS source identity/version
 For each batch report mapped/unmapped masters; supported/transformed/omitted/rejected fields; voucher count and debit/credit totals; tax/dimension/stock detail preservation; duplicate candidates and conflicts; target Tally release, adapter version and company fingerprint; warnings requiring user/CA review. Material lossy transformation must require explicit acknowledgement or be blocked by policy.
 
 ## 10. Proof-of-concept test fixtures
-Create synthetic fixtures for sales, receipts, purchases, farmer settlement, expenses, payroll journal, contra transfer, tax invoice, credit note, stock item, godown, batch/expiry, cost centre, opening balances and reversal. For each target release export fixture into a disposable company, read back and compare fields, compare ledger balances and trial balance, verify bill-wise allocation/tax/inventory/dimensions, retry identical batch, interrupt transfer, change company selection and test wrong-company block, test Marathi/Indian-language names and Unicode, and record exact release/build, TDL dependency, configuration and limitations.
+Create synthetic fixtures for sales, receipts, purchases, farmer settlement, expenses, payroll journal, contra transfer, tax invoice, credit note, stock item, godown, batch/expiry, cost centre, opening balances and reversal. For each target release export fixture into a disposable company, read back and compare fields, compare ledger balances and trial balance, verify bill-wise allocation/tax/inventory/dimensions, retry identical batch, interrupt transfer, change company selection and test wrong-company block, test Marathi/Indian-language names and Unicode, and record exact release/build, TDL dependency, configured UOM and currency decimal precision, conversion/alternate-unit behavior, exact round-trip differences, configuration and limitations.
 
 ## 11. Open decisions
 Initial Tally release support matrix; XML/JSON selection policy; TDL requirement; detailed versus summarized POS/subscription vouchers; stock/inventory synchronization depth; cost-centre mapping; opening balance import; direction for Tally-originated entries; supported field loss policy; desktop agent OS and update strategy.
