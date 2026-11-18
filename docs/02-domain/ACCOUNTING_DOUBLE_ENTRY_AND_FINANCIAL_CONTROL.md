@@ -82,7 +82,9 @@ Each journal line must contain:
 - Tax classification/reference where applicable.
 - Line narration and source-line reference.
 
-A posted journal must contain valid lines, at least one debit and one credit, and exact balanced totals under the defined precision policy. Do not use floating-point arithmetic for money.
+A posted journal must contain valid lines, at least one debit and one credit, and exact balanced totals under the defined currency posting precision policy. Do not use binary floating-point arithmetic for money. Ordinary INR currency posting defaults to rupees and paise (two decimal places); per-unit rates, cost rates and calculation intermediates may use higher supported precision and are rounded only at the declared versioned boundary.
+
+Rounding mode, precision, operation order and residual treatment must be explicit and reproducible. Ordinary commercial HALF_UP is the selected default only where no stricter legal/contract/accounting policy applies. CGST Act 2017 section 170 nearest-rupee rounding is limited to the amounts payable/refundable under that Act; it is not a universal commercial price or ledger rule. Posted journals must balance exactly at posting precision; a permitted rounding adjustment requires an explicit approved posting rule and audit. Reversal reproduces original posted values and policy versions. See DBR-004 / ODR-008 section 16.40 and ODR-016/017.
 
 ## 6. Operational posting contracts
 
