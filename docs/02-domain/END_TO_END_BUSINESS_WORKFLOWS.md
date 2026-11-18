@@ -215,27 +215,28 @@ A workflow may be simplified or not used by a tenant if its operating profile do
 1. Create transfer request with source, destination, products, and quantities.
 2. Validate permission and available stock.
 3. Reserve or issue stock from source.
-4. Record dispatch, carrier/custody, and transfer reference.
-5. Mark quantity in transit.
-6. Receive at destination and record accepted quantity and variance.
-7. Close transfer or create discrepancy workflow.
-8. Preserve linked source and destination stock ledger entries.
+4. Record the actual handover to a carrier/custodian, dispatch time, vehicle/container/seal and required quantity/condition evidence under the configured custody assurance profile.
+5. Record transit custody and each intermediate carrier/holding handover where applicable.
+6. Mark quantity in transit under stock policy; keep physical custody evidence separate from the stock ledger.
+7. Receive at destination; capture actual receiver, time, quantity/condition and required evidence. Record accepted quantity and variance separately.
+8. Complete the handover only for acknowledged/accepted quantities; preserve pending/disputed custody and create discrepancy workflow for the remainder.
+9. Preserve linked source/destination stock ledger and custody events without duplicating stock effects.
 
 **Outputs:** Transfer request, source issue, in-transit record, destination receipt, variance/claim.
 
-**Exceptions/open rules:** Partial receipt; lost/damaged goods; transfer cancellation; transit ownership; branch closure; inter-entity transfer.
+**Exceptions/open rules:** Partial receipt; lost/damaged goods; missing carrier/receiver acknowledgement; custody dispute; temperature/condition excursion; transfer cancellation; external liability/insurance; branch closure; inter-entity transfer. Custody evidence follows DOM-CUST-001; legal ownership/liability remains external-review dependent.
 
 ## 13. Employee/field activity workflow
 
 **Trigger:** A staff member is assigned operational work.
 
 1. Maintain employee/personnel profile separately from login account.
-2. Assign one or more roles and permitted branch scopes to the user account.
+2. Assign explicit, scoped permission bundles and/or direct permission grants within the assigning authority's delegation; roles are optional editable permission bundles and do not independently grant access.
 3. Create shift/availability and work assignment where workforce scheduling is used.
 4. Assign route, collection session, POS register, or task.
 5. Capture attendance/work completion according to configured policy.
 6. Record cash, stock, equipment, and handover accountability where applicable.
-7. Supervisor reviews exceptions and approvals.
+7. An authorized user with the exact review/approval permission and scope reviews exceptions and approvals.
 8. Feed approved records to payroll/HR and operational reports as configured.
 
 **Outputs:** Employee profile, access assignment, shift/assignment, attendance/task, custody/handover, approval/audit.
