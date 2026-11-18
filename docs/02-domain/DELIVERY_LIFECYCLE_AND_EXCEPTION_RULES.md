@@ -1,7 +1,7 @@
 # Delivery Lifecycle and Exception Rules
 
-**Status:** Working baseline — requirements discovery  
-**Related open decisions:** ODR-002, ODR-004, ODR-006, ODR-007, ODR-008, ODR-013, ODR-014, ODR-019, ODR-020, ODR-021, ODR-022  
+**Status:** Recommended delivery baseline selected under the product owner's delegated decision mandate — optional proof-of-delivery and route capabilities; fixed fulfilment, custody, audit and authorization controls  
+**Related decisions:** ODR-002, ODR-004, ODR-006, ODR-007, ODR-008, ODR-013–015, ODR-019–022, ODR-037; see the Open Decisions Register for the current disposition.  
 **Purpose:** Define operational delivery concepts before route optimization, mobile UX, or implementation design.
 
 ## 1. Scope and principles
@@ -57,7 +57,7 @@ Do not require vehicle or route optimization for a one-person dairy. Manual orde
 | Closed | Run reviewed and operationally closed | Reconcile dispatched versus delivered/returned/undelivered |
 | Cancelled | Run cancelled before or under controlled dispatch policy | Release reservations and record reason |
 
-These are conceptual states; the final state machine must define allowed transitions and correction paths.
+These are the recommended domain states. The detailed implementation state machine must preserve allowed transitions, permission checks, versioning and correction paths described here and in the State Transition and Exception/Reversal Matrices.
 
 ## 5. Stop and fulfilment outcomes
 
@@ -85,7 +85,7 @@ For each delivery line record as applicable:
 - Customer acknowledgement/evidence according to configured policy.
 - Link to any adjustment, redelivery, credit, or complaint.
 
-Do not assume signature, OTP, photo, GPS, or customer app is mandatory. These controls have privacy, device, cost, and usability implications and require a policy decision.
+The default proof-of-delivery evidence is the authenticated actor/device, run/stop reference, event timestamp, actual quantities, outcome and reason. Customer acknowledgement, OTP/PIN, signature, photo, GPS/location evidence or a customer application are optional policy-controlled evidence methods, selectable by Tenant and workflow risk. Do not require all methods universally. Any location/photo/identity capture must be purpose-limited, permission-controlled, retained under the applicable data policy and reviewed for privacy/legal applicability before production use. A Tenant may strengthen evidence but cannot remove the minimum transaction/audit facts.
 
 ## 6. Milk and perishable product handling
 
@@ -102,7 +102,7 @@ The product's nature and applicable law determine which controls are required. D
 
 ## 7. Stock and financial effects
 
-- Dispatch may move stock from a branch/warehouse to a route/worker custody location, depending on the selected inventory model.
+- Dispatch records an explicit custody hand-off from the source StockLocation to the DeliveryRun's assigned custody context (worker, vehicle, route bag/container or other configured holding position). The stock remains owned by the source Branch unless a separate valid ownership-transfer transaction says otherwise. A worker or vehicle is not automatically a StockLocation; a controlled vehicle/custody location is configured explicitly where inventory is physically held.
 - Successful fulfilment must produce the defined stock and billable-delivery effects exactly once.
 - Failed delivery must not be billed as successful unless an explicitly approved charge policy applies.
 - Returned goods require condition-based disposition and stock movement.
@@ -113,20 +113,17 @@ The product's nature and applicable law determine which controls are required. D
 ## 8. Assignment and authorization
 
 The system should support:
-- Owner self-assignment and execution.
-- One worker assigned to a run.
-- Multiple workers or hand-off where operationally required.
-- Branch-scoped delivery supervisors.
-- Temporary assignment and expiry.
-- Reassignment with actor, reason, and timestamp.
-- Restricted customer data on assigned stops only.
-- Supervisor exception review and approval limits.
+- Owner self-assignment and execution without an employee record.
+- One or multiple named workers assigned to a run; hand-off is a separate custody/assignment event.
+- Assignment, reassignment and expiry are effective-dated and permission-controlled.
+- Access to customer/contact/address data is limited to assigned run/stops and minimum necessary fields; reassignment/revocation invalidates the previous worker's access.
+- Exception review, redelivery, refund/credit or charge approval are separate permissions and workflows; no supervisor/job title has authority by name.
 
 A worker must not be able to change customer rates, subscription recurrence, financial balances, or unrelated branch data merely because those records appear in a delivery screen.
 
 ## 9. Offline and concurrency requirements
 
-If offline delivery is supported, define:
+The initial offline baseline under ODR-020 permits a limited, encrypted and expiring snapshot of assigned delivery-run work and local capture of delivery outcomes as queued commands. The server remains authoritative: every queued command is revalidated against current Tenant membership, effective permission, run assignment, task/stock context, version, time window and resource state before it has business effect. A local event is not a completed stock issue, billing post or payment settlement. Before expanding offline scope, define:
 - Data downloaded and expiry/refresh window.
 - Device/user identity and local action audit.
 - Unique client-generated operation identifiers.
@@ -170,15 +167,23 @@ Metrics must define numerator, denominator, time basis, and exclusion rules. Avo
 
 ## 12. Open decisions
 
-- Branch, service area, route and delivery territory model.
-- Stock custody model during dispatch.
-- Whether route templates/optimization are required in early releases.
-- Required proof-of-delivery methods by tenant configuration.
-- Offline scope and conflict policy.
-- Cut-off and late change rules.
-- Redelivery and failed-delivery billing policy.
-- Reusable container/deposit handling.
-- Delivery workforce and vehicle/asset integration.
-- Delivery notification channels and customer consent.
+### 12.1 Selected delivery policy baseline
 
-This document does not approve mandatory customer login, GPS tracking, signature/OTP proof, or a particular route-optimization provider.
+- Branch, ServiceArea and Route ownership boundaries are resolved under ODR-002: each Route belongs to one Branch; it may serve only ServiceAreas assigned to that Branch; each DeliveryRun uses a Route owned by its own Branch. Multiple Branches serving the same ServiceArea use separately owned Routes.
+- Route templates and automated optimization are optional. Manual route ordering/dispatch remains a complete valid workflow for one-person and small businesses. Optimization may be introduced when route volume and business benefit justify it.
+- Stock dispatch is a custody hand-off to an explicitly assigned run/worker/vehicle/custody position. Ownership remains with the owning Branch until a distinct authorized transfer is posted. Handover, return, shortage, damage and discrepancy are recorded separately.
+- Basic proof of delivery is mandatory at the transaction level: actor, time, run/stop, quantities, result and exception reason. Additional customer acknowledgement, PIN/OTP, photo, signature or location evidence is Tenant/workflow-configurable and permission-controlled; none is universally mandatory by default.
+- The first offline workflow is limited to assigned run snapshots and delivery outcome capture, with expiry, encryption, idempotency, conflict visibility and server revalidation under ODR-020. No offline financial posting, payment settlement or authoritative stock posting is implied.
+- Subscription cut-offs and future schedule changes follow ODR-007/section 16.11. Already dispatched or completed work is not silently changed.
+- Failed or partial delivery is not billed as full successful fulfilment. Redelivery references the original exception and is a distinct fulfilment; any failed-delivery fee, charge or credit must be explicitly configured and authorized, never assumed.
+- Returnable cans/crates/bags are tracked as reusable custody/returnable-container records with deposit/condition where needed, not mixed with saleable milk quantity. Vehicle/asset maintenance integration is optional.
+- Customer delivery communication uses the provider-neutral notification policy in ODR-021; opt-in/consent and recipient permissions are verified before external channels.
+
+### 12.2 Remaining evidence dependencies
+
+- Numeric route-optimization thresholds, offline duration/device support, cache expiry and client support windows require telemetry, field trials and ODR-019/020 evidence.
+- Customer acknowledgement and location/photo retention/legal applicability require post-project privacy/legal review; the product design must preserve optionality and minimization.
+- Exact vehicle/fleet/returnable-container accounting depends on the selected Asset and accounting workflows (ODR-017/029). These are not blockers for the core run/stop/fulfilment model.
+- Delivery notification provider/channel pricing remains ODR-021 provider selection.
+
+No customer login, continuously tracked GPS, signature, OTP, or route-optimization vendor is mandatory by this domain baseline.
