@@ -94,6 +94,19 @@ Durable audit evidence must include:
 
 A validly committed approval remains in historical audit even if the approver later loses access. If review determines the approval was invalid when made, record the review and a separate revocation/invalidation event; never rewrite the original decision.
 
+### 5.1.2 Approval policy profile/version governance and evaluation evidence
+
+Durably record:
+- ApprovalPolicyProfile creation, draft edit, submit, validation failure, control-weakening classification, impact preview, independent approval/rejection, publish, schedule, activation, supersession and retirement.
+- Profile/version identifiers, immutable payload/hash, effective interval, author, submitter, independent approver, publisher, exact permissions/scopes, Tenant/Branch/resource applicability and policy evaluator version.
+- Every ApprovalPolicyRule changed, threshold values with canonical INR/UOM/dimension, comparison operators, reviewer/quorum/stage/evidence/delegability changes, previous and new settings, and whether the change tightens or weakens control.
+- For each ApprovalRequest, the original ApprovalPolicyEvaluationSnapshot, every matched ApprovalPolicyVersion/Rule, match criteria, scope, threshold calculation, combined requirements, fixed safeguard contribution and conflict/precedence result.
+- Any later stricter re-evaluation of a pending request, added reviewer/evidence stage, invalidated prior stage, policy conflict/hold, reviewer reassignment and final evaluation snapshot used at commit.
+- Exact source payload/version, ApprovalPolicyEvaluationSnapshot, actual initiator/reviewer/delegate, effective permission/scope, policy and delegation versions, decision, reason, evidence and commit result.
+- Rejected, withdrawn, expired, conflicted or unpublishable policy versions and failed weakening attempts; retain reason and actor without silently mutating the current policy.
+
+A published policy version and an ApprovalPolicyEvaluationSnapshot are immutable. A more restrictive in-flight reevaluation is a new linked event/snapshot; it must not replace the original snapshot. A less restrictive policy change cannot erase an existing pending requirement. Do not retroactively rewrite completed approvals or business outcomes.
+
 ### 5.2 Business and financial controls
 - Invoice issue/correction/cancellation, credit/debit note, refund and payment allocation/reversal.
 - Receipt creation, manual payment recording, payment verification and reconciliation override.
