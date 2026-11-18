@@ -131,6 +131,23 @@ The Tenant MUST be able to configure eligible permission bundles and permission 
 | FRS-PRD-002 | Tenants that only resell packaged goods MUST not be forced to configure processing. | Must |
 | FRS-PRD-003 | Traceability MUST allow forward and backward lineage between source collection/purchase lots, processing batches and finished goods lots. | Must |
 
+### 8.1 Shared-site custody and resource accountability
+
+These requirements apply where a Tenant enables custody tracking for the relevant stock, container, asset, facility or workflow. The assurance level and subject coverage are configurable; ownership, permission and event-integrity invariants remain fixed.
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FRS-CST-001 | The system MUST distinguish economic/stock ownership, stock-ledger attribution, physical location, physical custody, actual handler, workforce assignment, permission and approval. | Must |
+| FRS-CST-002 | Where custody tracking is enabled, the system MUST record a traceable custody event with subject, actor/handler, custodian, location, action, time, outcome and applicable policy/evidence version. | Must |
+| FRS-CST-003 | The system MUST support configurable, effective-dated custody assurance profiles, including proportionate single-party capture, acknowledged handover and high-assurance evidence where required. | Must |
+| FRS-CST-004 | A handover MUST NOT be accepted solely because of timeout, silence, failed notification or client-side status; pending/disputed handovers MUST preserve the last verified custodian and known location. | Must |
+| FRS-CST-005 | The system MUST support partial receipt, rejection, quantity/condition discrepancy and linked incident/reconciliation records without overwriting dispatch or receipt facts. | Must |
+| FRS-CST-006 | Custody events MUST remain distinct from StockMovement and financial postings; a custody-only event MUST NOT create stock/financial effects, and custody discrepancies MUST NOT automatically create write-offs, supplier/employee deductions or liability findings. | Must |
+| FRS-CST-007 | Shared facilities/equipment MUST support distinct ownership, allowed-use, booking/availability, custody, actual use, cleaning/calibration/maintenance and optional cost-allocation records where enabled. | Must |
+| FRS-CST-008 | Custody access, evidence, handover and incident actions MUST use explicit permissions and resource/Branch scope; grant expiry/revocation MUST preserve actual physical custody while blocking unauthorized further operations. | Must |
+| FRS-CST-009 | Perishable/cold-chain workflows MUST be able to capture effective-dated control profiles and actual timestamped quantity, container/lot, condition, temperature, quality and receiving evidence where applicable; exact limits MUST be sourced from applicable verified policy, not a universal hardcoded rule. | Must |
+| FRS-CST-010 | Customer-configured custody profiles, templates and evidence requirements MUST preserve historical versions, audit, upgrade compatibility and cross-channel enforcement. | Must |
+
 ## 9. Distribution and delivery
 
 | ID | Requirement | Priority |
@@ -247,7 +264,7 @@ This FRS establishes functional behavior, not final numerical targets. Separate 
 
 ## 18. Open decisions and dependencies
 
-The following remain open and must be resolved through the Open Decisions Register rather than assumptions: legal entity/books structure and legal applicability (ODR-003); detailed shared-site custody/accountability and exception workflows (ODR-002); exhaustive module-level permission catalogue and remaining domain approval rules (ODR-005); subscription cut-off and recurrence precedence (ODR-006/007); units and precision (ODR-008); quality and procurement rates (ODR-009/010); processing and stock policy (ODR-011/012); pricing/billing/tax treatment (ODR-013/016); payment verification (ODR-015); detailed CoA and accounting policy (ODR-017); labour applicability (ODR-018); mobile packaging/offline guarantees (ODR-019/020); notification providers (ODR-021); KPI catalogue/forecast horizons/budget workflow (ODR-022/024); SaaS commercial rules (ODR-025); data lifecycle (ODR-026); scale and recovery objectives (ODR-027/028); integration priorities (ODR-029); technology/deployment/localization decisions (ODR-030/032).
+The following remain open and must be resolved through the Open Decisions Register rather than assumptions: legal entity/books structure and legal applicability (ODR-003); detailed custody workflow edge cases remain subject to domain validation; the shared-site custody baseline is specified under ODR-002 section 16.36; legal/contractual liability remains external-review dependent; exhaustive module-level permission catalogue and remaining domain approval rules (ODR-005); subscription cut-off and recurrence precedence (ODR-006/007); units and precision (ODR-008); quality and procurement rates (ODR-009/010); processing and stock policy (ODR-011/012); pricing/billing/tax treatment (ODR-013/016); payment verification (ODR-015); detailed CoA and accounting policy (ODR-017); labour applicability (ODR-018); mobile packaging/offline guarantees (ODR-019/020); notification providers (ODR-021); KPI catalogue/forecast horizons/budget workflow (ODR-022/024); SaaS commercial rules (ODR-025); data lifecycle (ODR-026); scale and recovery objectives (ODR-027/028); integration priorities (ODR-029); technology/deployment/localization decisions (ODR-030/032).
 
 ## 19. Approval gate
 
