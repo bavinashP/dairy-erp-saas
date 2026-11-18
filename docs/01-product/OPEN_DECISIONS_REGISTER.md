@@ -7,38 +7,38 @@
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
 | ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, must approve each cross-branch stock-task grant before it becomes effective; a no-blanket-consent baseline with separate workforce-assignment authorization is recommended in section 16.6. Grant-expiry notification timing and zero-grace baseline are recommended in section 16.5; notification channel/provider delivery remains under ODR-021. The separate workforce-assignment boundary is recommended in section 16.6; detailed shared-site accountability and exception-handling workflows remain open; the complete permission matrix is resolved in section 16.7. Delegated approval is resolved by the separately approved policy below | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site/stock-segregation, limited cross-Branch stock-task grant, delegated approval, grant lifecycle, expiry and workforce-assignment boundaries are resolved; the complete cross-Branch permission matrix and permission-first customer configurability are approved in section 16.7 (2026-11-19). Detailed shared-use custody/accountability and exception-handling workflows remain open.** |
-| ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
+| ODR-003 | Tenant legal/accounting identity | Define Tenant-to-LegalEntity, TaxRegistration and AccountingBook cardinalities and applicability. | Legal identity, tax, accounting, Tally mapping and reporting | Preserve conceptual separation now; conduct current official legal/tax and qualified accounting review after project completion as explicitly directed by the product owner | **Deferred — post-project legal/accounting review; not a current development blocker. Do not infer legal cardinality.** |
 | ODR-004 | User membership | Define multi-Tenant membership and within-Tenant Branch assignments. | Identity, authorization, session context and workforce operations | Apply the permission-first membership model in section 16.9; retain independent Tenant isolation and explicit Branch permissions | **Resolved — recommended membership baseline selected under the product owner's delegated decision mandate (2026-11-19); see section 16.9.** |
 | ODR-005 | Authorization | Define the exhaustive atomic permission catalogue across all dairy modules and remaining domain approval/scope policies. The permission-first model, tenant configurability, fail-closed precedence and cross-Branch stock-task matrix are approved under ODR-002 section 16.7 and ARC-PV-001. | Cross-module access and segregation of duties | Complete module-by-module permission inventory, sensitive-field permissions, domain approval policies and automated coverage | **Partially resolved — cross-cutting model and cross-Branch baseline resolved; module-level permission catalogue and domain-specific approval rules remain in progress.** |
-| ODR-006 | Subscription lifecycle | Define pause, resume, skip, holiday, temporary change, substitution, cancellation. | Delivery, billing, stock, balances | Customer lifecycle scenarios and exceptions | Open |
-| ODR-007 | Subscription schedule | Define cut-offs, schedule changes, alternate-day cycles, branch/route calendars. | Delivery planning and correctness | Schedule examples and exception analysis | Open |
-| ODR-008 | Units and precision | Which units, conversions, precision, rounding, and pack sizes are supported? | Procurement, inventory, pricing, billing | DBR-004 precision-layer analysis; product/UOM catalogue, device-resolution evidence, workflow test vectors and owner-approved commercial/accounting rounding rules | Open |
-| ODR-009 | Milk quality | Which quality parameters, sampling, acceptance/rejection, and traceability are required? | Procurement settlement, processing, compliance | Dairy operations and food-safety research | Open |
-| ODR-010 | Procurement settlement | Define rates, quality incentives/penalties, deductions, advances, settlement cycles. | Supplier balances and accounting | Real procurement models and worked calculations | Open |
-| ODR-011 | Processing | Define stages, batches, yields, losses, packaging, and traceability. | Manufacturing, stock, cost, recall | Process mapping for target dairy sizes | Open |
-| ODR-012 | Inventory | Define stock ownership, warehouses, transfers, expiry, batch, wastage, adjustments. | Stock accuracy and audit | Inventory lifecycle and exception analysis | Open |
-| ODR-013 | Pricing | Define price lists, customer rates, effective dates, discounts, deposits, approvals. | POS, subscriptions, profitability | Pricing scenarios and policy analysis | Open |
-| ODR-014 | Billing | Define billing cycles, invoice/statement model, advances, credit limits, proration. | Receivables and financial reporting | End-to-end scenarios and legal review | Open |
-| ODR-015 | Payment verification | Which payment sources can be reconciled automatically versus manually recorded? | Avoids false verification claims | Bank/provider integration capability research | Open |
-| ODR-016 | GST and invoicing | Determine tax treatments, invoice formats, e-invoicing/e-way bill applicability, retention. | Legal and financial correctness | Current authoritative Indian tax sources and applicability matrix | Open |
-| ODR-017 | Accounting | Define ledgers, vouchers, chart of accounts, tax, bank reconciliation, statements, integrations. | Finance domain and integration boundaries | Accountant workflows and statutory research | Open |
-| ODR-018 | HR/payroll | Define attendance, shifts, leave, salary, deductions, statutory payroll, contractor workflows. | Scope and legal obligations vary | Indian labour/payroll research and scenarios | Open |
+| ODR-006 | Customer subscription lifecycle | Define effective-dated agreement changes, pause/resume, skip, holiday, substitution, cancellation and reinstatement. | Delivery, billing, stock, balances | Subscription state/exception baseline in section 16.10; validate edge cases through worked scenarios | **Recommended baseline selected under delegated decision mandate; domain-specific commercial and cut-off settings remain configurable.** |
+| ODR-007 | Recurrence and schedule policy | Define recurrence anchors, intervals, selected weekdays, shifts, calendars, cut-offs, precedence and schedule versioning. | Delivery planning and correctness | Recurrence baseline in section 16.11; validate generation/idempotency and exception scenarios | **Recommended baseline selected under delegated decision mandate; Tenant/Branch service calendars and permitted cut-offs remain configurable.** |
+| ODR-008 | Units, precision and rounding | Define canonical unit dimensions, product base UOM, device resolution, workflow precision, conversion and financial rounding boundaries. | Procurement, inventory, pricing, billing and Tally interoperability | Precision architecture selected in QUANTITY_UOM_PRECISION_AND_MONEY_ROUNDING_ANALYSIS.md; finish device/workflow evidence and transaction-specific commercial/accounting rounding test vectors | **Partially resolved — precision architecture selected; measurement catalogue and transaction-specific commercial/statutory policies remain evidence-gated.** |
+| ODR-009 | Milk quality and testing | Define quality profiles, sample/test records, methods, result states, acceptance/hold/rejection and traceability. | Procurement settlement, processing and food safety | Configurable quality-profile baseline in section 16.12; validate device methods and post-project legal/food-safety applicability | **Recommended baseline selected under delegated decision mandate; legal thresholds and specific instrument methods remain evidence-gated.** |
+| ODR-010 | Procurement rates and farmer settlement | Define effective-dated rate charts, quality-linked calculations, deductions, advances, settlement periods and disputes. | Supplier balances, procurement incentives and accounting | Versioned rate-chart and settlement baseline in section 16.13; validate example calculations with representative dairy workflows | **Recommended baseline selected under delegated decision mandate; tenant-specific commercial formulas and values remain configurable.** |
+| ODR-011 | Processing and packaging | Define optional process profiles, versioned recipes, input/output/by-product/loss, batch lineage, quality release and yield tolerance. | Manufacturing, stock, cost and recall | Optional, versioned process baseline in section 16.14; validate representative process families and mass-balance evidence | **Recommended baseline selected under delegated decision mandate; process templates and tolerances remain product/process configurable.** |
+| ODR-012 | Inventory and stock control | Define stock ledger, reservations, transfers, lots/expiry profiles, counts, adjustments, negative stock and valuation boundaries. | Stock accuracy, traceability, cost and audit | Inventory baseline in section 16.15; complete valuation and legal/accounting dependencies through ODR-017/003 | **Recommended baseline selected under delegated decision mandate; valuation/costing method and limited exception settings remain evidence/policy gated.** |
+| ODR-013 | Pricing and commercial terms | Define versioned price lists, precedence, effective dates, customer/segment terms, discounts, deposits and approval limits. | POS, subscriptions, profitability and billing | Pricing baseline in section 16.16; tenant-owned values and validated override/approval ranges remain configurable | **Recommended baseline selected under delegated decision mandate; actual rates, discounts and credit terms are Tenant business decisions/configuration.** |
+| ODR-014 | Billing and receivables | Define configurable billing periods/cut-offs, invoice/statement distinction, advances, credit, proration, disputes and linked corrections. | Receivables, customer balances and financial reporting | Billing baseline in section 16.17; legal document requirements remain subject to ODR-003/016 post-project review | **Recommended baseline selected under delegated decision mandate; billing-cycle and credit settings remain Tenant-configurable within verified rules.** |
+| ODR-015 | Payment evidence and verification | Distinguish payment intent, manual receipt entry, provider confirmation, bank statement evidence, reconciliation and settlement. | Avoids false payment verification and duplicate settlement | Evidence-state baseline in section 16.18; specific provider/bank integration capability remains PoC-dependent | **Recommended baseline selected under delegated decision mandate; provider selection remains evidence/cost dependent.** |
+| ODR-016 | GST and statutory invoicing | Determine current tax classification, document, e-invoice/e-way bill, filing and retention applicability. | Legal and financial correctness | Keep an effective-dated, source-backed tax rules engine and document capability; qualified current official/legal review is reserved for post-project review under the product owner's scope instruction | **Deferred — post-project authoritative legal/tax review; do not hardcode assumptions or claim compliance now.** |
+| ODR-017 | Accounting and financial policy | Define Tenant accounting books, CoA templates, posting recognition, valuation, financial periods, reconciliation and Tally exchange. | Finance integrity, audit, statutory accounts and integrations | Double-entry and immutable-ledger baseline in section 16.19; exact accounting policy and Tally release compatibility require domain/accounting review and PoC | **Recommended engineering baseline selected; exact books/legal mapping and accountant-approved recognition/valuation policies remain evidence-gated.** |
+| ODR-018 | Workforce and payroll | Define optional people, engagement, shifts, attendance, leave, compensation, contractor and payroll capabilities. | Operational workforce fit and legal obligations | Workforce capability baseline in section 16.20; statutory labour/payroll applicability is reserved for post-project qualified legal review | **Recommended non-statutory product baseline selected; legal/statutory payroll rules deferred to post-project review.** |
 | ODR-019 | Mobile apps | ARC-MOB-001 selects one unified, permission-, task- and context-aware mobile app as the initial reversible baseline; separate task-focused apps require evidence of material security, usability, distribution or release-management benefit. | Avoids fragmented releases and duplicated client behavior while preserving permission-, task- and context-specific workspaces | Validate representative owner, branch-operations, delivery, POS, procurement, inventory and finance journeys before UX freeze; compare total lifecycle cost if separate apps are proposed | Recommended baseline; validate role journeys before UX freeze |
 | ODR-020 | Offline operation | ARC-MOB-001 defines a narrow initial offline baseline for assigned delivery-run snapshots and delivery outcome capture with server revalidation, idempotent sync and explicit conflict handling. Offline POS, financial posting, payment settlement, stock posting and master-data changes are not initially guaranteed. | Preserves delivery continuity without allowing stale offline state to corrupt shared financial, stock or schedule records | Field trial; device/data-protection threat review; determine maximum offline duration, cache TTL, supported device matrix and sync support policy; test duplicate, stale, revoked and conflicting operations | Recommended delivery-offline baseline; duration/device policy requires evidence and owner approval; other workflows deferred with triggers |
-| ODR-021 | Notifications | Define channels, templates, consent, retries, delivery tracking, provider fallback. | Reliability, cost, privacy | Provider and legal research | Open |
+| ODR-021 | Notifications | Define provider-neutral notification events, templates, preferences, consent, retries, delivery evidence and fallback. | Reliability, cost, privacy | Channel-neutral baseline in section 16.21; provider, pricing and external-channel consent integrations require current capability/cost review | **Recommended baseline selected; provider and external channel configuration remain evidence/cost dependent.** |
 | ODR-022 | Analytics | ARC-BI-001 defines analytics layers, core report families, fact grains, dimensions, KPI governance, security, refresh and acceptance tests. Remaining owner decision: approve official KPI definitions/owners and SaaS plan report entitlements. | Business target ownership and commercial packaging | Management KPI workshop using documented catalogue; formula test vectors and plan-entitlement approval | Recommended architecture baseline; KPI/plan approval required before launch |
 | ODR-023 | Forecasting | ARC-BI-001 establishes transparent baseline/statistical forecasting, forecast-run governance, accuracy checks and candidate forecast domains. Initial default is short-horizon daily/weekly forecasting where sufficient history exists; advanced ML is optional. Remaining owner decision: prioritize forecast outputs/horizons by customer value. | Avoids unvalidated ML and unsupported long-range claims | Pilot use cases, minimum-history criteria, backtesting against simple baselines and owner prioritization | Recommended engineering baseline; product prioritization required before release scope is frozen |
 | ODR-024 | Budgeting | ARC-BI-001 establishes versioned budgets, draft-to-approved lifecycle, preserved revisions, scenario separation and actual-versus-budget comparison. Remaining owner decision: tenant-selectable approval thresholds and role ownership; default design supports configurable maker-checker controls. | Prevents overwriting approved plans and separates hypothetical scenarios from ledger postings | Worked budget lifecycle, permission matrix and owner approval of default templates/thresholds | Recommended architecture baseline; tenant policy templates require product approval |
-| ODR-025 | SaaS plans | Define plans, entitlements, limits, trials, upgrades, downgrades, grace, suspension. | SaaS commercial operations | Platform billing and entitlement scenarios | Open |
-| ODR-026 | Data lifecycle | Define retention, archival, export, deletion, offboarding, legal holds. | Privacy, compliance, storage | Applicable law and customer-contract research | Open |
+| ODR-025 | SaaS plans and entitlements | Define capability packages, quotas, trials, upgrade/downgrade, grace, suspension, service tiers and billing. | SaaS commercial viability and fair resource usage | Entitlement/configuration/permission separation and safe quota behavior in section 16.25; commercial prices, packages and contractual commitments require owner approval | **Architecture baseline selected; commercial packaging/pricing and contract terms require owner approval before launch.** |
+| ODR-026 | Data lifecycle | Define data classification, purpose, retention, archive, export, deletion, anonymization, legal hold and offboarding. | Privacy, compliance, storage and customer trust | Lifecycle baseline in section 16.26; exact statutory/contract retention periods require post-project legal review and data-owner approval | **Recommended architecture baseline selected; retention periods and legal-hold obligations remain external-evidence dependent.** |
 | ODR-027 | Scale targets | ARC-SCALE-001 defines the workload dimensions, three capacity envelopes, scaling path and verification strategy. Remaining input: product owner/business team supplies target adoption and tenant-profile assumptions; engineering converts these into measurable transaction/concurrency/storage estimates using pilot telemetry before production sizing. | Avoids invented capacity figures and undersized/overbuilt production infrastructure | Conservative/expected/stress capacity worksheet, pilot measurements, load/soak/stress test evidence and cost model | Recommended engineering baseline; owner workload input required before production sizing |
 | ODR-028 | Availability/recovery | Recovery architecture and an initial RPO/RTO/backup baseline are specified in ARC-DR-001. Remaining approval: accept or amend the proposed service objectives and name operational responders before production. | Business commitment, staffing and recovery cost | Monthly restore evidence, quarterly DR exercise, business impact review and named incident/restore/key-custody owners | Recommended baseline; owner approval required before production |
-| ODR-029 | Integrations | Which external systems and APIs are priority? | API, event, adapter boundaries | Integration inventory and prioritization | Open |
+| ODR-029 | Integrations | Prioritize accounting, banking, payments, messaging, measurement devices, Tally and other partner integrations. | API, event, adapter boundaries and partner dependency | Tally import/export readiness is a product requirement from the product owner; Tally is the first accounting integration priority. Other providers remain capability/contract/cost evidence dependent | **Priority baseline selected under prior explicit Tally requirement; other provider sequencing remains evidence and business-priority dependent.** |
 | ODR-030 | Technology | ADR-TECH-001 narrows backend, database and mobile candidates and defines weighted criteria plus repeatable PoC gates. Preferred PoC directions: ASP.NET Core/.NET 10 LTS, PostgreSQL 18 and Flutter; Laravel 13, MySQL 8.4 and React Native remain evaluated alternatives. No final stack is approved until team capability, compatibility, integrity, operational and cost evidence is reviewed. | Long-term maintainability, transactional integrity, security patching, deployment and lifecycle cost | Execute identical backend/database vertical slice; mobile offline field PoC; web framework slice; Linux VPS deployment/restore; team capability review; reproducible results and explicit owner approval | Recommended PoC shortlist; final technology approval required after evidence and owner review |
 | ODR-031 | Deployment topology | ARC-DEP-001 defines Linux VPS-compatible logical zones, Docker-optional deployment, compact pilot/separated-data/horizontally-scalable profiles, security controls, release process, monitoring, backup and production gates. Preferred direction is to evaluate a separated database tier for production; a single-VPS profile is conditional pilot-only with explicit single-host risk acceptance. | Security, resilience, scale, operational recovery and total cost | Compare current VPS/provider/region terms, data location, network/security features, support, cost, database/backup capability; use workload/capacity model, PoC and restore evidence; obtain explicit provider/topology approval | Recommended deployment baseline; provider, region, sizing and production risk acceptance require evidence and owner approval |
-| ODR-032 | Localization | Which languages, translation workflow, number formats, localized templates are needed? | Consistent UX and compliance | User research and terminology glossary | Open |
-| ODR-033 | Security governance | Approve MFA and session/recovery policies, privileged access governance, incident response ownership, vulnerability remediation targets and security risk-acceptance authority. | Account takeover, privileged misuse, incident impact and production risk | Threat model, risk assessment, operational/legal review and explicit policy approval | Open |
-| ODR-034 | Audit and observability governance | Approve durable audit event catalogue, audit/telemetry retention classes, access governance, alert ownership, escalation and incident evidence policy. | Accountability, privacy, investigation readiness, storage cost and operational response | Threat model, data inventory, workload baseline, legal/contract review and incident exercises | Open |
+| ODR-032 | Localization | Define supported language coverage, translation ownership, locale formatting and localized templates. | Consistent UX, accessibility and adoption | English remains primary; the localization architecture must support Marathi, Hindi and additional Indian languages; initial language rollout and translation ownership are detailed in section 16.32 | **Recommended localization baseline selected; rollout priority and translation governance require usage/quality evidence.** |
+| ODR-033 | Security governance | Establish MFA, session/recovery, privileged access, incident response, vulnerability remediation and risk-acceptance governance. | Account takeover, privileged misuse, incident impact and production risk | Mandatory technical controls and permission-based privileged access in section 16.33; named operational responders and time-bound risk acceptance require accountable human approval before production | **Recommended security baseline selected; named ownership and risk-acceptance authority remain production governance dependencies.** |
+| ODR-034 | Audit and observability governance | Establish audit events, evidence integrity, telemetry retention classes, access, alert ownership, escalation and incident evidence. | Accountability, privacy, investigation readiness, storage cost and operational response | Mandatory durable, permission-controlled audit and observability baseline in section 16.34; retention values and named operational owners require legal/evidence review and human assignment | **Recommended governance baseline selected; retention and accountable operational ownership remain production dependencies.** |
 | ODR-035 | Product variability and architecture evolution | Establish one product-wide policy for fixed invariants, customer configuration/customization, extensibility, module boundaries and scale from small to enterprise. | Prevents customer-specific forks, uncontrolled customization, premature microservices and future migration barriers | Product-owner direction and ARC-PV-001; validate through module, NFR, compatibility and scale reviews | **Resolved product direction — owner instructed independent decisions and approved the stability/configurability/extensibility principle on 2026-11-19; engineering baseline selected in ARC-PV-001.** |
 | ODR-036 | Party identity resolution | Define duplicate detection, identity linking/merge, approval, reversibility and treatment of posted transactions/open balances. | Prevents mistaken identity consolidation, cross-Branch exposure and financial/history corruption | Same-Tenant scenario tests, verified identifier conflict handling, account/ledger impact review and audit/recovery tests | **Recommended safe baseline selected under the product owner's delegated decision mandate (2026-11-19); see PARTY_CUSTOMER_SUPPLIER_AND_FARMER_DOMAIN_ANALYSIS.md section 7. Exact statutory identity requirements remain evidence-dependent.** |
 
@@ -719,3 +719,287 @@ The complete rules and verification requirements are authoritative in `docs/04-a
 5. A permission grant cannot exceed the assigning principal's own delegated authority.
 6. A platform or service identity has no default human Tenant membership or unrestricted data access.
 
+
+
+### 16.10 — ODR-006: Customer subscription lifecycle baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+A customer subscription is an effective-dated commercial/service agreement, not proof of delivery, invoice or payment. Preserve a versioned subscription agreement and line-level product, quantity, UOM, price basis, branch/service area, service address, recurrence and effective dates.
+
+- Separate the agreement lifecycle from each dated schedule occurrence and from fulfilment/billing/payment.
+- Use controlled states such as Draft, Pending Approval where policy requires, Active, Paused, Cancelled and Expired. Do not use one state to represent both subscription and individual occurrence status.
+- Pause/resume is a future-effective interval change; it must not delete generated history. Skip applies only to a named occurrence/date/shift. Holiday/closed-day behavior is driven by the applicable calendar policy. Substitution and quantity/product changes create effective-dated line/schedule versions.
+- Cancellation ends future entitlement from its effective date; reinstatement creates a new effective version. No hard deletion of an agreement with operational/financial history.
+- Late changes after the configured cut-off require a separate exception permission/approval where the Tenant policy requires it. A late edit never silently changes an already dispatched/delivered occurrence.
+- Billable quantity derives from authoritative fulfilment and approved adjustment rules, not merely from planned quantity.
+- Preserve reason, actor, old/new version and affected future occurrences for every material change.
+
+### 16.11 — ODR-007: Recurrence, calendar and schedule precedence baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Use a recurrence model capable of representing daily, every-N-day with stable anchor, selected weekdays, weekly patterns, multiple service shifts and future-dated effective intervals. Morning/evening may be presets, not hardcoded exhaustive shift values.
+
+- Define recurrence by business calendar/date, anchor, interval/pattern, selected days, shift/service window, start/end, holiday treatment and effective version.
+- Use a Tenant's configured business time zone (IST default for the India-focused product); store actual event timestamps separately from the business service date. Branch-specific time zones are not assumed for the initial India product unless later required.
+- Calendar/cut-off precedence: fixed platform constraints → Tenant defaults → Branch/route calendar override only where supported → subscription-specific effective schedule → explicitly approved occurrence exception. More specific configuration may override only if the key declares that scope.
+- Generate dated occurrences idempotently by subscription line, business date, service shift/window and schedule version. Reprocessing must not duplicate or silently alter already executed occurrences.
+- Cut-off time, closed days, lead time and same-day exception permissions are Tenant-configurable within validated bounds. If no applicable rule can be resolved, do not invent an occurrence silently; surface a configuration error for authorized correction.
+- Route planning consumes the correct Branch/service-area occurrence set; a Route's Branch ownership rule under ODR-002 remains fixed.
+
+### 16.12 — ODR-009: Milk quality and testing baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19). This does not prescribe legal quality limits or statutory testing frequency.
+
+Use configurable, versioned quality profiles by milk/material type, operating activity and test context. Each profile may define parameter, unit, method, sample requirements, device/manual source, accepted range/decision rule, requiredness, effective dates and approving permission.
+
+- Distinguish Not Tested, Pending, Valid, Failed, Invalid/Rejected Sample and Not Applicable; zero is a measured value, not a missing result.
+- Preserve sample identity, collection/source lot, time, collector, method/device, operator, calibration/evidence where available and result provenance.
+- Quality hold/quarantine prevents normal allocation or processing release until the required disposition is authorized.
+- Partial acceptance records accepted and rejected quantities separately, preserving source measurements.
+- Limits/tolerances are versioned and may vary by product/material and verified activity. A Tenant may configure operational thresholds only within its lawful/product-validated bounds; it cannot mark a failed mandatory control as passed by configuration.
+- Analyzer/device integration is optional through adapters; manual entry remains supported with source and actor evidence.
+- Food-safety and statutory threshold applicability is deferred to current official review after project completion.
+
+### 16.13 — ODR-010: Procurement rate and farmer settlement baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Support both simple flat-rate and configurable quality-linked rate charts. Rate charts are versioned, effective-dated, scoped by Tenant/Branch/collection point, supplier group/product/milk type as applicable, and identify their formula and input basis.
+
+- Store measured quantity, accepted quantity, quality readings and rate-chart version independently.
+- Calculation must be explainable/reproducible: disclose input values, formula/version, incentives/penalties, rounding policy and result.
+- Advances, deductions, deposits, transport/container charges and other adjustments must be separately typed, authorized and auditable; do not bury them in a net rate.
+- Settlement periods and payment methods are Tenant-configurable; partial settlement, carry-forward, dispute and correction are explicit states.
+- After settlement/posting, corrections use linked adjustments/reversals and must not rewrite original collection, rate or payment facts.
+- No universal Fat/SNF formula, rate table, statutory payment interval or penalty is imposed by the product.
+
+### 16.14 — ODR-011: Processing and packaging baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Processing is an optional, composable capability. Retail-only and simple resale Tenants must not be forced through manufacturing setup. Where enabled, use versioned/effective-dated process/recipe definitions with input materials, outputs, by-products, packaging consumption, process steps, equipment, quality checkpoints, expected yield ranges and measured loss/tolerance.
+
+- Production batch captures actual input/output quantities, lots, time, equipment and responsible actors.
+- Material balance and traceability connect consumed inputs to finished lots and by-products.
+- Yield tolerances and quality-release requirements are configured per validated process/product profile, not globally invented.
+- Failed or held quality state prevents release to ordinary available stock.
+- Recipe changes affect future batches only; completed batches retain the version and snapshots used.
+- Loss/wastage is recorded as a distinct event and cannot be silently netted away.
+- Contract processing may be supported as an explicit workflow when demand is validated; it is not an assumption about all Tenants.
+
+### 16.15 — ODR-012: Inventory and stock-control baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Use an append-oriented stock ledger as the authoritative source for stock quantity; balances are derived from movements, reservations and status. Preserve ownership, Branch, StockLocation, product/base UOM, lot/batch where enabled, stock status and source transaction.
+
+- Basic product/location quantity tracking is sufficient for simple retail; lot, expiry, serial, batch, warehouse and manufacturing traceability are activated according to product risk, shelf life, regulatory applicability and operating model.
+- Transfers are two-sided custody events: dispatch creates in-transit quantity; destination receipt confirms received quantity and records shortage/damage/discrepancy. Ownership rules are explicit; inter-Branch transfers never occur by editing a location field.
+- Reservations are separate from physical issues and have explicit allocation, expiry/release and priority rules.
+- Physical counts record observations separately from variance approval and adjustment. Count capture, variance review/approval and stock adjustment are distinct permissions.
+- Negative available stock is denied by default. A Tenant may enable a narrowly scoped, auditable negative-stock exception only for eligible non-serialized/non-lot-controlled products under an explicit policy/permission and reconciliation process. It is never allowed to bypass traceability, expiry, quality hold, stock ownership or financial close controls.
+- Adjustments, write-offs and valuation changes require their own permissions and applicable independent approval. Posted movements are immutable; corrections use linked entries.
+- Costing/valuation method and accounting recognition remain under ODR-017 and accounting review.
+
+### 16.16 — ODR-013: Pricing and commercial-term baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Use versioned/effective-dated price lists and rate schedules, with explicit scope and deterministic selection precedence. Support standard price, customer/segment terms, branch-specific price where configured, subscription price, retail/POS price, wholesale/contract price, discounts, deposits and credit terms as distinct concepts.
+
+- Price selection must identify selected price-list version, date/time basis, customer/product/channel/Branch scope and reason.
+- A transaction snapshots the unit price, discount, tax classification, charge and calculation policy used.
+- Discounts/overrides are separate permissions with configurable approval thresholds and audit; a user cannot approve their own action where maker-checker is required.
+- New price changes apply prospectively unless a controlled correction/repricing workflow is explicitly approved and preserves prior evidence.
+- Precedence rules are explicit; ambiguous overlapping price rules fail closed or require authorized resolution rather than arbitrary first-match.
+- Actual prices, commercial margins, credit limits and customer-specific terms remain Tenant business data/configuration.
+
+### 16.17 — ODR-014: Billing and receivables baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Keep source sale/fulfilment, bill/invoice, customer statement, receipt/payment allocation and journal as separate related records. A statement summarizes items; it does not create duplicate revenue/invoice. Billing cycles, periods and cut-offs are Tenant-configurable and versioned.
+
+- Recurring subscription bills are based on authoritative billable fulfilment, adjustments and effective price/tax snapshots.
+- POS/counter sale and one-time orders use their own source events; do not force a subscription.
+- Support draft/preview, validation, issue/post, partial settlement, credit/debit adjustment, dispute, cancellation/reversal and collection statuses as distinct states.
+- Advances remain unapplied until explicitly allocated. Allocation cannot exceed available amount; residuals are traceable.
+- Credit limits/overdue holds and approval thresholds are configurable; an unpaid invoice is not silently written off.
+- Document type/numbering and tax fields are driven by verified Tenant legal/tax profile; legal statutory requirements are deferred to ODR-003/016 post-project review.
+- Issued documents and posted balances are not overwritten; corrections use linked credit/debit or adjustment workflows.
+
+### 16.18 — ODR-015: Payment evidence and verification baseline
+
+**Status:** Recommended domain baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+The platform must distinguish a payment claim/intent, manual receipt entry, provider-confirmed payment, bank-statement evidence, reconciliation match and final allocation/settlement.
+
+- Cash receipt is recorded by an authorized user and linked to cash custody/shift where used; it is not a bank-settled event.
+- Manually recording UPI QR/bank transfer and entering a UTR/reference does not by itself prove that funds were received.
+- A screenshot or user-uploaded proof is supporting evidence, not independent provider/bank confirmation.
+- Provider callback/query may establish provider-confirmed status only after signature/authenticity/replay/amount/currency/merchant/reference/tenant checks.
+- Bank statement import/reconciliation can establish bank-side evidence according to source format, matching confidence and authorized exception review.
+- Unmatched, partial, duplicate, reversed, disputed and unknown outcomes remain explicit states; do not blindly retry an unknown external payment.
+- Payment providers/bank integrations are optional adapters. Payment recording must remain available without a gateway.
+- Refund, chargeback and reversal are linked transactions and require separate permissions/approvals.
+
+### 16.19 — ODR-017: Accounting and financial-control baseline
+
+**Status:** Recommended architecture/domain baseline selected under the product owner's delegated decision mandate (2026-11-19); statutory account-policy review remains external evidence-gated.
+
+Double-entry bookkeeping is the accounting foundation. Every posted journal balances in the same accounting currency; posted journals are immutable. Operational modules produce validated posting instructions and do not directly edit ledger balances.
+
+- Use accounting books/financial periods as explicit concepts independent of Tenant, Branch, GST registration and OperatingLocation. The simple Tenant profile may start with one default book; do not infer that each Branch or GSTIN is a separate book.
+- CoA templates are editable/configurable starting points, with stable account identities, effective dates, mapping and audit. Tenant-specific accounts/dimensions do not change canonical posting semantics.
+- Branch, location, department, cost centre and project are explicit dimensions where relevant, not substitutes for legal-entity/book boundaries.
+- Source event, subledger, GL journal, bank evidence, settlement and Tally exchange are distinct linked facts.
+- Period close/reopen, journal posting/reversal, opening balance migration, inventory costing and source-event recognition use explicit permissions, maker-checker and audit.
+- Tally is an optional external adapter with versioned company/master/voucher mappings and reconciliation. The product remains the canonical internal ledger; Tally is not silently treated as source-of-truth for all platform workflows.
+- Exact legal/books cardinality, statutory accounting policy and production Tally compatibility require qualified review and version-specific proof of concept.
+
+### 16.20 — ODR-018: Workforce and payroll capability baseline
+
+**Status:** Recommended non-statutory product baseline selected under the product owner's delegated decision mandate (2026-11-19); statutory labour/payroll review remains deferred.
+
+Workforce/personnel management is optional and composable. A small Tenant may operate without employee records. Where enabled, distinguish Person, UserAccount, TenantMembership, workforce engagement/personnel record, Branch assignment, shift, attendance, leave, compensation and payroll transaction.
+
+- Store work assignments and shifts as effective-dated records; assignment to a Branch is not a permission.
+- Attendance captures actual presence/work evidence; scheduled shift is not proof of attendance.
+- Leave requests, approvals, shift swaps, overtime, advances and reimbursements are separate workflows with permissions and audit.
+- Different engagement types (employee, contractor, casual/temporary, consultant) must remain distinguishable where the business uses them; do not infer legal classification from a UI label.
+- Payroll uses versioned compensation and calculation snapshots, segregated sensitive permissions and immutable posted payroll results; correction is through controlled adjustment.
+- Statutory rates, deductions, thresholds, forms and labour-law applicability are reserved for current qualified review after project completion.
+
+### 16.21 — ODR-021: Notification architecture baseline
+
+**Status:** Recommended engineering baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+Use provider-neutral notification events and adapters. In-app notifications are the mandatory internal channel for critical platform/business events. Push, email, SMS, messaging applications and voice channels are optional and enabled only by Tenant/user policy, permissions, consent and provider capability.
+
+- Separate event trigger, template, recipient resolution, authorization-to-receive, channel preference, delivery attempt and final provider outcome.
+- Revalidate recipient membership and notification-category permission before sending; never broadcast sensitive Branch/financial information to all users.
+- Templates support language/localization, Tenant branding, approved variables and versioning. User content cannot inject arbitrary secrets or unsafe markup.
+- Delivery retries are bounded/idempotent; failure or delay never changes business transaction or permission state.
+- Provider secrets, consent, opt-out, quiet-hours and cost controls are managed separately from event semantics.
+- No provider or channel vendor is mandated by this architecture.
+
+### 16.22 — ODR-022: KPI and analytics governance baseline
+
+**Status:** Recommended architecture baseline selected; official business KPI ownership and commercial report entitlements require accountable business/owner assignment before launch.
+
+Every official KPI has a stable ID, name, definition, formula/version, unit, grain, date basis, source lineage, exclusions, freshness, owner function and validation tests. Tenant-specific targets and thresholds are configurable, but must not rewrite the official formula of a shared system KPI.
+
+- Separate operational facts, posted financial facts, targets, budgets, forecasts and scenarios.
+- Drill-down returns only source records the actor may access; aggregation must not reveal restricted branch/person data through small cohorts or filters.
+- Tenant custom dashboards/reports may use governed datasets and declared data scopes. Custom metrics must declare formula, source, unit and owner.
+- Export/report access is separately permissioned and rechecked at download.
+- Commercial plan entitlement for premium analytics is separate from data permission.
+- The business must assign an accountable owner function for each official KPI before using it as a contractual or management target.
+
+### 16.23 — ODR-023: Forecasting and projection baseline
+
+**Status:** Recommended architecture baseline selected; business prioritization is not a blocker for extensible architecture.
+
+Begin with transparent, explainable statistical/baseline methods and simple seasonal/recency approaches where sufficient clean history exists. Advanced ML is optional and justified only by out-of-sample improvement against a simple baseline.
+
+Each forecast run records dataset cutoff, horizon, unit/grain, assumptions, method/model version, exclusions, confidence/uncertainty where defensible, accuracy metrics and limitations. Forecasts are advisory and never directly post stock, purchase, payroll, invoice or journal transactions. Users may configure horizons and scenario inputs where supported; output must not claim accuracy unsupported by history.
+
+### 16.24 — ODR-024: Budget and scenario-planning baseline
+
+**Status:** Recommended architecture baseline selected; Tenant thresholds and approver assignments are configurable.
+
+Budgets are versioned plans with draft, review, approved, superseded and closed lifecycle states as relevant. Actual posted values, budgets, targets, forecasts and hypothetical scenarios remain separate classifications. Editing an approved budget creates a new revision; it does not overwrite the prior approved version.
+
+Tenants may configure budget dimension, period, scenario and approval thresholds within platform constraints. Approval is permission-based, amount/scope-bounded and subject to maker-checker. Scenario planning never posts financial journals or changes operational stock. Actual-versus-budget formulas and dimension mapping are versioned and reproducible.
+
+### 16.25 — ODR-025: SaaS plan and entitlement architecture baseline
+
+**Status:** Recommended product/engineering baseline selected; pricing, plan packaging and contractual service commitments require owner approval before commercial launch.
+
+Plans package capability entitlements, usage quotas, support/service tier and optional dedicated-resource features. Keep separate:
+- Plan entitlement — whether a capability/usage is commercially available.
+- Tenant capability activation — whether the Tenant has enabled it.
+- Tenant configuration — how the enabled capability behaves.
+- Principal permission — who may view/perform actions.
+- Feature/release flag — controlled rollout or temporary operational disablement.
+- Extension grant — what a separately governed extension may access.
+
+No plan may grant user permission, data scope or bypass a security/integrity invariant. Quota enforcement must be tenant-aware and transparent. Do not silently discard accepted transactions when quotas are reached; block new work safely, preserve accepted work and provide a clear remediation path. Trials, upgrades/downgrades and suspension must preserve historical data and define read/export/recovery access. Exact commercial plans, price points and grace periods require explicit owner approval.
+
+### 16.26 — ODR-026: Data lifecycle and privacy architecture baseline
+
+**Status:** Recommended architecture baseline selected; legal retention schedules and contractual periods require post-project evidence and approval.
+
+Classify data by purpose and sensitivity (identity, contact, operational, financial, tax, payroll, security/audit, file/object, analytics and integration secrets). Each class must define collection purpose, access, minimization, retention trigger, archival, legal hold, export, deletion/anonymization, backup treatment, processor/provider boundaries and audit evidence.
+
+A single retention period for all data is prohibited. Legal hold overrides routine deletion. Posted financial/stock/audit records retain integrity according to applicable policy; personal data may require controlled minimization/anonymization that does not falsify statutory history. Tenant offboarding must offer an authorized export process and a controlled lifecycle. Exact durations and lawful bases are reserved for current legal review.
+
+### 16.27 — ODR-027: Scale and capacity methodology baseline
+
+**Status:** Recommended engineering baseline selected; numerical business adoption envelope must be supplied or approved by the business owner before production sizing.
+
+Use conservative, expected and stress workload envelopes across Tenant count/distribution, Branches/locations, users/devices, API traffic, concurrent writes, subscription occurrences, POS/procurement/stock/financial postings, queue volume, report/analytics load, file/object growth and retention.
+
+Do not invent target Tenant counts or promise throughput from development hardware. Convert business adoption assumptions into measurable load profiles using pilot telemetry, model noisy-neighbour/fairness and headroom, and test load/soak/stress. Review capacity after major module launch or measured growth. Service-level budgets must have explicit cost and operational ownership.
+
+### 16.28 — ODR-028: Availability, backup and recovery governance baseline
+
+**Status:** Recommended recovery architecture selected; final business RPO/RTO commitments, named responders and accepted residual risks require owner approval before production.
+
+Maintain tested backups outside the primary failure/administrative boundary, encryption/key recovery, restore validation for database and objects/configuration, documented recovery ordering, idempotent queue/outbox reconciliation and tenant isolation validation. Distinguish a successful backup job from a proven recoverable restore.
+
+Use service tiers based on business criticality and cost. Do not publish or contract numeric RPO/RTO/availability commitments until restore/DR exercises, staffing, provider dependencies and business impact evidence support them. Name incident commander, restore authority and key custodians before production.
+
+### 16.29 — ODR-029: Integration priority baseline
+
+**Status:** Tally accounting import/export priority is established by the product owner's earlier explicit requirement; other provider priorities remain evidence/business-value dependent.
+
+The platform's internal business and accounting model remains canonical. Tally Desktop synchronization and data exchange is the first-priority accounting integration, including controlled import/export, voucher/master mapping, batch identity, idempotency, conflict reports and reconciliation. It must be version-specific and proven with disposable Tally company data before release.
+
+Bank statement, payment gateway, UPI/provider, notification, weighing-scale, milk analyzer, barcode/device and other integrations use provider-neutral adapters. Each adapter declares capabilities, authentication, tenant binding, permission, schema/version, rate limit, retry/unknown-outcome and reconciliation contract. Do not claim availability until tested with the actual provider and account tier.
+
+### 16.30 — ODR-030: Technology selection governance
+
+**Status:** Modular-monolith product architecture is selected under ODR-035; the concrete framework/database/mobile stack remains gated by repeatable PoC and team/operational evidence.
+
+Technology selection must compare identical representative workflows, including tenant/permission isolation, concurrency/locking, idempotency, migration, restore, offline field use, Tally integration, deployment/cost and team maintenance ability. Preferred candidates in ADR-TECH-001 remain candidates, not approvals. Select supported stable releases and define patch/upgrade/deprecation ownership. Do not lock technology on familiarity or current VPS limits.
+
+### 16.31 — ODR-031: Deployment and infrastructure baseline
+
+**Status:** Linux/VPS-compatible logical deployment direction and Docker-optional policy are selected; provider, region, instance sizes and production risk acceptance require PoC/cost/recovery evidence.
+
+Keep deployment profiles for lean pilot, separated data tier and horizontally scalable production. Avoid a pilot single-host layout becoming a hidden production constraint. Separate public edge, API, workers, database, object storage/backup and observability trust boundaries as justified by the workload. Production network isolation, secrets, backup/restore and release rollback must be verified. A provider or infrastructure free tier is not a guaranteed production capacity or backup plan.
+
+### 16.32 — ODR-032: Localization baseline
+
+**Status:** Recommended product baseline selected under the delegated decision mandate.
+
+English is the primary authoring/product language initially. Localization infrastructure must support Marathi and Hindi and be extensible to additional Indian languages. UI labels, help text, templates, notifications and reports are externalized; stable machine identifiers, API enums and canonical keys remain language-neutral. Currency remains INR and IST is the default business timezone for the India-focused initial product. Branch time-zone variation and non-INR currency are not assumed. Translation ownership and rollout priority are reviewed using customer usage and quality evidence.
+
+### 16.33 — ODR-033: Security governance baseline
+
+**Status:** Recommended technical baseline selected; named security risk-acceptance authority and incident responders require human assignment before production.
+
+Require MFA/step-up authentication for privileged access, permission administration, support access, sensitive exports, account recovery and other high-impact actions identified by threat analysis. Session/device revocation, secure recovery, short-lived scoped service credentials, secret rotation, least-privilege operations, secure defaults, abuse protection, dependency scanning, vulnerability response and incident evidence are mandatory controls.
+
+MFA and step-up policy are based on permission sensitivity and risk, never job title alone. Break-glass remains the separate narrowly scoped ODR-002 Emergency Override and cannot bypass Tenant isolation. No critical/high risk may be silently accepted; residual risk requires named accountable authority, documented impact, mitigation, expiry and review before production.
+
+### 16.34 — ODR-034: Audit and observability governance baseline
+
+**Status:** Recommended technical baseline selected; data retention classes, named alert owners and escalation contacts require evidence and human assignment before production.
+
+Maintain separate but correlated:
+- Business/audit evidence — who did what, to which resource, in which Tenant/scope, when, why, with what outcome and policy/configuration version.
+- Operational telemetry — logs, metrics, traces, queue health, performance and provider outcomes for service operation.
+
+Material business/security/permission/configuration/financial/stock events must be durably recorded and protected against unauthorized alteration/deletion. Audit access is separately permissioned, append-oriented and secret-redacted. Operational telemetry is minimized and must not become a substitute for immutable business evidence. Alerts require severity, owner, escalation path and runbook. Retention of both datasets is classified separately and must be reconciled with legal/contractual review.
+
+### 16.35 — ODR-036: Party identity resolution and duplicate handling baseline
+
+**Status:** Recommended safe baseline selected under the product owner's delegated decision mandate (2026-11-19).
+
+A duplicate candidate is not proof of identity. No automatic merge based only on name, phone, address, bank account or external Tally mapping. Exact same verified identifier from the same issuing authority is a strong candidate but still requires conflict/role/account validation.
+
+Use a non-destructive identity-resolution operation with dedicated `party.identity.resolve` permission, same-Tenant and affected-Branch scope, before/after impact preview, reason/evidence, audit and source-to-survivor mapping. Conflicting legal/business identifiers, different natural/legal persons, cross-Tenant candidates or disputed ownership must not be merged. If posted entries, open balances, settlements, verified IDs, bank/payee data or active subscriptions are involved, require independent authorized review and relevant financial/operational clearance. Preserve original IDs as aliases and preserve all posted transaction snapshots/history. A later unmerge is a compensating identity-map action, not a promise to erase posted history.
