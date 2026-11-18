@@ -169,6 +169,8 @@ Use deterministic barriers/latches or equivalent coordination to force races; ti
 - Approval decision racing with payload/policy change.
 - Delegation revocation/expiry or delegator/delegate permission loss racing with an approval commit.
 - Duplicate submission/retry of the same delegated approval decision.
+- Grant extension approval racing with the current grant's expiry; only a newly approved version committed before the existing expiry may continue access.
+- Reminder delivery racing with grant revocation/expiry; stale reminders are suppressed and notification outcomes never change authorization state.
 - Quota consumption at the last available unit.
 - Tally sync retry after remote success but before local acknowledgement.
 - Outbox publisher crash after send but before marking delivered.
