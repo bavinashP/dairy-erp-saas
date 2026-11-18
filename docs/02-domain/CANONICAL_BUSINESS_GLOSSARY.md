@@ -153,6 +153,17 @@
 | Home / Primary Branch | The Branch designated as a worker's normal workforce/administrative context | Organizational context only; no automatic access, approval, veto or stock ownership follows from this designation |
 
 
+## Permission catalogue and authorization terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| Permission Catalogue Entry | Platform-governed definition of one stable atomic data/action capability, including resource, action, scope, risk, data sensitivity, delegation, approval, audit and lifecycle metadata | Definition of a capability does not assign it to any user or Tenant |
+| Atomic Permission Key | Stable, language-neutral machine identifier for one registered resource/action capability | Display names, translations and customer labels are separate; unknown/retired keys default to deny |
+| Permission Bundle Version | Immutable published snapshot of the registered permission keys contained in a Tenant-configurable bundle or platform starter | A role/bundle name alone grants no authority; assignments reference an explicit version |
+| Permission Assignment | Explicit allow/deny of a registered atomic key to a principal or governed group with scope, limits, effective period and reason | Must stay within the assigning actor's delegated authority; membership alone grants no permission |
+| Extension Permission Registration | Versioned namespaced permission definition for a declared extension resource/action contract | Registration/install does not grant access; Tenant assignment or explicit host grant is still required |
+| Support Access Grant | Explicit, purpose-bound and time-limited platform-to-Tenant access for a declared support case/resource/action | Platform identity or support title does not provide implicit Tenant data access |
+
 ## Route execution and dispatch terms
 
 | Term | Canonical meaning | Boundary |
