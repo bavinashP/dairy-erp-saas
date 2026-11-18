@@ -63,15 +63,28 @@
 
 | Current state | Command / next state | Guards | Side effects / restrictions |
 |---|---|---|---|
-| Draft | Plan → Planned | Stops and source demand valid | Demand references preserved |
-| Planned | Assign → Assigned | Worker/device scope valid | Assignment audit |
-| Assigned | Validate/lock → Dispatch Ready | Quantities, route and exceptions reviewed | Prevent unapproved edits |
-| Dispatch Ready | Dispatch → In Progress | Actor and dispatch checks pass | Record dispatch timestamp and stock issue according to policy |
-| In Progress | Complete → Completed | All stops have outcomes | Unresolved stops block normal completion |
-| In Progress | Close with exceptions → Completed with Exceptions | Each exception has reason and review path | Preserve unresolved financial/stock consequences |
-| Completed states | Correct/Reopen → Controlled Exception Review | Authorized supervisor, reason and linked correction | Original run remains historically visible |
+| Draft | Plan → Planned | Branch, Route ownership, effective ServiceArea coverage, demand and stop allocations valid | Preserve source demand and route/plan version |
+| Planned | Assign → Assigned | Accountable run assignee/participants and transport resource where used are current, scoped and available | Assignment version and workforce-policy evidence retained |
+| Assigned | Validate/lock → Dispatch Ready | Stock, quantities, route constraints, required vehicle/driver evidence, custody and product-handling checks pass | Freeze candidate manifest/assignment version |
+| Dispatch Ready | Dispatch → In Progress | Exact dispatch permission, current run/manifest version, all readiness guards and any required independent approval | Idempotent dispatch; snapshot route, demand, personnel, resources, custody and policy versions |
+| In Progress | Hold → Held / Exception Review | Safety, route, vehicle, participant, device or custody exception; reason/evidence | Preserve completed stops, actual custody, uncompleted work and current resource assignments |
+| Held / Exception Review | Reassign/Resume → Assigned / Dispatch Ready / In Progress | Current permission, valid replacement assignment/resource, capacity/readiness, custody handover where goods change hands and conflict-free version | Original assignment/dispatch remains immutable; append replacement events |
+| In Progress | Complete → Completed | All required stops have outcomes; delivered/returned/undelivered and custody quantities reconcile | No unresolved material stock/cash/custody exceptions |
+| In Progress | Close with exceptions → Completed with Exceptions | Exact close-with-exceptions permission; each unresolved item has reason, owner and resolution path | Preserve outstanding stock, cash, custody and customer obligations |
+| Completed states | Correct/Reopen → Controlled Exception Review | Exact correction permission, reason, current version and linked evidence | Original run/manifest/fulfilment remains visible; correction is compensating |
+| Any pre-dispatch state | Cancel → Cancelled | Permission, cancellation reason and no irreversible effect already committed | Release demand/stock reservations and assignments safely |
+| Dispatched/In Progress | Cancel/Abandon → Controlled Exception Review | Authorized exception decision and full custody/stock reconciliation | Never erase dispatch or fabricate an automatic return/rollback |
 
-**Open:** offline protocol, run locking, assignment scope, proof requirements and correction authority (ODR-019/020).
+### Run assignment lifecycle
+
+| Current state | Command / next state | Guards | Side effects / restrictions |
+|---|---|---|---|
+| Proposed | Assign → Active | Named principal/transport resource, run scope, effective period and explicit assignment permission valid | Duty label does not grant permission |
+| Active | Replace/Release → Superseded / Released | Authorized actor, effective time, reason and current assignment version | Preserve old assignment and link replacement |
+| Active | Expire/Revoke → Expired / Revoked | Expiry or permission/assignment revocation | Block future actions immediately; physical custody remains until actual handover/resolution |
+| Active | Conflict → Held | Vehicle/resource exclusivity, personnel conflict or readiness check fails | No double booking or silent override |
+
+**Selected baseline:** offline delivery scope and server revalidation follow ODR-020; route/assignment/dispatch baseline follows ODR-002 section 16.37.
 
 ### 3.4 Delivery stop / attempt / fulfilment
 
