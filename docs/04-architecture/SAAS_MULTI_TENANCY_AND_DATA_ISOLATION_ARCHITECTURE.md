@@ -29,7 +29,7 @@ It does not approve a physical schema, shared-database strategy, database-per-te
 3. Tenant context MUST be established before tenant-owned data access and MUST fail closed when missing, invalid, suspended or ambiguous.
 4. Tenant isolation MUST apply to reads, writes, aggregates, search, reports, exports, attachments, caches, background jobs, events, webhooks and integrations.
 5. Branch scope MUST be checked independently from tenant scope.
-6. Ordinary employees MUST default to access only their own assigned branch. Cross-branch access is denied unless a specific, audited scope grant authorizes it; Tenant Owner is the explicit example of an all-branch visibility role.
+6. A home/operating Branch assignment may define the principal's default operational boundary, but it is not itself a read or action permission. All Branch data visibility and actions MUST require explicit effective permissions and scope; no Tenant Owner status, title or account type grants automatic access.
 7. A role title alone MUST NOT confer all-branch visibility. Cross-branch read/report scope MUST be separable from cross-branch create/update/approve/post/reverse/export capabilities.
 8. A branch ID supplied by a client MUST be validated as belonging to the active tenant and within the actor's authorized branch scope.
 9. Tenant-wide records may be branch-neutral. Do not force branch attribution where the domain does not require it.
@@ -112,7 +112,7 @@ These policies remain open under ODR-025 and ODR-026; no deletion or retention p
 | Database per tenant | Stronger data/backup/restore separation options | Provisioning, migrations, connection management, monitoring and cost at scale |
 | Hybrid/tiered isolation | Can reserve stronger isolation for selected tenants or scale tiers | Multiple operating modes, migration and support complexity |
 
-No option is selected. Evaluation MUST include isolation assurance, tenant count, workload distribution, backup/restore granularity, migration complexity, query performance, cost, operations, regulatory/contract needs, portability and future sharding.
+**Selected product direction:** retain one shared SaaS control plane, onboarding process and product release lifecycle; use pooled infrastructure as the ordinary standard candidate and support selective bridge/hybrid or silo isolation when justified by measured workload, security, verified regulatory/contractual or recovery requirements. This is a logical product direction, not a final database/provider topology selection. The exact storage layout, database engine, partition key, tenant-placement mechanics and isolation-tier eligibility remain subject to technology PoCs and ODR-027/030/031. Evaluation MUST include isolation assurance, tenant/workload distribution, backup/restore granularity, migration complexity, query performance, cost, operations, regulatory/contract needs, portability and future partitioning/sharding.
 
 ## 10. Tenant and branch isolation verification
 
@@ -151,3 +151,10 @@ This baseline is not approval of a physical tenancy strategy. Architecture readi
 4. Request, job, cache, search, export and integration context propagation specified.
 5. Threat model and automated isolation test plan reviewed.
 6. Backup, restore, support-access and offboarding boundaries validated.
+
+
+## 13. Product variability and Tenant growth
+
+Tenant configuration, plan entitlement, capability activation, principal permission and extension grants are independent. Tenant settings cannot weaken isolation or security. Configuration inheritance and permitted Branch/site overrides follow ARC-PV-001. Small and enterprise Tenants use the same product semantics; resource and isolation profiles may differ without customer-specific code forks.
+
+The recommended tenancy evolution is pooled standard resources with a supported path to selected bridge/silo resource placement for justified Tenant profiles. Tenant migration between tiers must preserve stable identifiers, authorization, audit, files, integrations, backup/restore and compatibility. The exact physical implementation remains an ADR/PoC decision.
