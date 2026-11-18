@@ -10,7 +10,7 @@
 
 ### 1.1 Client strategy
 
-Adopt **one unified, role-aware mobile application as the initial product baseline**. The application exposes role- and permission-appropriate workspaces (for example owner/manager, POS/sales, delivery, procurement/collection, inventory, accounting and workforce operations). A user may have more than one authorized duty; the application must not assume one fixed screen set per person.
+Adopt **one unified, permission-aware mobile application as the initial product baseline**. The application exposes role- and permission-appropriate workspaces (for example owner/manager, POS/sales, delivery, procurement/collection, inventory, accounting and workforce operations). A user may have more than one authorized duty; the application must not assume one fixed screen set per person.
 
 This is a recommended, reversible product/engineering baseline—not a commitment that every module must be enabled for every tenant or every user. Separate role-focused applications may be introduced later only when measured evidence demonstrates a material benefit in security isolation, device distribution, usability, release cadence, or operational support that outweighs the cost of multiple applications.
 
@@ -30,7 +30,7 @@ Web, mobile and any POS client MUST use the same versioned business API contract
 
 All tenant, branch, assigned-resource and permission scopes are resolved and enforced server-side for online requests and again when queued work is synchronized.
 
-## 2. Role-aware mobile capability model
+## 2. Permission-, task- and context-aware mobile capability model
 
 The mobile experience is composed from capabilities and effective permissions, not hard-coded assumptions about job titles. Candidate workspaces include:
 
@@ -231,7 +231,7 @@ Required tests include:
 |---|---|---|
 | Shared API and server-authoritative business rules | Resolved project constraint / existing API baseline | Preserve across all clients |
 | Customer login and consumer app excluded | Resolved project constraint | Enforce in requirements and API tests |
-| One unified role-aware mobile app initially | Recommended engineering/product baseline | Validate with representative role journeys before UX freeze |
+| One unified permission/task/context-aware mobile app initially | Recommended baseline under ODR-019/ARC-PV-001 | Validate representative owner, delivery, POS, procurement, inventory, quality and finance journeys before UX freeze |
 | Delivery-run offline capture as the first offline workflow | Recommended engineering baseline | Validate through field trial and threat/privacy review |
 | Offline POS | Deferred with trigger | Reconsider only after delivery sync is proven and POS-specific financial controls are designed |
 | Offline procurement/quality/stock-count/attendance | Deferred with trigger | Add one workflow at a time with domain-specific integrity and evidence rules |
@@ -241,3 +241,6 @@ Required tests include:
 | Mobile device trust, MFA, local re-authentication and remote wipe policy | Owner/security approval required | Align with ARC-IAM-001 threat model and incident response |
 
 Development readiness requires the role journey catalogue, API operation mapping, local data classification, delivery offline protocol, conflict/idempotency tests and supported-client strategy. Production readiness additionally requires field-trial evidence, approved offline duration/cache policy, device-security validation, operational support runbooks and explicit acceptance of residual offline risks.
+
+
+The product's permission-first model applies equally to mobile and offline work. A downloaded task snapshot is not a standing permission grant. Offline commands are queued intent only; the server must revalidate current Tenant membership, effective permission, task/grant version, scope, validity and resource state at synchronization/commit. Permission or grant revocation blocks later writes even if local cached UI still displays the task. Only the narrow delivery-run snapshot/outcome-capture baseline is initially guaranteed; any expansion requires workflow-specific security, privacy, conflict, idempotency and field-trial evidence.
