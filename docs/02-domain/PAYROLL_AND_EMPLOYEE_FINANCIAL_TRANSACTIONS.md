@@ -1,6 +1,6 @@
 # Payroll and Employee Financial Transactions
 
-**Status:** Working baseline — domain requirements
+**Status:** Recommended workforce-domain baseline — optional capability model selected; statutory applicability is deferred to post-project review
 
 ## 1. Design principles
 Support businesses with no employees, a few informal/part-time workers, and larger teams with structured payroll. HR attendance and payroll are related but distinct. Payroll rules must be effective-dated, explainable and versioned. Statutory applicability depends on establishment, headcount, wage, location, worker classification and current law; do not assume every tenant is subject to every regime.
@@ -27,7 +27,7 @@ Provide a versioned statutory rules layer with jurisdiction, effective date, app
 Approved payroll creates a balanced journal according to configured chart and policy: compensation expense, employer contribution expense, employee payable, statutory payable, advance recovery and bank/cash settlement. Payroll register, payslip, payment and journal must share period and batch references. Salary payment can be partial; payable remains until settled.
 
 ## 9. Access and privacy
-Restrict salary, bank details, identity documents and payslips to authorized roles and employee self-access only if separately approved in product scope. Customer-facing access is not implied. Log sensitive record access and exports. Mask sensitive fields by default.
+Restrict salary, bank details, identity documents and payslips through separate explicit field/data-category permissions and scope. Job title, role label or account type does not grant access. Employee self-access remains outside current scope unless separately approved. Customer-facing access is not implied. Log sensitive record access and exports. Mask sensitive fields by default.
 
 ## 10. Reports
 Payroll register, payslip, salary component breakdown, branch/department labour cost, attendance variance, advance outstanding, reimbursement, payroll payable, statutory liability summary, payment reconciliation and period-to-period variance.
@@ -43,5 +43,11 @@ Payroll register, payslip, salary component breakdown, branch/department labour 
 8. Restrict payroll visibility independently from general HR access.
 9. Update statutory rules without rewriting historical finalized payroll.
 
-## 12. Open decisions
-Employee versus contractor boundaries; supported payroll frequencies; attendance integration; statutory scope and source maintenance; payslip format/languages; employee self-service; bank payout integrations; payroll final settlement rules.
+## 12. Configuration and evidence dependencies
+- Workforce/personnel, engagement, shifts, attendance and payroll remain optional capability bundles; a Tenant can operate without them.
+- Engagement type, payroll frequency, attendance inputs, components, approval thresholds and payslip formats are Tenant-configurable within validated domain profiles.
+- Employee/contractor/consultant classification must not be inferred solely from the chosen UI label; employment/legal applicability is deferred for qualified post-project review.
+- Statutory rules must be versioned, source-backed and reviewed for jurisdiction/effective date before use. A toggle is not evidence of compliance.
+- Employee self-service remains outside current product scope. Bank payout is an optional integration; manual recording is distinct from bank verification.
+- Final settlement, advances, deductions and payroll corrections are explicit linked workflows; finalized payroll is not overwritten.
+- Access to personal data, payroll amounts and bank details is separately permissioned and audited, under ODR-018 and BR-FIX-024.
