@@ -117,6 +117,26 @@ Use current CBIC/GST Council notifications, Acts, Rules, official FAQs/circulars
 
 The following require separate evidence-based research before requirements are finalized:
 - Legal Metrology: weighing instruments, packaged commodities, declarations, and measurement controls where applicable.
+
+### 6.1 Legal Metrology — standard units, trade quantity and measuring instruments
+
+The Legal Metrology Act, 2009 establishes metric/SI-aligned units and provides rules for standard weights/measures, the use of weight/measure for particular purposes, and quoting/issuing trade documents in standard units (including sections 4, 5, 7, 10 and 11). It also addresses regulated measuring instruments, verification/stamping, pre-packaged commodity declarations and related offences/requirements. The exact prescribed units and obligations depend on the current Central/State rules and the activity/product.
+
+**Product implications for investigation:**
+- A Tenant operating as a milk producer/vendor, loose-milk seller, dairy processor, packaged-commodity manufacturer/importer or retailer may have different Legal Metrology obligations. Do not apply one universal checklist to every operating profile.
+- The platform should distinguish commercial UOM used internally from legally required declaration/transaction UOM. The applicable conversion and display basis must be verified for the exact trade/product.
+- For instruments used in commercial transactions (weighing scales, flow/volume meters or other regulated measures), the product may record instrument identity/model, approval/verification/stamping reference, verifier, verification date, validity/next due date, calibration/maintenance evidence and measurement source. An uploaded certificate alone does not prove current legal validity.
+- For pre-packaged commodities, the product should retain the declared net quantity/UOM, pack definition/version, label/declaration evidence and applicable verification status. Pack count and package content remain distinct data.
+- Do not hardcode a fixed decimal precision, unit list, tolerance, instrument verification period or declaration set based only on this high-level Act reference. Verify the current Legal Metrology (General) Rules, 2011 and amendments, applicable State rules/orders and exact product/business activity.
+- Section 11 concerns standard units in prices, invoices/cash memos and other documents for goods/services. The document template and unit used must therefore be governed by an effective-dated, verified compliance profile rather than an arbitrary tenant-defined unit.
+
+**Official primary sources:**
+- India Code, Legal Metrology Act, 2009 (Act 1 of 2010), sections 4–11 and related provisions: https://www.indiacode.nic.in/handle/123456789/15676?view_type=browse
+- Department of Consumer Affairs, Legal Metrology rules and official regulations index: https://consumeraffairs.nic.in/acts-and-rules/legal-metrology
+- Legal Metrology (General) Rules, 2011 and amendments must be read from the currently published official Department/Gazette sources before a rule is activated.
+
+**Status:** Product data/evidence support can be designed now. Statutory applicability matrix, precise permitted-unit list, verification intervals, instrument categories, pack declarations and state-specific enforcement are post-project authoritative/legal review items.
+
 - Consumer protection and packaged-product information.
 - State/local permissions and municipal requirements.
 - Shops and Establishments and applicable employment/labour requirements.
