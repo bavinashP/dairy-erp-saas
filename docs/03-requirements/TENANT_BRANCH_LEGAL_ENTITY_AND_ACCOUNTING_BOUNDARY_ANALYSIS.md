@@ -31,7 +31,7 @@ Do not add final legal/tax cardinalities or statutory behaviour by assumption. U
 | Canonical Business Glossary | Branch is an operating unit; its relationship to legal registration remains open | Branch cannot own tax/legal identity by assumption |
 | Canonical Business Glossary | Outlet, collection centre, warehouse/stock location, processing unit and service area are distinct terms | Do not collapse all places into Branch |
 | Core Domain Entity Catalogue | Tenant Business Profile may hold multiple registrations only if ODR-003 is approved | Multi-registration support remains conditional |
-| Core Domain Entity Catalogue | Branch taxonomy is open; operational locations are typed | Keep location hierarchy configurable pending ODR-002 |
+| Core Domain Entity Catalogue | Branch and OperatingLocation are distinct; one Branch may own multiple Routes and serve multiple ServiceAreas under approved mappings | Keep detailed shared-site governance and access policy configurable pending ODR-002 closure |
 | ERS-001 | TenantBusinessProfile is separate from Branch; Branch may have child operating locations | Preserve current logical distinction |
 | ERS-001 | OperatingLocation belongs to Tenant and may optionally be parented to Branch | A location may be tenant-wide/unassigned or branch-associated under policy |
 | ERS-001 | Invoice and selected financial records have “Tenant/books scope” | Books ownership requires an explicit model |
@@ -247,13 +247,13 @@ Do not apply these refinements as if they were approved until the decision gates
 | Decision | Current status | Required closure evidence / approval |
 |---|---|---|
 | ODR-001 — tenant operating models | **Resolved — user-approved 2026-11-18** | Option B approved: one Tenant supports multiple dairy operating models and multiple branches. Legal-form review is post-project and outside current scope |
-| ODR-002 — branch/location taxonomy | Unresolved | Domain workflow map for outlet, collection, warehouse, processing, stock and service areas; user-facing terminology and permission consequences |
+| ODR-002 — branch/location taxonomy | Partially resolved | Physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch baselines are approved; detailed shared-site governance, access rules and route execution policies remain to be specified |
 | ODR-003 — tenant/legal entity/GST registration relationship | Unresolved | Current official GST/legal research, accounting implications, representative scenarios and explicit product-owner approval |
 | AccountingBook cardinality | Not separately resolved in ODR | Accounting workflow scenarios, statutory/reporting needs, Tally mapping and accountant/owner approval |
 | Cross-entity operations | Not separately resolved in ODR | Explicit use cases, inventory/finance controls, audit and authorization analysis |
 | Shared locations / multi-branch mapping | Not separately resolved in ODR | Physical operations and stock-custody scenarios, permission/reporting consequences |
 
-ODR-001's operating-model decision is resolved by explicit product-owner approval dated 2026-11-18. The legal-form aspect formerly mixed into ODR-001 is deferred to the post-project legal review and is not a current development blocker. ODR-002 remains a business/domain decision for owner review. ODR-003's legal-entity and tax-registration applicability is outside the current legal review scope; only non-legal accounting and data-boundary modelling may proceed provisionally where required. No legal conclusion or final accounting cardinality is implied.
+ODR-001's operating-model decision is resolved by explicit product-owner approval dated 2026-11-18. The legal-form aspect formerly mixed into ODR-001 is deferred to the post-project legal review and is not a current development blocker. ODR-002 remains partially resolved: its physical-site, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch relationship baselines are approved; detailed shared-use/access governance remains for owner review. ODR-003's legal-entity and tax-registration applicability is outside the current legal review scope; only non-legal accounting and data-boundary modelling may proceed provisionally where required. No legal conclusion or final accounting cardinality is implied.
 
 ## 10. Consistency review against existing documentation
 
@@ -266,7 +266,7 @@ ODR-001's operating-model decision is resolved by explicit product-owner approva
 | ARC-SYS-001 | AccountingEntity/books scope remains separate from Tenant and Branch | Consistent; terminology needs a future canonical mapping between “AccountingEntity” and the proposed LegalEntity/AccountingBook concepts |
 | DBR-001 | Legal/business identity, branch taxonomy and tenant-to-legal-entity/books are identified as unresolved database dependencies | Consistent |
 | Module Dependency Map | Branch/location remains prerequisite context for operations, not a legal entity | Consistent |
-| Open Decisions Register | ODR-001 operating-model decision is approved; legal-form review is post-project. ODR-002 remains a business taxonomy decision; ODR-003's legal/tax aspects are outside current scope | Consistent with the 2026-11-18 product-owner scope instruction |
+| Open Decisions Register | ODR-001 operating-model decision is approved; legal-form review is post-project. ODR-002's core physical/service/route relationships are partly approved, with shared-use/access governance still open; ODR-003's legal/tax aspects are outside current scope | Consistent with the 2026-11-18 product-owner scope instruction |
 
 ### Terminology issue to resolve
 
