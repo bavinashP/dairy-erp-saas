@@ -25,10 +25,10 @@
 | Platform Support Operator | Assists tenants with incidents and configuration | Just-in-time, approved, scoped support access | Every access and action should be audited |
 | Tenant Owner | Owns/controls the dairy business | Tenant-wide, subject to platform controls | May also act as cashier, purchaser, dispatcher, or accountant |
 | Tenant Business Administrator | Manages tenant setup and users | Tenant configuration and delegated administration | Cannot grant permissions beyond own delegation |
-| Branch Manager | Oversees one or more assigned branches | Explicit branch scope | May need cross-branch reporting without transaction mutation |
+| Branch Operations User | Performs assigned operational coordination across one or more explicitly scoped branches | Explicit branch scope and permissions | May need cross-branch reporting without transaction mutation; no job title itself grants scope or approval authority |
 | Sales Operator | Records counter sales and customer interactions | Assigned POS/register/branch | Refund, discount, and void limits may differ |
 | Delivery Operator | Performs assigned deliveries | Assigned route/run/stops | Should see only necessary customer and delivery information |
-| Delivery Supervisor | Plans routes and monitors delivery | Assigned branch/service areas | May reassign runs and resolve exceptions within limits |
+| Delivery Operations User | Plans routes and monitors delivery | Assigned branch/service areas | May reassign runs and resolve exceptions only where explicit permissions authorize those actions |
 | Procurement Operator | Records supplier purchases and milk collection | Assigned procurement points/branches | Quality-test and rate-override rights may need separation |
 | Inventory Operator | Receives, transfers, counts, and adjusts stock | Assigned stock locations | High-risk adjustments may require approval |
 | Finance/Accounts Operator | Manages receipts, payables, reconciliation, and accounts | Financial scope assigned | Payment recording and verification should be distinct permissions |
@@ -100,7 +100,7 @@ Small businesses may choose simpler workflows where legally and operationally ap
 - Exports are a separate risk surface and require explicit authorization and audit.
 - Ordinary employees MUST default to only their own assigned branch; another branch's records remain inaccessible unless an explicit, audited cross-branch scope grant applies.
 - Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. This scope does not automatically grant every mutation, approval, export or sensitive-field permission.
-- Other roles, including branch managers and business administrators, MUST NOT receive all-branch visibility merely from their title. Their branch scope must be explicitly assigned.
+- No job title, role label, seniority or business designation by itself grants all-branch visibility or approval authority. Branch scope and each action must be explicitly authorized through effective permission assignments.
 - Cross-branch reporting/read access and cross-branch transaction mutation MUST be separate capabilities. Tenant-wide master records must not become unrestricted merely because they are tenant-owned.
 - Platform support access must not be a silent tenant-scope bypass.
 - Access revocation must take effect for subsequent requests and sessions according to defined session invalidation policy.
@@ -120,6 +120,11 @@ The future requirements must cover:
 - Device/session management.
 - Staff turnover and reassignment of open work.
 
+
+### Emergency Authority (ODR-002)
+
+Emergency Authority is not a job category or standing administrative role. It is a specifically assigned, current and scoped permission to activate the restricted ODR-002 Emergency Override when the ordinary approver is unavailable and a qualifying emergency makes delay materially harmful. The authority must be explicitly permissioned, audited and time-bounded; no title or general administrator status is sufficient. Emergency activation, extension and retrospective review are separate permission checks.
+
 ## 8. Open decisions
 
 - Can one user access more than one tenant?
@@ -129,7 +134,7 @@ The future requirements must cover:
 - Can tenants create custom roles and permission bundles?
 - How are approval limits represented and inherited?
 - Which actions require maker-checker at each plan/business scale?
-- What support access workflow and emergency-access procedure are required?
+- What support access workflow is required? Emergency Override is governed by the approved ODR-002 policy; delegated approval and remaining approval limits require separate decisions.
 - What authentication assurance (MFA, passkeys, OTP, password policy) is required for each risk tier?
 - How are shared POS and delivery devices handled without shared identities?
 - What is the session/device revocation behavior?
