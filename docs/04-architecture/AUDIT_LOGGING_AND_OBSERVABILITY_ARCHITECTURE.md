@@ -77,6 +77,7 @@ Do not store full request/response bodies by default. Any exceptional payload ca
 - Tenant membership, branch assignment, role, permission, delegation and approval-limit changes.
 - Support grant request, approval, activation, use, expiry, revocation and break-glass review.
 - Emergency Override incident/request, activation mode (ordinary approval or restricted self-activation), Emergency Authority permission evidence, affected stock-owning Branch/location/stock/batch/task, exact scope/version, reason/evidence, activation/expiry/extension/revocation, every attempted and completed action, quantities/custody changes, retrospective reviewer/findings and reconciliation/corrective actions.
+- Approval delegation creation and authorization evidence, delegator/delegate identities, Tenant/Branch/resource/action scope, limits, effective period, reason, revocation, automatic invalidation and expiry; each delegated decision must record the actual delegate, delegator, delegation ID/version, exact payload/version/hash, policy version, limits, outcome, timestamp and reason.
 - Authorization denials for sensitive resources and repeated suspicious access attempts.
 
 ### 5.2 Business and financial controls
