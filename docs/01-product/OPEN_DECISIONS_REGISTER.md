@@ -9,7 +9,7 @@
 | ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, must approve each cross-branch stock-task grant before it becomes effective; a no-blanket-consent baseline with separate workforce-assignment authorization is recommended in section 16.6. Grant-expiry notification timing and zero-grace baseline are recommended in section 16.5; notification channel/provider delivery remains under ODR-021. The separate workforce-assignment boundary is recommended in section 16.6; detailed shared-site accountability and the complete permission matrix remain open. Delegated approval is resolved by the separately approved policy below | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation and limited cross-branch stock-task grant baselines approved by product owner (2026-11-18); detailed shared-use accountability and complete permission-matrix policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
-| ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
+| ODR-005 | Authorization | Define the tenant-configurable permission catalogue, permission assignment and revocation model, scopes, precedence, delegation and approval limits. Roles are optional configurable permission bundles only; neither a role title nor account type grants access. Every read/action requires effective explicit permissions and scope; cross-branch read remains distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
 | ODR-006 | Subscription lifecycle | Define pause, resume, skip, holiday, temporary change, substitution, cancellation. | Delivery, billing, stock, balances | Customer lifecycle scenarios and exceptions | Open |
 | ODR-007 | Subscription schedule | Define cut-offs, schedule changes, alternate-day cycles, branch/route calendars. | Delivery planning and correctness | Schedule examples and exception analysis | Open |
 | ODR-008 | Units and precision | Which units, conversions, precision, rounding, and pack sizes are supported? | Procurement, inventory, pricing, billing | DBR-004 precision-layer analysis; product/UOM catalogue, device-resolution evidence, workflow test vectors and owner-approved commercial/accounting rounding rules | Open |
@@ -578,3 +578,76 @@ This avoids imposing duplicate consent on every inventory task while preserving 
 **Verification:** Confirm that a stock grant cannot create or modify workforce assignments, shifts, attendance, pay or cost allocation; that a separate valid workforce assignment is enforced whenever workforce policy requires one; that no extra Home-Branch consent is demanded for stock-only authorization when the workforce assignment is already valid; and that stock-owning-Branch approval remains mandatory.
 
 **Review trigger:** Reopen only on explicit product-owner change or operational evidence that the separation causes unsafe staffing, accountability or attendance outcomes. Any statutory or contractual workforce requirements are reviewed separately and do not change the stock authorization boundary by implication.
+
+
+### 16.7 — Complete Cross-Branch Permission Matrix and configurable permission-first authorization
+
+**Status:** Resolved — product-owner approval (2026-11-19). The product owner approved the proposed cross-Branch action boundaries and explicitly confirmed that access to data and ability to perform actions must not be determined by role titles or user-account types. Permissions must be configurable for each Tenant/customer and explicitly grantable, restrictable and revocable.
+
+**Mandatory authorization principle**
+
+Authorization is permission-first and scope-bound. The authenticated account establishes the identity of the actor; it does not itself confer business access. A role is an optional, tenant-configurable permission bundle, not an authority level. Role names, job titles, seniority, account category, employment category, client type and the fact that a person is a Tenant Owner MUST NOT independently grant any read, write, approval, export or administration capability. The effective permission set and applicable resource scope determine every decision.
+
+Tenants must be able to configure permission bundles and assign/revoke permissions for their own authorized principals. The authorization model must support explicit permission assignment through configurable roles/groups and, where policy permits, direct principal grants or scoped temporary grants. It must also support removal, expiry, suspension and revocation. No assignment mechanism may let an assigning actor grant more authority than they currently hold and are explicitly permitted to delegate. Tenant configuration cannot weaken fixed security, tenant isolation, audit, segregation-of-duties, stock ownership or integrity invariants.
+
+**Effective decision requirements**
+- Evaluate authenticated principal, active Tenant membership, security boundary, explicit permission, resource and data scope, ownership, resource state, assignment/grant, limits, separation-of-duties and applicable policy.
+- A permission is atomic and action/resource specific. `view` does not imply create/update/delete/approve/post/export; `count.capture` does not imply `variance.approve`; quarantine does not imply release; receiving does not imply transfer or adjustment.
+- Scope may be Tenant, Branch, OperatingLocation, StockLocation, assigned task/resource, record, field/sensitive-data category, quantity/value limit and effective time window, as relevant.
+- Default deny applies when a permission, scope, assignment, membership, approval, or policy condition is absent, expired, revoked, ambiguous or cannot be validated.
+- Read access, mutation, approval, configuration/access administration, reporting and export are distinct permission families.
+- A role/group bundle is only one configurable way to assemble explicit permissions. Direct grants, if enabled by tenant policy, remain explicit, scoped, time-bound where appropriate and audited. A role assignment never grants unlisted actions or implicit all-branch scope.
+- Tenant Owner, account owner, administrator, employee, contractor, service account, mobile/POS account or any other account type receives no automatic business permission. Any required bootstrap/owner recovery authority must be a separately specified, narrowly scoped and auditable permission policy.
+- Permission removal/revocation must take effect on the next authoritative server-side decision and invalidate/recheck affected sessions, caches, queued jobs, exports, mobile/offline actions and integrations. No stale client or cached grant may authorize a later write.
+- Permission administration itself is protected by dedicated permissions, scope, delegation limits, audit and separation-of-duties controls. A principal cannot grant/revoke their own authority unless a separate approved policy expressly permits the exact operation; no self-escalation.
+
+**Cross-Branch stock-task action matrix**
+
+The matrix applies to a named worker handling stock owned by another Branch at a shared OperatingLocation. Every permitted action remains constrained by the approved grant, independently effective permission, task, stock scope, location, quantity and validity period. The grant and the worker's effective permissions must both authorize the exact action.
+
+| Action / data category | Cross-Branch baseline | Boundary |
+|---|---|---|
+| View assigned task | Allow only with explicit permission | Minimum task data; no unrelated task queues or Branch dashboards |
+| View stock needed for task | Allow only with explicit permission | Minimum SKU/lot/quantity/location; no general inventory or valuation browsing |
+| Receive | Allow only when explicitly granted | Exact receipt/task, location, item and quantity limits |
+| Put-away | Allow only when explicitly granted | Approved destination StockLocations and assigned task |
+| Pick | Allow only for assigned task and explicit permission | No unrestricted picking or unrelated demand visibility |
+| Issue stock to task | Allow only for assigned task and explicit permission | Preserve stock-owning Branch attribution and custody evidence |
+| Internal transfer within same stock-owning Branch | Allow only with explicit permission | Explicit source/destination StockLocations |
+| Physical stock count capture | Allow only with explicit count-capture permission | Observation only; no variance approval or adjustment |
+| Quarantine / isolate | Allow only with explicit protective-action permission | Does not authorize release, disposal, write-off or valuation change |
+| Release from quarantine | Deny by default | Separate explicit release permission and required independent approval |
+| Stock reservation / allocation | Deny by default | Only separate task-bound reservation permission may allow a narrow reservation |
+| Stock ownership transfer to another Branch | Deny under stock-task grant | Separate inter-Branch workflow, permissions and approvals |
+| Stock adjustment / correction | Deny under stock-task grant | Separate authorized workflow |
+| Write-off / wastage posting | Deny under stock-task grant | Separate permission and independent approval |
+| Stock variance approval | Deny under count-capture permission | Separate variance-review/approval permission and maker-checker |
+| Stock valuation, costing or price change | Deny | Separate inventory/finance authority |
+| Purchase, supplier/farmer, sales, customer or financial records | Deny unrelated access | No access merely because stock handling needs limited item/task context |
+| Financial posting, payment, settlement or period close | Deny | Separate financial permissions and workflows |
+| Full Branch reports, analytics or bulk search | Deny | Separate report permissions and data scopes |
+| Export, bulk download or data sharing | Deny | Separate export permission, dataset scope, purpose and audit |
+| Permission, role, grant or workforce administration | Deny | Separate access-administration/workforce permissions |
+| Safety/incident report and audit evidence | Allow minimum non-mutating reporting where explicitly permitted | No stock mutation or unrelated data access |
+
+**Cross-channel enforcement**
+
+The same matrix applies to web, mobile, POS, barcode/scanner, API, reports, search, files/attachments, exports, analytics, scheduled/background jobs, webhooks and third-party integrations. Every read and state-changing transition is checked server-side at the resource boundary. Client hiding is not security. Export/download access is checked at request time. Jobs and integrations use named least-privilege service identities. Offline/delayed operations are revalidated before commit. Stock authorization and stock commit remain concurrency-safe with respect to grant expiry/revocation and duplicate retries.
+
+**Non-negotiable controls**
+
+Tenant isolation, Branch ownership, stock ownership, server-side authorization, auditability and concurrency integrity cannot be disabled by customer configuration or subscription plan. Feature entitlement never grants permission or data scope. No role/account-type shortcut, implicit seniority rule or hidden UI behavior may bypass permission evaluation. Cross-Branch visibility and mutation remain independently configurable. Emergency Override and delegated approval retain their separately approved ODR-002 controls.
+
+**Verification scenarios**
+1. Two users with different job titles but identical effective permissions and scope receive identical outcomes.
+2. Two users with the same role title but different explicit permissions receive different outcomes as configured.
+3. Changing an account type or role label alone changes no authorization outcome.
+4. Tenant can configure, assign and revoke a permission; the revoked action is denied while unrelated permissions remain unchanged.
+5. No grant can exceed the assigning actor's delegation authority.
+6. Read-only access cannot mutate through alternate endpoints, jobs, exports, mobile/barcode or integrations.
+7. Count capture cannot approve variance or post adjustment; quarantine cannot release stock.
+8. Same-Branch internal transfer cannot transfer ownership to another Branch.
+9. Revoked/expired permissions and grants deny subsequent operations; stale clients cannot commit unauthorized work.
+10. Every grant, change, revocation, denial and sensitive access is auditable.
+
+The exhaustive atomic permission catalogue for every dairy module, permission-management UX and customer starter templates are elaborated in their respective specifications without weakening this approved baseline. Detailed shared-site custody/accountability and exception workflows remain separate ODR-002 work items.
