@@ -251,14 +251,16 @@ Build a non-production proof of concept before final provider selection:
 - Record monthly cost estimates at low/expected/high workload scenarios, including free-tier overages and egress/retrieval.
 - Verify India region/data-transfer/legal considerations from current official documentation and contract terms.
 
-## 14. Open decisions
+## 14. Provider and lifecycle decision dependencies
 
-- **ODR-026:** data retention, archival, deletion, export and legal holds.
-- **ODR-028:** backup frequency, backup retention, RPO/RTO and disaster recovery.
-- **ODR-030:** storage adapter, encryption/key-management and tooling choices.
-- **ODR-031:** production topology, provider accounts, regions and failure-domain separation.
-- Provider choice, primary/secondary roles, free-tier usage and paid-tier transition remain open until proof-of-concept and cost review.
+- **ODR-026:** data-class retention, archival, deletion, export and legal holds; the lifecycle architecture is selected, but exact periods await post-project legal review.
+- **ODR-028:** backup/recovery business objectives and named recovery authority require production approval.
+- **ODR-030/031:** storage adapter implementation, encryption/key management, provider accounts, regions and failure-domain separation require repeatable PoC and cost review.
+- Cloudflare R2 and Backblaze B2 remain candidates, not approved providers. Free-tier allowance is not guaranteed production capacity. Primary/secondary roles and paid-tier transition must be selected from measured cost, egress, recovery and region evidence.
 
 ## 15. Exit criteria
 
 Before production use, approve the data-classification and retention matrix, provider/region and contractual assessment, storage capability matrix, key-management design, credential separation, quota/billing controls, backup schedule and RPO/RTO, restore runbooks, immutable-retention policy where needed, monitoring/alerts and proof-of-concept results. No free-tier allowance is a production availability or recovery commitment.
+
+
+The storage adapter is a provider-neutral product boundary. Tenant, Branch, extension and permission isolation semantics are unchanged if the underlying provider or storage tier changes. Tenant-specific customer-managed keys or dedicated storage isolation may be considered only through a governed security/contract profile, not an ad hoc override.
