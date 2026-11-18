@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Accepted conceptual baseline: one physical site may support multiple capabilities; StockLocation remains an inventory-control concept. Remaining Branch/OperatingLocation ownership, shared-use and access rules require owner decision | **Partially resolved — accepted conceptual baseline (2026-11-18); remaining relationship and access decisions open.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Accepted: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; an OperatingLocation may remain tenant-owned without mandatory Branch assignment. Any cross-branch shared use requires explicit governed association and access rules. ServiceArea/route relationships and detailed access rules remain open | **Partially resolved — physical-site/capability and Branch/OperatingLocation baseline approved by product owner (2026-11-18); ServiceArea/route and detailed shared-use/access policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -128,6 +128,41 @@ A larger business may configure multiple OperatingLocations under its approved B
 **Verification:** Confirm that one OperatingLocation can enable multiple operational capabilities, that StockLocation is distinct from OperatingLocation, and that a single-premises dairy workflow does not require fictitious physical sites.
 
 **Review trigger:** Reopen this accepted baseline only if the product owner changes the single-premises/multi-capability requirement. Continue ODR-002 separately for the remaining branch/location relationships and access rules.
+
+---
+
+### ODR-002 — Approved Branch and OperatingLocation relationship
+
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for ServiceArea/route relationships and detailed shared-use/access policies.
+
+**Approval evidence:** After reviewing the recommended relationship, the product owner stated: “संकल्पना योग्य असून मला मान्य आहे.”
+
+**Approved decision statement**
+
+- **Branch** is a tenant-owned management/operating unit, not necessarily a physical premises.
+- A Branch may be associated with multiple OperatingLocations.
+- An OperatingLocation is tenant-owned and may be associated with a Branch; a separate Branch is not mandatory for every physical OperatingLocation.
+- A tenant-level/unassigned OperatingLocation is therefore permitted in the conceptual model, subject to explicit operational ownership and access policy.
+- If one physical OperatingLocation is used by multiple Branches, that use must be represented through an explicit governed shared-use association. Physical sharing alone does not grant unrestricted access to the other Branch's operational data.
+- The one-Branch/many-OperatingLocations model and optional Branch association do not override tenant isolation or existing branch-level authorization constraints.
+
+**Alternatives rejected**
+- Requiring every OperatingLocation to be a Branch.
+- Requiring every OperatingLocation to be assigned to exactly one Branch with no tenant-level/unassigned option.
+- Treating a shared physical site as automatic permission for all users of every associated Branch to see or mutate all data there.
+
+**Consequences**
+- Conceptual modelling must distinguish the Branch management boundary from the physical site.
+- A tenant may operate with one Branch and one OperatingLocation, or one Branch and multiple OperatingLocations.
+- The model must allow tenant-owned OperatingLocations without mandatory Branch assignment.
+- Shared use by multiple Branches requires explicit association, authorization, attribution and audit rules; these detailed policies remain to be specified.
+- This approval does not finalize ServiceArea-to-Branch cardinality, Route relationships, employee membership multiplicity, or detailed cross-branch read/mutation permissions.
+
+**Affected areas:** DBR-002; Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; onboarding; location management; operational authorization and reporting.
+
+**Verification:** Confirm that a Branch can be associated with multiple OperatingLocations, an OperatingLocation can exist without mandatory Branch assignment, and shared physical use does not bypass branch data isolation.
+
+**Review trigger:** Reopen this approved relationship only upon explicit product-owner change. Continue ODR-002 for ServiceArea/route relationships and detailed shared-use/access rules.
 
 ---
 
