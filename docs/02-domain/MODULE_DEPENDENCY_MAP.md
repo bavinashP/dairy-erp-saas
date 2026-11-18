@@ -55,7 +55,7 @@
 | Inventory/Warehouse | Product/unit, location, source transactions, lot policy | Stock ledger, availability, reservations, transfers, valuation inputs and reports |
 | Batch/Lot Traceability | Supplier/collection lots, inventory movements, process batches | Expiry control, recalls, downstream traceability and compliance evidence |
 | Stock Count/Reconciliation | Stock ledger, location, count sessions, transaction cut-offs | Approved variance adjustments and inventory accuracy metrics |
-| Distribution/Delivery | Subscription/order, customer/address, route, stock allocation, workforce | Fulfilment, delivery exceptions, billing, performance reports |
+| Distribution/Delivery | Subscription/order, customer/address, Branch-owned Route/ServiceArea, DeliveryPlan, demand allocations, stock, workforce, optional transport resource and product-handling profile | Dispatch, stop execution, custody/handovers, fulfilment, exceptions, billing, vehicle/participant utilization and performance reports |
 | Billing/Receivables | Fulfilment, sales, price/tax policy, customer account, adjustments | Customer balance, statements/invoices, finance, reports |
 | Payments/Reconciliation | Receipt/payment source, account/cash custody, open items | Allocated settlement, finance, customer/supplier balance |
 | Accounting/Finance | Financial events, chart of accounts, posting rules, payment reconciliation | Double-entry journals, subledger reconciliation, financial statements and audit reports |
@@ -113,6 +113,7 @@ Posted operational/financial records → Reconciliation and close → Reporting 
 - Cross-branch and cross-domain reporting needs explicit permission and data-scope rules.
 - High-volume reporting must not compromise transactional consistency or tenant isolation.
 - CustodyEvent and StockMovement are distinct linked facts; custody/asset use must not create duplicate stock or financial effects. Shared-site permissions and evidence must remain independently scoped.
+- DeliveryPlan, DeliveryRun, personnel assignments, transport-resource assignments and RunExecutionEvents remain separate. Dispatch snapshots are immutable; route/assignment changes require linked events and concurrent demand/resource claims.
 - Integration failures must be retryable without duplicating financial, inventory, or delivery effects.
 
 ## 7. Boundary and evolution policy
