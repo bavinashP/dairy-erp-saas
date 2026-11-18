@@ -19,8 +19,8 @@
 | Stock Location | Inventory-control holding position or subdivision, such as a refrigerator, room, shelf, bin or zone | Separate from OperatingLocation; it need not be an independently addressable physical site. When Branches share a physical site, stock positions, ownership and control remain separately attributable to each Branch; physical co-location does not grant cross-branch access |
 | Processing / Packaging | Processing or packaging capability at an OperatingLocation | Does not require a separate OperatingLocation when performed at a shared premises |
 | Delivery Area / Service Area | Geographic area in which one or more authorized branches serve customers | A Branch may serve multiple ServiceAreas and a ServiceArea may be served by multiple Branches through an explicit effective-dated association; reassignment must not rewrite historical delivery context. Geographic coverage is not a physical OperatingLocation or Branch |
-| Route | Ordered or planned set of delivery stops for a run/shift | Each Route belongs to exactly one Branch; a Branch may own multiple Routes. It may cover only ServiceAreas effectively assigned to its Branch. Another Branch serving the same area uses its own Route. DeliveryRun Branch and Route ownership must match; completed run history is preserved |
-| Delivery Run | An execution instance of a route/dispatch plan for a date and shift | References one Branch and a Route owned by that same Branch; preserves the route/plan version and operational context used at execution |
+| Route / Manual Route | Branch-owned reusable or one-off manual ordered stop sequence and ServiceArea coverage | Each Route belongs to exactly one Branch; it may cover only ServiceAreas effectively assigned to its Branch. Another Branch serving the same area uses its own Route. Route/DeliveryRun Branch ownership must match; a small Tenant need not maintain reusable templates or an optimizer |
+| Delivery Run | Actual execution of one Branch-owned Route/route plan for a date/shift | References one Branch and a DeliveryPlan; the Route/Plan ownership must match; route, manifest, participants and resource versions are preserved at dispatch |
 | Party | Tenant-owned counterparty identity root for a person or organization that may hold one or more business roles | Shared identity does not imply unrestricted branch visibility; see DBR-003 |
 | Party Role | Effective business role assigned to a Party, such as customer, supplier, farmer/milk producer or vendor | Role-specific accounts, balances, terms and lifecycle remain distinct |
 | Customer | Party acting as a buyer under a customer relationship/account | No customer self-service login is in current product scope |
@@ -161,7 +161,7 @@
 | Manual Route | One-off Branch-owned ordered stop sequence created during run planning | Does not require route optimization or a reusable template |
 | Delivery Plan | Branch/date/shift plan grouping source demand allocations and one or more DeliveryRuns | Does not itself prove dispatch or delivery |
 | Delivery Demand Allocation | Explicit quantity allocation from a source demand line to a plan/run/stop | Must prevent duplicate allocation and over-fulfilment |
-| Delivery Run | Actual execution unit using a Route owned by the same Branch | Separate from reusable route, Delivery Plan and stop attempts |
+
 | Accountable Run Assignee | Named person responsible for the run's operational coordination | Assignment is not a permission or job-title authority |
 | Run Participant | Named person/principal assigned to a run or stop with a defined operational duty | Access still requires explicit current permissions and scope |
 | Transport Resource Assignment | Effective-dated optional assignment of a vehicle/carrier/resource to a run segment | Vehicle ownership and assignment do not grant data or dispatch permission |
