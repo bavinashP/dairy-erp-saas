@@ -224,6 +224,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | AuditEvent | Platform or tenant | Actor, action, target, timestamp, context and outcome | Append-only policy |
 | Attachment | Platform storage metadata with tenant ownership | Linked to source entity | Access/retention controls |
 | ApprovalRequest / ApprovalAction | Tenant/platform | References target record, policy, actual approver and outcome; ApprovalAction may reference the ApprovalDelegation used | Immutable history; delegated actor and delegator remain separately attributable |
+
 | Notification / DeliveryAttempt | Tenant/platform | References recipient, template, channel and source event | Delivery is not business commit |
 | IntegrationConnection / Job | Tenant/platform | External provider, scoped credentials and job state | Secrets not exposed in logs |
 
@@ -274,6 +275,7 @@ The following is the logical relationship spine. Optional relationships depend o
 21. SaaS accounting source record 0..1 active ExternalVoucherMapping per target company/export purpose; SyncBatch 1:N SyncBatchItem.
 22. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
 23. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
+24. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
 
 ## 13. Mandatory integrity invariants
 
