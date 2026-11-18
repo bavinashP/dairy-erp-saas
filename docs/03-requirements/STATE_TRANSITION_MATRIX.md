@@ -115,7 +115,22 @@ An attempt outcome must not automatically imply billing, payment receipt or cust
 | Stock count | Draft → In Progress → Submitted → Reviewed → Approved → Posted → Closed | Count cut-off, movement-aware reconciliation, approval and stock adjustment movement |
 | Stock adjustment | Draft → Pending Approval → Posted / Rejected | Reason, source count/exception, actor and linked movement |
 
-**Open:** transfer custody, lot rules, count cut-off, negative stock and valuation (ODR-008/011/012/017).
+**Selected baseline:** physical custody and handover follow DOM-CUST-001 and ODR-002 section 16.36. Lot rules, count cut-off, negative stock and valuation remain under ODR-008/011/012/017.
+
+**Custody handover state model (ODR-002 section 16.36 / DOM-CUST-001)**
+
+| Current state | Command / next state | Guards | Side effects / restrictions |
+|---|---|---|---|
+| Draft | Prepare/Offer → Offered | Subject, parties, locations, quantity/condition expectation and permission valid | Freeze the applicable custody profile/version for the handover |
+| Offered | Dispatch/Hand over → Dispatched / Handover Pending | Actual handler, source custodian, event time and required dispatch evidence captured | Custody changes only to the party that explicitly accepts it under the profile |
+| Dispatched | Transit → In Transit | Carrier/vehicle/container and transit evidence where applicable | Preserve last confirmed custody party and location; record each subsequent handover separately |
+| Dispatched / In Transit | Receive → Received Pending Verification | Receiver identity, actual quantity/condition and required receipt evidence | Does not update destination stock until separate stock receipt policy accepts quantity |
+| Received Pending Verification | Accept → Accepted / Accepted with Discrepancy | Required acknowledgement and validation complete | Completes custody only for accepted subjects/quantities |
+| Received Pending Verification | Reject/Dispute → Rejected / Disputed | Reason, observed evidence and actual current custodian/location captured | No assumed back-transfer or automatic stock write-off |
+| Any pending/disputed state | Resolve → Closed / Exceptioned | Authorized resolver, evidence, reason and current custody outcome recorded | Administrative resolution is not presented as another party's acknowledgement |
+| Any active handover | Cancel/Correct → Controlled Exception Review | Permission, current state/version and evidence | Original dispatch/receipt events remain immutable; corrections are linked |
+
+A timeout, missed notification, disconnected device or silent receiver never transitions a handover to Accepted. The last verified custodian/location remains in force until a real handover or controlled evidence-backed resolution is recorded.
 
 ### 3.8 Billing document and receipt
 
@@ -168,7 +183,7 @@ An attempt outcome must not automatically imply billing, payment receipt or cust
 For each transition:
 1. Allowed transition from valid current state.
 2. Rejected transition from invalid state.
-3. Permission denied for wrong role/scope.
+3. Permission denied for missing/invalid permission or resource scope.
 4. Missing/invalid required evidence or reason.
 5. Duplicate command/retry idempotency.
 6. Stale version/concurrent update conflict.
