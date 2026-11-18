@@ -76,6 +76,10 @@ Prices, discounts, charges, tax classification and rounding must be snapshotted 
 
 INR is the product's base accounting currency for this India-focused scope. Multi-currency support is not a current requirement.
 
+Ordinary INR currency posting defaults to rupees and paise (two decimal places), while per-unit prices/rates and intermediate calculations may retain higher supported precision. All authoritative calculations use exact decimal arithmetic. Where no stricter legal/contract rule applies, the selected ordinary commercial rounding default is HALF_UP at the explicitly declared, versioned line/document/settlement boundary. Do not rely on runtime defaults or repeatedly round intermediate values.
+
+Keep statutory tax rounding separate from ordinary selling-price and commercial rounding. CGST Act 2017 section 170 specifies nearest-rupee rounding for tax, interest, penalty, fine or other amounts payable/refundable under that Act. It does not mean every invoice price, commercial line, customer balance, farmer rate or stock value must be rounded to a whole rupee. Apply only within the verified tax-rule scope and effective transaction context under ODR-016. Reversals/credit notes preserve the original calculation and tax/rounding policy version; journal residuals must be explicit and auditable. See DBR-004 / ODR-008 section 16.40.
+
 ## 10. Notifications and collections
 
 Configurable reminders may include bill generated, due date approaching, overdue, receipt acknowledged and payment mismatch. Reminders must respect tenant communication settings and applicable consent/privacy rules. Do not expose another customer's balance or payment details.
