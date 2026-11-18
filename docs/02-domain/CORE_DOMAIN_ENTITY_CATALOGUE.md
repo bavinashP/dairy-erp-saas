@@ -123,6 +123,13 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 
 | Conceptual entity | Responsibility |
 |---|---|
+| Route / Manual Route | Branch-owned reusable or one-off manual stop sequence and service-area coverage | A route belongs to exactly one Branch; a small Tenant need not maintain reusable templates |
+| Delivery Plan | Branch/date/shift planning container for demand allocations and one or more runs | Simple one-run flow may create it implicitly |
+| Delivery Demand Allocation | Explicit source demand quantity allocated to a plan/run/stop | Prevents duplicate/over-allocation across concurrent runs |
+| Delivery Run | Actual execution unit for one Branch-owned route/plan with a versioned manifest | Branch/Route/Plan must match; personnel and vehicle assignments are separate |
+| Delivery Run Personnel Assignment | Effective-dated participant and operational duty for a run | Duty label grants no permission; owner may self-assign without employee profile |
+| Delivery Run Transport Assignment | Optional time-bounded vehicle/carrier/transport resource assigned to a run segment | Sequential replacements are recorded; concurrent vehicle split uses separate runs |
+| Run Execution Event | Append-oriented actual route/dispatch/departure/arrival/deviation/hold/replacement event | Never rewrites the dispatched manifest |
 | Sales Transaction | Commercial sale event |
 | Billing Document | Invoice/debit/credit document under policy |
 | Customer Statement | Period account summary |
