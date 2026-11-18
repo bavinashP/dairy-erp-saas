@@ -63,7 +63,6 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 |---|---|---|
 | FRS-IAM-001 | A person, login account, employee record, role, permission and device MUST be represented as distinct concepts. | Must |
 | FRS-IAM-002 | A global user identity MAY hold independent memberships in multiple Tenants; each user/Tenant pair has at most one current membership. | Must |
-| FRS-IAM-010 | A Tenant membership MAY have multiple workforce Branch assignments and an optional single current Home/Primary Branch; these assignments provide operating context only and MUST NOT grant data visibility or action authority. | Must |
 | FRS-IAM-003 | Authorization MUST evaluate active Tenant membership, effective explicit permission, resource and Branch/location scope, ownership, state, grant validity, limits and approval policy as applicable. Identity, role title and account type identify/organize the actor but MUST NOT grant authority. | Must |
 | FRS-IAM-004 | The system MUST support platform-level, Tenant, Branch, location, resource/task and sensitive-field permissions as applicable. Permissions MUST be independently assignable, changeable, restrictable, expirable and revocable within delegated authority. | Must |
 | FRS-IAM-005 | Backend authorization MUST be applied to every API and background operation; hiding a UI control is insufficient. | Must |
@@ -71,6 +70,7 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | FRS-IAM-007 | Device/session lifecycle, revocation and security event history MUST be supported. | Must |
 | FRS-IAM-008 | Customer self-service identities MUST NOT be provisioned under the current approved product scope. | Must |
 | FRS-IAM-009 | No role title, job title, seniority, account type or Home/Primary Branch assignment MUST grant access. Every data disclosure and action requires the applicable effective permission and scope; cross-Branch read, mutation, approval, sensitive-field access and export are independently permissioned. Identical effective permissions and scope MUST yield identical authorization outcomes regardless of labels. | Must |
+| FRS-IAM-010 | A Tenant membership MAY have multiple workforce Branch assignments and an optional single current Home/Primary Branch; these assignments provide operating context only and MUST NOT grant data visibility or action authority. | Must |
 
 ### 4.1 Customer-configurable permission governance
 
@@ -94,6 +94,8 @@ The Tenant MUST be able to configure eligible permission bundles and permission 
 | FRS-IAM-022 | Sensitive-field access, bulk search/list, report drill-down, export and download MUST be independently permissioned and constrained to declared data classes, rows, fields, purpose and resource scope; export MUST NOT bypass field-level permissions. | Must |
 | FRS-IAM-023 | Extensions MUST register namespaced, versioned permissions for declared extension resources/actions. Extension installation, activation or credential creation MUST NOT grant extension data access or core-resource access without a separate explicit scoped grant. | Must |
 | FRS-IAM-024 | Platform-only permissions and Tenant-assignable permissions MUST be distinct. Platform/support identities MUST NOT obtain implicit Tenant business-data access; Tenant-data support access requires a separate scoped, purpose-bound and auditable SupportAccessGrant. | Must |
+| FRS-IAM-025 | Each registered permission key MUST declare which collection/list, search/discovery, detail, aggregation and drill-down surfaces it authorizes. A list/search/detail surface MUST NOT be inferred from a permission unless the catalogue metadata explicitly includes it; row/field filtering and sensitive-field permissions remain enforced. | Must |
+| FRS-IAM-026 | Permission assignment creation, restriction, expiry and revocation MUST be effective-dated, versioned and auditable; revocation or an explicit deny MUST invalidate subsequent access across all channels, and a concurrent write MUST revalidate authorization at the authoritative commit boundary. | Must |
 
 ## 5. Branches, locations and operating profile
 
