@@ -73,13 +73,28 @@ Use synthetic or properly de-identified data. Production personal/financial reco
 - Feature entitlement, activation, configuration, feature flags and extension installation never grant permissions.
 - Test every alternate entry point: UI, API, bulk endpoints, mobile/offline sync, POS, barcode, search, reports, exports/downloads, files, jobs, webhooks and third-party adapters.
 
-### 5.3 Sensitive-data boundaries
+### 5.3 Canonical permission catalogue and Tenant configuration
+
+Use stable test identifiers AT-IAM-009..016 for ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39:
+
+- **AT-IAM-009:** Every protected command, field disclosure, report/export, job, event handler, device action and integration operation in each enabled module resolves to one or more registered canonical permission keys; an unmapped operation fails closed.
+- **AT-IAM-010:** Unknown, malformed, retired or incompatible keys are denied. A key's machine identifier and semantic meaning do not change when its display label, language, Tenant bundle name or UI text changes.
+- **AT-IAM-011:** A Tenant can create/version editable bundles and starter copies, assign/restrict/revoke eligible keys directly or through governed groups, and scope assignments; the assigning principal cannot exceed its own delegation authority.
+- **AT-IAM-012:** Explicit deny wins over applicable allow; missing scope, invalid membership, expired/revoked assignment, unsupported scope or ambiguous policy defaults to deny across every execution channel.
+- **AT-IAM-013:** View/list/search access, sensitive-field access, report drill-down, export, download and bulk operations are independently tested. Export/download cannot expose rows/fields the principal cannot otherwise access.
+- **AT-IAM-014:** Platform-only permissions cannot be assigned by a Tenant. Platform/support access to Tenant data requires a separate purpose-bound, scoped, expiring and auditable SupportAccessGrant.
+- **AT-IAM-015:** An extension registers a namespaced, versioned permission for declared extension resources/actions; installation, activation, API credential creation or device pairing alone grants no extension or core-resource data access.
+- **AT-IAM-016:** Permission deprecation/alias/version migration preserves the declared compatibility window and retirement date; unknown/retired aliases fail closed and no migration silently broadens effective authority.
+
+These tests are additive to AT-IAM-001..008 and AT-GNT-001..018. The v1 catalogue lists eligible capabilities; it does not assign them to a user or enable the corresponding Tenant module.
+
+### 5.4 Sensitive-data boundaries
 Test masking/field permissions for bank/payee details, identity documents, payroll, compensation, tax identifiers, customer personal data, payment evidence, secrets and audit investigation records. Export permission must not bypass field permissions.
 
-### 5.4 Delegation and break-glass
+### 5.5 Delegation and break-glass
 Test the ODR-002 Delegated Approval constraints, 30-day maximum, scope/limit inheritance, invalidation, non-delegable actions, self-approval and revoke races. Test Emergency Override qualification, exact actor/resource/action scope, 60-minute initial/120-minute total maximum, independent extension, immutable audit and retrospective review.
 
-### 5.5 Cross-Branch stock-task grant lifecycle and reconciliation
+### 5.6 Cross-Branch stock-task grant lifecycle and reconciliation
 
 Use stable test identifiers AT-GNT-001..018 for the ODR-002 StockTaskAccessGrant lifecycle:
 
