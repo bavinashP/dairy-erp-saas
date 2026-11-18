@@ -252,17 +252,17 @@ The following is the logical relationship spine. Optional relationships depend o
 3. Tenant 1:N OperatingLocation; one Branch may be associated with 0:N OperatingLocations, and an OperatingLocation may be unassigned to a Branch or associated with a Branch under policy. Shared use by multiple Branches requires an explicit governed association and access rules. One OperatingLocation may have multiple OperationalCapabilities; StockLocation is a separate inventory-control subdivision and is not a physical OperatingLocation.
 4. Branch and ServiceArea have an approved many-to-many service-allocation relationship through an explicit effective-dated association. One Branch may serve 0:N ServiceAreas and one ServiceArea may be served by 1:N Branches according to configured assignments. Historical delivery records preserve the branch/service context applicable when they were created; changing an assignment does not rewrite completed records. This association does not grant cross-branch data access.
 5. Branch 1:N RouteTemplate; each RouteTemplate belongs to exactly one Branch. A RouteTemplate may cover one or more ServiceAreas only where its owning Branch has an effective BranchServiceAreaAssignment. RouteTemplate is not shared across Branches by implication; another Branch serving the same ServiceArea uses its own RouteTemplate. Each DeliveryRun references a Branch and a RouteTemplate owned by that same Branch; mismatch is invalid. Completed runs retain the route/plan version and operational context used at execution.
-4. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
-5. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
-6. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
-7. ScheduleOccurrence / OrderLine 1:N demand allocation and fulfilment references; a source demand line may be partially fulfilled by multiple fulfilment lines only under explicit policy.
-8. DeliveryRun 1:N DeliveryStop; DeliveryStop 1:N DeliveryAttempt; successful/partial attempts may create linked Fulfilment records.
-9. SupplierAccount 1:N MilkCollectionEntry and PurchaseOrder; MilkCollectionEntry N:1 MilkCollectionSession; collection entries N:1 effective ProcurementRateVersion snapshot.
-10. MilkCollectionEntry 1:N MilkSample/QualityResult and at most one active settlement allocation for the same payable quantity; split settlement requires explicit line-level allocation.
-11. ProductionBatch 1:N ProductionInputLine and ProductionOutputLine; StockLot may be consumed by many batches and each output lot must link to its producing batch.
-12. Product/SKU 1:N StockLot and StockMovement; StockMovement references source document and stock location(s).
-13. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
-14. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
+6. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
+7. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
+8. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
+9. ScheduleOccurrence / OrderLine 1:N demand allocation and fulfilment references; a source demand line may be partially fulfilled by multiple fulfilment lines only under explicit policy.
+10. DeliveryRun 1:N DeliveryStop; DeliveryStop 1:N DeliveryAttempt; successful/partial attempts may create linked Fulfilment records.
+11. SupplierAccount 1:N MilkCollectionEntry and PurchaseOrder; MilkCollectionEntry N:1 MilkCollectionSession; collection entries N:1 effective ProcurementRateVersion snapshot.
+12. MilkCollectionEntry 1:N MilkSample/QualityResult and at most one active settlement allocation for the same payable quantity; split settlement requires explicit line-level allocation.
+13. ProductionBatch 1:N ProductionInputLine and ProductionOutputLine; StockLot may be consumed by many batches and each output lot must link to its producing batch.
+14. Product/SKU 1:N StockLot and StockMovement; StockMovement references source document and stock location(s).
+15. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
+16. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
 15. PaymentAccount 1:N Receipt, SupplierPayment, CashMovement and BankStatementImport as applicable.
 16. BankStatementImport 1:N BankStatementLine; ReconciliationSession 1:N ReconciliationMatch; match cardinality may be one-to-one, one-to-many or many-to-one under validation.
 17. Operational source event 0..1 or policy-defined N:1 JournalEntry through idempotent PostingRuleVersion; JournalEntry 1:N JournalLine; every posted journal balances.
