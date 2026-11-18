@@ -52,6 +52,14 @@ This document defines logical consistency rules for transactional and asynchrono
 | Payroll | Two finalization runs pay the same period twice | Unique employee/period/pay-run scope and approval lock |
 | Approvals | Initiator and approver act on stale or changed payload | Approval bound to immutable payload/version/hash and policy version |
 | Delegated approvals | Delegation expires/revokes or delegator/delegate authority changes while approval is in flight | Revalidate both parties, delegation scope/limits and payload at commit; coordinate revocation/expiry atomically; idempotent decision identity |
+| Stock-task grant submission/approval | Two reviewers or clients approve/reject different versions or a material scope change races with approval | Freeze grant-version payload/hash at submission; bind each decision to that exact version; optimistic version check and idempotent decision identity |
+| Grant extension/supersession | Successor version becomes effective while predecessor expires or another amendment is submitted | Serialize version activation/supersession; no overlapping ambiguous authority; approval must commit before predecessor's exclusive end |
+| Grant revocation vs stock commit | Revocation races with receive/put-away/pick/issue/transfer/count stock mutation | Revalidate current grant version, independent worker permission, membership, scope and limits atomically at the stock commit boundary; either commit while valid or deny |
+| Automatic grant invalidation | Worker membership, independent permission, required workforce assignment or target stock ownership is revoked while a task action is in flight | Invalidation and stock commit share an authoritative state/version check; ended authority cannot commit a later write |
+| Grant expiry vs offline/retry command | A device queues a stock action before expiry but reaches the server after expiry/revocation | Server commit-time checks current authoritative grant and task state; queued timestamp/cache cannot authorize stock mutation |
+| Held task reconciliation | Two reviewers reauthorize, reassign, cancel or close the same held task concurrently | Versioned task-hold state transition; only one valid resolution may commit; each decision is idempotent and append-only |
+| Worker reassignment/custody handover | Replacement worker is assigned while the prior worker still physically holds stock | New grant and workforce assignment are independently valid; custody handover evidence and task assignment update are coordinated; no implicit transfer of grant or custody |
+
 | SaaS entitlement | Concurrent requests exceed a usage limit | Atomic quota reservation/consumption; reconciliation for abandoned reservations |
 | File import | Same file/batch submitted repeatedly | File fingerprint plus tenant/operation idempotency and row-level identity |
 | Analytics | Multiple refreshes overwrite newer snapshots with older data | Source watermark, run version and monotonic publication rule |
@@ -176,6 +184,15 @@ Use deterministic barriers/latches or equivalent coordination to force races; ti
 - Approval decision racing with payload/policy change.
 - Delegation revocation/expiry or delegator/delegate permission loss racing with an approval commit.
 - Duplicate submission/retry of the same delegated approval decision.
+- Grant request submission racing with a material payload edit; only the frozen submitted version can receive approval.
+- Two grant reviewers attempting competing approval/rejection decisions for the same version.
+- Grant extension/successor activation racing with predecessor expiry and another amendment; only a valid non-overlapping successor approved before expiry may become effective.
+- Grant revocation racing with each stock-affecting action (receive, put-away, pick, issue, transfer, count/adjustment).
+- Worker Tenant membership, independent permission or required workforce assignment loss racing with a stock commit.
+- Stock-owning Branch/StockLocation ownership relationship change racing with grant use.
+- Offline/retry stock command arriving after grant expiry/revocation/invalidation or task hold.
+- Two authorized reviewers attempting different reauthorization/reassignment/closure outcomes for the same held task.
+- Replacement worker grant activation racing with prior worker custody handover and task reassignment.
 - Grant extension approval racing with the current grant's expiry; only a newly approved version committed before the existing expiry may continue access.
 - Reminder delivery racing with grant revocation/expiry; stale reminders are suppressed and notification outcomes never change authorization state.
 - Quota consumption at the last available unit.
