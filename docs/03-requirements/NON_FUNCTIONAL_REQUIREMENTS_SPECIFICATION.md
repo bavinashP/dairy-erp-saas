@@ -1,7 +1,7 @@
 # Non-Functional Requirements Specification
 
 **Document ID:** NFR-001  
-**Status:** Proposed baseline — product-owner review required  
+**Status:** Qualitative product-quality baseline accepted; numerical service targets and operational commitments remain evidence-gated  
 **Product:** Dairy ERP SaaS (India)  
 **Authority:** Project Vision and Scope, FRS-001, ERS-001, Business Rules Catalogue, State Transition Matrix, Exception/Reversal/Recovery Matrix, and Open Decisions Register.  
 **Purpose:** Define quality attributes and verifiable non-functional requirements without prematurely selecting implementation technologies or inventing service-level targets.
@@ -98,6 +98,19 @@ Numeric workload and service objectives are not invented. The engineering baseli
 | NFR-TEST-002 | Risk coverage | Tenant isolation, authorization, money, stock, delivery, concurrency, idempotency, reversals and integrations MUST receive risk-based automated tests. | Coverage and test evidence |
 | NFR-TEST-003 | Reproducibility | Performance, concurrency, restore and integration tests MUST record environment, dataset profile, versions and execution results. | Reproducible test report |
 
+| NFR-CFG-001 | Configuration governance | Every customer-configurable property MUST have a catalogue definition for type, default, allowed values, scope, inheritance, validation, owner, permission, effective dates and audit requirements. | Configuration catalogue completeness audit |
+| NFR-CFG-002 | Safe overrides | Tenant/Branch/site overrides MUST be allowed only for explicitly overrideable keys; fixed invariants and locked parent policies MUST not be weakened by narrower scopes. | Precedence, invalid-override and fail-closed tests |
+| NFR-CFG-003 | Configuration lifecycle | Material configuration changes MUST support validation, preview/simulation where relevant, versioning, effective dating, approval where required, audit and safe rollback without rewriting historical transactions. | Draft/publish/rollback and historical-snapshot tests |
+| NFR-CFG-004 | Customer customization | Supported branding, labels, templates, forms, reports and custom metadata MUST be tenant-scoped, permission-controlled, exportable and upgrade-compatible; they MUST NOT alter canonical financial/quantity/stock facts. | Tenant customization isolation, export and upgrade tests |
+| NFR-EXT-001 | Extension contracts | Extensions and integrations MUST use documented, versioned APIs/events/contracts and MUST NOT write directly to another module's private persistence. | Contract and module-boundary tests |
+| NFR-EXT-002 | Extension security | Every extension MUST have declared identity, Tenant binding, permissions, data scope, secrets, resource limits, audit and revocation lifecycle. | Extension permission, isolation and revocation tests |
+| NFR-EXT-003 | Extension resilience | Extension/provider failure, retries, timeouts and duplicate events MUST NOT corrupt or block unrelated authoritative business transactions. | Fault-injection, replay and reconciliation tests |
+| NFR-MOD-001 | Module autonomy | Each domain module MUST own its authoritative business rules and writes; inter-module dependencies MUST use documented contracts and avoid circular dependencies/private-data writes. | Dependency and unauthorized-write tests |
+| NFR-MOD-002 | Extraction readiness | Module boundaries MUST permit future service extraction when scale, security, availability or operational evidence justifies it, without requiring premature microservice deployment. | Boundary/ADR and contract review |
+| NFR-SCALE-001 | Scale-down and scale-up | Small and enterprise Tenants MUST use the same product semantics while capabilities and resources scale proportionately; small Tenants MUST not require enterprise-only setup. | Small/medium/large Tenant journey and workload tests |
+| NFR-SCALE-002 | Isolation-tier portability | Tenant resource placement MUST be capable of evolving from pooled to selected bridge/silo resources where justified, preserving data, permissions, audit, integrations and API compatibility. | Tenant migration/restore rehearsal |
+| NFR-SCALE-003 | Configuration and tenant fairness | Configuration, bulk operations and extensions MUST be subject to tenant-aware quotas, bounded resource use and overload controls. | Noisy-neighbour and quota-exhaustion tests |
+
 ## 3. Workload and capacity model
 
 Capacity targets must be based on explicit workload scenarios, not assumptions about the development VPS. The architecture evaluation must model at least:
@@ -146,12 +159,12 @@ For each quality requirement, retain:
 
 | Decision | NFR impact |
 |---|---|
-| ODR-004/005 | Membership, role/scope model, delegation and authorization complexity |
+| ODR-004/005 | Membership/cardinality and the exhaustive module-level permission catalogue, while permission-first authorization is approved |
 | ODR-019/020 | Client strategy and offline guarantees |
 | ODR-021 | Notification reliability, consent, provider fallback and retry policy |
 | ODR-022/023/024 | Analytics freshness, forecast quality and workload |
 | ODR-026 | Retention, archival, export, deletion and legal holds |
-| ODR-027 | Capacity, performance, throughput and scale targets |
+| ODR-027 | Workload envelope, performance and capacity targets |
 | ODR-028 | Availability, backup, RPO/RTO and disaster recovery |
 | ODR-029/030 | Integration and technology choices |
 | ODR-031 | Production topology, isolation tiers and resilience |
