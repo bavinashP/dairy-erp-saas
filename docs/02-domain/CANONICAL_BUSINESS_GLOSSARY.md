@@ -60,11 +60,11 @@
 | Raw Milk | Milk received before the tenant's processing/packing step | Distinct from packaged finished goods |
 | Batch / Lot | Traceable group of material or products sharing production/receipt identity | Traceability depth depends on activity profile and applicable rules |
 | Processing | Transformation of raw materials into another product | Optional capability; requires yield, loss, and traceability controls |
-| Stock Movement | Auditable change in stock quantity/location/status | Source document and movement should be linked |
+| Stock Movement | Authoritative posted change in stock quantity/location/status in the inventory ledger | Distinct from physical custody; link a CustodyEvent where both facts occur, without duplicate stock effects |
 | Stock Ledger | Authoritative record of posted stock movements | Stock balances are derived from controlled movements |
 | Stock Status | Availability classification of inventory | Available, reserved, quarantined, damaged, expired and in-transit must remain distinct |
 | Stock Reservation | Commitment of available stock to planned demand | Not automatically a physical issue or sale |
-| Stock Transfer | Movement of stock custody between authorized locations | Not a sale or purchase; dispatch and receipt may be separate events |
+| Stock Transfer | Controlled inventory transaction moving stock between authorized stock locations or ownership scopes | Not a sale or purchase; stock-ledger dispatch/receipt and physical custody handover are linked but distinct events |
 | Physical Stock Count | Recorded physical quantity verification | Variances require controlled adjustment and audit |
 | Supplier Batch | Original batch reference assigned by supplier/manufacturer | Not assumed globally unique |
 | Production Batch | Traceable execution of a defined production process | Retains process version, inputs, outputs and deviations |
@@ -168,4 +168,3 @@
 | Custody Incident | Reported discrepancy or exception affecting custody, condition, quantity, location or evidence | Report does not automatically establish fault, liability or financial effect |
 | Shared Resource | Facility, equipment, vehicle, device or other resource explicitly made available to more than one Branch/capability | Shared use does not transfer ownership or grant unrelated data access |
 | Shared Resource Use | Recorded use/booking of a shared resource by an authorized Branch/capability and actor | Usage, maintenance, custody and cost allocation are separately governed |
-| Stock Movement | Authoritative posted quantity/location/status effect in the inventory ledger | Distinct from a CustodyEvent; linked where both occur |
