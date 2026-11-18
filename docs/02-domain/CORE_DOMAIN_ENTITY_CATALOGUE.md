@@ -44,7 +44,7 @@
 | Permission Bundle Version | Immutable published snapshot of registered permission keys included in a Tenant bundle or platform starter | RoleAssignment references an explicit version; no silent permission widening |
 | Extension Permission Registration | Versioned namespaced permission definition for declared extension resources/actions and data contract | Registration does not grant access; installation/activation remains separate from Tenant assignment and host grants |
 | Approval Policy | Conditions, limits, and required approver |
-| Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegate`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
+| Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegation.create`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
 | Device / Session | Authentication and session lifecycle |
 | Support Access Grant | Explicit platform-to-tenant support authorization |
 | Audit Event | Who did what, when, from which context, and outcome |
