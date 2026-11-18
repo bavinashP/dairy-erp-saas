@@ -171,3 +171,12 @@ The catalogue does not determine physical database design, primary key format, t
 
 
 **Authorization invariant:** User accounts authenticate actors but do not confer business permissions. No role title, job title, seniority or account type independently grants visibility, action, approval, export or administration. Customer-configurable permission assignments are the sole source of business authority, subject to fixed platform invariants and scoped authorization checks. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md`.
+
+
+## Membership and workforce assignment concepts
+
+| Concept | Responsibility | Boundary |
+|---|---|---|
+| Tenant Membership | Independent association between a global User Account and one Tenant, with its own effective status and lifecycle | One current membership per user/Tenant pair; multiple Tenants are independent security contexts |
+| Membership Branch Assignment | Records workforce/operating context for a Tenant member at one or more Branches, optionally identifying one current Home/Primary Branch | Never grants read/write/approval permission; access is controlled separately by Permission Assignments and scope |
+| Permission Assignment | Grants explicit atomic capabilities to a principal/group within declared scope, validity and limits | Sole source of business access authority; role bundles are optional packaging only |
