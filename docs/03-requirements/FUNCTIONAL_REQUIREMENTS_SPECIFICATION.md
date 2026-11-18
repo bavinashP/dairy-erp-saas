@@ -74,7 +74,7 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 
 ### 4.1 Customer-configurable permission governance
 
-The Tenant MUST be able to configure eligible permission bundles and permission assignments for its users/groups, subject to fixed platform controls and the assigning actor's own delegated authority. Roles are optional editable bundles only. Direct principal and governed group permission assignments MUST be supported with explicit allow/deny, resource scope, limits, purpose and effective period. Explicit deny, default deny, fail-closed conflict handling, change audit and cross-channel revocation are mandatory. The canonical product-wide atomic key inventory and metadata requirements are governed by ARC-IAM-CAT-001 section 15 and ODR-005 section 16.39. See ARC-IAM-001, ARC-AUTH-MATRIX-001 and BR-FIX-024.
+The Tenant MUST be able to configure eligible permission bundles and permission assignments for its users/groups, subject to fixed platform controls and the assigning actor's own delegated authority. Roles are optional editable bundles only. Direct principal and governed group permission assignments MUST be supported with explicit allow/deny, resource scope, limits, purpose and effective period. Explicit deny, default deny, fail-closed conflict handling, change audit and cross-channel revocation are mandatory. The canonical product-wide atomic key inventory and metadata requirements are governed only by ARC-IAM-CAT-001 section 15 and ODR-005 section 16.39; domain-level approval/risk controls are governed by ARC-IAM-CTRL-001 and ODR-005 section 16.41. See ARC-IAM-001, ARC-AUTH-MATRIX-001 and BR-FIX-024.
 
 ### 4.2 Cross-Branch shared-site stock-task grants
 
