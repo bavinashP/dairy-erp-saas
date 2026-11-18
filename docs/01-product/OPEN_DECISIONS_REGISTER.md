@@ -12,7 +12,7 @@
 | ODR-005 | Authorization | Define the exhaustive atomic permission catalogue across all dairy modules and remaining domain approval/scope policies. The permission-first model, tenant configurability, fail-closed precedence and cross-Branch stock-task matrix are approved under ODR-002 section 16.7 and ARC-PV-001. | Cross-module access and segregation of duties | Maintain the canonical v1 key inventory in ARC-IAM-CAT-001; complete each module's exact resource/state/API mapping, thresholds, sensitive fields and automated coverage before implementation | **Partially resolved — recommended product-wide atomic permission catalogue v1 selected in ARC-IAM-CAT-001 section 15 (2026-11-19); cross-cutting model and cross-Branch baseline are resolved. Domain-specific approval thresholds, detailed field/API mapping and acceptance coverage remain implementation-readiness gates, not permission-key design blockers.** |
 | ODR-006 | Customer subscription lifecycle | Define effective-dated agreement changes, pause/resume, skip, holiday, substitution, cancellation and reinstatement. | Delivery, billing, stock, balances | Subscription state/exception baseline in section 16.10; validate edge cases through worked scenarios | **Recommended baseline selected under delegated decision mandate; domain-specific commercial and cut-off settings remain configurable.** |
 | ODR-007 | Recurrence and schedule policy | Define recurrence anchors, intervals, selected weekdays, shifts, calendars, cut-offs, precedence and schedule versioning. | Delivery planning and correctness | Recurrence baseline in section 16.11; validate generation/idempotency and exception scenarios | **Recommended baseline selected under delegated decision mandate; Tenant/Branch service calendars and permitted cut-offs remain configurable.** |
-| ODR-008 | Units, precision and rounding | Define canonical unit dimensions, product base UOM, device resolution, workflow precision, conversion and financial rounding boundaries. | Procurement, inventory, pricing, billing and Tally interoperability | Precision architecture selected in QUANTITY_UOM_PRECISION_AND_MONEY_ROUNDING_ANALYSIS.md; finish device/workflow evidence and transaction-specific commercial/accounting rounding test vectors | **Partially resolved — precision architecture selected; measurement catalogue and transaction-specific commercial/statutory policies remain evidence-gated.** |
+| ODR-008 | Units, precision and rounding | Define canonical unit dimensions, product/SKU base UOM, device resolution, workflow precision, conversion and financial rounding boundaries. | Procurement, inventory, pricing, billing, statutory measurement and Tally interoperability | Canonical unit dimensions, SKU-level base UOM, pack/content separation, precision layers, contextual conversion governance, decimal arithmetic, rounding hierarchy and Tally precision-loss controls selected in DBR-004; complete instrument/process test vectors and transaction-specific statutory/accounting rules under their owning ODRs | **Partially resolved — recommended domain baseline selected in DBR-004 and section 16.40 (2026-11-19); exact device tolerances, validated workflow profiles, Legal Metrology applicability, statutory tax rules, inventory valuation and Tally-version precision remain evidence-gated.** |
 | ODR-009 | Milk quality and testing | Define quality profiles, sample/test records, methods, result states, acceptance/hold/rejection and traceability. | Procurement settlement, processing and food safety | Configurable quality-profile baseline in section 16.12; validate device methods and post-project legal/food-safety applicability | **Recommended baseline selected under delegated decision mandate; legal thresholds and specific instrument methods remain evidence-gated.** |
 | ODR-010 | Procurement rates and farmer settlement | Define effective-dated rate charts, quality-linked calculations, deductions, advances, settlement periods and disputes. | Supplier balances, procurement incentives and accounting | Versioned rate-chart and settlement baseline in section 16.13; validate example calculations with representative dairy workflows | **Recommended baseline selected under delegated decision mandate; tenant-specific commercial formulas and values remain configurable.** |
 | ODR-011 | Processing and packaging | Define optional process profiles, versioned recipes, input/output/by-product/loss, batch lineage, quality release and yield tolerance. | Manufacturing, stock, cost and recall | Optional, versioned process baseline in section 16.14; validate representative process families and mass-balance evidence | **Recommended baseline selected under delegated decision mandate; process templates and tolerances remain product/process configurable.** |
@@ -1284,3 +1284,61 @@ Record every create, submit, validation failure, approval, rejection, activation
 
 **Remaining boundary:** ODR-005 remains partially open for domain-specific numeric approval thresholds, exact resource/state/API mapping, sensitive-field classification and automated coverage for each finalized workflow. This is a controlled implementation-readiness gate; it does not mean the product-wide v1 permission-key inventory is incomplete.
 
+
+
+### 16.40 — ODR-008: Canonical UOM, quantity precision, conversion and monetary rounding baseline
+
+**Status:** Recommended domain baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This records the common product rules; it is not a final legal-metrology, tax or accounting opinion and does not approve exact device tolerances or every Tenant-specific commercial formula.
+
+**Selected unit model**
+- Use a platform-governed, versioned, language-neutral UOM catalogue with explicit dimension identities. The initial dimensions are mass, volume, count, time and temperature; length/area, energy/power and density/ratio/concentration are available where documented workflows require them.
+- Use metric/SI-aligned canonical units. Common units include mg/g/kg/tonne, mL/L/kL, discrete each/piece/can/bottle/pack/crate/carton/pallet, s/min/h/day and °C/K. Legal trade/pre-package units and instrument applicability remain subject to current Legal Metrology review.
+- Stable machine identifiers, dimensions and standard symbols are platform-governed. Tenants may customize labels/translations and register governed tenant-specific units or packaging denominations only within validated dimensional semantics. A Tenant may not redefine or collide with canonical unit identities.
+- A pack count and pack content are separate quantities. PackDefinitionVersion records the SKU/package, count unit, content quantity/UOM and packaging level. Packing/unpacking/breaking a case is an explicit product/stock transformation, not generic count-to-volume/mass conversion.
+
+**Product and stock base UOM**
+- Every stock-managed SKU has exactly one authoritative stock base UOM at a time. Product may provide a default where variants are dimensionally compatible; the SKU-level resolved assignment is authoritative.
+- SKUs under one Product may use different base UOMs where their inventory identity or packaging model requires it. A non-stockable service/fee does not require a stock base UOM.
+- Each transaction preserves original entered quantity/UOM, source precision, normalized base quantity, conversion rule/version, precision profile and relevant evidence. Reports disclose display UOM/conversion basis.
+- Changing a SKU's base UOM is prospective and effective-dated; it never reinterprets historic stock. A controlled migration/reconciliation or new SKU is required where safe conversion is not possible.
+
+**Conversion and quantity integrity**
+- Same-dimension standard conversions may use exact canonical factors (e.g. kg↔g, L↔mL). Count/pack hierarchy conversions require explicit product-specific definitions.
+- Generic cross-dimensional conversions are prohibited. Litres and kilograms are not interchangeable by assumption. Milk mass-volume conversion requires a documented, approved and versioned contextual basis (such as density and temperature conditions); the source and derived values remain separate.
+- Temperature conversions support the required scale offset and remain measurement attributes, not stock quantity arithmetic.
+- Conversion rules include source/target dimension, factor/formula, applicability, conditions, effective dates, version, precision/rounding, verification evidence, reversibility and tolerance.
+- Source measurements are preserved. Measured, submitted, accepted, rejected, quarantined, converted, reserved, dispatched, delivered, returned, adjusted and posted values remain distinguishable.
+- Instrument accuracy/calibration, source resolution, stored precision, calculation precision, posting precision, display precision and acceptance tolerance are separate policies.
+
+**Precision and arithmetic**
+- No single Tenant-wide/database-wide decimal scale is selected. Platform owns a tested precision catalogue by UOM, device/method, workflow and posting context; Tenants may select supported profiles and narrower bounds, never arbitrary unsupported scales or false accuracy.
+- Authoritative quantity/rate/money arithmetic uses exact decimal/fixed-point semantics. Binary floating-point is not a source of truth.
+- Intermediate calculations retain adequate precision; rounding occurs only at declared versioned boundaries. Measurement/business tolerance is not rounding and cannot rewrite raw evidence.
+- Ordinary INR posting defaults to rupees and paise (two decimal places); per-unit rates/cost rates and calculations may retain higher supported precision. Ordinary commercial rounding defaults to HALF_UP at a declared boundary where no stricter legal/contract rule applies. This is a versioned commercial default, not a universal statutory rule.
+- Negative values, credit notes, refunds and reversals use deterministic sign-symmetric treatment and preserve the original calculation/policy version. Journals balance exactly at the approved currency posting precision; any rounding adjustment follows an explicit, auditable posting rule.
+
+**Statutory and external compatibility boundary**
+- CGST Act 2017 section 170 applies nearest-rupee rounding to tax, interest, penalty, fine and other amounts payable/refundable under that Act. It is not a blanket whole-rupee rounding rule for all commercial prices, farmer rates or internal stock values. Apply only within verified legal scope and exact transaction context; detailed tax applicability remains ODR-016.
+- Legal Metrology Act 2009 and current Central/State rules govern metric/standard units and particular trade, instrument, package and declaration requirements. Exact product/activity applicability and current amendments require official review before a hard enforcement rule is enabled.
+- TallyPrime documentation last updated 14 October 2026 describes up to four decimal places for UOMs; currency setup documents a default two decimals with configuration up to four. The SaaS precision model remains vendor-neutral and is not capped globally at Tally limits. Target company/release/build capabilities must be tested; unsupported precision must be explicitly reported and blocked or handled through a separately approved loss/mapping policy, never silently truncated.
+- Tally exchange uses decimal strings and versioned UOM/currency/conversion mappings. A proof of concept with disposable target company data is required before a release is declared supported.
+
+**Configuration and extensibility**
+- Fixed: canonical dimensions/semantics, compatibility checks, original measurement evidence, exact authoritative arithmetic, historical versioning, audit and no silent precision loss.
+- Tenant-configurable: enabled supported UOMs, SKU base-UOM choices, validated input precision profiles, permitted conversions, pack definitions, workflow tolerances and ordinary commercial rounding profiles within supported/legal limits.
+- Extensible: new dimensions, units, measurement methods, conversion strategies and external mappings via registered/versioned contracts and tests; extension cannot redefine canonical core units or bypass legal/precision controls.
+
+**Affected documents**
+- Canonical analysis: `docs/03-requirements/QUANTITY_UOM_PRECISION_AND_MONEY_ROUNDING_ANALYSIS.md` (DBR-004).
+- FRS UOM/quantity requirements, ERS UOM and conversion concepts, Business Rules Catalogue, RTM, NFR, Quality Strategy, Milk Collection, Inventory, Processing, Billing, Accounting, Tally mapping and India regulatory research register must use the same baseline.
+
+**Verification and remaining dependencies**
+- No incompatible-dimension arithmetic or generic cross-dimensional conversion.
+- One active base UOM per stock-managed SKU/effective interval; historical stock unchanged after a prospective UOM change.
+- Pack count/content and packaging transformation remain separate.
+- Source measurements, conversion inputs and policy versions are reproducible.
+- Tolerance is not rounding; exact decimal arithmetic and journal balance are enforced.
+- Tally lower precision causes visible block/approved mapped handling, never silent truncation.
+- Numeric device resolution/accuracy, process tolerances, statutory tax/document rounding, inventory valuation and target-version Tally limits remain under ODR-009/010/011/012/016/017/029 and the applicable evidence/review gates.
+
+**Source basis:** BIPM SI units and accepted units; Legal Metrology Act 2009 sections 4, 5, 7, 10 and 11; CGST Act 2017 section 170; TallyHelp UOM and currency setup guidance last updated 14 October 2026. Exact source links and scope notes are recorded in DBR-004 section 13.
