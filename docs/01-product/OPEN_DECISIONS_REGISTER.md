@@ -1174,6 +1174,7 @@ There is no general silent pause, grace or automatic renewal state. Where access
 
 **Activation and time semantics**
 - Effective start is inclusive and effective end is exclusive.
+- A grant request with an effective end at or before its effective start is invalid and cannot be submitted or approved.
 - A version is usable only after the exact approval has committed and the effective start has arrived. If approval commits after the requested effective start, authorization begins no earlier than the approval commit time; no action performed before approval is retroactively authorized.
 - Server-side authorization is evaluated using the authoritative instant, not the device clock or a stale client countdown.
 - The exact grant version and its approval decision are revalidated at each stock-affecting state transition and again at the commit boundary.
