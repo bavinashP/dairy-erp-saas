@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, must approve each cross-branch stock-task grant before it becomes effective; a no-blanket-consent baseline with separate workforce-assignment authorization is recommended in section 16.6. Grant-expiry notification timing and zero-grace baseline are recommended in section 16.5; notification channel/provider delivery remains under ODR-021. The separate workforce-assignment boundary is recommended in section 16.6; the shared-site custody/accountability domain baseline is selected in section 16.36; detailed workflow edge cases remain subject to domain validation, while legal ownership/liability/insurance and contractual allocation remain external-review matters; the complete permission matrix is resolved in section 16.7. Delegated approval is resolved by the separately approved policy below | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site/stock-segregation, limited cross-Branch stock-task grant, delegated approval, grant lifecycle, expiry, workforce-assignment, permission-matrix, custody/accountability and route/run/dispatch execution baselines are resolved or selected in sections 16.1–16.7 and 16.36–16.37. Remaining dependencies are scenario validation and external legal/contract/insurance/vehicle-qualification applicability review; these do not block the operational domain baseline.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, must approve each cross-branch stock-task grant before it becomes effective; a no-blanket-consent baseline with separate workforce-assignment authorization is recommended in section 16.6. Grant-expiry notification timing and zero-grace baseline are recommended in section 16.5; notification channel/provider delivery remains under ODR-021. The separate workforce-assignment boundary is recommended in section 16.6; the shared-site custody/accountability domain baseline is selected in section 16.36; detailed workflow edge cases remain subject to domain validation, while legal ownership/liability/insurance and contractual allocation remain external-review matters; the complete permission matrix is resolved in section 16.7. Delegated approval is resolved by the separately approved policy below | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site/stock-segregation, limited cross-Branch stock-task grant, delegated approval, grant lifecycle, expiry, workforce-assignment, permission-matrix, custody/accountability, route/run/dispatch and detailed grant-version/task-reconciliation baselines are resolved or selected in sections 16.1–16.7 and 16.36–16.38. Remaining dependencies are scenario validation and external legal/contract/insurance/vehicle-qualification applicability review; these do not block the operational domain baseline.** |
 | ODR-003 | Tenant legal/accounting identity | Define Tenant-to-LegalEntity, TaxRegistration and AccountingBook cardinalities and applicability. | Legal identity, tax, accounting, Tally mapping and reporting | Preserve conceptual separation now; conduct current official legal/tax and qualified accounting review after project completion as explicitly directed by the product owner | **Deferred — post-project legal/accounting review; not a current development blocker. Do not infer legal cardinality.** |
 | ODR-004 | User membership | Define multi-Tenant membership and within-Tenant Branch assignments. | Identity, authorization, session context and workforce operations | Apply the permission-first membership model in section 16.9; retain independent Tenant isolation and explicit Branch permissions | **Resolved — recommended membership baseline selected under the product owner's delegated decision mandate (2026-11-19); see section 16.9.** |
 | ODR-005 | Authorization | Define the exhaustive atomic permission catalogue across all dairy modules and remaining domain approval/scope policies. The permission-first model, tenant configurability, fail-closed precedence and cross-Branch stock-task matrix are approved under ODR-002 section 16.7 and ARC-PV-001. | Cross-module access and segregation of duties | Complete module-by-module permission inventory, sensitive-field permissions, domain approval policies and automated coverage | **Partially resolved — cross-cutting model and cross-Branch baseline resolved; module-level permission catalogue and domain-specific approval rules remain in progress.** |
@@ -1122,4 +1122,132 @@ Exact driver licence/qualification categories, vehicle fitness/insurance/permit 
 - GS1 Global Traceability Standard — Critical Tracking Events and Key Data Elements: https://support.gs1.org/support/solutions/articles/43000734535-what-is-the-gs1-traceability-standard
 
 These sources inform operational design and do not replace legal advice or activity-specific compliance review.
+
+
+
+### 16.38 — ODR-002: Detailed StockTaskAccessGrant lifecycle, versioning and in-progress task reconciliation
+
+**Status:** Recommended engineering/domain baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This fills in the lifecycle implementation semantics around the previously approved grant-approval, immediate revocation/expiry, task-hold and reconciliation policies. It does not change those approved decisions or create a broader access right.
+
+**Purpose and fixed boundary**
+
+A StockTaskAccessGrant is a narrowly scoped, Tenant-bound authorization exception that allows one named worker to perform explicitly permitted stock-handling actions for a stock-owning Branch at a shared site. The grant is not Branch membership, a workforce assignment, an inventory ownership change, a general task role or a substitute for the worker's independently effective permission.
+
+The worker may act only while all of the following are concurrently valid:
+1. The grant version is approved, active and within its effective period.
+2. The worker's account and Tenant membership are active.
+3. The worker independently holds every required permission for the exact action and resource.
+4. The exact Branch, OperatingLocation, StockLocation, stock/item/lot and task scope are covered.
+5. The configured quantity/value limits and task conditions are satisfied.
+6. Any workforce assignment required by the active Tenant workforce policy is valid.
+7. No fixed safety, quality, ownership, segregation-of-duties, incident hold or other higher-order prohibition blocks the action.
+
+Missing, expired, revoked, conflicting or unverifiable conditions default to deny. The approved cross-Branch permission matrix in section 16.7 remains authoritative.
+
+**Grant identity and version model**
+
+- A grant is created for one named human worker and one stock-owning/target Branch. Group, role-wide, team-wide or anonymous grants are prohibited.
+- A grant's approved authorization envelope identifies, at minimum: Tenant; named worker and their normal/home Branch context where recorded; stock-owning Branch; shared OperatingLocation; one or more explicitly enumerated StockLocations; permitted atomic actions; permitted stock/product/lot/task scope as applicable; quantity/value limits and UOM where relevant; effective start/end; granting/requesting authority; business reason; and any required workforce-assignment reference.
+- Each submitted material authorization envelope is frozen as an immutable GrantVersion with a version identifier and canonical payload hash/reference. Approval is bound to that exact version, payload and policy version.
+- Material changes include changing the worker, stock-owning Branch, OperatingLocation/StockLocation, action set, product/lot/task scope, quantity/value limit or effective period. A material change creates a new immutable version and requires fresh stock-owning-Branch approval before use. Draft-only edits before submission do not create authority.
+- An approved version is never edited in place. Historical versions, decisions and actions remain available for audit. A rejected version cannot be silently edited into an approved version; submit a new version/request.
+- A change of worker is treated as a new grant request for the replacement worker, not a transfer of the former worker's authority. The stock-owning Branch approval is repeated for the new worker and exact scope.
+
+**Recommended authorization lifecycle**
+
+The authoritative state of the grant version follows this lifecycle:
+
+`Draft → Submitted → Pending Approval → Approved / Scheduled → Active → Superseded / Expired / Revoked / Invalidated`
+
+- **Draft:** Created but incomplete/editable. It authorizes nothing.
+- **Submitted:** Required fields and eligibility validations pass; the version is frozen for review. It authorizes nothing.
+- **Pending Approval:** Awaiting approval by an authorized user holding the required stock-owning-Branch approval permission, or a currently valid delegate within section 16.4. It authorizes nothing.
+- **Rejected:** An immutable terminal outcome for that version, with reason and reviewer evidence. A new version/request is needed for reconsideration.
+- **Approved / Scheduled:** Exact version approved, but its effective start is in the future. It authorizes nothing before the effective start.
+- **Active:** Approval and every independent eligibility condition are valid, and the current instant is at or after effective start and strictly before effective end.
+- **Superseded:** A successor version becomes effective. The earlier version stops authorizing new work at the exact successor effective-start instant; history is retained.
+- **Expired:** The exact effective end instant has been reached. Effective end is exclusive. New tasks and further stock-affecting actions are denied with zero grace.
+- **Revoked:** An authorized revocation has taken effect immediately. New tasks and further stock-affecting actions are denied immediately.
+- **Invalidated:** A mandatory eligibility prerequisite has ceased to be valid, such as worker account/Tenant membership suspension or revocation, loss of the worker's independent required action permission, expiry/revocation of a workforce assignment required by Tenant policy, target Branch deactivation, or loss/change of the grant's stock-owning Branch/StockLocation relationship. Invalidation denies further actions and requires a fresh approved grant after eligibility is restored.
+
+There is no general silent pause, grace or automatic renewal state. Where access must stop, revoke or allow invalidation to apply; a later return to work requires a valid new/reapproved grant version.
+
+**Activation and time semantics**
+- Effective start is inclusive and effective end is exclusive.
+- A version is usable only after the exact approval has committed and the effective start has arrived.
+- Server-side authorization is evaluated using the authoritative instant, not the device clock or a stale client countdown.
+- The exact grant version and its approval decision are revalidated at each stock-affecting state transition and again at the commit boundary.
+- A pending, failed, delayed or unread notification, a pending extension request, an offline command created earlier, or a UI state must never extend the effective period.
+- No universal maximum grant duration is invented by this baseline. Tenant policy may impose shorter maximum duration, task/quantity limits, review thresholds and evidence requirements. The zero-grace end boundary, explicit approval and least-privilege constraints cannot be weakened.
+
+**Amendment and extension rules**
+- Any material amendment needs a new approved version before the changed scope can be used.
+- An extension is a successor GrantVersion, not an edit to the active version. The successor must be approved and committed before the current version reaches its exact effective end.
+- For a continuous extension, the successor must become effective no later than the current version's effective end; when it becomes effective, the predecessor is superseded. Versions must not overlap in a way that makes the active scope ambiguous.
+- If approval is still pending at the current version's expiry, the old version expires normally. There is no grace or temporary continuation. A later approval is a new grant and cannot retroactively authorize actions performed during the gap.
+- Narrowing, widening, replacing or changing the permitted action/stock/worker/limit envelope is material and follows the same version/approval rule.
+
+**Revocation and automatic invalidation**
+- A user with the dedicated scoped grant-revocation authority for the stock-owning Branch may revoke the grant. The stock-owning Branch's authorized approval authority may also revoke within its granted scope. Revocation takes effect immediately when the authoritative revocation commits.
+- A pending request may be withdrawn by its requester where the requester still has the required request authority; a stock-owning-Branch reviewer may reject it. A submitted/pending request never grants temporary access.
+- Automatic invalidation occurs when the named worker's account or relevant Tenant membership is suspended/revoked; the worker loses an independently required stock action permission; a workforce assignment required by active Tenant policy expires or is revoked; the stock-owning Branch becomes inactive; or the authorized stock/location ownership relationship ceases to match the grant.
+- Loss of the original requester/creator's later access does not by itself erase an already approved grant. Loss of a grant approver's permission after a valid approval does not retroactively invalidate a committed decision; a suspected invalid approval must be explicitly reviewed and, if necessary, revoked. The actual actor and approval-time authority evidence remain preserved.
+- Revocation/invalidation does not erase completed transactions or imply physical custody has changed.
+
+**Separate operational task and reconciliation lifecycle**
+
+Grant authorization and the state of physical work are independent. A grant may become revoked/expired/invalidated while a task is still in progress or stock remains physically held.
+
+The recommended StockTask lifecycle after an authorization-ending event is:
+
+`Open / In Progress → Held for Review → Reauthorization Required / Reassignment Required / Controlled Closure → Reconciled / Closed`
+
+- The system identifies all open tasks that reference the ended grant version and places affected tasks into a held/review-required state.
+- A hold blocks new tasks and further stock-affecting transitions under the ended grant. It preserves completed steps, posted movements, quantities, last verified custodian/location, evidence, source versions and outstanding work.
+- Completed stock-affecting steps remain immutable. Uncommitted/queued/offline commands are not accepted as authorized stock writes after expiry/revocation; any physical observations may be retained as unverified evidence for review if separately permitted.
+- A held task is not auto-completed, auto-cancelled, auto-rolled-back or assumed returned. The system must not fabricate a custody transfer or silently restore stock.
+- **Reauthorization:** The same named worker may continue only when a new/current grant version is approved for the exact remaining task/action/scope and the worker's independent permission and any required workforce assignment remain valid.
+- **Reassignment:** A different worker requires a new StockTaskAccessGrant/request/approved version for that worker plus any required workforce assignment and an actual custody handover where goods change hands. The former worker's authority is not transferred.
+- **Controlled closure/cancellation:** An authorized user with the exact stock-owning-Branch review/reconciliation permission decides whether the remaining work can be cancelled/closed. Partial physical handling, committed stock movements and outstanding custody/quantity must be reconciled through linked correction/compensation records; original events remain.
+- **Escalation:** If custody, quantity, location or condition cannot be established, retain an open discrepancy/incident and its accountable reviewer. Do not mark the task reconciled merely to clear a queue.
+- Non-mutating safety/incident reporting and audit capture may continue under their independent permissions; this never authorizes a stock mutation.
+
+The task hold and reconciliation state is stored separately from the grant authorization state. A revoked grant can therefore remain revoked while the linked task remains under review until actual physical and ledger consequences are reconciled.
+
+**Notification boundary**
+
+The selected notice/reminder schedule in section 16.5 continues to apply. Grant lifecycle state and authorization enforcement are authoritative even when notification delivery fails. Task-hold/reassignment notices may be generated from committed state changes, but they do not grant authority, complete custody handover or change expiry.
+
+**Concurrency, idempotency and failure handling**
+- Grant-version approval, activation, supersession, expiry, revocation and invalidation are versioned state transitions with unique command identity and audit evidence.
+- The grant's current state, worker membership, independent action permission, task scope, quantity limits and required workforce assignment must be checked at the same authoritative commit boundary as every stock-affecting transition.
+- Revocation/expiry and an in-flight stock action must be serialized or otherwise coordinated so the operation either commits while authorization is valid or is denied; it cannot commit after an ended version has won the race.
+- A successor version and predecessor expiry must be coordinated so no accidental overlapping active versions or implicit grace occurs.
+- Duplicate approve/reject/revoke/extension/stock-task commands return the original committed outcome or a conflict; they must not create duplicate approval actions, grant versions, stock movements or custody events.
+- A failed or uncertain stock operation is reconciled against the authoritative ledger and custody evidence. No distributed rollback or exactly-once guarantee is assumed; correction/compensation events are explicit.
+
+**Audit requirements**
+Record every create, submit, validation failure, approval, rejection, activation, supersession, amendment, extension, withdrawal, revocation, automatic invalidation, expiry, denied attempt, task hold, reauthorization, reassignment, handover, reconciliation, closure and escalation. Retain actor and authority evidence; requester/approver/delegate identities; grant and immutable version IDs/hash; worker and target stock-owning Branch; OperatingLocation/StockLocation/task/product/lot scope; action set and limits; effective dates; reason and evidence; approval policy/version; independent permission/workforce checks; actual stock/custody effects; task outcome; timestamps; and correlation/idempotency references. Do not store secrets in audit payloads.
+
+**Configuration and fixed boundaries**
+- Tenant policy may define grant defaults, maximum duration, allowed action subsets, quantity/value limits, mandatory task granularity, evidence requirements, approval thresholds and review/notification preferences within the platform permission catalogue.
+- These settings are versioned/effective-dated and audited. Only keys explicitly declared overrideable may be narrowed at Branch/site scope.
+- Tenant configuration cannot disable stock-owning-Branch approval, single-worker scope, independent worker permission, Tenant/Branch isolation, zero-grace expiry/revocation, task hold, immutable history, custody continuity, segregation of duties, atomic authorization/stock commit or explicit reconciliation.
+- Roles and job titles never grant grant-creation, approval, revocation or reconciliation authority.
+
+**Verification**
+- A draft/submitted/pending/rejected/scheduled grant cannot authorize a stock action.
+- Active access requires approved exact version, active membership, independent worker permission, exact resource/action/task scope, valid limits/time and required workforce assignment.
+- Approval by a stock-owning-Branch authorized user or valid delegate is bound to the immutable grant version/hash.
+- A material scope change, worker replacement or extension cannot be used before a new approved version.
+- Current version expires at exact exclusive end; reminders, offline clients and pending approvals never extend it.
+- Revocation and each automatic invalidation trigger immediately deny subsequent actions across APIs, mobile/barcode, jobs, exports and integrations.
+- A grant approval remains attributable and is not retroactively invalidated solely because the approver later loses access; a separately committed revocation ends current use.
+- Expiry/revocation while a worker holds stock preserves real custody and committed steps, places the task on hold and blocks further stock mutations.
+- Reauthorization of the same worker and reassignment to a different worker follow distinct approval/assignment paths.
+- Reconciliation preserves original events and uses linked correction/compensation records.
+- Race tests cover approval/rejection, version change, extension versus expiry, revocation versus stock commit, membership/permission/workforce invalidation, duplicate requests and offline command arrival.
+- Small and Enterprise profiles can use proportionate request/review interfaces while sharing the same fixed security and integrity semantics.
+
+**Related authoritative documents:** `../03-requirements/ENTITY_RELATIONSHIP_SPECIFICATION.md` sections 16.1–16.11; `../03-requirements/STATE_TRANSITION_MATRIX.md`; `../03-requirements/BUSINESS_RULES_CATALOGUE.md`; `../03-requirements/EXCEPTION_REVERSAL_AND_RECOVERY_MATRIX.md`; `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md`; `../04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md`; `../04-architecture/AUDIT_LOGGING_AND_OBSERVABILITY_ARCHITECTURE.md`; `../04-architecture/CONCURRENCY_TRANSACTION_INTEGRITY_AND_IDEMPOTENCY.md`; and Quality Engineering and Acceptance Test Strategy.
 
