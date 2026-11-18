@@ -84,6 +84,22 @@ This matrix applies when a named worker handles stock owned by another Branch at
 | Permission, role, grant or workforce administration | Deny | Separate access-administration/workforce permissions |
 | Safety/incident report and audit evidence | Allow minimum non-mutating reporting where explicitly permitted | Does not authorize stock mutation or unrelated data access |
 
+## 4.1 Cross-Branch delivery-run and transport assignment boundary
+
+The stock-task matrix in section 4 is not a general cross-Branch work grant. A StockTaskAccessGrant authorizes only its exact inventory actions and cannot authorize Route access, DeliveryRun assignment, customer-stop access, driving, delivery execution or receipt collection.
+
+For a worker assigned to a DeliveryRun owned by another Branch:
+- The Route and DeliveryRun remain owned by the same Branch; route/service-area ownership rules in ODR-002 section 16.37 still apply.
+- The participant must have an explicit delivery action permission scoped to the target run/Branch/assigned stops and a current run-personnel assignment.
+- Any shift, duty, attendance or workforce allocation required by Tenant policy must be separately authorized through the workforce workflow. Home/Primary Branch does not grant or veto run access automatically.
+- The participant sees only the minimum run/stop/customer information required for the assigned work. Reassignment/revocation blocks subsequent access and actions; physical custody of goods remains separately recorded until an actual handover or controlled resolution.
+- Vehicle/transport-resource assignment is separately permissioned and scoped. Vehicle ownership, driver duty label or asset custody does not grant access to a run or customer data.
+- Dispatch, stop execution, proof capture, cash/receipt capture, exception review and run closure are distinct actions. Each requires its own permission and applicable scope/limit.
+- External carriers or temporary participants receive only a bounded task/connection identity where supported; this does not create broad Tenant membership or a customer self-service account.
+- Cross-Branch run reassignment, route deviation or replacement resource must be audited and cannot borrow another Branch's Route or customer allocation implicitly.
+
+A missing permission, workforce assignment required by policy, active run assignment, valid resource, or Branch/Route ownership match defaults to deny. The stock-task grant, a job title, an account category or an existing Home Branch assignment cannot be used as a substitute.
+
 ## 5. Cross-channel enforcement
 
 The same authorization model applies to web, mobile, POS, barcode/scanner, API, reports, search, files/attachments, exports, analytics, scheduled/background jobs, webhooks and third-party integrations.
