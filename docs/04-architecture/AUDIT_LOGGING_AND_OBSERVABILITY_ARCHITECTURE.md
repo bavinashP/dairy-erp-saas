@@ -99,6 +99,19 @@ Do not store full request/response bodies by default. Any exceptional payload ca
 
 Not every ordinary read needs a durable audit event. Define read-audit requirements by data sensitivity, abuse risk and legal/contractual need to avoid excessive collection.
 
+### 5.5 Delivery route, assignment and dispatch accountability
+
+For every DeliveryPlan/DeliveryRun lifecycle, durably record where applicable:
+- Branch, Route/ManualRoute, ServiceArea assignments, route/plan/manifest version, business date/shift and source demand allocations.
+- Run creation/planning, stop allocation/split, accountable run assignee and each participant's operational duty, assignment/reassignment/revocation/expiry and current permission/workforce-policy basis.
+- Vehicle/transport-resource selection, booking interval, capacity/readiness checks, maintenance/inspection/cleaning/temperature evidence and replacement/release.
+- Pre-dispatch validation results, any independent approval, dispatch actor/permission, exact dispatched manifest/version, stock issue and linked custody handover identifiers.
+- Start/departure, stop attempt/outcome, actual quantities, route deviation/reordering, delay, hold/resume, safety/product-handling incident, breakdown, vehicle/participant replacement and return.
+- Offline/device command identity, source and server timestamps, idempotency/correlation references, conflict outcome and server-side authorization revalidation.
+- Run close or close-with-exceptions, reconciled delivered/returned/undelivered quantities, cash/receipt, reusable containers, unresolved custody and corrective events.
+
+Route, assignment and transport-resource changes after dispatch must be recorded as linked events; never overwrite the original manifest or assignment evidence. Audit must distinguish planned from actual route/vehicle/personnel and distinguish a user-entered assertion from independently verified evidence.
+
 ### 5.4 Custody and shared-resource accountability
 
 Where custody/resource tracking is enabled, durable business audit evidence must include:
