@@ -38,7 +38,7 @@ Do not add final legal/tax cardinalities or statutory behaviour by assumption. U
 | ARC-TEN-001 | Branch count is independent of GST registration; branch scope is checked separately from tenant scope | Never derive GST/legal identity from branch count |
 | ARC-SYS-001 | AccountingEntity/books scope remains separate from Tenant and Branch | Maintain the cross-document boundary |
 | ODR-001 | The business operating-model decision is resolved: one Tenant may support multiple dairy operating models and branches. Legal-form classification is deferred to the post-project legal review and is outside current development scope | Do not use legal-form classification as a current tenant onboarding or architecture blocker |
-| ODR-002 | Branch/outlet/collection/warehouse/processing/service-area taxonomy is unresolved | Location cardinalities and parentage are not final |
+| ODR-002 | Partially resolved: physical-site/capability, Branch/OperatingLocation and ServiceArea/Branch baselines approved; Route relationships and detailed shared-use/access policies remain open | Location and service-allocation baselines are partly approved; route cardinalities and governance details are not final |
 | ODR-003 | Whether one tenant may contain multiple legal entities or GST registrations is unresolved | Multi-entity/multi-registration cardinality is not approved |
 
 ## 3. Conceptual terms and boundaries
@@ -87,7 +87,7 @@ These capability labels describe what happens at the site; they do not require s
 
 **ServiceArea** remains a geographic coverage concept, not a physical OperatingLocation.
 
-**Decision status:** The product owner accepted the physical-site / multi-capability / separate-StockLocation distinction and the Branch/OperatingLocation relationship on 2026-11-18. A Branch is a tenant-owned management/operating unit and may be associated with multiple OperatingLocations. An OperatingLocation is tenant-owned and may be associated with a Branch, but mandatory Branch assignment is not required; tenant-level/unassigned locations are permitted conceptually. Shared use of one physical site by multiple Branches requires an explicit governed association and does not grant unrestricted cross-branch data access. ODR-002 remains open for ServiceArea/route relationships and detailed shared-use/access policies.
+**Decision status:** The product owner approved the physical-site / multi-capability / separate-StockLocation distinction, Branch/OperatingLocation relationship and ServiceArea/Branch relationship on 2026-11-18. A Branch is a tenant-owned management/operating unit and may be associated with multiple OperatingLocations. An OperatingLocation is tenant-owned and may be associated with a Branch, but mandatory Branch assignment is not required; tenant-level/unassigned locations are permitted conceptually. Shared use of one physical site by multiple Branches requires an explicit governed association and does not grant unrestricted cross-branch data access. A Branch may serve multiple ServiceAreas and a ServiceArea may be served by multiple Branches through an explicit effective-dated association; historical delivery records must retain their original context. ODR-002 remains open for Route relationships and detailed shared-use/access policies.
 
 ## 4. Candidate conceptual relationship model
 
@@ -278,7 +278,7 @@ ARC-SYS-001 currently uses “AccountingEntity/books scope” as a combined phra
 - No final decision that a tenant can or cannot contain multiple legal entities or GST registrations.
 - No final decision that every legal entity must have exactly one accounting book.
 - No assumption that every branch requires a GSTIN or separate books.
-- No final location hierarchy, shared-location policy or branch-to-location cardinality.
+- Route-to-Branch/ServiceArea cardinality, detailed shared-location governance and employee cross-branch access policies remain unresolved; the approved ServiceArea-to-Branch mapping is many-to-many and history-preserving.
 - No physical ERD, SQL DDL, ORM models, migrations, application code or database provisioning.
 - No change to ODR-001, ODR-002 or ODR-003 status.
 
