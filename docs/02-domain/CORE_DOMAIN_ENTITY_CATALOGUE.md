@@ -79,7 +79,7 @@ A person, employee profile, user account, and role assignment must not be collap
 | Order Line | Requested product and quantity |
 | Allocation | Reservation of available stock for demand |
 | ServiceArea | Geographic customer/service coverage area | Many-to-many with Branch through an explicit effective-dated service assignment; geography does not grant cross-branch access |
-| Delivery Route | Reusable or planned route |
+| Delivery Route | Reusable or planned route | Each Route has exactly one owning Branch; a Branch may own multiple Routes. Route coverage must stay within that Branch's effective ServiceArea assignments; another Branch uses its own Route |
 | Delivery Run | Dated execution of a route/shift |
 | Delivery Stop | Customer/location stop in a run |
 | Fulfilment Record | Actual delivered/handed-over quantity and result |
