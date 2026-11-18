@@ -134,3 +134,15 @@
 5. Distinguish actual, target, budget, forecast, and projection in every report.
 6. Where a term has legal meaning, verify it against applicable Indian law and official guidance before using it in customer-facing documents.
 7. New domain terms must be added here before being independently redefined in module documents.
+
+
+## Authorization terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| Permission | An atomic capability to view data or perform a specific action on a defined resource | Evaluated with explicit scope, validity, ownership and policy; never inferred from a title or account type |
+| Permission Assignment | An auditable grant of one or more permissions to an eligible principal/group, with applicable scope and effective period | May be granted, restricted, amended, expired or revoked only within the assigning authority's delegated permissions |
+| Permission Bundle | A customer-configurable collection of atomic permissions that may be reused for assignment | Optional convenience; bundle name/title has no independent authority |
+| Role | An optional named permission bundle used to organize assignments | Role title or role assignment grants no permission beyond the bundle's current explicit contents and scope |
+| Effective Permission Set | Permissions that remain valid after evaluating assignments, scope, time, revocation, membership and applicable policy | Sole basis for business authorization; missing or ambiguous permission defaults to deny |
+| Default Deny | An action or data disclosure is denied unless all required permissions and scope conditions are affirmatively valid | Applies consistently across every client, API, report, export, job and integration |
