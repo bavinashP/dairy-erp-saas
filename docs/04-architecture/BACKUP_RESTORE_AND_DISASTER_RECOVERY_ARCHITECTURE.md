@@ -243,9 +243,9 @@ Define separate capabilities for:
 
 One-person operations may combine human duties in practice, but privileged actions still require re-authentication, audit evidence and a second-person approval for destructive/high-impact production actions where feasible. Emergency exceptions must be documented and reviewed after the incident.
 
-## 13. Open dependencies and decision closure
+## 13. Evidence and approval dependencies
 
-This architecture makes an engineering recommendation for the initial recovery baseline. The following are not reasons to postpone the design:
+This architecture makes an engineering recommendation for the initial recovery baseline. The following technical contracts and recovery controls are selected engineering baselines and are not reasons to postpone the logical design:
 - The database adapter must implement the documented consistent backup and point-in-time recovery contract.
 - The storage adapter must implement independent upload, checksum verification, immutable-key/version inventory and restore.
 - The deployment model must provide an off-VPS recovery destination and separately protected credentials.
@@ -257,7 +257,7 @@ Only these matters require final owner/provider/legal confirmation before produc
 3. Legal/contractual retention and deletion periods for each record class (handled by the data-lifecycle/legal requirements register, not this backup schedule).
 4. Who is the named incident commander, restore approver and key custodian in the operating organization.
 
-Record these as named approval dependencies with an owner and due date. Do not leave them as generic architecture questions or silently claim approval.
+Record these as named approval dependencies with an accountable person/function and due date. Do not leave them as generic architecture questions or silently claim approval. The owner must accept the cost/risk trade-off for final service targets and production deployment.
 
 ## 14. Exit criteria
 
