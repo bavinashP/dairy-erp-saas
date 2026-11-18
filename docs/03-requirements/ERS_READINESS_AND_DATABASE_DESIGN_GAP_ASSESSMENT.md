@@ -165,3 +165,40 @@ The ERS readiness gate is satisfied only when:
 - Gate D reviewers can trace every material design decision to an authoritative source or explicit approval.
 
 Until these criteria are met, ERS-001 remains a logical baseline and physical database schema generation remains intentionally gated.
+
+
+## 9. Revalidation addendum — 2026-11-19
+
+This addendum supersedes the older decision-status summaries above only where later decisions are explicitly recorded. The original assessment date and historical evidence are preserved.
+
+### 9.1 Decisions now resolved or materially narrowed
+
+- **ODR-001:** one Tenant supports multiple operating models and multiple Branches. Legal-entity cardinality remains separate under ODR-003.
+- **ODR-002:** Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site stock segregation, limited stock-task grants, approval, grant lifecycle, delegated approval, emergency override, expiry and Home-Branch/workforce boundary are now recorded in the ODR. The complete cross-Branch permission matrix and permission-first authorization are resolved. Detailed shared-site custody/accountability and exception workflow specifications remain open.
+- **ODR-004:** one global user identity may hold independent memberships in multiple Tenants, at most one current membership per user/Tenant pair. A membership may have multiple workforce Branch assignments and one optional current Home/Primary Branch; neither assignment grants data access.
+- **ODR-005:** permission-first, tenant-configurable, default-deny access and cross-Branch stock-task matrix are resolved. The exhaustive permission catalogue for all modules and domain-specific approvals remain to be completed.
+- **ODR-035 / ARC-PV-001:** one product supports small-to-enterprise profiles; fixed/configurable/customizable/extensible classifications, modular-monolith initial baseline, governed extension points, tenant variability and scale evolution are established.
+
+### 9.2 Remaining physical-design blockers and non-blockers
+
+**Genuine physical-design dependencies:**
+- ODR-003 legal/accounting entity, tax registration and accounting-book cardinalities; legal conclusions remain deferred to post-project review under the product owner's explicit scope instruction.
+- ODR-008 detailed per-UOM/workflow precision profiles, device resolution, commercial rate precision and domain-specific rounding boundaries.
+- ODR-011/012 detailed processing, costing, negative-stock and stock adjustment policy where these change authoritative entities/constraints.
+- ODR-017 accounting book/Chart of Accounts/posting-period and source-event recognition contracts.
+- ODR-026 data classification, retention/legal hold/deletion/anonymization.
+- Verified NFR workload envelope and database/technology PoC evidence (ODR-027/030/031).
+
+**No longer blockers at the conceptual level:**
+- The basic Tenant/Branch/OperatingLocation/StockLocation separation.
+- Permission-first authorization and cross-Branch shared-site stock-task access.
+- Multi-Tenant membership cardinality baseline and non-authorizing workforce Branch assignments.
+- Initial product variability, customization, extension and module-evolution policy.
+
+### 9.3 Selected persistence design guardrails (no schema design)
+
+The logical model must preserve separate records/lifecycles for UserAccount, TenantMembership, MembershipBranchAssignment, PermissionAssignment, optional Role/PermissionBundle, Tenant/Branch/OperatingLocation, ConfigurationKey/ConfigurationVersion, FeatureEntitlement, CapabilityActivation, ExtensionInstallation/Grant, Party/PartyRole and immutable business transactions. This is a conceptual separation only; it does not authorize table/column design or DDL.
+
+Do not use one generic settings blob or one generic role assignment to conflate all these concepts. Configuration and permissions must be queryable, versioned, auditable and enforceable. Keep configuration snapshots and policy versions on finalized transactions where their meaning affects historical results.
+
+**Physical database design remains gated** by the dependencies listed in 9.2 and repeatable technology PoCs. No SQL, DDL, ORM entities, migrations or code have been created by this addendum.
