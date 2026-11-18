@@ -443,7 +443,7 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 ### ODR-002 — approved permission-based delegated approval
 
-**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; home-Branch consent, the complete permission matrix and detailed shared-site accountability remain open. General tenant-wide approval policy and the broader ODR-004/005 permission/delegation matrix remain subject to their own scope.
+**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the complete permission matrix and detailed shared-site accountability remain open. General tenant-wide approval policy and the broader ODR-004/005 permission/delegation matrix remain subject to their own scope.
 
 **Approval evidence:** The product owner explicitly approved all recommendations: separate delegation permission, exact scoped authority, maximum 30-day validity, no automatic renewal or onward delegation, non-delegable high-risk actions, immediate invalidation when the delegator's underlying authority ceases, auditability and concurrency safeguards.
 
