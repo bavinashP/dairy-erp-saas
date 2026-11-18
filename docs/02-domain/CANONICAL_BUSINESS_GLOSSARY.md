@@ -184,3 +184,16 @@
 | Custody Incident | Reported discrepancy or exception affecting custody, condition, quantity, location or evidence | Report does not automatically establish fault, liability or financial effect |
 | Shared Resource | Facility, equipment, vehicle, device or other resource explicitly made available to more than one Branch/capability | Shared use does not transfer ownership or grant unrelated data access |
 | Shared Resource Use | Recorded use/booking of a shared resource by an authorized Branch/capability and actor | Usage, maintenance, custody and cost allocation are separately governed |
+
+
+## Stock-task grant and reconciliation terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| StockTaskAccessGrant | A Tenant-bound cross-Branch authorization exception for exactly one named worker to perform explicitly permitted stock actions for one stock-owning Branch | Not general Branch membership, a workforce assignment, stock ownership or an independent action permission |
+| StockTaskAccessGrantVersion / GrantVersion | Immutable snapshot of a submitted/approved grant's worker, stock-owning Branch, locations, actions, stock/task scope, limits and effective period | Approval binds to the exact version/payload; material changes require a new version and fresh approval |
+| Grant Authorization State | Current authority lifecycle state such as Draft, Pending Approval, Approved/Scheduled, Active, Superseded, Expired, Revoked or Invalidated | Separate from physical custody and the state of a linked stock task |
+| Stock Task | Operational work item performed under a specific grant version and independently permissioned stock action | A task assignment does not itself grant permissions or stock ownership |
+| Stock Task Hold | Review-required hold on in-progress work after the linked grant expires, is revoked or becomes invalid | Preserves completed steps, posted stock effects, current custody and outstanding work; further stock mutation is blocked |
+| Stock Task Reconciliation | Append-oriented, authorized decision and evidence for reauthorization, reassignment, correction/compensation, closure or escalation of a held task | Original stock/custody events are not erased; a replacement worker requires a new grant and actual handover where goods change hands |
+| Grant Activation Time | Earliest actual instant at which the exact approved grant version may be used | No retroactive authority before approval commit; effective end is exclusive and zero grace applies |
