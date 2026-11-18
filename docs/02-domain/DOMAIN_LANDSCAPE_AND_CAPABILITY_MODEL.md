@@ -7,7 +7,7 @@
 ## 1. Modelling principles
 
 1. Model business capabilities independently of tenant size, staffing level, and client device.
-2. A capability may be enabled, configured, or unused by a tenant; its existence in the product model does not force every dairy to operate it.
+2. A capability may exist in the product, be commercially entitled, activated, configured and used as separate lifecycle states. Its existence in the product model does not force every dairy to operate it.
 3. Distinguish a business concept from its physical location, legal registration, SaaS entitlement, and user access scope.
 4. Do not assume every tenant processes milk. Reselling packaged products, distributing loose milk, collecting milk, processing milk, and manufacturing value-added products are distinct operating capabilities.
 5. Do not assume every tenant has employees, a GST registration, a payment gateway, a warehouse, a chilling facility, or a dedicated branch manager.
@@ -75,7 +75,7 @@ A subscription expresses a recurring supply instruction/entitlement. An order ex
 A manually entered UPI/cash/bank receipt is a business record. It is not proof of provider-side settlement unless corroborated through a reliable source or authorized reconciliation. Store source, reference, evidence, recorder, verification status, and reconciliation outcome distinctly.
 
 ### 3.5 SaaS plan versus tenant configuration
-A SaaS plan determines feature access and commercial limits. Tenant configuration determines how an available feature behaves for that business. Neither may weaken platform security controls.
+A SaaS plan determines capability availability, usage allowance and commercial/service tier. Tenant activation records whether the capability is enabled. Tenant configuration determines how the enabled capability behaves. Permission assignments determine which principals may view or perform its operations. Approved extensions add capabilities through governed contracts. These are separate dimensions; none may silently grant another's authority or weaken platform security controls.
 
 ## 4. Operating profiles to support
 
@@ -137,3 +137,11 @@ Customer self-service login and consumer e-commerce storefront remain outside th
 5. FSSAI, Food Safety and Standards Regulations: https://fssai.gov.in/food-law/regulations
 
 **Caution:** This is domain analysis, not legal advice or a final compliance applicability determination.
+
+## 10. Product variability and growth
+
+The platform must present a composable capability model rather than separate product editions with permanently different code. Tenant business profiles and starter templates are editable starting points only; one Tenant may combine capabilities and evolve over time. Plan entitlement, capability activation, operational configuration, permission assignment and extension enablement are independent controls.
+
+Each domain must classify its rules as fixed, configurable, customizable, extensible or externally dependent. Domain-specific settings and constraints remain defined by the owning domain specification; cross-product configuration precedence, lifecycle and extension safety are governed by ARC-PV-001. Configuration changes must preserve transaction snapshots and historical meaning.
+
+See [Product Configurability, Customization, Extensibility and Scale Policy](../04-architecture/PRODUCT_CONFIGURABILITY_CUSTOMIZATION_EXTENSIBILITY_AND_SCALE_POLICY.md).
