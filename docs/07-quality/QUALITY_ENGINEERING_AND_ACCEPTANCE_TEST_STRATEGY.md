@@ -79,6 +79,29 @@ Test masking/field permissions for bank/payee details, identity documents, payro
 ### 5.4 Delegation and break-glass
 Test the ODR-002 Delegated Approval constraints, 30-day maximum, scope/limit inheritance, invalidation, non-delegable actions, self-approval and revoke races. Test Emergency Override qualification, exact actor/resource/action scope, 60-minute initial/120-minute total maximum, independent extension, immutable audit and retrospective review.
 
+### 5.5 Cross-Branch stock-task grant lifecycle and reconciliation
+
+Use stable test identifiers AT-GNT-001..018 for the ODR-002 StockTaskAccessGrant lifecycle:
+
+- **AT-GNT-001:** Draft, submitted, pending-approval, rejected and future-scheduled versions authorize no stock action.
+- **AT-GNT-002:** A grant is limited to exactly one named worker and the approved stock-owning Branch, locations, actions, item/lot/task scope, limits and period; group/role-wide grants are rejected.
+- **AT-GNT-003:** A grant cannot activate without approval by an authorized user with the required stock-owning-Branch approval permission or a currently valid delegate under ODR-002 section 16.4.
+- **AT-GNT-004:** The approval is bound to the immutable GrantVersion/payload hash; stale or substituted scope/version approval cannot activate a grant.
+- **AT-GNT-005:** A grant does not create the worker's independent stock action permission, active Tenant membership or workforce assignment. Each prerequisite is evaluated independently.
+- **AT-GNT-006:** Effective start is inclusive and effective end exclusive; exact-boundary expiry blocks a new task and any further stock mutation with zero grace.
+- **AT-GNT-007:** Revocation blocks new tasks and further stock-affecting transitions immediately across web/API/mobile/barcode/jobs/exports/integrations; notification delivery and stale cache do not extend authority.
+- **AT-GNT-008:** Automatic invalidation on worker account/Tenant membership loss, independently required action permission loss, required workforce assignment expiry/revocation, target Branch deactivation or StockLocation ownership relationship change denies subsequent actions.
+- **AT-GNT-009:** A material scope/limit/period/worker change cannot be edited into an approved version; it requires a new immutable version and fresh approval. A worker replacement uses a new grant request.
+- **AT-GNT-010:** A successor extension must be approved before predecessor expiry and have a non-overlapping effective transition; a pending approval does not extend the current grant and a late approval cannot retroactively authorize a gap.
+- **AT-GNT-011:** If a grant ends while a task is in progress, the task is held and preserves committed steps, posted quantities, custody, evidence and outstanding work; no auto-completion or rollback occurs.
+- **AT-GNT-012:** Reauthorization for the same worker requires a valid current grant version for the exact remaining scope and all independent prerequisites.
+- **AT-GNT-013:** Reassignment to another worker requires a new grant/approval, applicable workforce assignment and actual custody handover when goods change hands; the former worker's authority is not transferred.
+- **AT-GNT-014:** Controlled cancellation/closure/reconciliation records outstanding physical custody and stock effects using linked correction/compensation evidence; original events are immutable and unresolved discrepancies remain escalated.
+- **AT-GNT-015:** Revocation/expiry/invalidation racing with a stock-affecting commit results either in a commit while authorization is valid or in denial; no stock mutation commits after the ended authorization wins.
+- **AT-GNT-016:** Duplicate approve/reject/revoke/extension/stock-task commands and offline replay return the prior outcome or conflict without duplicate grant versions, approval actions, stock movements or custody events.
+- **AT-GNT-017:** Loss of an approver's permission after a valid committed approval does not erase the historical approval; any review finding of invalid approval requires an explicit auditable revocation.
+- **AT-GNT-018:** Tenant-configured grant duration, action subset, quantity/task/evidence and review thresholds can be tightened without disabling stock-owning-Branch approval, independent permissions, zero-grace enforcement, hold/reconciliation or concurrency integrity.
+
 ## 6. Financial, quantity and stock correctness
 
 Mandatory invariants:
