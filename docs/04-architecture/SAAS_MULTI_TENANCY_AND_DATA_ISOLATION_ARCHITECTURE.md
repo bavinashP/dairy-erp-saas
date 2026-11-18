@@ -48,7 +48,9 @@ It does not approve a physical schema, shared-database strategy, database-per-te
 |---|---|---|
 | Platform principal, platform role, plan catalogue, platform configuration | Platform | Platform permissions only |
 | Tenant, business profile, subscription plan assignment, tenant configuration | Tenant governance | Tenant context; selected settings may be branch-overridden |
-| User account | Global identity or identity authority | Does not itself grant access to tenant data |
+| User account | Global identity or identity authority | May have independent memberships in multiple Tenants; account itself grants no business access |
+| Tenant membership | Tenant | One current membership per user/Tenant pair; status and lifecycle scoped to that Tenant | Validates Tenant association only; does not grant business permissions |
+| Membership Branch assignment | Tenant/Branch workforce context | Zero or more per membership; at most one current Home/Primary Branch where applicable | Workforce context only; not a read/action permission |
 | Tenant membership and role assignment | Tenant/platform governance as defined by the entity | Explicit tenant and optional branch/location scope |
 | Customer, supplier, product catalogue, price list | Tenant | Tenant-wide unless the business rule assigns branch scope |
 | Customer service address, delivery run, collection session, POS register | Tenant | Explicit branch/location/service scope where applicable |
@@ -158,3 +160,7 @@ This baseline is not approval of a physical tenancy strategy. Architecture readi
 Tenant configuration, plan entitlement, capability activation, principal permission and extension grants are independent. Tenant settings cannot weaken isolation or security. Configuration inheritance and permitted Branch/site overrides follow ARC-PV-001. Small and enterprise Tenants use the same product semantics; resource and isolation profiles may differ without customer-specific code forks.
 
 The recommended tenancy evolution is pooled standard resources with a supported path to selected bridge/silo resource placement for justified Tenant profiles. Tenant migration between tiers must preserve stable identifiers, authorization, audit, files, integrations, backup/restore and compatibility. The exact physical implementation remains an ADR/PoC decision.
+
+### 13.1 Multi-Tenant membership and Branch context
+
+One global human UserAccount may have independent membership records in multiple Tenants. Each Tenant membership is validated separately and at most one current membership may exist for a given user/Tenant pair. Membership in one Tenant never grants access to another. A membership may have zero or more Branch/workforce assignments and optionally one current Home/Primary Branch, but these assignments are organizational context, not authorization. Only explicit effective permissions and resource scopes grant business-data access or actions. Initial Tenant onboarding authority is provisioned through a narrow, explicit and audited permission assignment, not an account-type shortcut. See ODR-004 section 16.9 and ARC-IAM-001.
