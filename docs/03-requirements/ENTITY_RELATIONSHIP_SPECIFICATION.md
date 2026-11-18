@@ -71,7 +71,8 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | Permission | Platform catalogue | Linked to Role through RolePermission | Action/resource capability |
 | RoleAssignment | Tenant or platform scope | Links principal, role, tenant and optional branch/location scope | Effective dates; ordinary employee default is own assigned branch; all-branch scope must be explicit and audited |
 | DirectPermissionGrant | Tenant | Optional exceptional grant with reason/expiry | Guarded and audited |
-| ApprovalLimit | Tenant | Associated with role/person/scope/category/amount | Effective-dated |\n| ApprovalDelegation | Tenant | Links delegator, delegate, approval category/action, resource/Branch scope, limits and validity | Explicit `approval.delegate` permission; max 30 calendar days; non-transferable, non-renewing and revocable; cannot widen underlying authority |
+| ApprovalLimit | Tenant | Associated with role/person/scope/category/amount | Effective-dated |
+| ApprovalDelegation | Tenant | Links delegator, delegate, approval category/action, resource/Branch scope, limits and validity | Explicit `approval.delegate` permission; max 30 calendar days; non-transferable, non-renewing and revocable; cannot widen underlying authority |
 | DeviceRegistration | Platform/tenant association | Belongs to UserAccount and optional TenantMembership | Revocable, device policy |
 | UserSession | Platform identity | Belongs to UserAccount/device | Revocation and audit |
 
