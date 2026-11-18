@@ -37,7 +37,7 @@
 | Employee Profile | HR/workforce record; may exist without login |
 | Role | Named permission bundle |
 | Permission | Atomic action capability |
-| Role Assignment | User/role/scope/effective period |
+| Role Assignment | User/role/scope/effective period; may represent explicit, limited, auditable cross-branch stock-task grants without granting general target-Branch membership or data visibility |
 | Approval Policy | Conditions, limits, and required approver |
 | Device / Session | Authentication and session lifecycle |
 | Support Access Grant | Explicit platform-to-tenant support authorization |
@@ -102,7 +102,7 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Stock Item | Inventory-managed identity |
 | Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself; stock ownership, balances and control remain attributable to the relevant Branch/inventory scope even when multiple Branches use one physical OperatingLocation |
 | Stock Lot / Batch | Traceable stock quantity group |
-| Stock Movement | Receipt, issue, transfer, return, loss, or adjustment |
+| Stock Movement | Receipt, issue, transfer, return, loss, or adjustment; retains stock-owning Branch and acting worker/grant attribution when a cross-branch stock-task grant is used |
 | Stock Count | Physical count exercise |
 | Stock Reservation | Quantity reserved for order/delivery |
 | Waste / Loss Record | Controlled quantity loss and reason |
