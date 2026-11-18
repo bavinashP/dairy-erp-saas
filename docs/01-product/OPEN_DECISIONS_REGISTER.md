@@ -651,3 +651,6 @@ Tenant isolation, Branch ownership, stock ownership, server-side authorization, 
 10. Every grant, change, revocation, denial and sensitive access is auditable.
 
 The exhaustive atomic permission catalogue for every dairy module, permission-management UX and customer starter templates are elaborated in their respective specifications without weakening this approved baseline. Detailed shared-site custody/accountability and exception workflows remain separate ODR-002 work items.
+
+
+**Permission precedence baseline (included in the 2026-11-19 approval):** Fixed platform/security invariants and applicable prohibitions are non-overridable; active membership, security boundary and resource ownership are prerequisites; an applicable explicit deny overrides an allow; applicable allows contribute only within their own valid scopes/limits/periods; no implicit inheritance or title/account-type elevation is permitted; conflicts or unverifiable authorization fail closed. This precedence applies to role bundles, group assignments, direct grants and temporary grants.
