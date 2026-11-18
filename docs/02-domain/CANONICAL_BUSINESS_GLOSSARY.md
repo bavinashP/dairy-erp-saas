@@ -18,7 +18,7 @@
 | Warehouse / Storage | Storage capability or designated storage area at an OperatingLocation | A physical site may also support retail, collection or processing |
 | Stock Location | Inventory-control holding position or subdivision, such as a refrigerator, room, shelf, bin or zone | Separate from OperatingLocation; it need not be an independently addressable physical site |
 | Processing / Packaging | Processing or packaging capability at an OperatingLocation | Does not require a separate OperatingLocation when performed at a shared premises |
-| Delivery Area / Service Area | Geographic area in which one or more authorized branches serve customers | Geographic coverage, not a physical OperatingLocation or Branch |
+| Delivery Area / Service Area | Geographic area in which one or more authorized branches serve customers | A Branch may serve multiple ServiceAreas and a ServiceArea may be served by multiple Branches through an explicit effective-dated association; reassignment must not rewrite historical delivery context. Geographic coverage is not a physical OperatingLocation or Branch |
 | Route | Ordered or planned set of delivery stops for a run/shift | Route plan can change without changing the customer's subscription |
 | Delivery Run | An execution instance of a route/dispatch plan for a date and shift | Distinct from reusable route template |
 | Party | Tenant-owned counterparty identity root for a person or organization that may hold one or more business roles | Shared identity does not imply unrestricted branch visibility; see DBR-003 |
