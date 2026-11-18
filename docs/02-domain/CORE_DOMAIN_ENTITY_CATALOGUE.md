@@ -22,8 +22,9 @@
 | Tenant Subscription | Commercial plan, billing period, status | Separate from dairy customer product subscriptions |
 | Plan / Feature Entitlement | Feature availability and usage limits | Entitlement checks must not grant data access |
 | Tenant Business Profile | Operating/legal/business profile | May hold multiple registrations only if approved by ODR-003 |
-| Branch | Operating unit | Tenant-owned; exact branch/location taxonomy remains open |
-| Operational Location | Warehouse, counter, collection point, processing site | Typed/location capabilities; avoid branch overloading |
+| Branch | Management/operating unit within the tenant | Tenant-owned; exact relationship to physical OperatingLocations and shared-site use remains under ODR-002 |
+| OperatingLocation | Actual physical/operational site or premises | One site may support multiple operational capabilities; do not create a separate physical site per function |
+| Operational Capability | Function performed/enabled at an OperatingLocation, e.g. retail sales, milk collection, storage, processing or packaging | Multiple capabilities may coexist at one OperatingLocation; capability is not itself a physical location |
 | Business Calendar / Shift | Business date, shift, cut-off settings | Effective-dated and tenant-configurable |
 
 ## 3. Identity and access
@@ -98,7 +99,7 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Processing Batch | Transformation run with input/output/loss records |
 | Packaging Run | Pack/label operation and output lots |
 | Stock Item | Inventory-managed identity |
-| Stock Location | Place where stock is held |
+| Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself |
 | Stock Lot / Batch | Traceable stock quantity group |
 | Stock Movement | Receipt, issue, transfer, return, loss, or adjustment |
 | Stock Count | Physical count exercise |
