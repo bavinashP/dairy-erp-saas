@@ -100,6 +100,22 @@ For a worker assigned to a DeliveryRun owned by another Branch:
 
 A missing permission, workforce assignment required by policy, active run assignment, valid resource, or Branch/Route ownership match defaults to deny. The stock-task grant, a job title, an account category or an existing Home Branch assignment cannot be used as a substitute.
 
+## 4.2 Stock-task grant lifecycle and task reconciliation authority
+
+A StockTaskAccessGrant is a narrowly scoped authorization exception, not a permission assignment. The following actions are independent and require the corresponding explicit scoped permissions:
+- `inventory.stock_task_grant.create/submit`: create and submit a request for exactly one named worker and the proposed stock-owning Branch/resource/action/task/quantity/period envelope.
+- `inventory.stock_task_grant.approve/reject`: decide the exact immutable GrantVersion. Approval requires the stock-owning Branch's approval permission, or a currently valid delegate within ODR-002 section 16.4. The approved payload/version must not be substituted after approval.
+- `inventory.stock_task_grant.withdraw`: withdraw a pending request before approval where the requester retains the exact withdrawal authority.
+- `inventory.stock_task_grant.revoke`: immediately end an active/scheduled grant within the actor's stock-owning-Branch revocation scope.
+- `inventory.stock_task_grant.review/reconcile`: review held work and decide reauthorization, reassignment, controlled closure, correction/compensation or escalation.
+- Inventory action permissions such as receive, put-away, pick, issue, transfer or count capture remain separately assigned to the worker. A grant cannot create those permissions.
+
+Every active action requires all of the following: active grant version; active worker account and Tenant membership; independent permission for the exact stock action; exact stock-owning Branch, OperatingLocation, StockLocation, item/lot/task scope; quantity/value limits; any workforce assignment required by Tenant policy; and no safety/quality/ownership/incident prohibition. Default deny applies if any condition is absent, invalid or ambiguous.
+
+A material change to the named worker, Branch, location, action, item/task scope, limit or validity window requires a new immutable grant version and fresh approval. Replacing the worker requires a new grant request; a grant cannot be transferred. A successor extension must be approved before the current version expires. A pending request never extends current authority.
+
+At expiry, revocation or automatic invalidation, new tasks and further stock mutations stop immediately. Each affected in-progress task is held and preserves committed steps, posted stock movements, physical custody, quantities and outstanding work. Further action requires an active grant for the same worker, or a new grant and any required workforce assignment for a replacement worker with a real custody handover where goods change hands. Reconciliation is separate from the grant's authorization state and must use linked, auditable correction/compensation evidence; no auto-complete, auto-rollback, silent balance overwrite or fabricated custody transfer is permitted.
+
 ## 5. Cross-channel enforcement
 
 The same authorization model applies to web, mobile, POS, barcode/scanner, API, reports, search, files/attachments, exports, analytics, scheduled/background jobs, webhooks and third-party integrations.
