@@ -146,3 +146,8 @@
 | Role | An optional named permission bundle used to organize assignments | Role title or role assignment grants no permission beyond the bundle's current explicit contents and scope |
 | Effective Permission Set | Permissions that remain valid after evaluating assignments, scope, time, revocation, membership and applicable policy | Sole basis for business authorization; missing or ambiguous permission defaults to deny |
 | Default Deny | An action or data disclosure is denied unless all required permissions and scope conditions are affirmatively valid | Applies consistently across every client, API, report, export, job and integration |
+
+
+| Tenant Membership | A separately managed association between a global user identity and one Tenant | May coexist with memberships in other Tenants; each membership is an independent security context; it does not grant business permissions |
+| Membership Branch Assignment | A workforce/operating-context relationship between a Tenant membership and a Branch | May be multiple; optionally one Home/Primary Branch at a time; does not grant data visibility or action authority |
+| Home / Primary Branch | The Branch designated as a worker's normal workforce/administrative context | Organizational context only; no automatic access, approval, veto or stock ownership follows from this designation |
