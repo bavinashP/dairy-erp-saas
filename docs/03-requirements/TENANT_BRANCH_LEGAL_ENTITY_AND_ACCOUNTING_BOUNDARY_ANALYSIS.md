@@ -51,7 +51,7 @@ A tenant may represent the software workspace of a real-world business, but this
 
 ### 3.2 LegalEntity — proposed explicit concept
 
-A legal entity represents the person or organization that has legal rights/obligations and is the subject of the relevant legal/accounting records. Candidate business forms and the evidence required for identity verification are governed by ODR-001 and must be validated for the intended Indian operating context.
+A legal entity represents the person or organization that has legal rights/obligations and is the subject of the relevant legal/accounting records. Specific legal forms and identity-verification requirements are outside the current development scope and are reserved for the post-project legal review. This conceptual entity definition must not be treated as a current onboarding requirement or legal conclusion.
 
 This concept must not be replaced by Tenant or Branch.
 
@@ -252,7 +252,7 @@ ODR-001's operating-model decision is resolved by explicit product-owner approva
 | ARC-SYS-001 | AccountingEntity/books scope remains separate from Tenant and Branch | Consistent; terminology needs a future canonical mapping between “AccountingEntity” and the proposed LegalEntity/AccountingBook concepts |
 | DBR-001 | Legal/business identity, branch taxonomy and tenant-to-legal-entity/books are identified as unresolved database dependencies | Consistent |
 | Module Dependency Map | Branch/location remains prerequisite context for operations, not a legal entity | Consistent |
-| Open Decisions Register | ODR-001..003 remain unresolved and unmodified | Consistent |
+| Open Decisions Register | ODR-001 operating-model decision is approved; legal-form review is post-project. ODR-002 remains a business taxonomy decision; ODR-003's legal/tax aspects are outside current scope | Consistent with the 2026-11-18 product-owner scope instruction |
 
 ### Terminology issue to resolve
 
@@ -280,7 +280,7 @@ This analysis can be promoted into an approved logical model only after:
 - ERS-001, ARC-TEN-001, ARC-SYS-001, the glossary, entity catalogue and accounting documents are updated together under a single change-control pass.
 - DBR-001 readiness checklist and Gate D evidence are updated.
 
-Until then, this document is decision-support analysis only. ERS-001 remains the proposed logical baseline, and physical database schema generation remains gated.
+This document remains decision-support analysis for legal/accounting conceptual boundaries. ODR-001's operating-model decision is approved. Legal/tax conclusions are deferred to post-project review and are not current development blockers. ERS-001 remains the proposed logical baseline, and physical database schema generation remains gated by the non-legal modelling and architecture readiness criteria.
 
 
 ## 13. Product-owner scope decision recorded on 2026-11-18
