@@ -45,6 +45,7 @@ Capacity planning must model the workload rather than a single tenant/user count
 - Database row growth by domain and tenant.
 - Average and maximum attachment/PDF size, object count and download frequency.
 - Audit/event/outbox growth and retention classes.
+- Custody event frequency, raw sensor/device reading rate, evidence attachment volume, object-storage retrieval/egress and device connectivity patterns by Tenant/workflow.
 - Report/forecast dataset size, execution frequency and concurrency.
 - Backup volume, change rate, WAL/binlog generation and restore throughput.
 - Analytics refresh and historical query workload.
@@ -101,12 +102,15 @@ The platform must be tested at expected peak and at a documented stress multipli
 - Apply idempotency, bounded retries, leases, dead-letter/manual resolution and queue-age monitoring.
 - Long jobs must checkpoint progress and resume safely.
 - Apply backpressure when downstream providers, database or object storage are saturated.
+- Separate high-volume sensor/telemetry ingestion and evidence processing from critical stock/financial posting queues; preserve event ordering/idempotency and expose lag/failed-reading status.
+- Bound device frequency, batch size, attachment size and per-Tenant evidence storage/egress; do not drop safety/traceability evidence silently when a quota is reached.
 
 ### 4.4 Object storage and file delivery
 - Keep binary objects out of relational database rows except small metadata where justified.
 - Use provider-neutral object storage and immutable versioned object keys.
 - Upload/download directly through short-lived scoped URLs where safe, avoiding unnecessary VPS bandwidth/CPU.
-- Meter storage, request, retrieval and egress usage by tenant.
+- Meter storage, request, retrieval and egress usage by tenant, including custody evidence, sensor payloads and media attachments.
+- Keep evidence metadata/provenance searchable while large binary artifacts use object storage and governed lifecycle tiers; retrieval must remain permission-checked.
 - Use asynchronous PDF/report generation with bounded worker resources.
 - Follow ARC-STO-001 and ARC-DR-001 for lifecycle and recovery.
 
