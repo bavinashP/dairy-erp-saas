@@ -163,6 +163,8 @@
 | Permission Assignment | Explicit allow/deny of a registered atomic key to a principal or governed group with scope, limits, effective period and reason | Must stay within the assigning actor's delegated authority; membership alone grants no permission |
 | Extension Permission Registration | Versioned namespaced permission definition for a declared extension resource/action contract | Registration/install does not grant access; Tenant assignment or explicit host grant is still required |
 | Support Access Grant | Explicit, purpose-bound and time-limited platform-to-Tenant access for a declared support case/resource/action | Platform identity or support title does not provide implicit Tenant data access |
+| Access Group | Tenant-scoped named collection of eligible membership principals that may receive explicit permission assignments | Membership in a group is not itself a permission or a general access role |
+| Group Membership | Effective-dated and auditable association between one Tenant membership and one Access Group | May be added/removed without changing the person's Tenant membership or implicitly expanding scope |
 
 ## Route execution and dispatch terms
 
