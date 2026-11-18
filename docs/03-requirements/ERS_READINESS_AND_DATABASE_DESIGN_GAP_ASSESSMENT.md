@@ -53,7 +53,7 @@ This is a focused readiness assessment, not a line-by-line audit of every domain
 
 | ERS-001 readiness item | Assessment | Evidence and remaining work |
 |---|---|---|
-| Legal entity/books and branch/location alternatives | **Partial — owner/business approval required** | Tenant, Branch, OperatingLocation and AccountingEntity are distinguished conceptually. ODR-001/002/003 remain unresolved. Confirm supported business structures, legal books/GST registration relationships and location taxonomy before final cardinalities. |
+| Legal entity/books and branch/location alternatives | **Core operating taxonomy resolved; legal/book cardinality deferred** | ODR-001 operating-model and core ODR-002 Branch/OperatingLocation/ServiceArea/Route/shared-site stock boundaries are resolved. ODR-003 legal entity, tax registration and AccountingBook cardinality remains explicitly deferred for post-project legal/accounting review. Do not treat the legal aspect as a current development blocker or infer legal cardinality. |
 | Canonical Party/Customer/Supplier/Farmer identity | **Partial — scenario validation required** | Party plus PartyRole, CustomerAccount, SupplierAccount and FarmerProfile is a sound proposed shared identity model. Validate one party acting as customer and supplier, joint/family farmer accounts, multiple contacts/addresses, duplicate detection and merge/audit scenarios. |
 | Cardinality and optionality for high-volume workflows | **Partial — workflow test cases required** | ERS contains a principal relationship spine. Validate subscription generation, multiple fulfilments, partial delivery/returns, collection-to-settlement allocation, batch consumption/output, billing and receipt allocation with worked cases. |
 | UOM, quantity precision, conversion and monetary rounding | **Blocked for final physical precision — policy/evidence required** | ERS requires unit and precision context and exact decimal money; accounting baseline fixes INR but does not settle all quantity precision, conversion and rounding policies. ODR-008 remains unresolved. Define per-measure precision and rounding before final column definitions. |
@@ -81,7 +81,7 @@ These are recommended technical design guardrails supported by the current docum
 
 ### 4.2 Identity and party records
 
-- Keep UserAccount, Person, TenantMembership, PersonnelRecord and RoleAssignment distinct.
+- Keep UserAccount, Person, TenantMembership, MembershipBranchAssignment, PersonnelRecord, PermissionAssignment, optional PermissionBundle/Role and ServiceIdentity distinct. Branch assignment is workforce context, not access authority.
 - Keep Party as the tenant-owned business identity root with role-specific customer/supplier/farmer extensions.
 - Customer records do not receive login credentials or self-service access under the current product boundary.
 - Any cross-tenant person identity matching must be designed as a privacy-controlled identity concern, not an implicit cross-tenant Party relationship.
@@ -112,9 +112,9 @@ These are recommended technical design guardrails supported by the current docum
 | Dependency | Current classification | Required action before final physical design |
 |---|---|---|
 | ODR-001 — business/legal identity | Owner/business decision + evidence | Define target legal structures and profile requirements; do not encode tax assumptions in Tenant/Branch. |
-| ODR-002 — branch/location taxonomy | Recommended baseline can be prepared; owner confirmation needed for business terminology | Define branch vs outlet/collection centre/warehouse/processing unit/service area and permitted parent-child relationships. |
+| ODR-002 — Branch/location taxonomy and shared-site controls | Core baseline resolved; custody/accountability detail remains | Preserve Branch/OperatingLocation/StockLocation/ServiceArea/Route separation, grant lifecycle, permission matrix and workforce boundary. Complete remaining physical custody/accountability and exception workflows. |
 | ODR-003 — tenant/legal entity/books | Owner approval + legal/accounting evidence | Confirm whether one tenant may hold multiple legal entities/GST registrations/books; retain AccountingEntity separation meanwhile. |
-| ODR-004/005 — membership and authorization | Owner policy + security review | Confirm membership multiplicity and default assignment; finalize roles, scopes, delegation and approval matrix. |
+| ODR-004/005 — membership and authorization | ODR-004 baseline resolved; ODR-005 partial | ODR-004 multi-Tenant membership and workforce Branch assignment baseline is resolved. Permission-first customer configurability, fail-closed precedence and cross-Branch matrix are resolved; complete exact per-module permission keys and domain approval thresholds under ARC-IAM-CAT-001. |
 | ODR-008 — UOM/precision | Engineering/domain evidence and business approval | Produce measurement catalogue, base-unit rules, conversion governance and worked milk/product examples. |
 | ODR-011/012 — processing/inventory | Business policy + engineering recommendation | Define optional processing profiles, stock custody, batch/lot requirements, costing and negative-stock treatment. |
 | ODR-014/016/017 — billing/tax/accounting | Owner/accounting approval + current legal evidence | Define billing document semantics, tax applicability, books, posting rules and period treatment. |
@@ -202,3 +202,6 @@ The logical model must preserve separate records/lifecycles for UserAccount, Ten
 Do not use one generic settings blob or one generic role assignment to conflate all these concepts. Configuration and permissions must be queryable, versioned, auditable and enforceable. Keep configuration snapshots and policy versions on finalized transactions where their meaning affects historical results.
 
 **Physical database design remains gated** by the dependencies listed in 9.2 and repeatable technology PoCs. No SQL, DDL, ORM entities, migrations or code have been created by this addendum.
+
+
+The current permission model is documented in ARC-IAM-001, ARC-IAM-CAT-001 and ARC-AUTH-MATRIX-001. These replace any older assessment wording that described general roles/membership or the cross-Branch permission matrix as unresolved.
