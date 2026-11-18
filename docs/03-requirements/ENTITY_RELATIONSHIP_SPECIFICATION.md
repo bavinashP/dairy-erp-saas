@@ -356,7 +356,7 @@ For each class define create/update/delete/archive/restore, retention, legal hol
 ## 16. Unresolved modelling decisions
 
 1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
-2. ODR-002: detailed shared-site governance, operational accountability, complete permission matrix and exception/revocation workflows; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated. Shared-site workers may receive explicit, limited, effective-dated, auditable stock-handling grants for another Branch, without general access to that Branch's unrelated operational data.
+2. ODR-002: detailed shared-site governance, operational accountability, complete permission matrix and exception/revocation workflows; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated. Shared-site workers may receive explicit, limited, effective-dated, auditable stock-handling grants for another Branch, without general access to that Branch's unrelated operational data. Each such grant requires approval by an authorized manager of the stock-owning Branch before activation; approval is bound to the exact grant scope/version. Whether the worker's home Branch must also consent remains undecided.
 3. ODR-004/005: cross-tenant user identity, membership multiplicity, role scope and permission delegation.
 4. ODR-008: supported UOM, precision, conversion and rounding.
 5. ODR-011/012: processing and inventory valuation/ownership policy.
@@ -385,3 +385,10 @@ Before physical schema design:
 - [ ] Complete NFR workload model before indexes, partitioning and capacity design.
 
 **No physical database schema should be generated from this ERS until the ERD readiness checklist and Gate D review are complete.**
+
+
+### 16.1 ODR-002 — approval authority for cross-branch stock-task grants
+
+A cross-branch stock-task grant for a shared OperatingLocation must not become effective until an authorized manager of the stock-owning Branch approves the exact grant. The approved scope identifies the worker, stock-owning/target Branch, shared OperatingLocation and/or StockLocation, permitted actions and effective period. Material scope changes require approval before use. The approving actor and approval evidence must be retained in the audit history. A role title alone does not confer approval authority.
+
+The worker's home-Branch consent is not yet decided and must not be treated as an implicit prerequisite or as categorically unnecessary. The grant remains least-privilege and does not confer unrelated target-Branch data access. Delegation, emergency override, grant lifecycle, expiry/revocation and detailed accountability remain unresolved.
