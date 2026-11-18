@@ -1,6 +1,6 @@
 # Billing, Receivables, Payments and Reconciliation
 
-**Status:** Working baseline — domain requirements  
+**Status:** Recommended domain baseline — billable-source separation and payment evidence rules selected; commercial/legal details remain configurable/evidence-gated  
 **Scope:** Customer billing for recurring dairy supply, counter/POS sales and other approved sales; payment capture without assuming a payment gateway.
 
 ## 1. Sales and billing channels
@@ -110,13 +110,13 @@ Configurable reminders may include bill generated, due date approaching, overdue
 13. Restrict users to authorized branch/customer financial data.
 14. Ensure receipt, invoice, statement and journal are not duplicated.
 
-## 13. Open decisions
+## 13. Configuration and evidence dependencies
 
-- Billing cut-off and cycle defaults.
-- Customer credit limits and overdue restrictions.
-- Document types and numbering by legal profile.
-- UPI/bank evidence and statement import formats.
-- Cash custody and shift closing.
-- Tax determination and statutory document rules.
-- Refund approval and dispute workflow.
-- Payment integration providers, if any.
+- Billing cycle, period, cut-off and customer statement grouping are Tenant-configurable, versioned and effective-dated; source fulfilment and billable quantity remain authoritative.
+- Credit limits, overdue restrictions, deposits and approval thresholds are Tenant policies with explicit permissions and audit. Unpaid status never silently becomes a write-off.
+- Invoice/credit/debit/statutory document type and numbering depend on verified legal/tax profile; ODR-003/016 post-project review remains the authority for legal applicability.
+- Manual UPI/bank entry and uploaded screenshots are evidence/claims only; they do not create provider/bank-verified status. Reconciliation and provider status follow ODR-015/section 16.18.
+- Cash custody and shift closing are explicit custody/close workflows. A cash receipt is not a bank settlement event.
+- Refund/reversal/dispute requires separate permissions, source linkage and maker-checker where policy demands.
+- Payment gateways/bank imports are optional adapters; the core workflow works without them and provider selection requires capability/cost tests.
+- Customer statements summarize source documents; they must not duplicate invoices or revenue. Advances are allocated explicitly and never exceed available balance.
