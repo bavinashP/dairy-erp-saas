@@ -112,6 +112,12 @@
 | KPI Definition | Versioned formula and metadata for a key performance indicator | Includes source, grain, date basis and inclusion rules |
 | Reconciliation Exception | Unmatched, duplicate, inconsistent or unsupported item requiring review | Must retain evidence and resolution history |
 
+
+| Authorized User | User whose effective permission and scope assignments authorize the specific action being evaluated | A job title, seniority, role label, physical presence or general administrator status alone does not confer the permission |
+| Emergency Authority | User explicitly designated through a current, scoped permission assignment to activate the restricted ODR-002 Emergency Override when the ordinary approver is unavailable | This is an authorization assignment, not a job title or general role; self-activation remains limited to the approved emergency policy |
+| Emergency Override | Temporary, narrowly scoped break-glass authorization for minimum protective stock actions during a qualifying emergency | Initial validity is 60 minutes; one independently authorized extension may add up to 60 minutes; hard maximum 120 minutes; expiry/revocation blocks further stock mutations |
+| Emergency Incident / Retrospective Review | Auditable record of the emergency, activation, affected stock/location, actions, evidence, independent review and reconciliation | Self-activated overrides require retrospective review by a different authorized user |
+
 ## Terminology rules
 
 1. Use Tenant for the SaaS isolation boundary and Dairy Business for the real-world operation.
