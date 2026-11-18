@@ -76,22 +76,25 @@ A workflow may be simplified or not used by a tenant if its operating profile do
 
 **Trigger:** A business-date/shift planning cycle begins.
 
-1. Determine subscriptions due for the selected branch, service date, and delivery slot.
-2. Include approved one-time orders and authorized manual additions.
-3. Exclude paused, skipped, cancelled, or otherwise ineligible occurrences according to effective rules.
-4. Consolidate demand by product, unit, route, and delivery stop while retaining customer-level traceability.
-5. Compare demand with available stock and expected replenishment.
-6. Record shortages, approved substitutions, or unfulfilled quantities with reason.
-7. Allocate stock and prepare route/stop manifests.
-8. Dispatch the run and assign responsible personnel/vehicle where applicable.
-9. Capture per-stop outcomes: delivered, partial, not delivered, customer unavailable, refused, damaged, or other configured reason.
-10. Record actual quantity, time/evidence where required, returns, and exceptions.
-11. Reconcile dispatched quantity against delivered quantity, returns, wastage, and remaining stock.
-12. Make fulfilled quantities available to billing according to the billing policy.
+1. Determine subscriptions due for the selected Branch, business date and delivery window/shift.
+2. Include approved one-time orders, replacements, redeliveries and authorized manual additions.
+3. Exclude paused, skipped, cancelled, held or otherwise ineligible demand under effective schedule and commercial rules.
+4. Consolidate demand by product, unit, Branch, service area and proposed stop while retaining each source demand line.
+5. Compare demand with eligible stock and replenishment; record shortages/substitutions/holds with reasons.
+6. Create a DeliveryPlan for the Branch/date/shift. A small operator may use one simple plan and one run; a larger operation may split demand across multiple runs.
+7. Use a saved Branch-owned Route or create a one-off manual Route/stop sequence. Validate each ServiceArea against the Branch's effective assignment. Optimization may suggest an order but cannot silently alter approved demand or a dispatched manifest.
+8. Allocate source demand quantities to stops/runs without duplicate or over-allocation; prepare pick/pack and dispatch manifest.
+9. Assign one accountable run assignee and any additional participants. Assign a vehicle/transport resource only where used. Validate active permissions, required workforce assignment, resource availability/capacity and applicable product-handling evidence.
+10. Run the configured dispatch-readiness checklist; validate route/Branch ownership, stock/quantities, custody handover, vehicle/driver evidence and required approvals. Dispatch is a distinct permissioned action that snapshots the route, manifest and assignments.
+11. Capture actual route/stop execution, delivery outcomes, custody handovers, delays, route deviations and vehicle/participant changes as separate versioned events.
+12. Record actual quantity, time/evidence where required, returns, cash/receipt evidence and exceptions.
+13. Reconcile dispatched quantity against delivered, returned, damaged/quarantined, undelivered, wastage and remaining stock/container/custody balances.
+14. Close the run normally only when required outcomes reconcile, or close with explicitly permissioned exceptions and named outstanding resolution paths.
+15. Make eligible fulfilled quantities available to billing according to the billing policy.
 
 **Outputs:** Demand snapshot, allocation, pick/dispatch records, route run, stop outcomes, stock movements, fulfilment records, exception records.
 
-**Exceptions/open rules:** Late subscription changes; route reassignment; partial delivery; cash collected by delivery staff; customer credit; product return; delivery proof; failed connectivity/offline sync; duplicate submissions.
+**Exceptions/open rules:** Late subscription changes; invalid Branch/Route/ServiceArea combination; duplicate demand allocation; missing participant/vehicle; vehicle over-capacity or double-booking; expired required qualification evidence; vehicle breakdown/temperature excursion; route/stop amendment after dispatch; cross-Branch participant; partial delivery; cash collected by delivery staff; customer credit; product return; delivery proof; failed connectivity/offline sync; duplicate submissions. Route/dispatch and replacement handling follow ODR-002 section 16.37.
 
 ## 6. Counter/POS sale
 
