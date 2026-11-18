@@ -278,7 +278,7 @@ ARC-SYS-001 currently uses “AccountingEntity/books scope” as a combined phra
 - No final decision that a tenant can or cannot contain multiple legal entities or GST registrations.
 - No final decision that every legal entity must have exactly one accounting book.
 - No assumption that every branch requires a GSTIN or separate books.
-- Detailed shared-location governance, accountability and the complete employee cross-branch permission matrix remain unresolved. Limited shared-site stock-task grants are approved as explicit, least-privilege, effective-dated and auditable; they do not grant general access to the target Branch. Route ownership is approved as Branch 1:N Route; a Route may cover only ServiceAreas assigned to its owning Branch, and a DeliveryRun's Branch must match its Route owner. The approved ServiceArea-to-Branch mapping remains many-to-many and history-preserving.
+- Detailed shared-location governance, accountability and the complete employee cross-branch permission matrix remain unresolved. Limited shared-site stock-task grants are approved as explicit, least-privilege, effective-dated and auditable; before activation, an authorized manager of the stock-owning Branch must approve the exact grant scope/version. Whether the worker's home Branch must also consent remains undecided. Grants do not provide general access to the target Branch. Route ownership is approved as Branch 1:N Route; a Route may cover only ServiceAreas assigned to its owning Branch, and a DeliveryRun's Branch must match its Route owner. The approved ServiceArea-to-Branch mapping remains many-to-many and history-preserving.
 - No physical ERD, SQL DDL, ORM models, migrations, application code or database provisioning.
 - No change to ODR-001, ODR-002 or ODR-003 status.
 
@@ -302,3 +302,10 @@ This document remains decision-support analysis for legal/accounting conceptual 
 The product owner approved ODR-001 Option B: one Tenant represents one independent Dairy Business Workspace and may support multiple dairy operating models and multiple branches. This is a business-operating-model decision; it does not approve or imply any legal-entity, tax-registration or accounting-book cardinality.
 
 The product owner separately instructed that Indian legal and regulatory review will occur after project completion. Such review is outside the current development scope and must not be shown as a current blocker or unresolved development decision. This scope boundary does not remove the need to model operational, accounting and data-integrity boundaries correctly; it prevents the project from making legal conclusions at this stage.
+
+
+## 14. ODR-002 approval authority for cross-branch stock-task grants
+
+The product owner approved the following operational control on 2026-11-18: a cross-branch shared-site stock-task grant cannot become effective until an authorized manager of the Branch that owns the target stock has approved it. Approval must be attributable to the exact worker, target Branch, shared OperatingLocation and/or StockLocation, permitted actions and effective period. A material scope change requires approval before the changed grant is used. A role title alone is not sufficient evidence of approval authority.
+
+The worker's home-Branch consent is not decided. It must not be assumed universally mandatory or universally unnecessary; its applicability remains a separate policy decision. This approval does not broaden the worker's least-privilege task scope or grant access to unrelated target-Branch records. Grant lifecycle, delegated approval, emergency override, expiry/revocation and full accountability procedures remain to be specified.
