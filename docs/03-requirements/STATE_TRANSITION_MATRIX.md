@@ -179,6 +179,44 @@ A timeout, missed notification, disconnected device or silent receiver never tra
 
 **Open:** supported Tally releases, field mapping depth and offline agent conflict protocol (ODR-017/020/029/030).
 
+### 3.11 Cross-Branch StockTaskAccessGrant authorization lifecycle
+
+The authorization state of a grant version is distinct from the operational state of any stock task that references it. A grant version never authorizes an action unless all independent membership, permission, scope, limit and workforce-policy conditions are valid at commit time.
+
+| Current state | Command / next state | Guards | Side effects / restrictions |
+|---|---|---|---|
+| Draft | Submit → Submitted | Named worker, stock-owning Branch, OperatingLocation/StockLocation, action/task/item scope, limits, effective period, reason and requester permission valid | Freeze immutable version/payload hash; no authority granted |
+| Submitted | Validate → Pending Approval | Worker membership/account, independent permission eligibility, target stock ownership and required workforce assignment checked | Route to stock-owning-Branch approval workflow; no authority granted |
+| Pending Approval | Approve → Approved / Scheduled | Exact version/hash approved by authorized stock-owning-Branch user or currently valid delegate; all required approval stages complete | Record ApprovalAction and approval-time authority evidence; no authority before effective start |
+| Pending Approval | Reject → Rejected | Authorized reviewer, reason and exact version | Terminal outcome for that version; new version/request required for reconsideration |
+| Draft / Submitted / Pending Approval | Withdraw → Withdrawn | Requester still has withdrawal permission, or authorized reviewer cancels the pending request | No stock authority; retain reason/history |
+| Approved / Scheduled | Effective start reached → Active | Exact approval remains valid; worker account/Tenant membership, independent action permissions, stock ownership and required workforce assignment are current | Effective start inclusive; grant permits only exact approved envelope |
+| Active | Material amendment → New Submitted Version | Any worker/Branch/location/action/task/item/limit/period change | Existing version remains unchanged; amended scope cannot be used before fresh approval |
+| Active | Approved successor becomes effective → Superseded | Successor version approved before current version's effective end; successor scope valid | Predecessor stops authorizing at successor effective start; no ambiguous overlap |
+| Active / Approved / Scheduled | Revoke → Revoked | Dedicated, scoped grant-revocation authority and recorded reason | Immediate denial of new tasks and further stock mutations; linked in-progress tasks held |
+| Active / Approved / Scheduled | Effective end reached → Expired | Authoritative time reaches exact effective end | End exclusive; immediate denial with zero grace; no effect from pending extension/notice delivery |
+| Active / Approved / Scheduled | Prerequisite lost → Invalidated | Worker account/membership, independent permission, required workforce assignment, target Branch or approved stock/location relationship ceases to be valid | Immediate denial; record exact invalidation cause; new eligibility and fresh approval required |
+| Rejected / Withdrawn / Superseded / Expired / Revoked / Invalidated | View history → No authorization change | Read permission and audit scope valid | Terminal authorization history is immutable; reissue requires a new version/request |
+
+A continuous extension is a successor version approved and committed before the current version expires. The successor becomes effective no later than the prior version's effective end; at that instant the prior version is Superseded. If approval is still pending at expiry, the previous version expires normally. A later approval cannot retroactively authorize a gap.
+
+The approver's later loss of access does not retroactively erase a valid committed approval. If the approval is suspected to have been invalid when committed, an authorized reviewer must investigate and explicitly revoke/invalidate; preserve the original approval evidence.
+
+### 3.12 StockTask hold and reconciliation lifecycle after grant end
+
+| Current state | Command / next state | Guards | Side effects / restrictions |
+|---|---|---|---|
+| Open / In Progress | Grant revoked/expired/invalidated → Held for Review | Task references the ended grant version and has outstanding work or physical custody | Block new tasks and stock-affecting transitions; preserve committed steps, stock movements, quantities, custody, evidence and outstanding work |
+| Held for Review | Review → Reauthorization Required | Same named worker remains eligible and task can safely continue | Further stock mutation remains blocked until an active approved grant covers exact remaining task/action/scope |
+| Held for Review | Review → Reassignment Required | Original worker is no longer eligible, unavailable or not selected to continue | Do not transfer the grant; replacement worker needs a new grant and any required workforce assignment |
+| Reauthorization Required | Authorize → In Progress | Current approved grant/version for same worker, exact remaining work, independent permission and required workforce assignment are valid | Link new grant version to remaining task; preserve old hold and grant history |
+| Reassignment Required | Reassign → In Progress | New StockTaskAccessGrant for named replacement worker is approved; independent permission/workforce assignment valid; real custody handover recorded where goods change hands | Record old/new worker, custody handover, scope and authority; never transfer the old grant |
+| Held for Review | Reconcile / Close → Reconciled / Closed | Exact stock-owning-Branch review/reconciliation permission, reason, physical custody and ledger outcomes documented | Use linked correction/compensation records; original movements/events remain immutable |
+| Held for Review | Escalate → Escalated / Incident Review | Custody, quantity, location, condition or source facts cannot be verified | Preserve unresolved variance/incident; do not close merely to clear a queue |
+| Reconciled / Closed | Reopen → Controlled Exception Review | New evidence and exact reopen permission | New linked reconciliation event; never erase prior closure/history |
+
+A notification, task reassignment request, pending grant approval or offline command does not change a held task's authorization state. Non-mutating safety/incident reporting and evidence capture may continue only under separate valid permissions. No automatic completion, rollback, stock write-off, custody transfer or balance adjustment is implied.
+
 ## 4. Cross-domain transition dependencies
 
 - Subscription activation/amendment creates or versions future schedule occurrences.
