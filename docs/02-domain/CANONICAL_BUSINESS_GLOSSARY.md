@@ -120,6 +120,8 @@
 | Approval Delegation | A temporary, explicit authorization allowing a named delegate to perform specified approval actions within a defined scope and limits | Requires the delegator's approval permission and `approval.delegate`; maximum 30 calendar days; non-transferable, non-renewing, revocable and automatically invalidated when underlying authority ceases |
 | Delegator | The authorized user who creates a scoped Approval Delegation | Must hold the underlying approval permission and separate delegation permission for the same scope |
 | Delegate | The named active user who receives the temporary approval capability under an Approval Delegation | May perform only the specified approval action(s); cannot subdelegate or approve their own initiated actions |
+| Grant Expiry Reminder | An informational notice sent before a shared-site stock-task grant's effective end | Default reminders are 24 hours and 1 hour before expiry when the grant duration permits; it does not extend or preserve authorization |
+| Grant Expiry / Revocation Notice | An immediate notice that a stock-task grant has expired, been revoked or automatically invalidated | Notification delivery is not an authorization condition; zero grace applies and further stock mutations are denied immediately |
 
 ## Terminology rules
 
