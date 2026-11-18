@@ -8,8 +8,8 @@
 1. A person, an employee record, a login account, a role, and a permission are different concepts.
 2. A tenant owner may perform every operational task personally; the system must not require employee records or separate staff accounts for a one-person business.
 3. One person may perform multiple duties. Do not force one person into one narrow role.
-4. A role is a reusable bundle of permissions; it is not proof that the user is entitled to every record in the tenant.
-5. Authorization must evaluate tenant, permitted branch/location scope, action, resource ownership/state, and any approval limit.
+4. A role is an optional, tenant-configurable bundle of explicit permissions; neither role title nor user-account type grants access by itself.
+5. Authorization must evaluate effective explicit permission, Tenant membership, Branch/location/resource scope, ownership/state, validity, limits and approval policy. Identity/account type only identifies the actor.
 6. No client type (web/mobile/POS) grants permission by itself.
 7. Customer self-service accounts are outside the current approved scope.
 8. Platform support access must be distinct from tenant business access, limited, justified, time-bounded where feasible, and audited.
@@ -99,8 +99,8 @@ Small businesses may choose simpler workflows where legally and operationally ap
 - Financial, salary, bank, and identity fields should be field-restricted where appropriate.
 - Exports are a separate risk surface and require explicit authorization and audit.
 - Ordinary employees MUST default to only their own assigned branch; another branch's records remain inaccessible unless an explicit, audited cross-branch scope grant applies.
-- Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. This scope does not automatically grant every mutation, approval, export or sensitive-field permission.
-- No job title, role label, seniority or business designation by itself grants all-branch visibility or approval authority. Branch scope and each action must be explicitly authorized through effective permission assignments.
+- All-Branch visibility is never implied by Tenant Owner status, role title or account type. It is granted only through explicit customer-configurable read permissions and Branch scopes; mutation, approval, export and sensitive-field access require separate permissions.
+- No job title, role label, seniority, business designation or user-account type by itself grants visibility or approval authority. Each data category and action must be explicitly authorized through effective permission assignments and scope.
 - Cross-branch reporting/read access and cross-branch transaction mutation MUST be separate capabilities. Tenant-wide master records must not become unrestricted merely because they are tenant-owned.
 - Platform support access must not be a silent tenant-scope bypass.
 - Access revocation must take effect for subsequent requests and sessions according to defined session invalidation policy.
@@ -161,3 +161,12 @@ The final design must demonstrate:
 - A support operator cannot silently bypass tenant isolation.
 - Every privileged change and sensitive access is auditable.
 - Web, mobile, and POS clients produce equivalent authorization outcomes for the same principal and resource context.
+
+
+## 10. Tenant-configurable permission-first authorization
+
+The authenticated user account identifies the actor; the account type, job title and role label do not determine business access. A Tenant may configure reusable permission bundles and assign, amend, restrict, expire or revoke them for eligible principals within the assigning authority's own delegation. A role is optional convenience for grouping permissions, not a fixed privilege class or hierarchy. Direct or group-based scoped grants may be supported under tenant policy, but every effective capability must resolve to an explicit atomic permission and scope.
+
+Every read, mutation, approval, export, report, sensitive-field access and access-administration action is evaluated independently. Permissions must be separable by action and resource, and may be scoped to Tenant, Branch, OperatingLocation, StockLocation, assigned task/resource, fields/data categories, limits and effective period. No permission is inferred from another action, a feature entitlement, account category, client type or role title. Default deny applies where a required permission/scope/condition is absent or invalid. Customer configuration cannot disable tenant isolation, audit, stock ownership, segregation of duties or other fixed invariants.
+
+Permission changes and revocations are audited and must be revalidated server-side across all channels, including cached sessions, mobile/offline queues, exports, jobs and integrations. Role/account label changes alone must not change authorization results. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md` for the approved cross-Branch stock-task action matrix.
