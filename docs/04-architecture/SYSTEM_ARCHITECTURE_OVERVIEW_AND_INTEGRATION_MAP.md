@@ -3,7 +3,7 @@
 **Document ID:** ARC-SYS-001  
 **Status:** Technology-neutral system integration baseline — component policies remain authoritative; final technology and production decisions are gated by evidence and owner approval  
 **Product:** Dairy ERP SaaS (India)  
-**Authority:** Project Vision and Scope; Domain Landscape and Capability Model; Module Dependency Map; FRS-001; NFR-001; ERS-001; ARC-TEN-001; ARC-IAM-001; ARC-API-001; ARC-MOB-001; ARC-CONC-001; ARC-EVT-001; ARC-STO-001; ARC-DR-001; ARC-SCALE-001; ARC-BI-001; ARC-DEP-001; ARC-SEC-001; ARC-OBS-001; Tally Desktop Synchronization and Data Exchange Architecture; ODR-001..034 as applicable.  
+**Authority:** Project Vision and Scope; Domain Landscape and Capability Model; Module Dependency Map; FRS-001; NFR-001; ERS-001; ARC-TEN-001; ARC-IAM-001; ARC-API-001; ARC-PV-001; ARC-MOB-001; ARC-CONC-001; ARC-EVT-001; ARC-STO-001; ARC-DR-001; ARC-SCALE-001; ARC-BI-001; ARC-DEP-001; ARC-SEC-001; ARC-OBS-001; Tally Desktop Synchronization and Data Exchange Architecture; ODR-001..035 as applicable.  
 **Purpose:** Provide one navigable system-level view of the platform, its logical boundaries, runtime interactions, data ownership, security context and integration paths. This document connects existing architecture specifications; it does not replace or duplicate their detailed rules.
 
 ## 1. Scope and interpretation
@@ -161,10 +161,10 @@ Web, mobile and POS clients submit commands and queries through versioned API co
 
 The public API, internal domain-event contracts and Tally-agent exchange schemas have independent versioning concerns. Do not treat them as one version number.
 
-### 5.2 Role-aware clients
+### 5.2 Permission-, task- and context-aware clients
 
 - Web is available to authorized business roles, not only owners.
-- The initial mobile direction is one unified role-aware application with role-specific workspaces.
+- The initial mobile direction is one unified application with permission-, task- and context-aware workspaces. UI composition is not an authorization mechanism; every operation is independently checked against effective permissions and scope.
 - Initial guaranteed offline support is limited to assigned delivery-run snapshots and delivery outcome capture with server revalidation, idempotent synchronization and explicit conflict handling.
 - Offline POS, accounting posting, payment settlement, stock posting and master-data changes are not initially guaranteed.
 - No customer login, customer portal or customer app is introduced by this architecture.
@@ -382,3 +382,14 @@ Each item must be classified and tracked in ODR with the missing evidence or app
 ARC-SYS-001 is a navigational integration baseline. System architecture review can be considered complete only after the checklist above is verified against the detailed documents, material contradictions are reconciled, missing requirement-to-architecture links are recorded, and the owner/evidence dependencies are reflected accurately in ODR.
 
 This document does not by itself establish physical database readiness, final technology approval, legal compliance, production readiness or development authorization.
+
+
+## 18. Product variability and architecture evolution
+
+One comprehensive product supports multiple operating profiles through composable capabilities, Tenant configuration, supported customization and governed extension contracts. Capability entitlement, activation, configuration, authorization and extension grants are independent controls. No role title, account type, client type or installed feature grants access by itself.
+
+The initial deployment architecture is a modular monolith with explicit bounded-context/module ownership and versioned API/event contracts. Modules retain authoritative write ownership; other modules and extensions use documented contracts rather than direct private-data writes. Service extraction is evidence-gated and must include data ownership, migration, rollback, security, observability, compatibility and operations analysis.
+
+Configuration is data-driven and governed: fixed invariants are non-overridable; platform defaults may be replaced by Tenant policy and by narrower Branch/site overrides only where the key permits them; user preferences are presentation-only; transaction exceptions require explicit workflows and audit. Configuration versions used by completed/posting transactions remain historically explainable.
+
+A shared SaaS control plane and product lifecycle are retained. Pooled resources are the ordinary efficiency baseline candidate; selective bridge/silo resource placement may be introduced where evidence, security, contractual or workload needs justify it. A Tenant's isolation tier never changes product semantics or permission rules. See ARC-PV-001 for the authoritative policy.
