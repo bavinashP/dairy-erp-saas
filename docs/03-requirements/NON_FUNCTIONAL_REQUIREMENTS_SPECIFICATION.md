@@ -111,6 +111,10 @@ Numeric workload and service objectives are not invented. The engineering baseli
 | NFR-SCALE-002 | Isolation-tier portability | Tenant resource placement MUST be capable of evolving from pooled to selected bridge/silo resources where justified, preserving data, permissions, audit, integrations and API compatibility. | Tenant migration/restore rehearsal |
 | NFR-SCALE-003 | Configuration and tenant fairness | Configuration, bulk operations and extensions MUST be subject to tenant-aware quotas, bounded resource use and overload controls. | Noisy-neighbour and quota-exhaustion tests |
 
+| NFR-SEC-019 | Custody evidence access | Custody events, measurements, signatures and attachments MUST enforce Tenant/Branch/resource permissions on view, upload, download, export and background processing; device connection alone MUST NOT grant access. | Cross-Tenant/Branch evidence access and revoked-device tests |
+| NFR-DATA-008 | Custody chain integrity | Tracked custody history MUST be append-oriented, preserve source/provenance and policy version, and represent corrections as linked events; timeout or missing acknowledgement MUST NOT infer acceptance. | Custody chain replay, offline duplicate, handover timeout and correction tests |
+| NFR-SCALE-004 | Custody/telemetry resource fairness | High-volume device readings and evidence uploads MUST use bounded, tenant-aware ingestion/storage controls and backpressure so one Tenant/device cannot starve core transactional workflows. | Concurrent tenant ingestion, quota exhaustion, queue saturation and core transaction latency tests |
+
 ## 3. Workload and capacity model
 
 Capacity targets must be based on explicit workload scenarios, not assumptions about the development VPS. The architecture evaluation must model at least:
