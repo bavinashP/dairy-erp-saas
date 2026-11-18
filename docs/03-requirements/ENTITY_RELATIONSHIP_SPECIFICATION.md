@@ -323,10 +323,10 @@ The following is the logical relationship spine. Optional relationships depend o
 42. PackDefinitionVersion references a SKU/package, discrete count UOM and declared content quantity/UOM; a package/case hierarchy is explicit and effective-dated. Pack/unpack events reference the applicable version and preserve original and resulting quantities.
 43. MeasurementEvidence N:1 source measurement event; it retains the original value/UOM, source resolution, device/method, calibration/source evidence and timestamp. Normalized, accepted, converted and posted values remain separately attributable.
 44. PrecisionProfileVersion and RoundingPolicyVersion are referenced by each relevant transaction/calculation snapshot; a later profile/policy change does not rewrite historical outcomes.
-39. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
-40. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
-41. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
-42. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
+45. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
+46. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
+47. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
+48. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
 
 ## 13. Mandatory integrity invariants
 
