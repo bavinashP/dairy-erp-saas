@@ -105,8 +105,8 @@ The following examples use exact, registered keys from section 15.2. This table 
 
 | Domain | Representative canonical keys | Important separation |
 |---|---|---|
-| Tenant and Branch administration | `tenant.profile.view`; `organization.branch.view`; `organization.operating_location.configure`; `organization.operational_capability.activate` | Tenant activation/configuration does not grant user access or bypass platform invariants |
-| Membership and access | `identity.membership.invite`; `access.permission.assign`; `access.bundle.configure`; `approval.delegation.create` | Assignment cannot exceed the actor's delegated authority; approval delegation is separate |
+| Tenant and Branch administration | `tenant.profile.view`; `organization.branch.view`; `organization.operating_location.update_draft`; `organization.operational_capability.activate` | Tenant activation/configuration does not grant user access or bypass platform invariants |
+| Membership and access | `identity.membership.invite`; `access.permission.assign`; `access.bundle.update_draft`; `approval.delegation.create` | Assignment cannot exceed the actor's delegated authority; approval delegation is separate |
 | Party/identity | `party.profile.view`; `party.identity_resolution.submit`; `party.contact.view`; `party.bank_details.view_sensitive` | Identity resolution and sensitive-field visibility are separately permissioned |
 | Customer/account | `customer.account.view`; `customer.service_address.view`; `customer.credit_override.approve` | Address, transactions and credit terms may have narrower scope |
 | Subscription/schedule | `subscription.agreement.view`; `subscription.schedule.configure`; `subscription.schedule_exception.skip`; `subscription.schedule_occurrence.allocate` | Agreement changes, occurrence exceptions, generation and billing are distinct |
@@ -118,7 +118,7 @@ The following examples use exact, registered keys from section 15.2. This table 
 | Pricing | `pricing.price_list.view`; `pricing.price_list.publish`; `pricing.override.apply`; `pricing.override.approve` | Price configuration, publication, transaction override and approval are distinct |
 | Inventory | `inventory.stock.view`; `inventory.stock.receive`; `inventory.count.capture`; `inventory.variance.approve`; `inventory.quarantine.release`; `inventory.stock_valuation.view_sensitive` | Count capture is not variance approval; quarantine is not release; handling is not adjustment/write-off or valuation approval |
 | Cross-Branch stock-task grants | `inventory.stock_task_grant.create`; `inventory.stock_task_grant.approve`; `inventory.stock_task_grant.revoke`; `inventory.stock_task_grant.reconcile` | Grant administration never creates the worker's independent inventory permissions |
-| Emergency stock handling | `inventory.emergency_override.activate`; `inventory.emergency_override.extend`; `inventory.emergency_override.review` | Protective break-glass is limited by ODR-002 and is not a general administrator bypass |
+| Emergency stock handling | `inventory.emergency_override.activate`; `inventory.emergency_override.extend`; `inventory.emergency_override.revoke`; `inventory.emergency_override.review` | Protective break-glass is limited by ODR-002 and is not a general administrator bypass |
 | Lot/traceability/recall | `traceability.lot.trace`; `traceability.hold.apply`; `traceability.recall.initiate`; `traceability.recall.approve` | Traceability access does not grant stock disposition or unrelated customer data |
 | Processing/production | `production.recipe.approve`; `production.batch.execute`; `production.quality_release.approve`; `production.variance.approve` | Recipe authoring, batch execution, quality release and posting are distinct |
 | Billing/receivables | `billing.document.preview`; `billing.document.issue`; `billing.statement.export`; `billing.receivable.reconcile` | Statement viewing does not grant invoice mutation or payment receipt |
