@@ -81,6 +81,19 @@ Do not store full request/response bodies by default. Any exceptional payload ca
 - Stock-task grant expiry notification scheduling, event type (activation, 24-hour reminder, 1-hour reminder, expiry, revocation, automatic invalidation or approved version change), grant/version and exact expiry, recipient identity and current permission basis, channel, delivery attempts/outcome, suppression reason and held-task reference. Notification delivery failure must never alter authorization state.
 - Authorization denials for sensitive resources and repeated suspicious access attempts.
 
+### 5.1.1 Stock-task grant and authorization lifecycle
+
+Durable audit evidence must include:
+- Grant request creation, draft edits, submission, validation failures, withdrawal, approval, rejection, scheduled activation, activation, version supersession, material amendment, extension, expiry, revocation and automatic invalidation.
+- Grant ID and immutable version/payload hash; named worker and recorded Home/Primary Branch context; stock-owning Branch; OperatingLocation/StockLocation; product/lot/task references; permitted actions, limits, effective start/end, reason and policy version.
+- Requester, each approver/reviewer/delegate, exact approval permission/scope and delegation ID/version where used; the approval-time membership/permission decision and maker-checker result where configured.
+- Every action denial due to grant state, membership, independent permission, resource scope, limit, workforce assignment, quality/safety hold or expired effective period; record reason code without exposing secrets.
+- Each affected StockTaskHold: source grant/version and end event, completed/committed steps, outstanding work, last verified custodian/location, stock movement/custody references, reviewer, reauthorization/reassignment/closure/escalation decision and evidence.
+- Successor grant linkage, replacement worker authorization, real custody handover and linked correction/compensation/stock reconciliation.
+- Correlation/idempotency identifiers for request, approval, activation, stock commit, revocation, task hold and reconciliation.
+
+A validly committed approval remains in historical audit even if the approver later loses access. If review determines the approval was invalid when made, record the review and a separate revocation/invalidation event; never rewrite the original decision.
+
 ### 5.2 Business and financial controls
 - Invoice issue/correction/cancellation, credit/debit note, refund and payment allocation/reversal.
 - Receipt creation, manual payment recording, payment verification and reconciliation override.
