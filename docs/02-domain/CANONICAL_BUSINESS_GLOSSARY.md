@@ -151,3 +151,21 @@
 | Tenant Membership | A separately managed association between a global user identity and one Tenant | May coexist with memberships in other Tenants; each membership is an independent security context; it does not grant business permissions |
 | Membership Branch Assignment | A workforce/operating-context relationship between a Tenant membership and a Branch | May be multiple; optionally one Home/Primary Branch at a time; does not grant data visibility or action authority |
 | Home / Primary Branch | The Branch designated as a worker's normal workforce/administrative context | Organizational context only; no automatic access, approval, veto or stock ownership follows from this designation |
+
+
+## Shared-site accountability and custody terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| Physical Custody | Recorded physical holding/control of identified goods, a container, asset or resource at a point in time | Not ownership, stock-ledger attribution, permission or automatic legal liability |
+| Custodian | Named person, carrier, service identity or external party recorded as holding a custody subject | Custody assignment does not grant general Tenant/Branch access |
+| Handling / Execution Actor | Person or service that performed a specific physical or system-recorded action | May differ from the custodian before or after the event |
+| Custody Subject | Goods, a quantity/lot, container, asset or resource whose physical custody is tracked | Subject identity and ownership/stock attribution remain distinct |
+| Custody Event | Append-oriented evidence that a subject was received, held, inspected, dispatched, used, transferred or otherwise handled | Does not itself create a stock or financial movement |
+| Custody Handover | Controlled transfer of recorded physical custody between identified parties | Requires the selected evidence/acknowledgement; no acceptance by silence or timeout |
+| Custody Assurance Profile | Versioned policy defining the handover steps and evidence required for a workflow/risk level | Tenant-configurable within fixed safety, audit and ownership invariants |
+| Custody Evidence | Readings, scans, seal references, acknowledgements, photographs, documents or device evidence linked to a custody event | Must preserve source, time, context and verification provenance |
+| Custody Incident | Reported discrepancy or exception affecting custody, condition, quantity, location or evidence | Report does not automatically establish fault, liability or financial effect |
+| Shared Resource | Facility, equipment, vehicle, device or other resource explicitly made available to more than one Branch/capability | Shared use does not transfer ownership or grant unrelated data access |
+| Shared Resource Use | Recorded use/booking of a shared resource by an authorized Branch/capability and actor | Usage, maintenance, custody and cost allocation are separately governed |
+| Stock Movement | Authoritative posted quantity/location/status effect in the inventory ledger | Distinct from a CustodyEvent; linked where both occur |
