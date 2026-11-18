@@ -1,7 +1,7 @@
 # Functional Requirements Specification (FRS)
 
 **Document ID:** FRS-001  
-**Status:** Proposed baseline — product-owner review required  
+**Status:** Comprehensive functional baseline — product direction accepted; domain policy, external evidence and acceptance verification remain governed by the Open Decisions Register  
 **Product:** Dairy ERP SaaS (India)  
 **Authority:** Project Vision and Scope, approved product-owner statements, and linked domain specifications.  
 **Purpose:** Define observable system capabilities and testable functional requirements before UX, API, database, and implementation design.
@@ -10,7 +10,7 @@
 
 This specification covers the comprehensive Dairy ERP SaaS product. It is not a commitment that every capability ships in the first release. Delivery phases may sequence implementation but must not silently remove capabilities from the approved product scope.
 
-The system is an API-first business operations platform. Authorized dairy personnel use web and mobile clients; the SaaS platform owner uses platform administration capabilities. Customer self-service login, consumer storefront/e-commerce and customer mobile accounts are outside current scope.
+The system is an API-first, capability-composable business operations platform. Authorized dairy personnel use web, mobile and relevant operational clients through shared server-side contracts; the SaaS platform operator uses separately authorized platform capabilities. Client type does not grant business authority. Customer self-service login, consumer storefront/e-commerce and customer mobile accounts are outside current scope.
 
 A tenant may be a one-person dairy, a small retailer, a multi-branch operator, a loose-milk procurement/packing operation, a packaged-goods reseller, or a processing business. Capabilities must be optional/configurable according to operating profile. No employee, GST registration, corporate bank account, payment gateway, warehouse, processing unit or dedicated department is universally mandatory.
 
@@ -40,8 +40,10 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | FRS-GEN-011 | The system MUST support INR and one consistent Indian date convention, with IST as default business timezone. | Must | Display, storage and business-date boundary tests |
 | FRS-GEN-012 | English is primary; localization infrastructure MUST support Marathi, Hindi and additional Indian languages, including Unicode names and documents. | Must | Locale switch and Unicode round-trip tests |
 | FRS-GEN-013 | The system MUST distinguish business date from server timestamp where shifts/cut-offs require it. | Must | Late-night/shift-boundary tests |
-| FRS-GEN-014 | Exports and reports MUST enforce the same tenant, branch, role and sensitive-data permissions as interactive views. | Must | Unauthorized export is denied and audited |
-| FRS-GEN-015 | Business workflows MUST support owner-operated operation without requiring employee records or artificial staff roles. | Must | Owner completes setup, sale, delivery and close alone |
+| FRS-GEN-014 | Exports and reports MUST enforce the same Tenant, Branch, resource, field and action permissions as interactive views. | Must | Unauthorized export is denied and audited |
+| FRS-GEN-015 | Business workflows MUST support owner-operated operation without requiring employee records or artificial staff roles. | Must | A sole operator completes setup, sale, delivery and close using only explicitly assigned permissions |
+| FRS-GEN-016 | One product MUST support the smallest owner-operated dairy through large multi-branch businesses using composable capabilities and proportionate setup/usage, without customer-specific code forks or divergent product semantics. | Must | Small/medium/large Tenant journeys use the same product contracts and historical semantics |
+| FRS-GEN-017 | Plan entitlement, capability activation, Tenant configuration, principal permission, release feature flag and extension grant MUST be independent controls; none may silently substitute for another. | Must | Negative tests prove entitlement/activation/configuration/extension do not authorize an action |
 
 ## 3. Platform administration and SaaS tenancy
 
@@ -60,14 +62,19 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | ID | Requirement | Priority |
 |---|---|---|
 | FRS-IAM-001 | A person, login account, employee record, role, permission and device MUST be represented as distinct concepts. | Must |
-| FRS-IAM-002 | A user MAY hold multiple roles/duties and authorized scopes. | Must |
-| FRS-IAM-003 | Authorization MUST evaluate tenant, branch/location, action, resource state, assignment and approval limit where applicable. | Must |
-| FRS-IAM-004 | The system MUST support platform-level, tenant-wide and branch/location-scoped permissions. | Must |
+| FRS-IAM-002 | A global user identity MAY hold independent memberships in multiple Tenants; each user/Tenant pair has at most one current membership. | Must |
+| FRS-IAM-010 | A Tenant membership MAY have multiple workforce Branch assignments and an optional single current Home/Primary Branch; these assignments provide operating context only and MUST NOT grant data visibility or action authority. | Must |
+| FRS-IAM-003 | Authorization MUST evaluate active Tenant membership, effective explicit permission, resource and Branch/location scope, ownership, state, grant validity, limits and approval policy as applicable. Identity, role title and account type identify/organize the actor but MUST NOT grant authority. | Must |
+| FRS-IAM-004 | The system MUST support platform-level, Tenant, Branch, location, resource/task and sensitive-field permissions as applicable. Permissions MUST be independently assignable, changeable, restrictable, expirable and revocable within delegated authority. | Must |
 | FRS-IAM-005 | Backend authorization MUST be applied to every API and background operation; hiding a UI control is insufficient. | Must |
 | FRS-IAM-006 | The system MUST support configurable approval/separation-of-duties policies for high-risk actions (financial posting, refunds, stock adjustment, payroll finalization, permission changes, Tally bulk sync); whether approval is required for a given action is governed by the approved policy. | Must |
 | FRS-IAM-007 | Device/session lifecycle, revocation and security event history MUST be supported. | Must |
 | FRS-IAM-008 | Customer self-service identities MUST NOT be provisioned under the current approved product scope. | Must |
-| FRS-IAM-009 | Ordinary employees MUST be restricted by default to their own assigned branch; cross-branch visibility requires an explicit, audited scope grant. Tenant Owner may be granted all-branch operational visibility, while cross-branch read and mutation permissions remain distinct. | Must | Branch A employee cannot retrieve Branch B data through UI, API, search, reports, exports, attachments or background jobs; owner all-branch view succeeds only with the required permissions |
+| FRS-IAM-009 | No role title, job title, seniority, account type or Home/Primary Branch assignment MUST grant access. Every data disclosure and action requires the applicable effective permission and scope; cross-Branch read, mutation, approval, sensitive-field access and export are independently permissioned. | Must | Same effective permissions/context yield same result regardless of titles/account labels; a Branch assignment alone cannot disclose records |
+
+### 4.1 Customer-configurable permission governance
+
+The Tenant MUST be able to configure eligible permission bundles and permission assignments for its users/groups, subject to fixed platform controls and the assigning actor's own delegated authority. Roles are optional editable bundles only. Direct principal grants MAY be supported under governed policy. Explicit deny, default deny, fail-closed conflict handling, change audit and cross-channel revocation are mandatory. See ARC-IAM-001, ARC-AUTH-MATRIX-001 and BR-FIX-024.
 
 ## 5. Branches, locations and operating profile
 
@@ -240,8 +247,13 @@ This FRS establishes functional behavior, not final numerical targets. Separate 
 
 ## 18. Open decisions and dependencies
 
-The following remain open and must be resolved through the Open Decisions Register rather than assumptions: legal entity/books structure (ODR-001/003); location taxonomy (ODR-002); user membership and detailed authorization (ODR-004/005); subscription cut-off and recurrence precedence (ODR-006/007); units and precision (ODR-008); quality and procurement rates (ODR-009/010); processing and stock policy (ODR-011/012); pricing/billing/tax treatment (ODR-013/016); payment verification (ODR-015); detailed CoA and accounting policy (ODR-017); labour applicability (ODR-018); mobile packaging/offline guarantees (ODR-019/020); notification providers (ODR-021); KPI catalogue/forecast horizons/budget workflow (ODR-022/024); SaaS commercial rules (ODR-025); data lifecycle (ODR-026); scale and recovery objectives (ODR-027/028); integration priorities (ODR-029); technology/deployment/localization decisions (ODR-030/032).
+The following remain open and must be resolved through the Open Decisions Register rather than assumptions: legal entity/books structure and legal applicability (ODR-003); detailed shared-site custody/accountability and exception workflows (ODR-002); exhaustive module-level permission catalogue and remaining domain approval rules (ODR-005); subscription cut-off and recurrence precedence (ODR-006/007); units and precision (ODR-008); quality and procurement rates (ODR-009/010); processing and stock policy (ODR-011/012); pricing/billing/tax treatment (ODR-013/016); payment verification (ODR-015); detailed CoA and accounting policy (ODR-017); labour applicability (ODR-018); mobile packaging/offline guarantees (ODR-019/020); notification providers (ODR-021); KPI catalogue/forecast horizons/budget workflow (ODR-022/024); SaaS commercial rules (ODR-025); data lifecycle (ODR-026); scale and recovery objectives (ODR-027/028); integration priorities (ODR-029); technology/deployment/localization decisions (ODR-030/032).
 
 ## 19. Approval gate
 
 This document is a proposed requirements baseline. Product-owner approval is required before treating any proposed business policy as final. No implementation or schema generation should begin solely from this draft until Gate C and Gate D review are complete.
+
+
+## 20. Product variability and lifecycle requirements
+
+The product MUST classify domain rules as fixed, configurable, customizable, extensible or externally dependent. Fixed invariants cannot be disabled by Tenant/Branch settings, subscription plans or extensions. Configurable policies use approved keys, allowed values/scopes, validation, versioning, effective dates and audit. Customer customization is limited to supported, upgrade-safe presentation/form/report/form/workflow/metadata surfaces. New capability and integration extensions use versioned contracts, separate Tenant-bound identities, explicit permissions, resource limits and revocation. Modules MUST maintain authoritative data ownership and avoid ungoverned direct writes across module boundaries. The initial modular-monolith direction and evidence-gated service extraction are governed by ARC-PV-001.
