@@ -29,6 +29,13 @@ This document defines logical consistency rules for transactional and asynchrono
 | Subscription recurrence | Two schedulers generate same customer/line/date/shift occurrence | Deterministic occurrence key plus persistence uniqueness |
 | Schedule edits | Edit overlaps with generated future occurrences | Effective-dated immutable schedule versions and explicit regeneration policy |
 | Delivery | Two devices mark same stop delivered/failed or edit actual quantity | Versioned state transition, actor/time/evidence and conflict resolution |
+| Delivery demand allocation | Two concurrent plans/runs claim the same source quantity or stop | Atomic allocation against source quantity/version; stable allocation identity and explicit split totals |
+| Route/Branch/service assignment | Route is revised or ServiceArea assignment expires while a run is being planned/dispatched | Effective-dated ownership check and immutable route/plan snapshot; revalidate at dispatch commit |
+| Personnel/run assignment | Participant is reassigned/revoked or assigned to overlapping exclusive work while dispatch is in flight | Atomic assignment-version, active membership, permission, workforce policy and conflict validation at commit |
+| Vehicle/transport assignment | Same exclusive vehicle/resource is booked to overlapping runs or capacity is exceeded | Atomic time-window claim, capacity guard and readiness validation |
+| Dispatch | Two clients dispatch or amend the same run concurrently | Compare-and-swap/versioned transition; idempotent dispatch key; immutable dispatched manifest |
+| Breakdown/replacement | Vehicle or participant is replaced while stock is physically held | Hold run segment, preserve custody, create a real handover and revalidate new assignment/resource before resuming |
+| Offline delivery sync | Old device command arrives after run reassignment, expiry, route change or stop fulfilment | Revalidate assignment, permission, run/stop/manifest version and idempotency at server commit; conflict review for stale facts |
 | POS | Retry after timeout creates duplicate sale/receipt | Idempotency key and durable command result |
 | POS cash session | Two operators close or reconcile same session | State/version precondition and serialized close |
 | Stock reservation | Two orders reserve same available quantity | Atomic reservation against authoritative stock/lot availability |
