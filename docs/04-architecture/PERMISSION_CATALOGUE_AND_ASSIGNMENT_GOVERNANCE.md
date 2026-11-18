@@ -221,7 +221,7 @@ The product-wide v1 atomic key inventory is specified in section 15. A domain sp
 
 A key's semantic meaning is immutable after publication. A broader action or materially different data disclosure requires a new key or a formally versioned compatibility migration. Deprecated keys remain resolvable during the declared compatibility window but cease granting authority after retirement. Unknown, malformed, unregistered or retired keys default to deny.
 
-ODR-005 remains partially open only for detailed domain approval thresholds, resource/state transition mapping and verified automated coverage as each workflow is finalized. The canonical v1 permission inventory and governance baseline are selected in section 15; the domain approval-control baseline is ARC-IAM-CTRL-001. This does not mean permissions are automatically assigned or that every module is enabled for every Tenant.
+ODR-005 remains partially open only for exact resource/state/API mapping, sensitive-field classification and verified automated coverage as each workflow is finalized. Numeric thresholds are Tenant-specific configuration values governed by ARC-IAM-CTRL-001, not universal product constants. The canonical v1 permission inventory and governance baseline are selected in section 15; the domain approval-control baseline is ARC-IAM-CTRL-001. This does not mean permissions are automatically assigned or that every module is enabled for every Tenant.
 
 
 ## 15. ODR-005 — product-wide atomic permission catalogue v1
