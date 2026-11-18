@@ -230,3 +230,18 @@ Created `docs/03-requirements/CRITICAL_WORKFLOW_TRANSACTION_AND_POSTING_BOUNDARY
 DBR-005 maps POS, delivery, milk collection, farmer settlement, packaged-goods receipt, inter-branch stock transfer, billing, receipt/refund, journal posting and Tally synchronization to authoritative source events, candidate local atomic commits, asynchronous stages, domain uniqueness/idempotency controls and recovery outcomes. It preserves the distinction between source operational facts, stock movements, subledger effects, immutable journals and external Tally vouchers. It explicitly avoids claims of distributed atomicity or exactly-once delivery and carries tenant/branch authorization through every transaction boundary.
 
 DBR-005 is indexed in the documentation structure. ODR decisions about accounting recognition, posting rules, branch permissions, UOM, tax, settlement, offline operation, technology and Tally compatibility remain open. No application code, SQL, DDL, ORM models, migrations or physical schema were created.
+
+
+## 15. Business decision closure — ODR-001
+
+On 2026-11-18, the product owner explicitly approved ODR-001 Option B:
+- One Tenant represents one independent Dairy Business Workspace.
+- One workspace may support multiple dairy operating models and multiple branches.
+- Operating models and branch count are independent dimensions.
+- Adding an operating model does not implicitly create another tenant or branch.
+
+The Open Decisions Register now records ODR-001 as resolved by explicit owner approval, including the rejected alternatives, consequences, affected areas and verification criteria. DBR-002 was aligned so that the approved operating-model decision is not confused with legal-entity/tax-registration cardinality.
+
+The product owner also clarified that Indian legal and regulatory review is deferred until after project completion. It is outside the current development scope and must not be presented as a current blocker or unresolved development decision. No legal conclusion was made. ODR-002, the business/location taxonomy, is the next owner-decision discussion.
+
+The updated ODR-001 and DBR-002 were saved to `main`; post-write fetch verification is required before treating this audit entry as verified. No application code, SQL, DDL, ORM models, migrations or physical database schema were changed.
