@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized manager of the stock-owning Branch must approve each cross-branch stock-task grant before it becomes effective; home-Branch consent is not yet decided. Detailed grant lifecycle, accountability and complete permission matrix remain to be specified | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation and limited cross-branch stock-task grant baselines approved by product owner (2026-11-18); detailed shared-use accountability and complete permission-matrix policies remain open.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch must approve each cross-branch stock-task grant before it becomes effective; home-Branch consent is not yet decided. Detailed grant lifecycle, accountability and complete permission matrix remain to be specified | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation and limited cross-branch stock-task grant baselines approved by product owner (2026-11-18); detailed shared-use accountability and complete permission-matrix policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -23,7 +23,7 @@
 | ODR-016 | GST and invoicing | Determine tax treatments, invoice formats, e-invoicing/e-way bill applicability, retention. | Legal and financial correctness | Current authoritative Indian tax sources and applicability matrix | Open |
 | ODR-017 | Accounting | Define ledgers, vouchers, chart of accounts, tax, bank reconciliation, statements, integrations. | Finance domain and integration boundaries | Accountant workflows and statutory research | Open |
 | ODR-018 | HR/payroll | Define attendance, shifts, leave, salary, deductions, statutory payroll, contractor workflows. | Scope and legal obligations vary | Indian labour/payroll research and scenarios | Open |
-| ODR-019 | Mobile apps | ARC-MOB-001 selects one unified, role-aware mobile app as the initial reversible baseline; separate role-focused apps require evidence of material security, usability, distribution or release-management benefit. | Avoids fragmented releases and duplicated client behavior while preserving role-specific workspaces | Validate representative owner, manager, delivery, POS, procurement, inventory and finance journeys before UX freeze; compare total lifecycle cost if separate apps are proposed | Recommended baseline; validate role journeys before UX freeze |
+| ODR-019 | Mobile apps | ARC-MOB-001 selects one unified, role-aware mobile app as the initial reversible baseline; separate role-focused apps require evidence of material security, usability, distribution or release-management benefit. | Avoids fragmented releases and duplicated client behavior while preserving role-specific workspaces | Validate representative owner, branch-operations, delivery, POS, procurement, inventory and finance journeys before UX freeze; compare total lifecycle cost if separate apps are proposed | Recommended baseline; validate role journeys before UX freeze |
 | ODR-020 | Offline operation | ARC-MOB-001 defines a narrow initial offline baseline for assigned delivery-run snapshots and delivery outcome capture with server revalidation, idempotent sync and explicit conflict handling. Offline POS, financial posting, payment settlement, stock posting and master-data changes are not initially guaranteed. | Preserves delivery continuity without allowing stale offline state to corrupt shared financial, stock or schedule records | Field trial; device/data-protection threat review; determine maximum offline duration, cache TTL, supported device matrix and sync support policy; test duplicate, stale, revoked and conflicting operations | Recommended delivery-offline baseline; duration/device policy requires evidence and owner approval; other workflows deferred with triggers |
 | ODR-021 | Notifications | Define channels, templates, consent, retries, delivery tracking, provider fallback. | Reliability, cost, privacy | Provider and legal research | Open |
 | ODR-022 | Analytics | ARC-BI-001 defines analytics layers, core report families, fact grains, dimensions, KPI governance, security, refresh and acceptance tests. Remaining owner decision: approve official KPI definitions/owners and SaaS plan report entitlements. | Business target ownership and commercial packaging | Management KPI workshop using documented catalogue; formula test vectors and plan-entitlement approval | Recommended architecture baseline; KPI/plan approval required before launch |
@@ -250,7 +250,7 @@ Branch A and Branch B use the same warehouse building. The building is represent
 - The worker may see only the minimum stock and task information needed to perform the authorized action. The grant does not expose the target Branch's general customer, supplier, employee, sales, purchasing, financial, reporting or other operational records.
 - Stock ownership and transaction attribution remain with the owning Branch even when a worker from another Branch performs an authorized physical task. The system must retain both the stock-owning Branch and the acting worker's identity/normal branch context in the audit trail.
 - Grants must be revocable, effective-dated and auditable. Expiry or revocation must prevent subsequent actions without rewriting already completed stock movements or historical records.
-- A shared physical location, shared shift, shared manager or physical proximity alone never creates a permission grant.
+- A shared physical location, shared shift, shared-site user or physical proximity alone never creates a permission grant.
 
 **Illustrative application**
 
@@ -262,7 +262,7 @@ A warehouse worker normally assigned to Branch A is also authorized to pick and 
 - Authorization checks must include actor, target Branch, shared-site/StockLocation context, action, effective time and any required approval state.
 - Audit events must preserve actor identity, actor's home/assigned Branch, target stock-owning Branch, target StockLocation, action, source task/document and grant reference.
 - APIs, search, mobile workflows, barcode scanning, reports, exports, background jobs, integrations and caches must enforce the same grant boundaries; UI hiding alone is insufficient.
-- This approval does not settle general employee multi-branch membership, managerial all-branch visibility, emergency override, approval delegation, or complete HR/payroll access rules.
+- This approval does not settle general employee multi-branch membership, all-branch visibility, emergency override, approval delegation, or complete HR/payroll access rules.
 
 **Verification:** Confirm that a worker with a Branch A home assignment can execute only the specifically granted stock tasks for Branch B at the approved shared site; cannot browse unrelated Branch B records; cannot perform ungranted stock mutations; and every permitted action is attributable to the worker, stock-owning Branch and grant.
 
@@ -328,26 +328,26 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 **Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for the remaining shared-site accountability, grant lifecycle/exception handling and complete permission-matrix policies.
 
-**Approval evidence:** The product owner explicitly accepted that the authorized manager of the stock-owning Branch must approve a grant allowing a worker from another Branch to handle that stock at a shared OperatingLocation.
+**Approval evidence:** The product owner explicitly accepted that the authorized user holding the required approval permission of the stock-owning Branch must approve a grant allowing a worker from another Branch to handle that stock at a shared OperatingLocation.
 
 **Approved decision statement**
 
-- Approval by an authorized manager of the Branch that owns the target stock is mandatory before a cross-branch shared-site stock-task grant becomes effective.
+- Approval by an authorized user holding the required approval permission of the Branch that owns the target stock is mandatory before a cross-branch shared-site stock-task grant becomes effective.
 - The approval is specific to the grant's worker, target/stock-owning Branch, shared OperatingLocation and/or StockLocation, permitted actions and effective period. A materially changed grant requires approval of the changed scope before it is used.
-- The grant must not become effective merely because a worker's home Branch, a shared-site manager, or another party has approved it.
+- The grant must not become effective merely because a worker's home Branch, a shared-site user, or another party has approved it.
 - Whether the worker's home Branch must also provide consent is not decided by this approval. It remains a separately configurable/policy decision to be specified; home-Branch consent must not be represented as universally mandatory or universally unnecessary.
-- The approving manager must hold an explicitly authorized approval scope for the stock-owning Branch. A job title alone is insufficient.
+- The approving authorized user must hold an explicitly authorized approval scope for the stock-owning Branch. A job title alone is insufficient.
 - Approval authority does not expand the grant's action scope or expose unrelated data belonging to the stock-owning Branch.
 
 **Consequences**
 
 - Grant creation/activation must retain the approving actor, approval time, approved grant version/scope and relevant authorization evidence.
-- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Delegated approval and emergency exceptions remain open.
+- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Delegated approval and emergency override is approved separately below; delegated approval remains open.
 - The worker's home-Branch membership and the stock-owning Branch's stock ownership remain distinct.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; authorization/approval workflow; shared-site stock operations; audit trail and acceptance tests.
 
-**Verification:** Confirm that a grant cannot be activated without approval from an authorized manager of the stock-owning Branch; that the approval is bound to the exact grant scope/version; that home-Branch consent is not assumed; and that the grant cannot authorize actions or data beyond its approved least-privilege scope.
+**Verification:** Confirm that a grant cannot be activated without approval from an authorized user holding the required approval permission of the stock-owning Branch; that the approval is bound to the exact grant scope/version; that home-Branch consent is not assumed; and that the grant cannot authorize actions or data beyond its approved least-privilege scope.
 
 **Review trigger:** Reopen only on explicit product-owner change or when defining the complete grant lifecycle, delegated approvals, emergency overrides or home-Branch consent policy.
 
@@ -364,7 +364,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Revocation or expiry also prevents further stock-affecting actions under that grant. No new receipt, put-away, pick, issue, transfer, count adjustment, reservation or other stock mutation may be authorized solely by the ended grant.
 - Tasks already completed remain historically intact. Their stock movements, actor attribution, owning-Branch attribution, grant reference and audit history must not be deleted, silently rewritten or automatically reversed because the grant later ended.
 - An in-progress task must not be auto-completed, auto-rolled-back or treated as successfully completed. It enters a held/review-required state, preserving completed steps, quantities, custody evidence and outstanding work.
-- Further stock-affecting steps on a held task require a currently valid grant that covers the exact worker, target stock scope and action, or reassignment to another currently authorized worker. The authorized manager of the stock-owning Branch (or a separately authorized delegate under a future approved delegation policy) decides whether to reauthorize through a new/valid grant, reassign the remaining work, or cancel/close it through a controlled reconciliation process.
+- Further stock-affecting steps on a held task require a currently valid grant that covers the exact worker, target stock scope and action, or reassignment to another currently authorized worker. The authorized user holding the required approval permission of the stock-owning Branch (or a separately authorized delegate under a future approved delegation policy) decides whether to reauthorize through a new/valid grant, reassign the remaining work, or cancel/close it through a controlled reconciliation process.
 - Cancellation/closure must reconcile any partial physical handling and stock effects through explicit compensating/correction records where required; it must never erase the original events or fabricate a rollback. Any residual custody/quantity discrepancy remains visible for resolution.
 - Non-mutating safety/incident reporting and audit capture may continue while a task is held, but this does not authorize stock movement or changes to stock balances.
 - Grant revocation/expiry, task hold, review decision, reassignment, reauthorization and closure must be timestamped and attributable, with the reason and related grant/task references retained.
@@ -374,10 +374,68 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Authorization must be rechecked server-side at each stock-affecting transition, including API, mobile/barcode, background jobs, retries and integrations. Cached authorization must not permit post-expiry/revocation writes.
 - Task state transitions and stock effects must be concurrency-safe and idempotent. A revocation racing with a stock operation must not allow an operation to commit after the grant is no longer valid; the transaction boundary must revalidate authorization atomically with the stock-affecting commit.
 - No automatic distributed rollback or exactly-once guarantee is implied. Recovery uses explicit reconciliation and append-only correction/compensation evidence.
-- This approval does not decide notification timing/channels, grace periods, emergency override, delegated approval rules, or the separate home-Branch consent policy.
+- This approval does not decide notification timing/channels, grace periods, delegated approval rules, grant-expiry notifications/grace periods, or the separate home-Branch consent policy.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; grant lifecycle; stock task state machine; stock movement integrity; concurrency/idempotency; audit and acceptance tests.
 
 **Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
 
 **Review trigger:** Reopen only on explicit product-owner change or when specifying emergency override, delegation, notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
+
+
+### ODR-002 — approved emergency override for shared-site stock-handling tasks
+
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002; it does not close delegated approval, grant-expiry notifications/grace periods, home-Branch consent, the complete permission matrix or detailed shared-site accountability.
+
+**Approval evidence:** The product owner approved the recommended emergency-override safeguards and confirmed that authorization is permission-based: authority follows explicit permissions, not job titles or named roles.
+
+**Purpose and activation threshold**
+
+An Emergency Override is a narrowly scoped, temporary exception for an immediate threat to human safety, milk/product quality, refrigeration integrity, contamination control, physical safety or material stock loss where waiting for the ordinary grant-approval path would create material harm. It is not a convenience path for workload pressure, routine absence, delayed administration or ordinary operational urgency.
+
+**Initiation and authorization**
+
+- Any authenticated user may report an emergency and request intervention. Reporting an incident does not itself grant access or authorize a stock action.
+- Under the normal path, an authorized user holding the required approval permission for the stock-owning Branch must approve the exact emergency scope before activation. The initiator must not approve their own request where independent approval is required.
+- If the relevant ordinary approver is unavailable and delay would create material harm, a predesignated Emergency Authority may activate a restricted self-activation override only where that user has an explicit, current `emergency_override.activate` permission (or an equivalently explicit permission in the final permission catalogue) covering the relevant tenant/Branch scope.
+- The Emergency Authority designation is an authorization assignment, not a job title. No title, seniority, physical presence or general administrator status is sufficient by itself.
+- If no appropriately scoped Emergency Authority is available, the system must not silently permit an override. Users may take immediate physical safety actions outside the software, report the incident and preserve evidence, but unauthorized stock mutations remain prohibited.
+
+**Minimum permitted scope**
+
+An override must be bound to the named actor, stock-owning Branch, affected OperatingLocation and StockLocation, affected stock/batch/task references, permitted actions and a short effective period. It may allow only the minimum actions needed to protect or secure the affected stock, such as viewing relevant task/stock details, protective movement to a safe controlled location, emergency receiving/put-away where necessary to prevent harm, and quarantine/isolation.
+
+It does not grant general Branch membership or unrelated Branch data access. It must not authorize stock adjustments, write-offs, valuation changes, price changes, purchasing, sales, customer/supplier access, financial postings, exports, permission changes, grant administration or approval of the actor's own actions. Any additional action requires a separate valid permission and approval path. Stock ownership remains with the stock-owning Branch.
+
+**Validity and extension**
+
+- Initial validity is limited to 60 minutes from activation.
+- One explicit extension of up to a further 60 minutes is permitted; total validity must never exceed 120 minutes from initial activation.
+- There is no automatic renewal. Extension requires a recorded reason and fresh authorization by a different authorized user holding the relevant emergency-extension permission. A self-activating Emergency Authority cannot approve their own extension.
+- If the required extension authorization is unavailable, the override expires and the task follows the approved hold/reconciliation process.
+
+**Misuse prevention and review**
+
+- Activation requires a specific emergency reason, incident reference where available, affected Branch/location/stock/task, exact action scope and expiry.
+- The system must enforce least privilege, server-side checks, no privilege inheritance from job titles, no self-approval outside the narrowly defined self-activation exception, and immediate revocation capability.
+- Every activation, denied attempt, use, extension, revocation and expiry must be auditable.
+- Every self-activated override requires retrospective review by a different authorized user holding the relevant review permission. Review must assess necessity, scope, actions, quantities, evidence and any policy breach; findings and corrective actions remain linked to the incident and override.
+- The review should be completed within one business day after the override ends. A suspected misuse, unexplained stock discrepancy, safety incident or material control failure must be escalated immediately under the incident process.
+
+**Mandatory audit evidence**
+
+Retain the override and incident identifiers; initiator/actor identity and normal Branch context; stock-owning Branch; OperatingLocation and StockLocation; affected stock, batch and task references; emergency reason and supporting evidence; activation mode (ordinary approval or restricted self-activation); approver or Emergency Authority identity and permission evidence; approval/activation timestamps; exact approved actions and scope/version; start, expiry and extension details; each attempted and completed action; quantities and custody/location changes; request/correlation/idempotency references; revocation/expiry; retrospective reviewer, review time, findings and corrective actions; and all reconciliation records. Never log credentials, tokens or secret values.
+
+**Expiry, partial work and stock reconciliation**
+
+Expiry or revocation immediately blocks new tasks and further stock-affecting actions under the override. Completed transactions and audit history remain immutable. In-progress tasks are held for controlled review; they are not automatically completed or rolled back. Completed steps, quantities, physical custody evidence and outstanding work must be preserved. Further stock mutations require a valid ordinary grant or authorized reassignment. The stock-owning Branch's authorized user holding the relevant review/reconciliation permission determines reauthorization, reassignment or controlled closure. Physical/system discrepancies and partial handling must be resolved through explicit correction/compensation records; original events must never be erased or silently rewritten. Non-mutating safety/incident reporting and evidence capture may continue.
+
+**Concurrency and enforcement**
+
+Authorization must be revalidated server-side at every stock-affecting transition across APIs, mobile/barcode clients, jobs, retries and integrations. Validation of the active override, its scope and expiry must be coordinated atomically with the stock-affecting commit. Expiry/revocation racing with an in-flight operation must not permit a write to commit after authorization has ceased. Idempotency must prevent duplicate emergency actions; stale UI/session/cache state and offline clients must never authorize a write. No automatic distributed rollback or exactly-once guarantee is implied; uncertain outcomes require explicit reconciliation.
+
+**Affected areas:** ARC-IAM-001; audit/observability; ERS-001; Core Domain Entity Catalogue; Canonical Business Glossary; shared-site stock workflows; concurrency/idempotency; incident review and acceptance tests.
+
+**Verification:** Test ordinary approval, restricted self-activation only by a specifically authorized Emergency Authority, denial when no such authority exists, exact least-privilege scope, no unrelated data access, 60-minute expiry, one independently authorized extension with a 120-minute hard maximum, immediate revocation, immutable completed records, held partial tasks, review evidence, discrepancy reconciliation, API/mobile/job/integration enforcement, idempotency and expiry/revocation race conditions.
+
+**Review trigger:** Reopen only upon explicit product-owner change or evidence from operational testing that the approved emergency safeguards are unsafe or insufficient. Delegated approval, notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
