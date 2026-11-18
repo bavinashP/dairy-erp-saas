@@ -57,7 +57,7 @@ Every authorization decision MUST evaluate all applicable dimensions:
 | Approval limit | Does the operation exceed a limit or require another approver? |
 | Contextual policy | Do time, device, session, risk or workflow constraints apply? |
 
-A role bundle MUST NOT be treated as proof of tenant/branch data scope. A feature entitlement MUST NOT grant authorization. Hiding a UI action MUST NOT replace server-side authorization.
+A role bundle MUST NOT be treated as proof of tenant/branch data scope. Neither role title, job title, seniority nor user-account type grants business access by itself. A feature entitlement MUST NOT grant authorization. Hiding a UI action MUST NOT replace server-side authorization.
 
 ## 5. Permission model
 
@@ -88,7 +88,7 @@ The final catalogue must define resource semantics, state constraints, sensitive
 - **Read versus mutate:** Cross-branch reporting visibility may be granted separately from transaction mutation.
 - **Sensitive data scope:** Payroll, bank details, payment evidence, personal data and credentials may require separate permissions/field masking.
 
-**Branch-isolation baseline:** An ordinary employee's default effective scope MUST be limited to their own assigned branch. Access to another branch MUST be denied unless a specific, audited cross-branch scope grant is assigned. Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. Job titles and role labels alone do not grant that scope; effective permissions and scope assignments determine authority. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
+**Branch-isolation baseline:** A principal's effective Branch scope MUST be established by explicit permission and scope assignments, not by account type or title. Where a user is assigned to one home/operating Branch, that assignment is a default boundary for ordinary operations, not an independent permission. Access to another Branch MUST be denied unless a specific, audited permission and cross-Branch scope grant authorize the exact read/action. All-Branch visibility is never inferred from Tenant Owner status or any role title; it requires explicit tenant-configurable read permissions and scope assignments. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
 
 ODR-004/005 remain open for the broader membership, role and permission/delegation matrix, but their resolution MUST preserve this explicit product-owner branch-isolation constraint and the approved ODR-002 delegated-approval baseline.
 
@@ -104,7 +104,7 @@ Role assignments MUST be:
 
 The platform MUST prevent privilege escalation through self-assignment, circular delegation, broader scope assignment or granting permissions the actor cannot delegate.
 
-Custom roles, platform templates, role inheritance, direct permission grants, deny rules and precedence remain policy decisions. Avoid implicit role-weight arithmetic as a substitute for permission/scope evaluation.
+Roles are optional, tenant-configurable permission bundles. Platform templates may be offered as editable starting points; they MUST NOT confer immutable privileges. Tenant policy may support direct principal or group grants, but all effective capabilities must resolve to explicit atomic permissions and scopes. Role/account labels alone MUST NOT affect authorization. Permission assignment, restriction, expiry and revocation must be configurable and audited. Avoid implicit role-weight arithmetic or seniority/account-type rules as a substitute for permission/scope evaluation. The precedence model must be explicit and fail closed; no conflicting or ambiguous grant may widen access.
 
 
 ### 7.1 Permission-based delegated approval (ODR-002)
@@ -217,3 +217,16 @@ This document is a logical baseline, not a final permission matrix or authentica
 4. Define support and break-glass access workflows.
 5. Map every API/job/integration action to a permission and scope.
 6. Complete threat analysis and automated authorization/tenant-isolation tests.
+
+
+### 5.1 Permission-first and customer-configurable authorization
+
+The account authenticates the actor; it is not an authorization profile. The same authenticated principal may receive different permissions over time or across explicitly authorized resource scopes, and different principals with identical effective permissions and context must receive identical authorization outcomes. A change to a role name, job title or account category alone must not change access.
+
+The Tenant must be able to configure eligible permission bundles and permission assignments, including grant, amendment, restriction, expiry and revocation. The permission catalogue supplies stable atomic semantics; customer configuration determines which eligible principal/group receives each permission, at what scope, limits and effective period. Roles are optional bundles only. Direct principal/group grants are permitted only under a governed assignment policy and cannot exceed the assigning actor's delegation authority. Tenant configuration cannot weaken fixed platform invariants.
+
+Every read, field-level disclosure, mutation, approval, report, export, configuration and access-administration action must be checked independently. Permission scope may include Tenant, Branch, OperatingLocation, StockLocation, assigned task/resource, data/field category, quantity/value limits and effective time. Default deny applies to missing, expired, revoked, ambiguous or unverifiable permission/scope. Read does not imply mutation; mutation does not imply approval; count capture does not imply variance approval; quarantine does not imply release; internal transfer does not imply inter-Branch ownership transfer.
+
+Permission changes must be versioned/audited and take effect through authoritative server-side revalidation. Cache, session, mobile/offline, export, background-job and integration contexts must not preserve revoked authority. Every write must coordinate authorization revalidation with the state-changing commit where race conditions are possible.
+
+The complete approved cross-Branch stock-task action matrix and customer configurability boundaries are specified in `CROSS_BRANCH_PERMISSION_MATRIX.md`.
