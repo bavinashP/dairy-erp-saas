@@ -65,8 +65,8 @@
 | Budgeting/Financial Analytics | Posted ledger, reconciled operational facts, KPI definitions, dimensions and assumptions | Budget versions, variance reports, forecasts, scenarios and projections |
 | External Accounting Integration (Tally) | Accounting ledger, mapping registry, voucher/field mapping specification, sync agent, company identity | Tally master/voucher exchange, audit packages, compatibility and reconciliation results |
 | HR/Payroll | Employee records, shifts/attendance, compensation/policy | Payroll expense, workforce availability, reports |
-| Asset/Maintenance | Asset register, location, work orders, schedules | Availability, maintenance cost, compliance evidence |
-| Quality/Compliance | Applicable business profile, facility/process/equipment, evidence | Holds/releases, corrective actions, audit and compliance reporting |
+| Asset/Maintenance | Asset register, location, work orders, schedules, SharedResourceUse and custody evidence | Availability, custody, maintenance/cleaning/calibration, downtime and approved cost allocation |
+| Quality/Compliance | Applicable business profile, facility/process/equipment, custody event and condition evidence | Holds/releases, temperature/condition exceptions, corrective actions, audit and compliance reporting |
 | Reporting/MIS | Authorized operational/financial facts | Dashboards, period reports, management review |
 | BI/Analytics | Validated historical facts, dimensions, KPI definitions | Trends, drill-down, segmentation, management insight |
 | Forecasting/Projections | Historical data, known future events, assumptions, model validation | Demand/procurement/cash/stock/staffing forecasts |
@@ -111,6 +111,7 @@ Posted operational/financial records → Reconciliation and close → Reporting 
 - Long-running work such as report generation, imports, notifications, and forecast runs should not block core counter/delivery transactions.
 - Cross-branch and cross-domain reporting needs explicit permission and data-scope rules.
 - High-volume reporting must not compromise transactional consistency or tenant isolation.
+- CustodyEvent and StockMovement are distinct linked facts; custody/asset use must not create duplicate stock or financial effects. Shared-site permissions and evidence must remain independently scoped.
 - Integration failures must be retryable without duplicating financial, inventory, or delivery effects.
 
 ## 7. Boundary and evolution policy
