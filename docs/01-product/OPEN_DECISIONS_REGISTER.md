@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch model | Define branch, outlet, collection centre, warehouse, processing unit, and delivery area. | Avoids conflating operational locations and legal registrations | Domain glossary and workflow analysis | Open |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Accepted conceptual baseline: one physical site may support multiple capabilities; StockLocation remains an inventory-control concept. Remaining Branch/OperatingLocation ownership, shared-use and access rules require owner decision | **Partially resolved — accepted conceptual baseline (2026-11-18); remaining relationship and access decisions open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -87,6 +87,47 @@ The supported operating-model examples include:
 **Verification:** Confirm that one tenant can enable multiple operating-model capabilities and contain multiple branches, without treating these dimensions as equivalent or forcing tenant duplication.
 
 **Review trigger:** Reopen only if product scope changes to support multiple independent business workspaces under one tenant, or if an explicit product-owner change is made.
+
+---
+
+### ODR-002 — Accepted conceptual baseline: physical site, operational capabilities and stock locations
+
+**Status:** Partially resolved — the product owner accepted this conceptual distinction on 2026-11-18. ODR-002 remains open for the remaining Branch, OperatingLocation ownership/parentage, shared-use and access-policy decisions.
+
+**Approval evidence:** The product owner explicitly accepted the revised concept after reviewing the single-premises example of a small, sole-owner dairy business.
+
+**Accepted decision statement**
+
+A single physical premises may perform several operational functions. The model must not require a separate physical OperatingLocation for every function or capability.
+
+- **OperatingLocation** represents the actual physical/operational site or premises.
+- **Operational Capabilities** represent the functions enabled/performed at that OperatingLocation. Examples include retail/counter sales (Outlet), milk receiving (Collection Centre), warehousing/storage, processing and packaging. These are capabilities/functional classifications, not mandatory separate physical sites.
+- **StockLocation** is a separate inventory-control concept representing a controlled stock-holding position, zone, room, shelf, refrigerator, bin or other inventory subdivision. It is not automatically a separate OperatingLocation.
+- **ServiceArea** remains a geographic coverage area, not a physical OperatingLocation.
+- **Branch** remains a management/operating unit; its exact relationship to OperatingLocation is not yet approved by this partial decision.
+
+**Illustrative application**
+
+A small dairy business may have one Branch and one OperatingLocation at a single address. That same OperatingLocation may have retail, milk collection, storage and processing/packaging capabilities. Inventory may be divided into one or more StockLocations within that premises according to operational need. The system must not force the owner to create multiple physical sites merely to enable those functions.
+
+A larger business may configure multiple OperatingLocations under its approved Branch/tenant structure, with each site having its own combination of capabilities and StockLocations.
+
+**Alternatives rejected for this accepted subdecision**
+- Creating a separate physical OperatingLocation for every operational function, even when all functions occur at one premises.
+- Treating StockLocation as the same kind of entity as a physical OperatingLocation.
+
+**Consequences**
+- Capability configuration must be many-to-one or otherwise support multiple capabilities on one OperatingLocation.
+- A capability being enabled does not by itself create another Branch or OperatingLocation.
+- Inventory-control subdivisions must be modelled separately from physical premises.
+- Small single-premises businesses and multi-site businesses must both be supported without different conceptual models.
+- This partial approval does not decide Branch-to-OperatingLocation cardinality, whether an OperatingLocation may be tenant-level/unassigned, shared physical-site governance, ServiceArea-to-Branch cardinality, route relationships, or employee access rules.
+
+**Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; inventory/location modelling; onboarding and capability configuration.
+
+**Verification:** Confirm that one OperatingLocation can enable multiple operational capabilities, that StockLocation is distinct from OperatingLocation, and that a single-premises dairy workflow does not require fictitious physical sites.
+
+**Review trigger:** Reopen this accepted baseline only if the product owner changes the single-premises/multi-capability requirement. Continue ODR-002 separately for the remaining branch/location relationships and access rules.
 
 ---
 
