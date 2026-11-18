@@ -244,4 +244,18 @@ The Open Decisions Register now records ODR-001 as resolved by explicit owner ap
 
 The product owner also clarified that Indian legal and regulatory review is deferred until after project completion. It is outside the current development scope and must not be presented as a current blocker or unresolved development decision. No legal conclusion was made. ODR-002, the business/location taxonomy, is the next owner-decision discussion.
 
-The updated ODR-001 and DBR-002 were saved to `main`; post-write fetch verification is required before treating this audit entry as verified. No application code, SQL, DDL, ORM models, migrations or physical database schema were changed.
+The updated ODR-001 and DBR-002 were subsequently fetched again from `main` and their saved content was verified. No application code, SQL, DDL, ORM models, migrations or physical database schema were changed.
+
+
+## 16. ODR-002 — accepted physical-site and capability distinction
+
+On 2026-11-18, the product owner accepted the revised conceptual distinction after raising the valid small-dairy scenario in which one sole-owner business performs retail sales, milk receiving, storage, processing/packaging and stock control at one premises.
+
+The accepted baseline is:
+- OperatingLocation represents the actual physical/operational premises.
+- Multiple operational capabilities may be enabled/performed at the same OperatingLocation; a separate physical location is not required for each function.
+- StockLocation is a separate inventory-control holding position/subdivision (such as a refrigerator, room, shelf, bin or zone), not a separate physical OperatingLocation by default.
+- ServiceArea remains geographic coverage, not a physical site.
+- This approval is partial: Branch-to-OperatingLocation relationship/cardinality, tenant-level/unassigned locations, shared physical-site governance, ServiceArea/route relationships and access rules remain to be resolved under ODR-002.
+
+The accepted distinction was propagated to the Open Decisions Register, DBR-002, Canonical Business Glossary, Core Domain Entity Catalogue and ERS-001. These files were fetched from `main` before editing; post-write fetch verification is required. No application code, SQL, DDL, ORM models, migrations or physical database schema were changed.
