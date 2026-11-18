@@ -172,6 +172,10 @@ Every read, mutation, approval, export, report, sensitive-field access and acces
 Permission changes and revocations are audited and must be revalidated server-side across all channels, including cached sessions, mobile/offline queues, exports, jobs and integrations. Role/account label changes alone must not change authorization results. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md` for the approved cross-Branch stock-task action matrix.
 
 
+### 10.1 Delivery-run and transport assignment
+
+A participant's assignment to a DeliveryRun or an operational duty label such as driver, delivery handler, helper or accountable run assignee is not a permission grant. The participant needs current explicit permissions, Branch/run/stop scope and a valid assignment; any workforce duty/shift allocation required by Tenant policy is separately authorized. A vehicle or asset assignment never grants run or customer-data access. Cross-Branch delivery work requires explicit delivery permissions and the applicable workforce assignment; a StockTaskAccessGrant, Home/Primary Branch or role title cannot substitute. Dispatch, execute, hold/resume, exception resolution, proof capture and close are distinct actions. See [Cross-Branch Permission Matrix](../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md) section 4.1 and ODR-002 section 16.37.
+
 ## 11. Tenant membership and Branch assignment
 
 One global user identity may hold independent memberships in multiple Tenants, with at most one current membership per user/Tenant pair. Membership in one Tenant never grants access to another. Within a Tenant, a membership may have zero or more Branch/workforce assignments and optionally one current Home/Primary Branch. These assignments identify normal workforce/operating context only; they are not permissions and do not grant record visibility. All data and action authority comes from effective explicit permissions and scopes. See ODR-004 section 16.9 and ERS section 16.8.
