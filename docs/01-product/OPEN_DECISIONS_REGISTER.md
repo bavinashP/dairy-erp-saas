@@ -399,7 +399,7 @@ An Emergency Override is a narrowly scoped, temporary exception for an immediate
 
 - Any authenticated user may report an emergency and request intervention. Reporting an incident does not itself grant access or authorize a stock action.
 - Under the normal path, an authorized user holding the required approval permission for the stock-owning Branch must approve the exact emergency scope before activation. The initiator must not approve their own request where independent approval is required.
-- If the relevant ordinary approver is unavailable and delay would create material harm, a predesignated Emergency Authority may activate a restricted self-activation override only where that user has an explicit, current `emergency_override.activate` permission (or an equivalently explicit permission in the final permission catalogue) covering the relevant tenant/Branch scope.
+- If the relevant ordinary approver is unavailable and delay would create material harm, a predesignated Emergency Authority may activate a restricted self-activation override only where that user has an explicit, current `inventory.emergency_override.activate` permission covering the relevant tenant/Branch scope.
 - The Emergency Authority designation is an authorization assignment, not a job title. No title, seniority, physical presence or general administrator status is sufficient by itself.
 - If no appropriately scoped Emergency Authority is available, the system must not silently permit an override. Users may take immediate physical safety actions outside the software, report the incident and preserve evidence, but unauthorized stock mutations remain prohibited.
 
@@ -455,7 +455,7 @@ Delegated Approval allows an authorized user to temporarily assign a narrowly de
 
 **Who may delegate and who may receive delegation**
 
-- The delegator must hold both the effective approval permission for the exact approval category/resource and scope, and a separate explicit `approval.delegate` permission covering that same scope.
+- The delegator must hold both the effective approval permission for the exact approval category/resource and scope, and a separate explicit `approval.delegation.create` permission covering that same scope.
 - The delegate must be an active, authenticated user within the same Tenant and must be eligible to act within the delegated Tenant/Branch/resource scope. A delegation does not create general Branch membership or grant unrelated data visibility.
 - The delegation record itself is the explicit, temporary authorization for the named delegate to perform only the specified approval action(s). Any information needed to decide must be exposed through the delegate's independently permitted access or a minimum, permission-filtered approval packet; the delegation must not silently widen read access.
 - A delegator cannot delegate an authority they do not currently hold, delegate more broadly than their own scope, or delegate to themselves.
@@ -478,7 +478,7 @@ A delegation authorizes only the approve action within the stated scope. It does
 - Maximum validity is 30 calendar days from its effective start. The effective end is exclusive.
 - There is no automatic renewal and no extension of an existing delegation. A new delegation record, with fresh authorization and audit evidence, is required for any further period.
 - The delegator or an authorized user holding a specific delegation-revocation permission may revoke it immediately.
-- The delegation becomes unusable immediately if the delegator's underlying approval permission, `approval.delegate` permission, relevant scope assignment or Tenant membership is revoked, suspended, expires or is narrowed so that the delegated scope is no longer covered.
+- The delegation becomes unusable immediately if the delegator's underlying approval permission, `approval.delegation.create` permission, relevant scope assignment or Tenant membership is revoked, suspended, expires or is narrowed so that the delegated scope is no longer covered.
 - It also becomes unusable if the delegate's account or Tenant membership is suspended, revoked or expires, or if the delegation itself expires or is revoked.
 - Revocation/expiry prevents new approval decisions. An approval already committed while the delegation was valid remains an immutable historical event; an uncommitted/in-flight approval must be revalidated and rejected if the delegation is no longer valid.
 
@@ -498,7 +498,7 @@ Delegation validity, current delegator authority, delegate membership, scope, ac
 
 **Affected areas:** ERS-001; ARC-IAM-001; audit/observability; concurrency/transaction integrity/idempotency; Actor and Access Model; Core Domain Entity Catalogue; Canonical Business Glossary; approval workflow policy and acceptance tests.
 
-**Verification:** Test creation without `approval.delegate`; delegation exceeding delegator scope/limits; inactive or cross-Tenant delegate; exact Branch/resource/action scoping; 30-day hard maximum; no renewal/extension; immediate revocation; automatic invalidation on either party's membership or relevant permission/scope loss; all non-delegable actions; self-approval and subdelegation denial; multi-stage approval preservation; payload/policy changes; audit attribution; duplicate retries; and revocation/expiry races at commit.
+**Verification:** Test creation without `approval.delegation.create`; delegation exceeding delegator scope/limits; inactive or cross-Tenant delegate; exact Branch/resource/action scoping; 30-day hard maximum; no renewal/extension; immediate revocation; automatic invalidation on either party's membership or relevant permission/scope loss; all non-delegable actions; self-approval and subdelegation denial; multi-stage approval preservation; payload/policy changes; audit attribution; duplicate retries; and revocation/expiry races at commit.
 
 **Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Notification provider/channel delivery remains under ODR-021; the permission matrix, custody and detailed grant/task-reconciliation baselines are specified in sections 16.7, 16.36 and 16.38; the Home-Branch/workforce-assignment boundary remains recommended in section 16.6.
 
