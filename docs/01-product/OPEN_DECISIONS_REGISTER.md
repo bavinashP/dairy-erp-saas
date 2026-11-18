@@ -342,7 +342,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 **Consequences**
 
 - Grant creation/activation must retain the approving actor, approval time, approved grant version/scope and relevant authorization evidence.
-- Revocation, expiry, scope changes, delegated approval and emergency exceptions require explicit lifecycle rules; this decision does not silently settle them.
+- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Delegated approval and emergency exceptions remain open.
 - The worker's home-Branch membership and the stock-owning Branch's stock ownership remain distinct.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; authorization/approval workflow; shared-site stock operations; audit trail and acceptance tests.
@@ -350,3 +350,34 @@ For every item, record the decision statement; classification; chosen baseline; 
 **Verification:** Confirm that a grant cannot be activated without approval from an authorized manager of the stock-owning Branch; that the approval is bound to the exact grant scope/version; that home-Branch consent is not assumed; and that the grant cannot authorize actions or data beyond its approved least-privilege scope.
 
 **Review trigger:** Reopen only on explicit product-owner change or when defining the complete grant lifecycle, delegated approvals, emergency overrides or home-Branch consent policy.
+
+
+### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
+
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for the remaining shared-site accountability, emergency exceptions, home-Branch consent policy and complete permission matrix.
+
+**Approval evidence:** The product owner accepted the recommended lifecycle baseline: revocation/expiry stops new work, completed history remains immutable, and in-progress work is held for controlled review rather than silently completed or rolled back.
+
+**Approved decision statement**
+
+- A grant becomes unusable for new stock tasks immediately when it is revoked or reaches its effective end/expiry. Authorization checks must use the current grant state and effective period, not a stale UI/session/cache copy.
+- Revocation or expiry also prevents further stock-affecting actions under that grant. No new receipt, put-away, pick, issue, transfer, count adjustment, reservation or other stock mutation may be authorized solely by the ended grant.
+- Tasks already completed remain historically intact. Their stock movements, actor attribution, owning-Branch attribution, grant reference and audit history must not be deleted, silently rewritten or automatically reversed because the grant later ended.
+- An in-progress task must not be auto-completed, auto-rolled-back or treated as successfully completed. It enters a held/review-required state, preserving completed steps, quantities, custody evidence and outstanding work.
+- Further stock-affecting steps on a held task require a currently valid grant that covers the exact worker, target stock scope and action, or reassignment to another currently authorized worker. The authorized manager of the stock-owning Branch (or a separately authorized delegate under a future approved delegation policy) decides whether to reauthorize through a new/valid grant, reassign the remaining work, or cancel/close it through a controlled reconciliation process.
+- Cancellation/closure must reconcile any partial physical handling and stock effects through explicit compensating/correction records where required; it must never erase the original events or fabricate a rollback. Any residual custody/quantity discrepancy remains visible for resolution.
+- Non-mutating safety/incident reporting and audit capture may continue while a task is held, but this does not authorize stock movement or changes to stock balances.
+- Grant revocation/expiry, task hold, review decision, reassignment, reauthorization and closure must be timestamped and attributable, with the reason and related grant/task references retained.
+
+**Consequences and controls**
+
+- Authorization must be rechecked server-side at each stock-affecting transition, including API, mobile/barcode, background jobs, retries and integrations. Cached authorization must not permit post-expiry/revocation writes.
+- Task state transitions and stock effects must be concurrency-safe and idempotent. A revocation racing with a stock operation must not allow an operation to commit after the grant is no longer valid; the transaction boundary must revalidate authorization atomically with the stock-affecting commit.
+- No automatic distributed rollback or exactly-once guarantee is implied. Recovery uses explicit reconciliation and append-only correction/compensation evidence.
+- This approval does not decide notification timing/channels, grace periods, emergency override, delegated approval rules, or the separate home-Branch consent policy.
+
+**Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; grant lifecycle; stock task state machine; stock movement integrity; concurrency/idempotency; audit and acceptance tests.
+
+**Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
+
+**Review trigger:** Reopen only on explicit product-owner change or when specifying emergency override, delegation, notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
