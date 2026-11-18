@@ -5,7 +5,7 @@
 
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
-| ODR-001 | Business identity | Which legal/business structures must a tenant support (proprietorship, partnership, company, cooperative, etc.)? | Profile, compliance, ownership, reporting | Indian business practice and legal research; representative scenarios | Open |
+| ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
 | ODR-002 | Branch model | Define branch, outlet, collection centre, warehouse, processing unit, and delivery area. | Avoids conflating operational locations and legal registrations | Domain glossary and workflow analysis | Open |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
@@ -39,6 +39,56 @@
 | ODR-032 | Localization | Which languages, translation workflow, number formats, localized templates are needed? | Consistent UX and compliance | User research and terminology glossary | Open |
 | ODR-033 | Security governance | Approve MFA and session/recovery policies, privileged access governance, incident response ownership, vulnerability remediation targets and security risk-acceptance authority. | Account takeover, privileged misuse, incident impact and production risk | Threat model, risk assessment, operational/legal review and explicit policy approval | Open |
 | ODR-034 | Audit and observability governance | Approve durable audit event catalogue, audit/telemetry retention classes, access governance, alert ownership, escalation and incident evidence policy. | Accountability, privacy, investigation readiness, storage cost and operational response | Threat model, data inventory, workload baseline, legal/contract review and incident exercises | Open |
+
+## Approved business decisions
+
+### ODR-001 — One tenant, multiple dairy operating models and branches
+
+**Status:** Resolved — explicit product-owner approval  
+**Decision date:** 2026-11-18  
+**Approval evidence:** User selected Option B and confirmed no additional changes in the conversation on 2026-11-18.
+
+**Approved decision statement**
+
+One Tenant represents one independent Dairy Business Workspace. A single workspace may operate multiple dairy business models and multiple branches. The operating models are capability descriptions, not mutually exclusive tenant types.
+
+The supported operating-model examples include:
+- Milk buying and selling.
+- Recurring milk distribution and doorstep delivery.
+- Retail/counter sales.
+- Farmer milk collection and procurement.
+- Milk processing and packaging.
+- Dairy-product resale and distribution.
+- Combined operations that use multiple models together.
+
+**Conceptual separation**
+- Tenant: independent SaaS workspace and isolation boundary.
+- Business Profile: descriptive and configurable profile for the workspace.
+- Operating-model capabilities: one or more enabled business activities; they must not force a tenant split.
+- Branch: operational unit within the tenant.
+- OperatingLocation: typed physical/operational place, with its taxonomy and relationships handled separately under ODR-002.
+
+**Alternatives considered**
+- Option A — one operating model per tenant: rejected because it unnecessarily constrains businesses that combine or expand operations.
+- Option B — multiple operating models and multiple branches per tenant: approved.
+- Option C — separate tenant for each operating model: rejected as the default because it fragments a single business workspace and complicates shared operations/data.
+
+**Consequences**
+- Product capability configuration must allow multiple operating models in one tenant.
+- Enabling an additional operating model must not implicitly create a new tenant or branch.
+- Branch count and operating-model count remain independent dimensions.
+- The model must support a business evolving from one operating model to a combined model without losing historical records.
+- This approval does not decide legal-entity cardinality, tax registrations, accounting-book cardinality, or any legal/regulatory applicability.
+
+**Scope boundary:** Legal form, legal identity verification and Indian legal/regulatory applicability are excluded from the current project-development decision process. They are intended for a separate review after project completion and must not be represented as current development blockers.
+
+**Affected areas:** Project Vision and Scope; tenant/business profile; capability and module configuration; branch model; onboarding; ERS-001; SaaS tenancy architecture; reporting and entitlement design.
+
+**Verification:** Confirm that one tenant can enable multiple operating-model capabilities and contain multiple branches, without treating these dimensions as equivalent or forcing tenant duplication.
+
+**Review trigger:** Reopen only if product scope changes to support multiple independent business workspaces under one tenant, or if an explicit product-owner change is made.
+
+---
 
 ## Decision closure protocol
 For every item, record the decision statement; classification; chosen baseline; alternatives; evidence/source and date; rationale; consequences/risks; affected documents/modules; verification method; decision owner; approval requirement; and review trigger/date.
