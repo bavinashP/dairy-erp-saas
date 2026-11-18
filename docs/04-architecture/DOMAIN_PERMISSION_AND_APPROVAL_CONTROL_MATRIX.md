@@ -101,6 +101,39 @@ Thresholds use canonical currency, UOM, precision and rounding rules. No policy 
 - If a fixed rule and a Tenant policy conflict, the stricter fixed rule prevails.
 - If two Tenant policies conflict or are ambiguous, apply the more restrictive valid rule or deny and require policy correction; do not select the permissive interpretation.
 
+### 5.1 Approval policy version lifecycle, weakening controls and in-flight requests
+
+An ApprovalPolicyProfile is an editable Tenant configuration container. Each published ApprovalPolicyVersion is immutable, effective-dated and bound to one or more explicit domain/action/resource/risk scopes. A starter profile is copied into Tenant-owned configuration before it can govern Tenant transactions; its name never assigns permissions or creates a user category.
+
+**Version lifecycle**
+- Draft policy edits use `approval.policy.configure` and authorize no business approval decision.
+- Submission freezes the candidate policy payload/version. Where the effective security policy requires review, use `approval.policy.submit` and route it to an independent reviewer.
+- A version that weakens controls MUST receive a separate approval using `approval.policy.approve` by an authorized principal other than the policy change initiator. It becomes effective only through `approval.policy.publish` after all required approvals have committed.
+- A version that only tightens controls may be published by a principal holding the exact scoped configure and publish permissions where no other fixed/Tenant rule requires independent approval. The change and impact preview remain auditable.
+- Future-effective versions are Scheduled and authorize no decision until their effective start. Replaced versions become Superseded; retired versions cannot be newly matched. Historical versions and decisions remain reproducible.
+- Material policy changes create a new immutable version. Editing a published policy in place, changing a policy payload after approval or reusing an approval for a different payload is prohibited.
+
+**Policy weakening classification**
+Changes that can weaken a control include raising an approval threshold, reducing reviewer count/quorum, removing a required stage or evidence item, broadening scope, shortening approval validity, making an action delegable, relaxing maker-checker/independence, increasing export/data limits, or changing a policy so fewer actions require approval. They require independent approval and cannot be self-approved. A change cannot weaken a fixed platform/domain safeguard even with independent approval.
+
+Changes that only strengthen controls include lowering thresholds, adding reviewers/stages/evidence, narrowing scope, shortening validity or reducing permitted volume. They may take effect under the explicit policy-publish permission, without requiring a second person unless the active Tenant policy requires it.
+
+**Policy selection and conflict handling**
+- Match active policies using domain action, risk class, resource and declared Tenant/Branch/location scope, amount/quantity/UOM, data sensitivity and effective time.
+- Fixed platform/domain safeguards are always applied. For overlapping Tenant rules, combine compatible requirements; where one rule is clearly stricter, apply the stricter rule.
+- Where two applicable rules conflict, scope precedence is ambiguous or the system cannot compare thresholds/units safely, deny/hold the protected decision and require policy correction. Never choose the permissive interpretation.
+- Tenant configuration cannot redefine permission-key semantics, create a permission, weaken required approval for a stock-task grant, bypass non-delegable actions, or relax immutable history, audit, custody, safety, ownership or commit-time authorization controls.
+
+**In-flight ApprovalRequest policy binding — selected safe default**
+- When an ApprovalRequest is created/submitted, snapshot its exact source payload/version, the matched ApprovalPolicyVersion(s), rule(s), threshold calculations, approval stages and evidence requirements. The request never silently changes its original snapshot.
+- At each approval action and again at the protected commit boundary, evaluate the current effective policy for that same action/resource/scope in addition to the original request snapshot.
+- If a newer effective policy is more restrictive, the stricter combined requirements apply. Any previously completed approval stage invalidated by the new requirement must be repeated; new reviewers/evidence are added and the change is audited. The protected action remains blocked until satisfied.
+- If a newer policy is less restrictive, it MUST NOT reduce or remove an approval requirement already attached to a pending request. The pending request continues under the stricter original snapshot until completed, rejected or withdrawn. A new request created after the less restrictive policy becomes effective may use it, subject to all fixed safeguards.
+- If the matched policy version is missing, revoked, incompatible, internally contradictory or cannot be safely compared, hold the request and deny commit until an authorized policy correction/review resolves it.
+- A completed decision committed while its applicable policy and permissions were valid remains historically immutable. A later policy change is prospective and does not retroactively erase or invalidate completed transactions.
+
+This control applies to financial, stock, workforce, pricing, procurement, identity, export, compliance and platform workflows. It is not limited to a particular module or size of Tenant.
+
 ## 6. Domain-level permission and approval matrix
 
 The table below defines the logical action and approval boundary for the product's documented domains. Exact keys are in ARC-IAM-CAT-001 section 15.2. Each permission is independent; the table does not imply that one permission grants another.
