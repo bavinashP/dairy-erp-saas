@@ -1307,7 +1307,7 @@ ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule, ApprovalRequir
 **Affected documents and verification**
 - ARC-IAM-CTRL-001 is the domain-level logical control matrix and test owner.
 - ARC-IAM-CAT-001 section 15 remains the canonical permission key inventory.
-- ERS section 5 and the section 12 relationship map define the approval policy conceptual model, including the immutable evaluation snapshot and policy matches.
+- ERS section 5 and relationship map §12 define the approval policy conceptual model, including sequenced immutable evaluation snapshots and policy matches.
 - FRS IAM-027..036 define requirements; RTM maps them to AT-CTRL-001..026.
 - Business Rules Catalogue defines fixed permission/approval separation and configurable approval policy profile controls.
 - Quality Strategy records the AT-CTRL suite and validates small, multi-Branch and enterprise policy profiles.
