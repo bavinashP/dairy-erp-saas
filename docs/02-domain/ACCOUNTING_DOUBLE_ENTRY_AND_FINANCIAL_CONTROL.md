@@ -1,6 +1,6 @@
 # Accounting, Double-Entry Bookkeeping and Financial Controls
 
-**Status:** Working baseline — domain requirements  
+**Status:** Recommended accounting baseline — double-entry integrity selected; books/valuation/statutory policy and Tally compatibility remain evidence-gated  
 **Scope:** Tenant-level accounting foundation for Indian dairy businesses, with explicit Tally-compatible data exchange readiness.  
 **Important:** This is a product/domain design baseline, not legal, tax, or audit advice. Applicable accounting and statutory requirements require qualified review.
 
@@ -161,15 +161,14 @@ Each report must define date basis, accounting basis, dimensions, inclusion rule
 11. Produce a trial balance whose debits and credits agree.
 12. Export accounting records without losing voucher identity, dates, ledger mapping, dimensions or debit/credit amounts.
 
-## 12. Open decisions
+## 12. Configuration and evidence dependencies
 
-- Exact legal books scope when a tenant has multiple branches or entities.
-- Starter CoA templates and account group taxonomy.
-- Accounting basis and inventory valuation policy.
-- Voucher numbering and approval controls.
-- GST applicability and tax posting rules.
-- Financial year and period close policy.
-- Cost-centre/branch dimension model.
-- Opening balance and historical migration policy.
-- Which reports are in MVP versus later releases.
-- Tally version compatibility and supported import/export profile.
+- LegalEntity/TaxRegistration/AccountingBook cardinalities remain under ODR-003 and are deferred to post-project legal/accounting review; Branch does not automatically create a separate book.
+- Starter CoA templates are configurable starting points. The Tenant controls its book-specific mapping within fixed accounting invariants; account identities and posting rules are versioned.
+- Accounting basis, inventory valuation/costing and source-event recognition need worked examples and qualified accounting review before final policy.
+- Voucher numbering, posting approvals, period close/reopen and access are permission-based with effective-dated settings and audit.
+- GST applicability and tax posting follow ODR-016; do not infer legal tax treatment from a Branch, product label or Tenant profile.
+- Financial year and period policies are book-specific, versioned and applied prospectively; closed-period correction uses controlled approval and linked entries.
+- Branch/cost centre/department/location are dimensions where needed, not replacements for legal or book boundaries.
+- Opening balances/historical migration require source reconciliation, cut-off, trial balance agreement and evidence; no silent balancing plug.
+- Tally is the first-priority accounting integration under ODR-029; each supported TallyPrime version requires an actual compatibility PoC and import/export reconciliation before being claimed as supported.
