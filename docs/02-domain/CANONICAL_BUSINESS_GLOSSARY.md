@@ -122,6 +122,8 @@
 | Delegate | The named active user who receives the temporary approval capability under an Approval Delegation | May perform only the specified approval action(s); cannot subdelegate or approve their own initiated actions |
 | Grant Expiry Reminder | An informational notice sent before a shared-site stock-task grant's effective end | Default reminders are 24 hours and 1 hour before expiry when the grant duration permits; it does not extend or preserve authorization |
 | Grant Expiry / Revocation Notice | An immediate notice that a stock-task grant has expired, been revoked or automatically invalidated | Notification delivery is not an authorization condition; zero grace applies and further stock mutations are denied immediately |
+| Home Branch | The Branch to which a worker is ordinarily assigned for workforce administration or scheduling purposes | Does not automatically approve or veto stock-task access to another Branch's inventory; workforce assignment authority is separate from stock authorization |
+| Workforce Assignment | An authorized allocation of a worker to a Branch, OperatingLocation, shift, duty or time period | Must be separately authorized where required by tenant workforce policy; a stock-task grant does not create or modify it |
 
 ## Terminology rules
 
