@@ -117,7 +117,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 - Treating StockLocation as the same kind of entity as a physical OperatingLocation.
 
 **Consequences**
-- Capability configuration must be many-to-one or otherwise support multiple capabilities on one OperatingLocation.
+- One OperatingLocation must support multiple operational-capability assignments without creating separate physical sites.
 - A capability being enabled does not by itself create another Branch or OperatingLocation.
 - Inventory-control subdivisions must be modelled separately from physical premises.
 - Small single-premises businesses and multi-site businesses must both be supported without different conceptual models.
