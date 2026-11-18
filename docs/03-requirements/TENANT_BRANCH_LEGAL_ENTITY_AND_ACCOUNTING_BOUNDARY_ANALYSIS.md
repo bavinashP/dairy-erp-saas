@@ -87,7 +87,7 @@ These capability labels describe what happens at the site; they do not require s
 
 **ServiceArea** remains a geographic coverage concept, not a physical OperatingLocation.
 
-**Decision status:** The product owner accepted this physical-site / multi-capability / separate-StockLocation distinction on 2026-11-18. ODR-002 remains open for Branch-to-OperatingLocation cardinality and parentage, tenant-level/unassigned locations, shared-site governance, ServiceArea/route relationships and access rules.
+**Decision status:** The product owner accepted the physical-site / multi-capability / separate-StockLocation distinction and the Branch/OperatingLocation relationship on 2026-11-18. A Branch is a tenant-owned management/operating unit and may be associated with multiple OperatingLocations. An OperatingLocation is tenant-owned and may be associated with a Branch, but mandatory Branch assignment is not required; tenant-level/unassigned locations are permitted conceptually. Shared use of one physical site by multiple Branches requires an explicit governed association and does not grant unrestricted cross-branch data access. ODR-002 remains open for ServiceArea/route relationships and detailed shared-use/access policies.
 
 ## 4. Candidate conceptual relationship model
 
@@ -159,7 +159,7 @@ The diagram intentionally distinguishes ownership relationships from attribution
 | C — tenant-wide typed locations | All physical locations belong directly to tenant; optional branch attribution | Flexible for shared or independent facilities | Requires clear branch assignment and access rules; location may have no branch |
 | D — mixed model | Locations are tenant-owned and may optionally be associated with a branch; some location types may have typed parent/child relations | Flexible and consistent with current ERS wording | Requires explicit hierarchy rules and prevention of invalid combinations |
 
-**Recommended modelling posture:** preserve the existing ERS baseline: every OperatingLocation belongs to the tenant and may optionally be associated with a Branch. Do not assume every location is a child of exactly one branch. Define whether a location may be shared by branches, reassigned over time, or nested under another location only after workflow analysis. Branch itself remains a distinct tenant-owned operating unit.
+**Approved modelling baseline (2026-11-18):** every OperatingLocation belongs to the tenant and may optionally be associated with a Branch; a Branch may be associated with multiple OperatingLocations. Do not require every OperatingLocation to be assigned to exactly one Branch. Where one physical site is used by multiple Branches, represent that through an explicit governed shared-use association; physical sharing must not bypass branch data isolation. Detailed shared-use permissions, reassignment history and any location nesting rules still require workflow analysis. Branch remains a distinct tenant-owned management/operating unit.
 
 ## 6. Worked scenarios for validation
 
