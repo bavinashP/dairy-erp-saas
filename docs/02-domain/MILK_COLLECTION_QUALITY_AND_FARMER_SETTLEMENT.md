@@ -37,9 +37,13 @@ The design must distinguish:
 - Rejected quantity.
 - Quantity adjusted under an approved, evidenced rule.
 
-Supported units and precision are governed by ODR-008. Do not assume that litres and kilograms are interchangeable or that a universal density conversion is valid for every milk condition.
+Supported units, precision and conversion are governed by DBR-004 and ODR-008 section 16.40. Each measurement carries an explicit UOM/dimension. Do not assume that litres and kilograms are interchangeable or that a universal density conversion is valid for every milk condition.
 
-Where volume is measured, retain the measured value and unit. Where weight is measured, retain gross/tare/net evidence and the configured conversion basis, if a conversion is required.
+Where volume is measured, preserve the original source volume, UOM, source resolution, method/device, timestamp and calibration/provenance where available. Where weight is measured, preserve the original gross and tare values and derive net weight under the same compatible dimension with a reproducible calculation/version. Submitted, accepted, rejected, adjusted, converted and posted quantities remain separate.
+
+A mass/volume conversion is permitted only through an approved contextual rule with the required material/density/temperature basis, effective version, precision and evidence; source and derived results are retained separately. If the conversion basis is missing, the system does not invent a default factor.
+
+Use the validated workflow/device precision profile selected by the Tenant within platform-supported bounds. Instrument resolution/accuracy, business acceptance tolerance and rounding are separate. Source measurements are not overwritten or rounded to a target merely because a value falls within tolerance.
 
 ## 4. Quality testing
 
@@ -171,7 +175,7 @@ Forecasts must distinguish measured historical facts from estimated future quant
 - ODR-009/010 baselines are in ODR sections 16.12–16.13: versioned quality profiles, provenance-rich samples/results, explicit quality states, optional analyzer integration, configurable flat or quality-linked rate charts and explainable settlement calculations.
 - Profile parameters, test methods, collection sessions, quality limits and settlement formulas are configured per valid milk/material and operating process. The platform does not impose one universal Fat/SNF formula, rate table, statutory test frequency or pay cycle.
 - Any threshold represented as mandatory for food safety/statutory compliance must be backed by current authoritative evidence and post-project qualified review; an administrator cannot mark failed mandatory evidence as passed by changing a setting.
-- Quantity precision, unit conversion and rounding use ODR-008's governed precision catalogue and preserve source/device readings.
+- Quantity precision, unit conversion and rounding use DBR-004/ODR-008's governed UOM and precision catalogue and preserve source/device readings, conversion versions and calculation evidence.
 - Blending, lot lineage, processing release and stock hand-off follow ODR-011/012 and retain collection source traceability.
 - Analyzer/weighment devices use optional tenant-bound adapters; manual capture remains supported with actor/source/method evidence.
 - Farmer acknowledgement/evidence method is configurable by collection/settlement workflow, with proof and dispute history retained.
