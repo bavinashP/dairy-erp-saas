@@ -37,6 +37,8 @@ A setting may be configurable only if it does not violate a fixed invariant. Ext
 | BR-FIX-016 | Owner-only operation must not require artificial employee setup. | Tenant onboarding and operations | End-to-end owner-only scenario |
 | BR-FIX-017 | Customer self-service login is outside current approved product scope. | Identity and customer experience | No customer auth flow provisioned |
 | BR-FIX-018 | Currency is INR and business timezone defaults to IST; multi-currency and alternate calendar systems are not current product requirements. | Core platform | Date/amount boundary tests |
+| BR-FIX-019 | Shared physical premises, shifts or proximity do not grant cross-Branch data or stock access. Cross-Branch stock handling requires an explicit, limited, effective-dated and auditable grant; stock ownership and transaction attribution remain with the stock-owning Branch. | Shared-site operations | Unauthorized cross-Branch access and stock mutation tests; ODR-002 |
+| BR-FIX-020 | Emergency Override is a narrowly scoped, permission-based, time-limited exception only for qualifying emergencies; initial validity is 60 minutes, one independently authorized extension may add up to 60 minutes (120-minute hard maximum), and expiry/revocation blocks further stock mutations while preserving completed history and holding in-progress tasks for review. | Shared-site emergency stock handling | Self-activation permission, least-privilege, audit, retrospective review, expiry and concurrency tests; ODR-002 |
 
 ## 3. Configurable business policies
 
@@ -108,7 +110,7 @@ No configuration may:
 
 ## 6. Decision boundaries
 
-The following must remain Open until the ODR is explicitly resolved: legal entity/books ownership, location taxonomy, membership and role matrix, recurrence precedence/cut-offs, UOM precision, quality/rate formulas, stock valuation/negative stock, price and billing policy, payment verification, GST applicability, accounting policy, payroll applicability, app packaging/offline behavior, notifications, KPI catalogue/forecast horizon/budget approvals, SaaS commercial rules, retention, capacity/recovery targets, integration priority, technology/deployment and localization rollout.
+The following must remain Open until the ODR is explicitly resolved: legal entity/books ownership, remaining ODR-002 items (delegated approval, grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability), membership and role matrix, recurrence precedence/cut-offs, UOM precision, quality/rate formulas, stock valuation/negative stock, price and billing policy, payment verification, GST applicability, accounting policy, payroll applicability, app packaging/offline behavior, notifications, KPI catalogue/forecast horizon/budget approvals, SaaS commercial rules, retention, capacity/recovery targets, integration priority, technology/deployment and localization rollout.
 
 ## 7. Approval
 
