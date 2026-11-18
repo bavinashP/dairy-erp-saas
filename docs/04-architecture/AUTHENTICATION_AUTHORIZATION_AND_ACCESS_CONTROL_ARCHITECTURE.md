@@ -1,7 +1,7 @@
 # Authentication, Authorization and Access Control Architecture
 
 **Document ID:** ARC-IAM-001  
-**Status:** Proposed architecture baseline — policies and technology choices open  
+**Status:** Permission-first logical architecture baseline selected; technology/provider choices and exhaustive module-level catalogue details remain open  
 **Authority:** Project Vision and Scope, FRS-001, ERS-001, Actor and Access Model, Business Rules Catalogue, and ODR-004, ODR-005, ODR-019, ODR-020, ODR-025, ODR-031.  
 **Purpose:** Establish the logical identity, session, authorization and privileged-access model for platform, tenant and branch operations.
 
@@ -91,7 +91,7 @@ The final catalogue must define resource semantics, state constraints, sensitive
 
 **Branch-isolation baseline:** A principal's effective Branch scope MUST be established by explicit permission and scope assignments, not by account type or title. Where a user is assigned to one home/operating Branch, that assignment is a default boundary for ordinary operations, not an independent permission. Access to another Branch MUST be denied unless a specific, audited permission and cross-Branch scope grant authorize the exact read/action. All-Branch visibility is never inferred from Tenant Owner status or any role title; it requires explicit tenant-configurable read permissions and scope assignments. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
 
-ODR-004/005 remain open for the broader membership, role and permission/delegation matrix, but their resolution MUST preserve this explicit product-owner branch-isolation constraint and the approved ODR-002 delegated-approval baseline.
+ODR-004 membership cardinality is resolved under ODR section 16.9. ODR-005 remains for the exhaustive module-level permission catalogue and domain approval rules. The core permission-first model, customer configurability, fail-closed precedence and cross-Branch matrix are approved under ODR-002 section 16.7 and ARC-IAM-CAT-001.
 
 ## 7. Role assignment, delegation and lifecycle
 
@@ -132,7 +132,7 @@ High-risk operations may include:
 - Bulk Tally synchronization and mapping changes.
 - Tenant suspension, data export and deletion.
 
-The system MUST support configurable approval and separation-of-duties policies. The exact actions requiring approval, amount thresholds and small-business simplifications remain open. ODR-002 delegated-approval controls are approved in section 7.1; the broader ODR-004/005 permission/delegation matrix remains separate. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
+The system MUST support configurable approval and separation-of-duties policies. The exact domain actions/thresholds and small-business simplifications are completed by each domain permission specification under ODR-005. ODR-002 delegated-approval controls are approved in section 7.1; the cross-module permission vocabulary is in ARC-IAM-CAT-001. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
 
 ## 9. Platform support and privileged access
 
@@ -203,8 +203,8 @@ Audit events MUST identify actor/service, tenant/security boundary, scope, times
 
 ## 13. Open decisions
 
-- **ODR-004:** Membership and Branch-assignment cardinality are resolved under the recommended baseline in ODR-004 section 16.9; verify edge cases during workflow design.
-- **ODR-005:** Role catalogue, permission actions, scope inheritance, delegation, custom roles, direct grants and approval limits.
+- **ODR-004:** Membership and Branch-assignment cardinality are resolved under the recommended baseline in ODR-004 section 16.9; verify workflow edge cases.
+- **ODR-005:** Complete exact atomic permission keys, per-module action/state coverage and domain approval thresholds; cross-cutting semantics are established in ARC-IAM-CAT-001 and ODR-002 section 16.7.
 - **ODR-019/020:** Client strategy and offline authentication/authorization behavior.
 - **ODR-025:** Tenant suspension and permitted recovery/owner access.
 - **ODR-031:** Deployment/network boundaries and privileged operations.
@@ -250,3 +250,6 @@ The precedence model applies consistently to direct grants, group assignments, r
 ### 7.2 Tenant membership and workforce assignment lifecycle
 
 A global human identity may hold multiple independent TenantMemberships, at most one current membership for a given Tenant. Each membership is activated, suspended, expired and revoked independently. A Tenant context is resolved and validated per request; no cross-Tenant operation is implied by multiple memberships. Each membership may have zero or more effective workforce Branch assignments and optionally one current Home/Primary Branch. These assignments support scheduling/organizational context only and never grant access. Explicit permissions and scopes remain mandatory. Membership revocation invalidates the associated Tenant permissions/delegations/sessions according to the immediate security revocation policy. See ODR-004 section 16.9 and ERS section 16.8.
+
+
+The permission catalogue and assignment governance in `ARC-IAM-CAT-001` is an authoritative companion to this document. It defines the cross-module action vocabulary, customer-configurable assignment model, direct grants/denials, sensitive-field permissions, service identities and permission lifecycle.
