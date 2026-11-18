@@ -246,6 +246,13 @@ Use stable test identifiers AT-CTRL-001..022:
 - **AT-CTRL-021:** A small, multi-Branch and enterprise Tenant can operate using the same permission semantics with different versioned approval-policy configurations and no role-title privilege.
 - **AT-CTRL-022:** Historical transactions and approval decisions can be reproduced using the policy, permission, configuration and payload versions effective at the time.
 
+**Additional policy-lifecycle acceptance scenarios AT-CTRL-023..026:**
+
+- **AT-CTRL-023:** A published ApprovalPolicyVersion is immutable and effective-dated; material policy changes create a new version, a future version has no effect before its start and retirement cannot create an ungoverned approval gap.
+- **AT-CTRL-024:** A policy change that weakens controls (higher threshold, fewer reviewers/stages/evidence, broader scope, relaxed independence or added delegability) cannot publish without independent approval by a different authorized user with the exact permission; the initiator cannot self-approve. A tightening-only change follows the authorized configure/publish path unless a stricter policy applies.
+- **AT-CTRL-025:** When a stricter policy becomes effective while a request is pending or approved-but-uncommitted, the request receives a linked new evaluation snapshot; affected prior approval stages are invalidated/repeated and additional reviewer/evidence requirements are completed before commit. The original snapshot remains unchanged.
+- **AT-CTRL-026:** A less restrictive new policy cannot reduce the original requirements on a pending request; ambiguous, overlapping or incomparable policy matches fail closed; completed decisions and business effects remain unchanged and historically reproducible after later policy changes.
+
 ## 12. Decision status and dependencies
 
 **Selected baseline:** The logical domain-level permission and approval-control matrix is selected as the recommended v1 baseline under the product owner's delegated decision mandate.
