@@ -133,7 +133,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 
 ### ODR-002 — Approved Branch and OperatingLocation relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for ServiceArea/route relationships and detailed shared-use/access policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use/access policies.
 
 **Approval evidence:** After reviewing the recommended relationship, the product owner stated: “संकल्पना योग्य असून मला मान्य आहे.”
 
@@ -162,7 +162,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 
 **Verification:** Confirm that a Branch can be associated with multiple OperatingLocations, an OperatingLocation can exist without mandatory Branch assignment, and shared physical use does not bypass branch data isolation.
 
-**Review trigger:** Reopen this approved relationship only upon explicit product-owner change. Continue ODR-002 for Route relationships and detailed shared-use/access rules.
+**Review trigger:** Reopen this approved relationship only upon explicit product-owner change. Continue ODR-002 for detailed shared-use/access rules.
 
 ---
 
