@@ -22,8 +22,8 @@
 | Tenant Subscription | Commercial plan, billing period, status | Separate from dairy customer product subscriptions |
 | Plan / Feature Entitlement | Feature availability and usage limits | Entitlement checks must not grant data access |
 | Tenant Business Profile | Operating/legal/business profile | May hold multiple registrations only if approved by ODR-003 |
-| Branch | Management/operating unit within the tenant | Tenant-owned; exact relationship to physical OperatingLocations and shared-site use remains under ODR-002 |
-| OperatingLocation | Actual physical/operational site or premises | One site may support multiple operational capabilities; do not create a separate physical site per function |
+| Branch | Management/operating unit within the tenant | Tenant-owned; may be associated with multiple OperatingLocations |
+| OperatingLocation | Actual physical/operational site or premises | Tenant-owned; may optionally be associated with a Branch; tenant-level/unassigned locations are permitted; shared use across Branches requires explicit governed association and access rules; one site may support multiple operational capabilities |
 | Operational Capability | Function performed/enabled at an OperatingLocation, e.g. retail sales, milk collection, storage, processing or packaging | Multiple capabilities may coexist at one OperatingLocation; capability is not itself a physical location |
 | Business Calendar / Shift | Business date, shift, cut-off settings | Effective-dated and tenant-configurable |
 
