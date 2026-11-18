@@ -114,6 +114,41 @@ Test the selected custody assurance profile at each applicable operating scale:
 - **AT-CST-011:** A custody incident or discrepancy never automatically creates a write-off, supplier deduction, payroll deduction, liability finding or financial posting.
 - **AT-CST-012:** Historical custody output reproduces the profile/configuration version and evidence available at the time.
 
+### 6.2 Route planning, personnel/vehicle assignment and dispatch
+
+Use stable test identifiers AT-DLV-001..030 for delivery acceptance coverage:
+
+- **AT-DLV-001:** Owner-operated delivery can create a one-off manual Route and one DeliveryPlan/DeliveryRun without employee, reusable route-template, vehicle-registry or route-optimization setup.
+- **AT-DLV-002:** A saved RouteTemplate is reused on different dates/shifts while each DeliveryRun retains its own route/manifest version.
+- **AT-DLV-003:** Branch/Route/DeliveryPlan ownership mismatch is rejected.
+- **AT-DLV-004:** A Route that includes a ServiceArea without an effective BranchServiceAreaAssignment is rejected.
+- **AT-DLV-005:** One DeliveryPlan splits eligible source demand across multiple runs without over-allocation or duplicate stop quantities.
+- **AT-DLV-006:** One accountable run assignee plus multiple assigned participants can perform distinct duties; duty labels do not grant permissions.
+- **AT-DLV-007:** A participant without active permission/scope or required workforce assignment cannot be assigned or perform protected run actions.
+- **AT-DLV-008:** Cross-Branch run work requires explicit delivery permission and valid workforce assignment where Tenant policy requires it; Home/Primary Branch and StockTaskAccessGrant alone grant no route access.
+- **AT-DLV-009:** A walk/cycle/owner-operated run completes without a vehicle/fleet record.
+- **AT-DLV-010:** A vehicle/transport resource assignment respects its effective interval, availability and configured capacity.
+- **AT-DLV-011:** The same exclusive vehicle/resource cannot be concurrently booked to overlapping DeliveryRuns; conflicting runs fail closed.
+- **AT-DLV-012:** Simultaneous multi-vehicle delivery is represented as separate runs under one plan with unique stop/quantity allocation.
+- **AT-DLV-013:** Dispatch is denied when required participant, vehicle, driver qualification, stock, custody, temperature/hygiene or other configured readiness evidence is missing/invalid.
+- **AT-DLV-014:** Planning, assigning, dispatching, executing, exception review and closing require separate permissions; one action does not imply another.
+- **AT-DLV-015:** Dispatch snapshots route, stop manifest, source demand allocation, participants, vehicle/resource and policy versions; a stale version cannot dispatch.
+- **AT-DLV-016:** Route optimization is optional and advisory; provider outage does not prevent manual planning or dispatch.
+- **AT-DLV-017:** An optimizer cannot propose a cross-Branch Route, unauthorized ServiceArea, over-capacity resource or safety-incompatible product assignment as a valid plan.
+- **AT-DLV-018:** Post-dispatch route, stop, participant, vehicle or quantity change creates a linked exception/reassignment event and preserves the original manifest.
+- **AT-DLV-019:** Vehicle breakdown or driver absence holds the affected run segment; replacement is validated and records actual custody handover before resuming.
+- **AT-DLV-020:** Required driver/vehicle evidence expiry or revocation blocks dispatch; upload alone does not mark evidence as verified.
+- **AT-DLV-021:** A temperature/cleanliness/packaging exception follows the effective product-specific hold/review policy and never automatically writes off stock or deducts payables/payroll.
+- **AT-DLV-022:** A custody-only handover does not duplicate a stock movement; when both physical custody and stock location/quantity change, the events are linked and reconcile exactly once.
+- **AT-DLV-023:** An offline or stale device cannot continue a revoked/expired run assignment or commit a stale route/manifest update.
+- **AT-DLV-024:** Duplicate dispatch and stop-outcome retries do not duplicate stock issue, fulfilment, cash receipt or billing source effects.
+- **AT-DLV-025:** A stop/source demand allocation cannot be fulfilled by two competing runs beyond its authorized quantity.
+- **AT-DLV-026:** Route deviation, delay, stop reordering and address/access exceptions preserve planned versus actual execution evidence.
+- **AT-DLV-027:** A disabled participant loses access to further assigned stops while goods already held remain in the recorded custody chain until an actual handover/resolution.
+- **AT-DLV-028:** A run closes only after delivered, returned, damaged/quarantined, undelivered and remaining custody quantities reconcile, or through an explicitly permissioned close-with-exceptions path.
+- **AT-DLV-029:** Perishable consignment evidence retains product/lot, parties, origin/destination, timestamps, packaging, applicable vehicle/temperature and disposition data under the effective profile.
+- **AT-DLV-030:** Small, growing multi-Branch and enterprise profiles execute the same route/run semantics with proportionate controls, tenant quotas and no separate code forks.
+
 ## 7. Concurrency, idempotency and failure testing
 
 For each critical write path, test:
