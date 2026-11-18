@@ -134,17 +134,11 @@ Permission/access administration, Emergency Override activation/extension/review
 
 ## 8. Open decisions
 
-- Can one user access more than one tenant?
-- **Resolved under ODR-004:** a Tenant membership may have zero or more workforce Branch assignments; one optional Home/Primary Branch may be effective at a time. These assignments never grant data access by themselves.
-- Is branch access inherited from a tenant-wide role or always explicit?
-- Which roles are system-defined and which are tenant-customizable?
-- Can tenants create custom roles and permission bundles?
-- How are approval limits represented and inherited?
-- Which actions require maker-checker at each plan/business scale?
-- What support access workflow is required? Emergency Override and delegated approval are governed by approved ODR-002 decisions. ODR-004 membership cardinality is resolved in section 16.9; ODR-005 section 16.39 and ARC-IAM-CAT-001 section 15 define the canonical permission catalogue v1; exact domain thresholds, action-to-API/state mapping and acceptance coverage remain readiness gates.
-- What authentication assurance (MFA, passkeys, OTP, password policy) is required for each risk tier?
-- How are shared POS and delivery devices handled without shared identities?
-- What is the session/device revocation behavior?
+- **Resolved under ODR-004:** one global user may hold independent memberships in multiple Tenants; each Tenant membership may have zero or more workforce Branch assignments and one optional current Home/Primary Branch. These assignments never grant data access by themselves.
+- **Resolved under ODR-002 / ODR-005:** Branch access is explicit permission-and-scope based; roles are optional Tenant-configurable bundles; Tenants may configure bundles, direct/group assignments, allow/deny and effective scope within delegated authority. The canonical atomic permission-key inventory is in ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39.
+- **Remaining readiness gates:** domain-specific numeric approval thresholds, exact permission-to-resource/state/API mapping, sensitive-field classification and automated coverage as each module is finalized.
+- Emergency Override and delegated approval constraints are governed by the approved ODR-002 decisions. Support access uses a separate purpose-bound, scoped, time-limited and auditable SupportAccessGrant; it is not a permanent bypass.
+- Authentication assurance (MFA, passkeys, OTP and password policy) by risk tier; shared POS/delivery device identity patterns; and session/device revocation windows remain under the security/mobile architecture decisions.
 
 ## 9. Acceptance criteria for the future authorization specification
 
