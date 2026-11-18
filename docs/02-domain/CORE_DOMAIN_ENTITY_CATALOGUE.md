@@ -103,14 +103,21 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Stock Item | Inventory-managed identity |
 | Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself; stock ownership, balances and control remain attributable to the relevant Branch/inventory scope even when multiple Branches use one physical OperatingLocation |
 | Stock Lot / Batch | Traceable stock quantity group |
-| Stock Movement | Receipt, issue, transfer, return, loss, or adjustment; retains stock-owning Branch and acting worker/grant attribution when a cross-branch stock-task grant is used |
+| Stock Movement | Receipt, issue, transfer, return, loss, or adjustment; authoritative quantity/location/status effect |
 | Stock-Task Access Grant / Approval | Explicit, limited, effective-dated authorization for a worker to perform specified stock actions for another Branch at a shared site; activation requires approval by an authorized user holding the required stock-owning-Branch approval permission, or a currently valid delegate under ODR-002, with exact scope/version and approval evidence retained. Revocation/expiry immediately blocks new tasks and further stock mutations; a stock-task grant does not replace any workforce assignment required by tenant policy; the recommended Home-Branch boundary is in ODR-002 section 16.6 |
 | Stock Task Hold / Reconciliation | Holds an in-progress task after grant revocation/expiry, preserves completed steps and custody evidence, and records authorized reauthorization, reassignment or controlled cancellation/reconciliation without rewriting original stock events |
 | Emergency Override / Break-Glass Grant | Temporary, narrowly scoped and auditable authority for protective stock actions during a qualifying emergency; requires explicit permission, defined actor/scope/actions/reason, 60-minute initial validity, one independently authorized extension up to a 120-minute total maximum, and immediate expiry/revocation enforcement |
 | Emergency Incident / Retrospective Review | Records the emergency reason/evidence, activation mode, affected stock and locations, actions/quantities/custody, independent review, findings and corrective/reconciliation actions |
 | Stock Count | Physical count exercise |
 | Stock Reservation | Quantity reserved for order/delivery |
-| Waste / Loss Record | Controlled quantity loss and reason |
+| Waste / Loss Record | Controlled quantity loss and reason; requires separate approved stock disposition |
+| Custody Subject | Goods, lot/quantity, container, asset or resource whose physical custody is tracked | Ownership, stock attribution and custodian are distinct |
+| Custody Assignment | Effective-dated named custodian assignment for a subject/scope | Does not grant business permissions or change stock ownership |
+| Custody Event | Append-oriented fact recording receive, hold, inspect, dispatch, use, transfer or other custody action | Records who/what/where/when/why and links to stock movement only when both occur |
+| Custody Handover | Offer, dispatch, transit, receipt, acceptance/dispute and closure between custody parties | No automatic acceptance; partial/rejected receipt remains explicit |
+| Custody Evidence | Structured quantity, condition, temperature, seal, scan, signature, device or document evidence | Retains source, timestamp, profile and verification provenance |
+| Custody Incident | Discrepancy, damage, loss, contamination, temperature excursion or missing acknowledgement | Does not automatically post an adjustment, deduction or liability finding |
+| Shared Resource Use | Approved/recorded use of shared equipment/facility by Branch/capability | Ownership, permitted use, custody, maintenance and cost allocation remain separate |
 
 ## 7. Finance and workforce
 
@@ -133,8 +140,8 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Leave Request | Absence request and decision |
 | Compensation Structure | Salary/wage terms |
 | Payroll Run / Payroll Line | Calculated payroll result and components |
-| Asset | Owned/maintained business asset |
-| Maintenance Work Order | Planned/actual maintenance activity |
+| Asset | Owned/maintained business asset; may be explicitly shared for authorized use while ownership remains distinct |
+| Maintenance Work Order | Planned/actual maintenance activity, including cleaning/calibration/inspection where applicable |
 
 ## 8. Analytics and governance
 
@@ -183,3 +190,5 @@ The catalogue does not determine physical database design, primary key format, t
 
 
 **Catalogue reference:** Stable permission key semantics, action families, sensitive-data permissions, scope vocabulary, direct/group assignment and precedence are governed by [ARC-IAM-CAT-001](../04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md).
+
+**Custody invariant:** Stock ownership, stock-ledger attribution, physical location, physical custody, actual handling, workforce assignment and permission are separate. A CustodyEvent records physical custody; a StockMovement records quantity/location/status effect. One does not imply or duplicate the other. A missing acknowledgement never implies acceptance; unresolved custody preserves the last verified custodian/location. Custody incidents do not by themselves authorize adjustments, write-offs, financial postings, payroll deductions or legal-liability conclusions. See `../02-domain/SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md`.
