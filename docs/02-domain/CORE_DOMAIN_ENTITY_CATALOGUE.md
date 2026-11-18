@@ -23,7 +23,7 @@
 | Plan / Feature Entitlement | Feature availability and usage limits | Entitlement checks must not grant data access |
 | Tenant Business Profile | Operating/legal/business profile | May hold multiple registrations only if approved by ODR-003 |
 | Branch | Management/operating unit within the tenant | Tenant-owned; may be associated with multiple OperatingLocations and may serve multiple ServiceAreas through explicit effective-dated mappings |
-| OperatingLocation | Actual physical/operational site or premises | Tenant-owned; may optionally be associated with a Branch; tenant-level/unassigned locations are permitted; shared use across Branches requires explicit governed association and access rules; one site may support multiple operational capabilities |
+| OperatingLocation | Actual physical/operational site or premises | Tenant-owned; may be unassigned or used by one or more Branches through explicit governed, effective-dated associations; one site may support multiple capabilities; shared physical use does not merge branch stock or grant cross-branch access |
 | Operational Capability | Function performed/enabled at an OperatingLocation, e.g. retail sales, milk collection, storage, processing or packaging | Multiple capabilities may coexist at one OperatingLocation; capability is not itself a physical location |
 | Business Calendar / Shift | Business date, shift, cut-off settings | Effective-dated and tenant-configurable |
 
@@ -100,7 +100,7 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Processing Batch | Transformation run with input/output/loss records |
 | Packaging Run | Pack/label operation and output lots |
 | Stock Item | Inventory-managed identity |
-| Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself |
+| Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself | Stock ownership, balances and control remain attributable to the relevant Branch/inventory scope even when multiple Branches use one physical OperatingLocation |
 | Stock Lot / Batch | Traceable stock quantity group |
 | Stock Movement | Receipt, issue, transfer, return, loss, or adjustment |
 | Stock Count | Physical count exercise |
