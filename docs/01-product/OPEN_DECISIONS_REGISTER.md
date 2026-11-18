@@ -135,7 +135,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 
 ### ODR-002 — Approved Branch and OperatingLocation relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use accountability and complete permission-matrix policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete cross-Branch permission matrix is approved in section 16.7.
 
 **Approval evidence:** After reviewing the recommended relationship, the product owner stated: “संकल्पना योग्य असून मला मान्य आहे.”
 
@@ -170,7 +170,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 
 ### ODR-002 — Approved ServiceArea and Branch relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use accountability and complete permission-matrix policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete cross-Branch permission matrix is approved in section 16.7.
 
 **Approval evidence:** The product owner confirmed: “संकल्पना योग्य असून मला मान्य आहे.”
 
@@ -204,7 +204,7 @@ A Pune West Branch may serve both Kothrud and Bavdhan ServiceAreas. If capacity 
 
 ### ODR-002 — Approved shared OperatingLocation and branch-specific stock segregation
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use governance and access policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; its permission-first access baseline is approved in section 16.7.
 
 **Approval evidence:** The product owner explicitly accepted the arrangement in which multiple Branches can use one physical warehouse/site while their stock remains independently controlled.
 
@@ -240,7 +240,7 @@ Branch A and Branch B use the same warehouse building. The building is represent
 
 ### ODR-002 — Approved limited cross-branch stock-handling access for shared-site workers
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use governance, accountability and permission-matrix design.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the cross-Branch permission matrix is approved in section 16.7.
 
 **Approval evidence:** The product owner accepted that workers operating at a shared physical site may handle stock for more than one Branch where needed, provided access is explicit, limited and auditable and does not expose the other Branch's complete data.
 
@@ -274,7 +274,7 @@ A warehouse worker normally assigned to Branch A is also authorized to pick and 
 
 ### ODR-002 — Approved Route and Branch relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use accountability and complete permission-matrix policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete cross-Branch permission matrix is approved in section 16.7.
 
 **Approval evidence:** The product owner explicitly confirmed that the proposed Route/Branch structure was acceptable.
 
@@ -328,7 +328,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved authority for cross-branch shared-site stock-task grants
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for the remaining shared-site accountability, grant lifecycle/exception handling and complete permission-matrix policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; grant lifecycle and the permission matrix are specified in sections 16.2–16.7.
 
 **Approval evidence:** The product owner explicitly accepted that the authorized user holding the required approval permission of the stock-owning Branch must approve a grant allowing a worker from another Branch to handle that stock at a shared OperatingLocation.
 
@@ -356,7 +356,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for the complete permission matrix and detailed shared-site accountability. The Home-Branch/workforce-assignment boundary is recommended in section 16.6. A recommended expiry-notification/zero-grace baseline is specified in section 16.5; channel/provider delivery remains under ODR-021.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete permission matrix is approved in section 16.7. The Home-Branch/workforce-assignment boundary is recommended in section 16.6. A recommended expiry-notification/zero-grace baseline is specified in section 16.5; channel/provider delivery remains under ODR-021.
 
 **Approval evidence:** The product owner accepted the recommended lifecycle baseline: revocation/expiry stops new work, completed history remains immutable, and in-progress work is held for controlled review rather than silently completed or rolled back.
 
@@ -445,7 +445,7 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 ### ODR-002 — approved permission-based delegated approval
 
-**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; detailed shared-site custody/accountability and exception-handling workflows remain open; the complete cross-Branch permission matrix is approved in section 16.7. General tenant-wide approval policy and the broader ODR-004/005 permission/delegation matrix remain subject to their own scope.
+**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; detailed shared-site custody/accountability and exception-handling workflows remain open; the complete cross-Branch permission matrix is approved in section 16.7. General tenant-wide approval policy ODR-004 membership cardinality is resolved in section 16.9; ODR-005 remains only for the exhaustive module-level permission catalogue and remaining domain approval rules.
 
 **Approval evidence:** The product owner explicitly approved all recommendations: separate delegation permission, exact scoped authority, maximum 30-day validity, no automatic renewal or onward delegation, non-delegable high-risk actions, immediate invalidation when the delegator's underlying authority ceases, auditability and concurrency safeguards.
 
