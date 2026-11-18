@@ -1,3 +1,5 @@
+> **Historical snapshot notice — recorded as of 2026-11-17.** This document preserves the findings and status at the time of that audit. It is not the current authoritative status for decisions updated after that date. Later approved decisions and delegated engineering baselines are recorded in the current [Open Decisions Register](01-product/OPEN_DECISIONS_REGISTER.md), [Product Configurability, Customization, Extensibility and Scale Policy](04-architecture/PRODUCT_CONFIGURABILITY_CUSTOMIZATION_EXTENSIBILITY_AND_SCALE_POLICY.md), [Permission Catalogue and Assignment Governance](04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md), [Cross-Branch Permission Matrix](04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md), and related current domain/architecture specifications. Preserve the historical text below for traceability; do not use its older “open” status statements or interim wording as current decisions.
+
 # Dairy ERP SaaS — Continuation State Audit
 
 **Audit date:** 2026-11-17  
