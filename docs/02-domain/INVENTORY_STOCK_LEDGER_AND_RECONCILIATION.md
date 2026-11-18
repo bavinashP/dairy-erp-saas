@@ -26,7 +26,7 @@ Keep these concepts distinct:
 - Stock balance: a derived view of movements by product, location, lot and status.
 - Valuation: the cost assigned to inventory under the selected accounting policy.
 
-A branch may contain several stock locations. A counter, cold room, processing area, vehicle, or delivery staging area may need distinct stock custody, but their exact modelling is a design decision.
+A Branch may contain several StockLocations. A counter, cold room, processing area, vehicle or delivery staging area may require distinct stock-location and/or custody treatment. Physical location, StockLocation, stock-owning Branch and physical custodian are separate concepts; the custody model is governed by [Shared-Site Accountability and Custody Management](SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md).
 
 ## 3. Stock ledger as source of truth
 
@@ -89,7 +89,7 @@ A transfer should have a controlled lifecycle:
 5. Received at destination with actual quantities and discrepancies.
 6. Closed or exceptioned.
 
-Source and destination must be authorized locations. Dispatch reduces source available/on-hand according to policy and records in-transit custody. Receipt records destination stock. Shortage, damage or rejection during transit must be separately recorded and investigated.
+Source and destination must be authorized locations. Dispatch reduces source available/on-hand according to policy and records the required in-transit stock state. The custody chain separately records the actual sender, carrier/holder, location and receiving acknowledgement. Receipt records destination stock only for accepted quantities. Shortage, damage, missing acknowledgement or rejection during transit must be separately recorded and investigated.
 
 Do not treat a transfer as a sale or purchase. A transfer must preserve lot identity and cost basis where applicable.
 
@@ -149,9 +149,30 @@ Every report must specify business date, posting date, location scope, status in
 
 - ODR-008 precision architecture is selected: use the governed UOM precision catalogue, product base UOM and validated conversion profiles; do not impose a universal scale.
 - Tracking profile determines whether lot/batch/expiry/serial details are mandatory by product, shelf life, traceability and quality risk. A product cannot disable tracking required by its verified profile.
-- Transfer, custody and adjustment boundaries follow ODR-002/012. Inter-Branch ownership transfer is a separate workflow; a shared-site stock grant is not ownership transfer.
+- Stock ledger and physical custody are distinct but linked: StockMovement is authoritative for quantity/location/status effects; CustodyEvent records who physically held/handled the subject and where/when. A custody-only event does not create a stock movement. See [Shared-Site Accountability and Custody Management](SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md) and ODR-002 section 16.36. Inter-Branch ownership transfer is a separate workflow; a shared-site stock grant is not ownership transfer.
 - Negative available stock is denied by default. A narrow Tenant-configured exception may apply only to eligible non-serialized/non-lot-controlled items, with explicit permission, audit and reconciliation; never bypass quality hold, expiry, ownership or closed-period controls.
 - Reservation priority, expiry and release policy are configured per demand workflow and must be deterministic and auditable.
 - Count sessions define cut-off/version; variance capture, approval and adjustment are separately permissioned. Closed-period changes use linked correction/reconciliation, not history rewrite.
 - Vehicles and bags/cans are custody containers by default. A vehicle may be a StockLocation only where it physically holds controlled stock with explicit stock ownership, location scope and custody controls. Returnable cans are tracked through container/deposit/custody records, not mixed with saleable stock unless a separately defined SKU process requires it.
 - Valuation/costing method and financial period treatment remain under ODR-017 and relevant accounting review.
+
+
+## 13. Physical custody, handover and shared-site accountability
+
+Stock ownership and ledger attribution do not prove who physically holds goods. Where the Tenant enables custody tracking, maintain a linked, append-oriented custody chain for the relevant stock quantity/lot, container, vehicle compartment or holding resource. Record the custodian, actual handler, source/destination, location, action, business and recorded timestamps, quantity/condition, required evidence and the custody assurance profile version.
+
+A transfer dispatch and receipt have distinct inventory and custody effects:
+- Dispatch records the stock ledger's approved source/in-transit effect and the actual custody handover to the next party only when that party's acceptance is captured as required by the effective profile.
+- Transit handovers between carriers/holding points are separate linked custody events.
+- Destination stock increases only for accepted quantities under the stock transfer policy. Partial, rejected or unacknowledged quantities remain explicit and retain the last verified custodian/location.
+- A custody event that changes no stock balance must not create a synthetic StockMovement. If a stock quantity/location/status changes, the corresponding ledger movement is separately recorded and linked.
+- Missing acknowledgement, failed notification or elapsed time never means acceptance. Preserve pending/disputed custody; do not create a custody gap.
+- A custody discrepancy does not itself authorize stock adjustment, write-off, supplier deduction or financial posting.
+
+A worker's stock-task grant or stock permission does not prove physical receipt. If a grant expires while the worker physically holds stock, block new tasks and stock mutations under ODR-002 while preserving the actual custodian/location until a real, authorized handover or incident resolution occurs.
+
+Tenant custody assurance may be Basic single-party capture, Acknowledged handover or Verified high-assurance. Required evidence for raw milk/perishables may include collection/dispatch/arrival/unloading time, quantity, lot/container/tanker compartment, temperature reading and source/calibration, sample/quality status, seal integrity and receiving acceptance. Exact time/temperature and sanitation requirements come from the applicable versioned product/process profile and verified applicable rules; this inventory specification does not hardcode a universal limit.
+
+Returnable cans/crates, vehicles and reusable containers are custody subjects, not automatically saleable stock. A vehicle is a StockLocation only where the Tenant explicitly models controlled stock physically held there and its stock ownership/location/custody controls are defined. Shared equipment and facilities have separate use, custody, maintenance/calibration and optional cost-allocation records; use does not transfer ownership or create an automatic financial posting.
+
+All custody reads/actions remain permission- and scope-controlled. Full incident, handover, shared-resource, evidence, configuration and acceptance requirements are defined in [Shared-Site Accountability and Custody Management](SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md).
