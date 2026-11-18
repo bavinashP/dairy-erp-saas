@@ -148,7 +148,14 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | ProductionOutputLine | Tenant | References finished product/lot and output quantity | |
 | StockLocation | Tenant | Must resolve to one explicit Branch/inventory-ownership scope and a physical holding context; multiple Branch-specific StockLocations may exist within one shared OperatingLocation | Physical co-location does not merge ownership or authorize cross-branch stock access |
 | StockLot | Tenant | References product/SKU, source receipt/production and expiry/batch | Optional tracking policy |
-| StockMovement | Tenant | References product, lot, from/to locations, source document and movement type | Authoritative stock history |
+| StockMovement | Tenant | References product, lot, from/to locations, source document and movement type | Authoritative stock quantity/location/status history; distinct from physical custody events |
+| CustodySubject | Tenant | References stock quantity/lot, container, asset or other tracked resource | Identifies what is physically held/handled; ownership and stock attribution remain separate |
+| CustodyAssignment | Tenant | Assigns a named person/service/external party as recorded custodian for a subject/scope and effective period | Does not confer stock ownership, general access or mutation permission |
+| CustodyEvent | Tenant | References subject, actor/handler, custodian, location, event/action, time, evidence and policy version | Append-oriented physical custody fact; does not itself create stock or financial movement |
+| CustodyHandover | Tenant | Links source/receiving parties, subject, expected/actual quantity and handover lifecycle | No automatic acceptance on timeout or notification; partial receipt/dispute is explicit |
+| CustodyEvidence | Tenant | Links sensor/measurement/scan/seal/signature/document/photo/quality evidence to a custody event | Source, timestamp, device/calibration/profile and evidence class remain traceable |
+| CustodyIncident | Tenant | References discrepancy, loss, damage, contamination, temperature/condition exception or dispute | Review/disposition separate from stock adjustment, financial posting or legal liability |
+| SharedResourceUse | Tenant | References asset/resource, using Branch/capability, custodian, booking, usage period and evidence | Shared use does not transfer asset ownership or grant unrelated Branch access |
 | StockReservation | Tenant | References demand line and stock location/lot | Not a physical issue |
 | StockCountSession | Tenant | Belongs to stock location and cut-off | |
 | StockCountLine | Tenant | References product/lot and counted quantity | |
@@ -218,7 +225,8 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | PayrollPayment | Tenant | References payroll payable and payment account | Partial settlement possible |
 | StatutoryRuleVersion | Controlled/tenant applicability | Source, jurisdiction, effective date and formula | Legal verification required |
 | StatutoryLiability | Tenant/books | Generated from approved payroll/tax calculation | |
-| Asset | Tenant | Belongs to location and optional cost centre | |
+| Asset | Tenant | Belongs to location and optional cost centre; may be explicitly shared for approved use by multiple Branches | Ownership, physical custody, permitted use, maintenance and cost allocation remain distinct |
+| AssetUse / ResourceBooking | Tenant | References asset/resource, Branch/capability, permitted user, time window and purpose | Availability/use record; no implicit ownership, permission or financial posting |
 | MaintenancePlan / WorkOrder | Tenant | References asset, schedule, tasks and vendor/personnel | |
 | ComplianceRequirement / Evidence | Tenant | Requirement applicability and attached evidence | Current-law review |
 | AuditEvent | Platform or tenant | Actor, action, target, timestamp, context and outcome | Append-only policy |
@@ -481,3 +489,11 @@ Within a TenantMembership, zero or more Branch/workforce assignments may be reco
 ### 16.9 ODR-005 — permission assignment conceptual entities
 
 The permission model distinguishes the optional named PermissionBundle/Role, atomic Permission, scoped RoleAssignment, direct/group PermissionAssignment and optional Tenant-scoped AccessGroup/GroupMembership. A PermissionAssignment may be an explicit allow or deny and must include its principal or group target, Tenant/security boundary, permission key, scope, limits, effective period, reason and audit/version evidence. Deny precedence and fail-closed conflict behavior are governed by ARC-IAM-CAT-001. The role label itself has no authority. This is a logical conceptual refinement only; no physical schema, SQL or ORM design is implied.
+
+### 16.10 ODR-002 — shared-site custody and resource accountability
+
+The recommended domain baseline is specified in `../02-domain/SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md` and ODR-002 section 16.36. Ownership, stock-owning Branch attribution, StockMovement, physical location, physical custody, actual handler, workforce assignment, permission/grant and approval are distinct facts. StockMovement remains authoritative for quantity/location/status effects; CustodyEvent records physical custody and is linked where applicable without creating duplicate stock or financial effects.
+
+The conceptual model supports CustodySubject, CustodyAssignment, CustodyEvent, CustodyHandover, CustodyEvidence, CustodyIncident and SharedResourceUse. Handover acceptance requires the evidence defined by the effective, versioned Tenant assurance profile; timeout, missing response or notification delivery never implies acceptance. Pending/disputed handovers preserve the last verified custodian and known location. Partial receipt, rejection, damage, missing goods and condition/temperature excursions are explicit incidents with linked review and correction paths.
+
+Custody assurance is configurable from a proportionate single-party capture to acknowledged or high-assurance evidence for cross-Branch, carrier, bulk, perishable or high-value operations. Shared facilities/equipment require explicit allowed-use, availability, custody, maintenance/cleaning/calibration and optional approved cost-allocation records. These records do not transfer ownership, grant cross-Branch data access or authorize stock/financial adjustments. Legal ownership/liability, insurance, contract and employment consequences remain outside software inference and require applicable external evidence/review.
