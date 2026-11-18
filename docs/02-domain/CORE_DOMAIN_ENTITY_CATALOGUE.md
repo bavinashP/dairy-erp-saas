@@ -46,7 +46,6 @@
 | Approval Policy Profile | Editable Tenant starter/configuration profile for the action/risk scopes and workflows it governs | Profile name is not a user/account class and grants no permission |
 | Approval Policy Version | Immutable effective-dated snapshot of approval rules, thresholds, stages, reviewer/quorum settings and evidence requirements | Every decision retains the matched policy version |
 | Approval Policy Rule | Matches a registered domain permission/action, resource/scope, risk class and configurable threshold | Does not grant the underlying domain permission |
-| Approval Policy Requirement / Limit | Defines reviewer/quorum/independence/stage/evidence requirements and scoped amount/quantity/value ceiling | Versioned, unit-aware and cannot weaken fixed controls |
 | Approval Policy Evaluation Snapshot | Immutable record of all applicable policy versions/rules and combined requirements matched to an ApprovalRequest | Preserves the exact evaluation used; later stricter evaluations are linked rather than overwriting it |
 | Approval Policy Match | Links an evaluation snapshot to each matched policy version/rule with scope, dates, threshold result and control contribution | Makes overlapping policy resolution and historical explanation reproducible |
 | Approval Requirement | Defines whether approval is required, reviewer count/quorum, independence, stage order, delegability and expiry | Fixed safeguards prevail over Tenant settings |
