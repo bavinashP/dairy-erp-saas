@@ -153,6 +153,14 @@
 | Role | An optional named permission bundle used to organize assignments | Role title or role assignment grants no permission beyond the bundle's current explicit contents and scope |
 | Effective Permission Set | Permissions that remain valid after evaluating assignments, scope, time, revocation, membership and applicable policy | Sole basis for business authorization; missing or ambiguous permission defaults to deny |
 | Default Deny | An action or data disclosure is denied unless all required permissions and scope conditions are affirmatively valid | Applies consistently across every client, API, report, export, job and integration |
+| Approval | A separate workflow decision required by a fixed domain safeguard or an effective versioned Tenant approval policy | Approval never creates or substitutes for the underlying action permission |
+| Approval Policy Profile | Editable Tenant configuration template grouping risk/action rules and reviewer controls | Not a user type, role or permission bundle |
+| Approval Policy Version | Immutable effective-dated snapshot of approval thresholds, reviewer/quorum, evidence and stage rules | Each approval decision preserves the matched version |
+| Approval Policy Rule | A scoped condition mapping a registered domain action/risk/resource to an approval requirement and threshold | Cannot grant the underlying domain permission or override fixed controls |
+| Approval Requirement | The required reviewer count, independence, stage order, quorum, evidence and expiry for an approval | Maker-checker and non-delegable rules cannot be bypassed |
+| Risk Class | Action/data risk category used to determine proportionate safeguards (R0–R3 in ARC-IAM-CTRL-001) | Risk depends on action/resource/data/context, not actor title |
+| Approval Decision | Immutable approve/reject result for an exact source payload/version and policy version | Material source changes invalidate or restart the approval; approval does not itself post the domain transaction |
+| Maker-Checker | A control requiring an approver distinct from the action initiator for a specified workflow | Applies only where fixed or effective policy requires it; cannot be bypassed by delegation or role labels |
 
 
 | Tenant Membership | A separately managed association between a global user identity and one Tenant | May coexist with memberships in other Tenants; each membership is an independent security context; it does not grant business permissions |
