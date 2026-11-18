@@ -1,6 +1,6 @@
 # Budgeting, Financial Analytics and Projections
 
-**Status:** Working baseline — domain requirements; architecture authority: [Analytics, Business Intelligence and Forecasting Architecture](../04-architecture/ANALYTICS_BI_AND_FORECASTING_ARCHITECTURE.md)
+**Status:** Recommended domain baseline — KPI, forecasting and budget versioning policy selected; official KPI owners and commercial report entitlements remain approval dependencies; architecture authority: [Analytics, Business Intelligence and Forecasting Architecture](../04-architecture/ANALYTICS_BI_AND_FORECASTING_ARCHITECTURE.md)
 
 ## 1. Purpose and distinctions
 Provide decision support without confusing actual, target, budget, forecast, projection and scenario. A forecast is an estimate based on data and assumptions, not a promise. Reports must disclose period, data freshness, formula, filters, assumptions and confidence/limitations.
@@ -65,5 +65,14 @@ Provide drill-down from KPI to source operational record and, where applicable, 
 8. Queue heavy forecast jobs without slowing transactional APIs.
 9. Explain KPI formula and drill down to source facts.
 
-## 12. Open decisions
-MVP KPI set; budget approval roles; forecast horizon and granularity; data warehouse strategy; refresh latency; export limits; forecasting method and evaluation thresholds.
+## 12. Selected policy and remaining evidence dependencies
+
+- ODR-022/023/024 and ARC-BI-001 define the selected baseline: versioned KPI formulas with stable IDs and source lineage; actual/target/budget/forecast/scenario separation; explainable statistical baselines before advanced ML; versioned budgets and approvals.
+- Each official KPI requires an accountable business owner/function, formula approval and test vectors before it is used as a formal management or contractual target. Role title alone grants no report or approval permission.
+- SaaS plan packaging for premium reports is a commercial owner decision. Plan entitlement never grants row-level/field-level data access; user permissions and data scope remain independently enforced.
+- Tenants configure target values, budget dimensions, supported periods, scenario inputs, forecast horizons within safe bounds, and budget approval thresholds/approver permissions. Budget revisions never overwrite approved historical versions.
+- Initial forecasting defaults to short-horizon daily/weekly methods only where sufficient clean history exists; advanced ML requires backtesting that outperforms a simple baseline and records uncertainty/limitations.
+- Data warehouse technology, refresh latency and export quotas are determined through ODR-027/030/031 workload and provider evidence; heavy reports/forecasts remain isolated from transactional posting.
+- Cross-Tenant benchmarks are prohibited by default and require separate privacy/consent and aggregation governance before any future enablement.
+
+No forecast, scenario or budget write changes authoritative stock, receivable, payable or posted ledger facts.
