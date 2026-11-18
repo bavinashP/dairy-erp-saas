@@ -43,7 +43,12 @@
 | Permission Catalogue Entry | Platform-governed stable atomic permission key with resource/action semantics, scope, risk, data-sensitivity, delegation, approval, audit and lifecycle metadata | Unknown/retired/incompatible keys fail closed; labels/translations do not alter semantics |
 | Permission Bundle Version | Immutable published snapshot of registered permission keys included in a Tenant bundle or platform starter | RoleAssignment references an explicit version; no silent permission widening |
 | Extension Permission Registration | Versioned namespaced permission definition for declared extension resources/actions and data contract | Registration does not grant access; installation/activation remains separate from Tenant assignment and host grants |
-| Approval Policy | Conditions, limits, and required approver |
+| Approval Policy Profile | Editable Tenant starter/configuration profile for the action/risk scopes and workflows it governs | Profile name is not a user/account class and grants no permission |
+| Approval Policy Version | Immutable effective-dated snapshot of approval rules, thresholds, stages, reviewer/quorum settings and evidence requirements | Every decision retains the matched policy version |
+| Approval Policy Rule | Matches a registered domain permission/action, resource/scope, risk class and configurable threshold | Does not grant the underlying domain permission |
+| Approval Requirement | Defines whether approval is required, reviewer count/quorum, independence, stage order, delegability and expiry | Fixed safeguards prevail over Tenant settings |
+| Approval Limit | Scoped amount/quantity/value ceiling attached to a policy/action/resource or explicit principal-specific constraint | Not determined by job title or role label |
+| Approval Request / Action | Approval workflow request and immutable actual reviewer decision bound to a source payload/version and policy version | Workflow routing/task assignment does not itself grant permission or authorize commit |
 | Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegation.create`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
 | Device / Session | Authentication and session lifecycle |
 | Support Access Grant | Explicit platform-to-tenant support authorization |
