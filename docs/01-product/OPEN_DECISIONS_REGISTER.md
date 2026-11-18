@@ -198,7 +198,7 @@ A Pune West Branch may serve both Kothrud and Bavdhan ServiceAreas. If capacity 
 
 **Verification:** Confirm one Branch can serve multiple ServiceAreas, one ServiceArea can be served by multiple Branches, effective-dated reassignment preserves historical records, and shared geography does not bypass branch isolation.
 
-**Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Continue ODR-002 separately for Route execution/dispatch responsibility and detailed shared-use/access rules.
+**Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Continue ODR-002 for additional scenario validation and external legal/contract/vehicle-qualification review; Route execution/dispatch is selected in section 16.37 and shared-use/access baselines are specified in sections 16.7 and 16.36.
 
 ---
 
@@ -1089,6 +1089,82 @@ Legal title, contractual risk transfer, carrier liability, insurance claims, lan
 - The applicable product/process risk profile determines vehicle suitability, cleanliness, covered/hygienic transport, packaging, protection from contamination, temperature control, timestamps and traceability evidence. These requirements are configurable by product/process/route where law permits; mandatory verified controls cannot be disabled.
 - FSSAI's advisory dated 2026-10-15 directs FBOs handling the perishable commodities addressed by that advisory to use clean, covered and hygienic food-suitable conveyances, maintain prescribed temperatures, use food-grade packaging, protect products during loading/unloading/transport, and maintain consignment records/traceability. Apply this to the advisory's stated scope and verified legal applicability; do not turn it into one universal temperature or vehicle rule for every SKU and dairy workflow.
 - FSSAI's Milk and Milk Products FSMS guidance (2019) and NDDB milk-chain material inform raw-milk collection, chilling, clean equipment/containers, insulated tanker/can transport, receiving checks and traceability. Values and time/temperature controls must be versioned against the product/process and authoritative applicability; do not present guidance text as a universal statutory value.
+- Basic delivery evidence remains actor, run/stop, timestamp, actual quantities, outcome and reason. Customer signature, OTP/PIN, photo, location/GPS, sensor/temperature device and continuous tracking remain optional, purpose-limited and policy-controlled unless a verified applicable requirement makes an evidence type mandatory.
+
+**Configurability and extensibility**
+- Tenant-configurable values include shift/calendar, route templates/manual sequence, stop ordering, dispatch checklist, vehicle capacity/availability, assignment limits, service time, proof-of-delivery evidence, product handling profile, temperature/condition thresholds sourced from applicable rules, reattempt policy and exception/escalation thresholds.
+- Historical run/dispatch records preserve the configuration, route and evidence profile versions used. Only configuration keys explicitly declared overrideable may be changed at Branch/site/route scope.
+- Route optimization, map/geocoding, telematics/GPS, barcode/RFID, digital proof, fleet systems and external carrier services use versioned provider-neutral adapters, scoped identities, permissions, rate/resource limits, audit and revocation. Optimization is advisory by default; it cannot bypass Branch/ServiceArea ownership, capacity, workforce, product-safety, custody or customer commitments, nor silently modify the dispatched plan.
+- High-volume optimization and telemetry work must be asynchronous, tenant-fair and isolated from core stock/financial transactions. Manual planning and safe dispatch remain available when an optimization or external provider fails.
+
+**Verification**
+- Owner-only delivery works without creating employee or vehicle records.
+- A manual non-optimized Route and one DeliveryRun can be planned and completed.
+- One Route can be reused across dates/shifts while each run preserves its snapshot.
+- Branch/Route and Branch/ServiceArea mismatch is rejected.
+- Personnel, driver and vehicle assignments are validated independently of job title; invalid/revoked assignments cannot dispatch or continue protected actions.
+- The same vehicle or worker cannot be double-booked where exclusive assignment is configured; split vehicle work uses separate runs and non-overlapping demand allocations.
+- Dispatch cannot proceed with missing required evidence, insufficient stock, invalid assignment, over-capacity vehicle or unmet configured food-handling control.
+- A breakdown/driver replacement preserves completed stops, actual custody, route history and outstanding goods; replacement requires explicit authorization and handover.
+- Post-dispatch changes are append-only, permissioned and auditable.
+- Route optimization/provider outage does not prevent a permitted manual workflow or corrupt the run.
+- Offline/stale/duplicate commands are revalidated and cannot double-fulfil, duplicate stock or payment effects, or retain revoked assignment access.
+- Perishable consignment records preserve product, batch/lot where applicable, origin, destination, parties, timestamps, quantity, packaging/vehicle/temperature evidence and disposition as required by the applicable profile.
+- A run can be closed only with a reconciled outcome or an explicitly authorized close-with-exceptions state.
+
+**External evidence dependencies**
+Exact driver licence/qualification categories, vehicle fitness/insurance/permit evidence, food-transport legal applicability, record retention, location/photo/privacy and contractual carrier liability require current jurisdiction-specific authoritative review. This does not block defining the operational dispatch model; it blocks claiming legal compliance or hardcoding unverified document lists.
+
+**Source basis**
+- FSSAI, Advisory on Handling, Storage and Transportation of Perishable Food Commodities under Controlled Temperature Conditions, 2026-10-15: https://www.fssai.gov.in/docs/food-law/advisory/Advisory%20dated%2015.10.2026_Transportation%20and%20storage%20of%20perishabe%20commodities.pdf
+- FSSAI, Food Safety Management System Guidance Document for Milk and Milk Products, 2019-03-14: https://mail.fssai.gov.in/upload/uploadfiles/files/Guidance_Document_Milk_14_03_2019.pdf
+- NDDB, Milkipedia — Raw Milk Transportation and handling: https://www.nddb.coop/ccnddb/milkipedia
+- GS1 Global Traceability Standard — Critical Tracking Events and Key Data Elements: https://support.gs1.org/support/solutions/articles/43000734535-what-is-the-gs1-traceability-standard
+
+These sources inform operational design and do not replace legal advice or activity-specific compliance review.
+
+
+
+### 16.37 — ODR-002: Route execution, workforce/resource assignment and dispatch accountability
+
+**Status:** Recommended domain baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This is not represented as explicit product-owner approval of every operational detail or a legal determination of driver, vehicle, carrier or food-business compliance.
+
+**Selected product principle:** A Route describes a Branch-owned delivery sequence; a DeliveryPlan groups demand and operational runs for a date/shift; a DeliveryRun is the actual execution unit; personnel, transport resources, physical custody and dispatch authorization are separately recorded. No job title, vehicle ownership or route assignment grants business permissions.
+
+**Route and planning**
+- Every Route belongs to exactly one Branch. Its ServiceArea coverage must be within that Branch's effective BranchServiceAreaAssignment. Geographic overlap or common premises does not grant another Branch route ownership or access.
+- A DeliveryRun uses a Branch-owned Route/route plan whose owning Branch matches the run's Branch. The route/plan version, stop ordering, demand allocation and relevant constraints are snapshotted at dispatch.
+- To keep the smallest business simple, a Route may be created as a one-off manual route directly while preparing a run; a reusable saved RouteTemplate, route optimization, maps and GPS are not prerequisites. Manual stop ordering remains a complete workflow.
+- A DeliveryPlan/dispatch wave may group one or many DeliveryRuns. A small operator commonly uses one plan and one run; a larger business may split workload across multiple runs/vehicles/crews. A stop or demand quantity cannot be actively allocated/fulfilled by competing runs beyond the authorized split quantity.
+- The same reusable Route may support different dates/shifts/runs. Each run keeps its own assignments and historical snapshot. Route revision never rewrites a dispatched/completed run.
+
+**Personnel and workforce assignment**
+- The run records one accountable run assignee/operator and supports one or more additional named participants. The same person may plan, dispatch, drive, deliver and close in a small business; a separate employee profile is not mandatory for an owner-operated workflow.
+- Operational duties such as driver, delivery handler, helper or accountable run assignee describe what a person is assigned to do on that run. They are not permission roles and do not grant data visibility or action authority.
+- Every participant must have an active identity appropriate to the workflow, the exact current permissions/scope and a valid run assignment. A required workforce/shift/duty assignment must be separately authorized under the Tenant's workforce policy. Run assignment and a stock-task grant are independent; a stock-task grant does not authorize delivery work.
+- A cross-Branch participant needs explicit run/Branch permissions and the workforce assignment required by applicable Tenant policy. Home/Primary Branch, role title or geographic proximity alone is never sufficient. No blanket Home-Branch consent is introduced; the selected workforce separation in section 16.6 continues to apply.
+- A participant's assignment is effective-dated and versioned. Reassignment/revocation immediately removes the former participant's access to further assigned work; physical goods already held remain in that party's custody until a real, evidenced handover or controlled resolution.
+
+**Vehicle and transport resource**
+- Vehicle assignment is optional. Walking, cycling, customer pickup, owner-operated transport, and other valid non-vehicle delivery methods must remain supported.
+- A Tenant may track vehicles as Assets or use a light-weight transport-resource reference where full asset management is unnecessary. Do not force fleet/maintenance setup on a small business.
+- A run may have sequential time-bounded primary vehicle/transport-resource assignments (for example, a vehicle breakdown and replacement). At most one primary transport resource is active for the same indivisible run segment at a time. If deliveries are split across multiple vehicles concurrently, use separate DeliveryRuns under the same DeliveryPlan with non-overlapping stop/quantity allocation.
+- Where the Tenant tracks vehicle capacity, assignment validates applicable weight/volume/container/product constraints. If the product requires temperature-controlled or hygienic transport, validate the configured vehicle/equipment readiness and handling profile before dispatch.
+- Where exclusive booking is enabled, one vehicle/resource cannot be concurrently assigned to overlapping runs. An assignment cannot bypass existing maintenance, inspection, cleaning, calibration, downtime or availability restrictions.
+- Driver qualification, vehicle documents, insurance/fitness, permits or other credentials may be recorded with source, verifier, effective dates and expiry where Tenant policy or verified applicable rules require them. The product must not claim legal compliance merely because a document was uploaded or a checkbox was selected; exact mandatory document types and validation authorities remain subject to current jurisdiction-specific review.
+
+**Dispatch responsibility and lifecycle**
+- Planning, personnel/resource assignment, dispatch authorization, dispatch execution, stop outcome capture, exception review and run closure are distinct actions with distinct permissions.
+- Dispatch is permitted only after validating: Branch/Route ownership; authorized ServiceArea coverage; current run/manifest version; eligible demand and non-duplicated stop/quantity allocation; stock availability and picked/dispatched quantities; participant identity, permission and assignment; vehicle/resource availability and capacity where used; required qualification/evidence status; configured product hygiene/temperature/packaging controls; custody handover evidence; and unresolved holds/exceptions.
+- A specifically authorized user holding the exact dispatch permission may dispatch. A separate reviewer/approver is required only where the applicable Tenant risk policy, financial/quantity threshold or fixed control requires it. Tenant configuration may add independent checks but cannot remove mandatory ownership, authorization, stock, custody, safety or audit controls.
+- Dispatch freezes/versions the route, manifest, stop/quantity allocation, assigned participants/resources and custody context. Any post-dispatch route, vehicle, driver, stop, quantity or destination change uses an explicit exception/reassignment event with reason, actor, permission, time and any required approval; never silently rewrite the dispatched plan.
+- Vehicle/driver failure, absence, safety hold, breakdown, temperature excursion, route blockage or connectivity loss places the affected run/segment under a visible hold or exception path. Replacement personnel/resource require valid assignment, permission, availability and a real custody handover where goods change hands. If no valid replacement exists, work remains held; no automatic dispatch, custody transfer or successful completion is inferred.
+- A run closes only after reconciling dispatched, delivered, returned, undelivered, damaged/quarantined, cash/receipt, reusable-container and custody balances as applicable. Closing with unresolved exceptions is a distinct permissioned outcome and must preserve outstanding obligations.
+
+**Food handling, traceability and evidence**
+- The applicable product/process risk profile determines vehicle suitability, cleanliness, covered/hygienic transport, packaging, protection from contamination, temperature control, timestamps and traceability evidence. These requirements are configurable by product/process/route where law permits; mandatory verified controls cannot be disabled.
+- FSSAI's advisory dated 2026-10-15 addresses the perishable food commodities described in that advisory, including examples such as khoa and paneer. It directs relevant Food Business Operators to use clean, covered and hygienic suitable conveyances, maintain prescribed temperatures, use food-grade packaging, protect products during storage/loading/unloading/transport and maintain consignment records/traceability. Apply this to the advisory's stated scope and verified legal applicability; do not turn it into one universal temperature or vehicle rule for every SKU and dairy workflow.
+- FSSAI's Milk and Milk Products FSMS guidance (2019) and NDDB milk-chain material inform raw-milk collection, chilling, clean equipment/containers, insulated tanker/can transport, receiving checks and equipment cleaning. Values and time/temperature controls must be versioned against the product/process and authoritative applicability; do not present guidance text as a universal statutory value.
 - Basic delivery evidence remains actor, run/stop, timestamp, actual quantities, outcome and reason. Customer signature, OTP/PIN, photo, location/GPS, sensor/temperature device and continuous tracking remain optional, purpose-limited and policy-controlled unless a verified applicable requirement makes an evidence type mandatory.
 
 **Configurability and extensibility**
