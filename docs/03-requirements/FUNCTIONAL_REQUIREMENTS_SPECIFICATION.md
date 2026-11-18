@@ -70,11 +70,24 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 | FRS-IAM-006 | The system MUST support configurable approval/separation-of-duties policies for high-risk actions (financial posting, refunds, stock adjustment, payroll finalization, permission changes, Tally bulk sync); whether approval is required for a given action is governed by the approved policy. | Must |
 | FRS-IAM-007 | Device/session lifecycle, revocation and security event history MUST be supported. | Must |
 | FRS-IAM-008 | Customer self-service identities MUST NOT be provisioned under the current approved product scope. | Must |
-| FRS-IAM-009 | No role title, job title, seniority, account type or Home/Primary Branch assignment MUST grant access. Every data disclosure and action requires the applicable effective permission and scope; cross-Branch read, mutation, approval, sensitive-field access and export are independently permissioned. | Must | Same effective permissions/context yield same result regardless of titles/account labels; a Branch assignment alone cannot disclose records |
+| FRS-IAM-009 | No role title, job title, seniority, account type or Home/Primary Branch assignment MUST grant access. Every data disclosure and action requires the applicable effective permission and scope; cross-Branch read, mutation, approval, sensitive-field access and export are independently permissioned. Identical effective permissions and scope MUST yield identical authorization outcomes regardless of labels. | Must |
 
 ### 4.1 Customer-configurable permission governance
 
 The Tenant MUST be able to configure eligible permission bundles and permission assignments for its users/groups, subject to fixed platform controls and the assigning actor's own delegated authority. Roles are optional editable bundles only. Direct principal grants MAY be supported under governed policy. Explicit deny, default deny, fail-closed conflict handling, change audit and cross-channel revocation are mandatory. See ARC-IAM-001, ARC-AUTH-MATRIX-001 and BR-FIX-024.
+
+### 4.2 Cross-Branch shared-site stock-task grants
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FRS-IAM-011 | The system MUST support a StockTaskAccessGrant for exactly one named worker and one stock-owning/target Branch, limited to explicitly scoped OperatingLocation/StockLocation, permitted stock actions, stock/item/lot/task scope where applicable, quantity/value limits and an effective period. Group-wide, role-wide or anonymous grants MUST NOT be supported. | Must |
+| FRS-IAM-012 | A submitted grant version MUST remain non-effective until an authorized user holding the required stock-owning-Branch approval permission, or a currently valid delegate within the approved delegation policy, approves that exact immutable version and payload. | Must |
+| FRS-IAM-013 | A grant MUST NOT create or replace the worker's independent action permission, active Tenant membership, resource scope or any workforce assignment required by Tenant policy. All such conditions MUST be revalidated at every stock-affecting transition and commit. | Must |
+| FRS-IAM-014 | Material grant changes, including worker, Branch, location, actions, stock/task scope, limits or effective period, MUST create a new immutable GrantVersion and require fresh approval before the changed authority is used. A worker change MUST require a new grant request. | Must |
+| FRS-IAM-015 | Grant effective start MUST be inclusive and effective end exclusive. Expiry, revocation and automatic invalidation MUST block new tasks and further stock mutations immediately, with zero grace; notification, cached state and pending extension requests MUST NOT extend authority. | Must |
+| FRS-IAM-016 | If a grant expires, is revoked or invalidated while a stock task is in progress, the affected task MUST be held while preserving completed steps, quantities, custody, stock effects and outstanding work. Further work MUST require an active grant for the same worker or a new grant and valid reassignment for a replacement worker, followed by controlled reconciliation. | Must |
+| FRS-IAM-017 | The system MUST distinguish grant authorization state from task reconciliation state and retain append-oriented grant/task decisions, approvals, holds, handovers, corrections, compensation and closure evidence. | Must |
+| FRS-IAM-018 | Grant approval, version changes, expiry, revocation, invalidation and stock-affecting task commits MUST be idempotent, auditable and concurrency-safe across APIs, mobile/barcode, jobs, retries and integrations. | Must |
 
 ## 5. Branches, locations and operating profile
 
