@@ -115,8 +115,8 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | POSSession | Tenant | Belongs to register and operator | Opening/closing cash and reconciliation |
 | Tender/PaymentCapture | Tenant | Belongs to sale/receipt and method | Distinct from settlement evidence |
 | BranchServiceAreaAssignment | Tenant; references one Branch and one ServiceArea | Records which Branch is authorized/assigned to serve a ServiceArea for an effective period | Explicit many-to-many mapping; retain assignment history; do not infer access grants from this mapping |
-| RouteTemplate | Tenant; references planning scope as later approved | Defines reusable/planned stop sequence | Route-to-Branch/ServiceArea cardinality remains unresolved under ODR-002 |
-| DeliveryRun | Tenant | References date, shift, branch, route/dispatch plan and assigned personnel | Execution instance |
+| RouteTemplate | Tenant; belongs to exactly one Branch | Defines reusable/planned stop sequence | Branch 1:N RouteTemplate. A Route may cover one or more ServiceAreas only where its owning Branch has an effective BranchServiceAreaAssignment; no implicit cross-branch route sharing |
+| DeliveryRun | Tenant; references one Branch and a RouteTemplate owned by that same Branch | References date, shift, route/dispatch plan and assigned personnel | Branch/Route ownership must match; preserve route/plan version and execution context in the historical run |
 | DeliveryStop | Tenant | Belongs to DeliveryRun and references customer/service address/demand | |
 | DeliveryAttempt | Tenant | Belongs to stop; records time, actor and outcome | Multiple attempts allowed |
 | Fulfilment | Tenant | References source demand/occurrence/order and actual outcome | Planned and actual quantities distinct |
@@ -251,6 +251,7 @@ The following is the logical relationship spine. Optional relationships depend o
 2. Tenant 1:1/N TenantBusinessProfile versions; Tenant 1:N Branch, TenantMembership, TenantConfiguration and TenantSubscription history.
 3. Tenant 1:N OperatingLocation; one Branch may be associated with 0:N OperatingLocations, and an OperatingLocation may be unassigned to a Branch or associated with a Branch under policy. Shared use by multiple Branches requires an explicit governed association and access rules. One OperatingLocation may have multiple OperationalCapabilities; StockLocation is a separate inventory-control subdivision and is not a physical OperatingLocation.
 4. Branch and ServiceArea have an approved many-to-many service-allocation relationship through an explicit effective-dated association. One Branch may serve 0:N ServiceAreas and one ServiceArea may be served by 1:N Branches according to configured assignments. Historical delivery records preserve the branch/service context applicable when they were created; changing an assignment does not rewrite completed records. This association does not grant cross-branch data access.
+5. Branch 1:N RouteTemplate; each RouteTemplate belongs to exactly one Branch. A RouteTemplate may cover one or more ServiceAreas only where its owning Branch has an effective BranchServiceAreaAssignment. RouteTemplate is not shared across Branches by implication; another Branch serving the same ServiceArea uses its own RouteTemplate. Each DeliveryRun references a Branch and a RouteTemplate owned by that same Branch; mismatch is invalid. Completed runs retain the route/plan version and operational context used at execution.
 4. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
 5. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
 6. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
@@ -354,7 +355,7 @@ For each class define create/update/delete/archive/restore, retention, legal hol
 ## 16. Unresolved modelling decisions
 
 1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
-2. ODR-002: Route-to-Branch/ServiceArea cardinality, route ownership/dispatch responsibility, detailed shared-site governance and cross-branch access rules.
+2. ODR-002: detailed shared-site governance and cross-branch access rules; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification.
 3. ODR-004/005: cross-tenant user identity, membership multiplicity, role scope and permission delegation.
 4. ODR-008: supported UOM, precision, conversion and rounding.
 5. ODR-011/012: processing and inventory valuation/ownership policy.
