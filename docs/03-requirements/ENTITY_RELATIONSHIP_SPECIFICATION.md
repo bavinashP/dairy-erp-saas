@@ -418,7 +418,7 @@ For each class define create/update/delete/archive/restore, retention, legal hol
 1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
 2. ODR-002: shared-site custody/resource accountability is specified in section 16.10/ODR-002 section 16.36; route, personnel/vehicle assignment and dispatch accountability are specified in section 16.11/ODR-002 section 16.37; the complete cross-Branch permission matrix is resolved in section 16.7. Further scenario validation and external legal/contract/insurance/vehicle-qualification applicability review remain. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated. Shared-site workers may receive explicit, limited, effective-dated, auditable stock-handling grants for another Branch, without general access to that Branch's unrelated operational data. Each such grant requires approval by an authorized user holding the required stock-owning-Branch approval permission, or a currently valid delegate under section 16.4, before activation; approval is bound to the exact grant scope/version. The recommended Home-Branch/workforce-assignment boundary is in section 16.6.
 3. ODR-005: the canonical product-wide atomic permission-key inventory and conceptual PermissionCatalogueEntry / PermissionBundleVersion / ExtensionPermissionRegistration entities are selected in ARC-IAM-CAT-001 section 15 and ERS sections 5/12. Remaining readiness dependencies are domain-specific approval thresholds, exact resource/state/API mapping, sensitive-field metadata and verified acceptance coverage. ODR-004 membership cardinality is resolved under ODR section 16.9.
-4. ODR-008: supported UOM, precision, conversion and rounding.
+4. ODR-008: canonical UOM dimensions, SKU base-UOM rules, pack/count separation, precision layers, conversion governance and monetary rounding hierarchy are selected in DBR-004 and ODR-008 section 16.40. Device/instrument tolerances, workflow-specific validated profiles, Legal Metrology applicability, statutory tax rules, inventory valuation and target-version Tally precision remain evidence-gated.
 5. ODR-011/012: processing and inventory valuation/ownership policy.
 6. ODR-014/016/017: billing legal document model, tax treatment and accounting books policy.
 7. ODR-018: employee/contractor classification and payroll statutory data model.
@@ -434,7 +434,7 @@ Before physical schema design:
 - [ ] Resolve or explicitly model alternatives for legal entity/books and branch/location taxonomy.
 - [ ] Validate canonical Party/Customer/Supplier/Farmer identity model with realistic examples.
 - [ ] Complete cardinality and optionality review for all high-volume workflows.
-- [ ] Approve unit/quantity precision and monetary rounding policy.
+- [ ] Verify DBR-004 / ODR-008 section 16.40 is reflected in conceptual ERS; map each SKU base UOM, transaction UOM, contextual conversion, measurement evidence, precision profile, rounding policy version and historical snapshot. Complete device/process test vectors and external legal/accounting/Tally compatibility evidence.
 - [ ] Approve stock movement and accounting posting source-of-truth contracts.
 - [ ] Define lifecycle/state machine and immutable snapshot boundaries.
 - [ ] Define tenant/branch foreign-reference enforcement and row-scope threat tests.
