@@ -354,7 +354,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for delegated approval, grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability.
 
 **Approval evidence:** The product owner accepted the recommended lifecycle baseline: revocation/expiry stops new work, completed history remains immutable, and in-progress work is held for controlled review rather than silently completed or rolled back.
 
@@ -364,7 +364,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Revocation or expiry also prevents further stock-affecting actions under that grant. No new receipt, put-away, pick, issue, transfer, count adjustment, reservation or other stock mutation may be authorized solely by the ended grant.
 - Tasks already completed remain historically intact. Their stock movements, actor attribution, owning-Branch attribution, grant reference and audit history must not be deleted, silently rewritten or automatically reversed because the grant later ended.
 - An in-progress task must not be auto-completed, auto-rolled-back or treated as successfully completed. It enters a held/review-required state, preserving completed steps, quantities, custody evidence and outstanding work.
-- Further stock-affecting steps on a held task require a currently valid grant that covers the exact worker, target stock scope and action, or reassignment to another currently authorized worker. The authorized user holding the required approval permission of the stock-owning Branch (or a separately authorized delegate under a future approved delegation policy) decides whether to reauthorize through a new/valid grant, reassign the remaining work, or cancel/close it through a controlled reconciliation process.
+- Further stock-affecting steps on a held task require a currently valid grant that covers the exact worker, target stock scope and action, or reassignment to another currently authorized worker. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, decides whether to reauthorize through a new/valid grant, reassign the remaining work, or cancel/close it through a controlled reconciliation process.
 - Cancellation/closure must reconcile any partial physical handling and stock effects through explicit compensating/correction records where required; it must never erase the original events or fabricate a rollback. Any residual custody/quantity discrepancy remains visible for resolution.
 - Non-mutating safety/incident reporting and audit capture may continue while a task is held, but this does not authorize stock movement or changes to stock balances.
 - Grant revocation/expiry, task hold, review decision, reassignment, reauthorization and closure must be timestamped and attributable, with the reason and related grant/task references retained.
@@ -374,18 +374,18 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Authorization must be rechecked server-side at each stock-affecting transition, including API, mobile/barcode, background jobs, retries and integrations. Cached authorization must not permit post-expiry/revocation writes.
 - Task state transitions and stock effects must be concurrency-safe and idempotent. A revocation racing with a stock operation must not allow an operation to commit after the grant is no longer valid; the transaction boundary must revalidate authorization atomically with the stock-affecting commit.
 - No automatic distributed rollback or exactly-once guarantee is implied. Recovery uses explicit reconciliation and append-only correction/compensation evidence.
-- This approval does not decide grant-expiry notification timing/channels, grace periods, delegated approval rules or the separate home-Branch consent policy.
+- This approval does not decide grant-expiry notification timing/channels, grace periods or the separate home-Branch consent policy. Delegated approval is resolved by the separately approved ODR-002 policy below.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; grant lifecycle; stock task state machine; stock movement integrity; concurrency/idempotency; audit and acceptance tests.
 
 **Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
 
-**Review trigger:** Reopen only on explicit product-owner change or when specifying delegation, notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
+**Review trigger:** Reopen only on explicit product-owner change or when specifying notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002; it does not close delegated approval, grant-expiry notifications/grace periods, home-Branch consent, the complete permission matrix or detailed shared-site accountability.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002; it does not close grant-expiry notifications/grace periods, home-Branch consent, the complete permission matrix or detailed shared-site accountability.
 
 **Approval evidence:** The product owner approved the recommended emergency-override safeguards and confirmed that authorization is permission-based: authority follows explicit permissions, not job titles or named roles.
 
@@ -438,4 +438,64 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 **Verification:** Test ordinary approval, restricted self-activation only by a specifically authorized Emergency Authority, denial when no such authority exists, exact least-privilege scope, no unrelated data access, 60-minute expiry, one independently authorized extension with a 120-minute hard maximum, immediate revocation, immutable completed records, held partial tasks, review evidence, discrepancy reconciliation, API/mobile/job/integration enforcement, idempotency and expiry/revocation race conditions.
 
-**Review trigger:** Reopen only upon explicit product-owner change or evidence from operational testing that the approved emergency safeguards are unsafe or insufficient. Delegated approval, notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
+**Review trigger:** Reopen only upon explicit product-owner change or evidence from operational testing that the approved emergency safeguards are unsafe or insufficient. Notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
+
+
+### ODR-002 — approved permission-based delegated approval
+
+**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. It does not close grant-expiry notifications/grace periods, home-Branch consent, the complete permission matrix or detailed shared-site accountability. General tenant-wide approval policy and the broader ODR-004/005 permission/delegation matrix remain subject to their own scope.
+
+**Approval evidence:** The product owner explicitly approved all recommendations: separate delegation permission, exact scoped authority, maximum 30-day validity, no automatic renewal or onward delegation, non-delegable high-risk actions, immediate invalidation when the delegator's underlying authority ceases, auditability and concurrency safeguards.
+
+**Purpose and governing principle**
+
+Delegated Approval allows an authorized user to temporarily assign a narrowly defined approval capability to another eligible user when continuity of an approved workflow requires it. It is not a transfer of the delegator's identity, role, general permissions, data access or unrestricted approval authority. Authority is determined by effective permissions and explicit scope, never by job title, seniority or role label.
+
+**Who may delegate and who may receive delegation**
+
+- The delegator must hold both the effective approval permission for the exact approval category/resource and scope, and a separate explicit `approval.delegate` permission covering that same scope.
+- The delegate must be an active, authenticated user within the same Tenant and must be eligible to act within the delegated Tenant/Branch/resource scope. A delegation does not create general Branch membership or grant unrelated data visibility.
+- The delegation record itself is the explicit, temporary authorization for the named delegate to perform only the specified approval action(s). Any information needed to decide must be exposed through the delegate's independently permitted access or a minimum, permission-filtered approval packet; the delegation must not silently widen read access.
+- A delegator cannot delegate an authority they do not currently hold, delegate more broadly than their own scope, or delegate to themselves.
+
+**Required delegation scope**
+
+Every delegation must explicitly identify:
+- Delegation identifier and status.
+- Delegator and delegate identities.
+- Tenant and, where applicable, Branch/resource scope.
+- Approval category and exact action(s) that may be approved.
+- Applicable amount, quantity, variance, risk or other approval limits; the effective limit is the lowest applicable limit among the delegator's current authority, the delegation record and the governing approval policy.
+- Effective start and end timestamps.
+- Reason and creation/revocation evidence.
+
+A delegation authorizes only the approve action within the stated scope. It does not confer submit, create, modify, execute, export, permission administration or general record-access rights unless those are independently granted. It cannot waive required multi-person approval or separation-of-duties checks.
+
+**Validity, revocation and automatic invalidation**
+
+- Maximum validity is 30 calendar days from its effective start. The effective end is exclusive.
+- There is no automatic renewal and no extension of an existing delegation. A new delegation record, with fresh authorization and audit evidence, is required for any further period.
+- The delegator or an authorized user holding a specific delegation-revocation permission may revoke it immediately.
+- The delegation becomes unusable immediately if the delegator's underlying approval permission, `approval.delegate` permission, relevant scope assignment or Tenant membership is revoked, suspended, expires or is narrowed so that the delegated scope is no longer covered.
+- It also becomes unusable if the delegate's account or Tenant membership is suspended, revoked or expires, or if the delegation itself expires or is revoked.
+- Revocation/expiry prevents new approval decisions. An approval already committed while the delegation was valid remains an immutable historical event; an uncommitted/in-flight approval must be revalidated and rejected if the delegation is no longer valid.
+
+**Non-delegable actions and safeguards**
+
+The following actions are non-delegable under this baseline: permission/role/access administration; Emergency Override activation, extension and retrospective review; stock adjustments and write-offs; financial-period close/reopen; and sensitive data deletion. No onward delegation, subdelegation, circular delegation or self-delegation is permitted. A delegated approver cannot approve an action they initiated, and cannot approve the creation, amendment or approval of their own delegation. Delegation does not bypass maker-checker, independent approval, policy thresholds or any other required approval stage.
+
+Other approval categories are delegable only where the governing approval policy explicitly marks the category/action as delegable. Absence from the non-delegable list does not by itself make an action delegable.
+
+**Audit requirements**
+
+Record delegation creation, change attempt, approval/authorization evidence, activation, use, denied use, revocation, automatic invalidation and expiry. Each delegated approval must retain the actual delegate actor, delegator, delegation identifier/version, approval category/resource, exact payload/version/hash and policy version approved, applicable limits, decision, timestamp, reason/comment and request/correlation/idempotency references. Audit history must distinguish the actual actor from the person who delegated the authority. Never log credentials, tokens or secret values.
+
+**Concurrency and enforcement**
+
+Delegation validity, current delegator authority, delegate membership, scope, action, limits, approval payload version and policy version must be revalidated server-side at the approval commit boundary. The validity check and approval commit must be coordinated atomically so a revocation, expiry, membership suspension or authority reduction racing with an approval cannot authorize a decision after the delegation ceased to be valid. Retries must be idempotent and cannot create duplicate approval decisions. Stale UI/session/cache state and offline clients cannot authorize an approval.
+
+**Affected areas:** ERS-001; ARC-IAM-001; audit/observability; concurrency/transaction integrity/idempotency; Actor and Access Model; Core Domain Entity Catalogue; Canonical Business Glossary; approval workflow policy and acceptance tests.
+
+**Verification:** Test creation without `approval.delegate`; delegation exceeding delegator scope/limits; inactive or cross-Tenant delegate; exact Branch/resource/action scoping; 30-day hard maximum; no renewal/extension; immediate revocation; automatic invalidation on either party's membership or relevant permission/scope loss; all non-delegable actions; self-approval and subdelegation denial; multi-stage approval preservation; payload/policy changes; audit attribution; duplicate retries; and revocation/expiry races at commit.
+
+**Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
