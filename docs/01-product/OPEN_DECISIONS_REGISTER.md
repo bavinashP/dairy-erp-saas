@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. Detailed shared-use governance, accountability and employee access policies remain to be specified | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation baselines approved by product owner (2026-11-18); detailed shared-use governance and access policies remain open.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. Detailed grant lifecycle, accountability and complete permission matrix remain to be specified | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation baselines approved by product owner (2026-11-18); detailed shared-use governance and access policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -233,6 +233,40 @@ Branch A and Branch B use the same warehouse building. The building is represent
 **Verification:** Confirm that two Branches can use one OperatingLocation, maintain separate branch-attributed StockLocations and stock ledgers within the same premises, and cannot access or mutate one another's stock without an explicit grant.
 
 **Review trigger:** Reopen only upon explicit product-owner change or evidence that the shared-site/stock-segregation baseline cannot safely support a required operating workflow. Continue ODR-002 for detailed shared-use governance and access policies.
+
+---
+
+### ODR-002 — Approved limited cross-branch stock-handling access for shared-site workers
+
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use governance, accountability and permission-matrix design.
+
+**Approval evidence:** The product owner accepted that workers operating at a shared physical site may handle stock for more than one Branch where needed, provided access is explicit, limited and auditable and does not expose the other Branch's complete data.
+
+**Approved decision statement**
+
+- A worker may be authorized to perform stock-handling work for more than one Branch at a shared OperatingLocation without becoming a general member of every such Branch or receiving unrestricted cross-branch access.
+- Each cross-branch grant must explicitly identify the worker/principal, target Branch, applicable shared OperatingLocation and/or Branch-specific StockLocation, permitted operational actions, effective period and granting authority.
+- Permissions must be action-specific and least-privilege. Permission to receive, put away, pick, transfer, count or otherwise handle stock must not imply permission for unrelated actions such as price changes, purchasing, stock adjustments, write-offs, approvals, exports or financial postings unless separately granted.
+- The worker may see only the minimum stock and task information needed to perform the authorized action. The grant does not expose the target Branch's general customer, supplier, employee, sales, purchasing, financial, reporting or other operational records.
+- Stock ownership and transaction attribution remain with the owning Branch even when a worker from another Branch performs an authorized physical task. The system must retain both the stock-owning Branch and the acting worker's identity/normal branch context in the audit trail.
+- Grants must be revocable, effective-dated and auditable. Expiry or revocation must prevent subsequent actions without rewriting already completed stock movements or historical records.
+- A shared physical location, shared shift, shared manager or physical proximity alone never creates a permission grant.
+
+**Illustrative application**
+
+A warehouse worker normally assigned to Branch A is also authorized to pick and receive stock for Branch B at their shared warehouse. The worker can see the relevant Branch B stock positions and task lines needed for those assigned tasks and can record the permitted actions. The worker cannot browse Branch B's customer list, supplier terms, employee records, sales history, financial reports or perform stock adjustments/approvals unless separate permissions explicitly authorize those actions.
+
+**Consequences**
+
+- Cross-branch workforce access is a scoped operational delegation, not automatic multi-branch membership.
+- Authorization checks must include actor, target Branch, shared-site/StockLocation context, action, effective time and any required approval state.
+- Audit events must preserve actor identity, actor's home/assigned Branch, target stock-owning Branch, target StockLocation, action, source task/document and grant reference.
+- APIs, search, mobile workflows, barcode scanning, reports, exports, background jobs, integrations and caches must enforce the same grant boundaries; UI hiding alone is insufficient.
+- This approval does not settle general employee multi-branch membership, managerial all-branch visibility, emergency override, approval delegation, or complete HR/payroll access rules.
+
+**Verification:** Confirm that a worker with a Branch A home assignment can execute only the specifically granted stock tasks for Branch B at the approved shared site; cannot browse unrelated Branch B records; cannot perform ungranted stock mutations; and every permitted action is attributable to the worker, stock-owning Branch and grant.
+
+**Review trigger:** Reopen only upon explicit product-owner change or a material change to the shared-site operating model. Continue ODR-002 for complete permission matrix, shared-site accountability and exception/revocation workflows.
 
 ---
 
