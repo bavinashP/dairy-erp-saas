@@ -100,7 +100,7 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Processing Batch | Transformation run with input/output/loss records |
 | Packaging Run | Pack/label operation and output lots |
 | Stock Item | Inventory-managed identity |
-| Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself | Stock ownership, balances and control remain attributable to the relevant Branch/inventory scope even when multiple Branches use one physical OperatingLocation |
+| Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself; stock ownership, balances and control remain attributable to the relevant Branch/inventory scope even when multiple Branches use one physical OperatingLocation |
 | Stock Lot / Batch | Traceable stock quantity group |
 | Stock Movement | Receipt, issue, transfer, return, loss, or adjustment |
 | Stock Count | Physical count exercise |
