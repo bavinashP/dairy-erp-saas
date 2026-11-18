@@ -74,7 +74,7 @@ Requirement IDs are stable. Each requirement must be traceable to domain source,
 
 ### 4.1 Customer-configurable permission governance
 
-The Tenant MUST be able to configure eligible permission bundles and permission assignments for its users/groups, subject to fixed platform controls and the assigning actor's own delegated authority. Roles are optional editable bundles only. Direct principal grants MAY be supported under governed policy. Explicit deny, default deny, fail-closed conflict handling, change audit and cross-channel revocation are mandatory. See ARC-IAM-001, ARC-AUTH-MATRIX-001 and BR-FIX-024.
+The Tenant MUST be able to configure eligible permission bundles and permission assignments for its users/groups, subject to fixed platform controls and the assigning actor's own delegated authority. Roles are optional editable bundles only. Direct principal grants MAY be supported under governed policy. Explicit deny, default deny, fail-closed conflict handling, change audit and cross-channel revocation are mandatory. The canonical product-wide atomic key inventory and metadata requirements are governed by ARC-IAM-CAT-001 section 15 and ODR-005 section 16.39. See ARC-IAM-001, ARC-AUTH-MATRIX-001 and BR-FIX-024.
 
 ### 4.2 Cross-Branch shared-site stock-task grants
 
@@ -88,6 +88,12 @@ The Tenant MUST be able to configure eligible permission bundles and permission 
 | FRS-IAM-016 | If a grant expires, is revoked or invalidated while a stock task is in progress, the affected task MUST be held while preserving completed steps, quantities, custody, stock effects and outstanding work. Further work MUST require an active grant for the same worker or a new grant and valid reassignment for a replacement worker, followed by controlled reconciliation. | Must |
 | FRS-IAM-017 | The system MUST distinguish grant authorization state from task reconciliation state and retain append-oriented grant/task decisions, approvals, holds, handovers, corrections, compensation and closure evidence. | Must |
 | FRS-IAM-018 | Grant approval, version changes, expiry, revocation, invalidation and stock-affecting task commits MUST be idempotent, auditable and concurrency-safe across APIs, mobile/barcode, jobs, retries and integrations. | Must |
+| FRS-IAM-019 | Every protected business data/action operation across all enabled and optional modules MUST map to one or more registered atomic permission keys from the canonical catalogue; a missing mapping MUST fail closed. | Must |
+| FRS-IAM-020 | Permission keys MUST use stable, language-neutral semantics and registered lifecycle/version metadata. Unknown, malformed, retired or incompatible keys MUST deny by default; wildcard/all-permissions grants MUST NOT be an implicit or default assignment. | Must |
+| FRS-IAM-021 | Tenants MUST be able to create/version editable permission bundles, assign eligible atomic keys directly or through governed groups, apply scoped allow/deny assignments, amend and revoke them within delegated authority; Tenant display labels MUST NOT alter key semantics. | Must |
+| FRS-IAM-022 | Sensitive-field access, bulk search/list, report drill-down, export and download MUST be independently permissioned and constrained to declared data classes, rows, fields, purpose and resource scope; export MUST NOT bypass field-level permissions. | Must |
+| FRS-IAM-023 | Extensions MUST register namespaced, versioned permissions for declared extension resources/actions. Extension installation, activation or credential creation MUST NOT grant extension data access or core-resource access without a separate explicit scoped grant. | Must |
+| FRS-IAM-024 | Platform-only permissions and Tenant-assignable permissions MUST be distinct. Platform/support identities MUST NOT obtain implicit Tenant business-data access; Tenant-data support access requires a separate scoped, purpose-bound and auditable SupportAccessGrant. | Must |
 
 ## 5. Branches, locations and operating profile
 
