@@ -39,6 +39,7 @@
 | Permission | Atomic action capability |
 | Role Assignment | User/role/scope/effective period; may represent explicit, limited, auditable cross-branch stock-task grants without granting general target-Branch membership or data visibility |
 | Approval Policy | Conditions, limits, and required approver |
+| Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegate`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
 | Device / Session | Authentication and session lifecycle |
 | Support Access Grant | Explicit platform-to-tenant support authorization |
 | Audit Event | Who did what, when, from which context, and outcome |
