@@ -1,6 +1,6 @@
 # Cash, Bank Accounts and Financial Reconciliation
 
-**Status:** Working baseline — domain requirements
+**Status:** Recommended financial operations baseline — evidence-first payment and reconciliation controls selected; provider formats remain evidence-gated
 
 ## 1. Operating assumptions
 A dairy may accept payments into a personal bank account, business current/savings account, UPI QR linked to either, or cash drawer. Payment gateway integration is optional. The system must record the actual receiving destination without forcing every tenant to have a corporate bank account or payment aggregator.
@@ -44,5 +44,11 @@ Cash book, bank book, account-wise statement, unreconciled items, UPI reference 
 8. Record and approve cash shortage.
 9. Reopen closed reconciliation only with authorization.
 
-## 11. Open decisions
-Supported statement formats and banks; import frequency; matching confidence thresholds; account verification method; cash closing policy; bank-feed integrations; personal-account disclosure UX and legal review.
+## 11. Configuration and evidence dependencies
+- Supported statement formats, bank feeds and import frequency are adapter/provider choices verified through sample-file PoCs; manual file import remains supported.
+- Match confidence and auto-match thresholds are configured per account/source and must retain evidence and exceptions. Weak or ambiguous matches require review.
+- Account ownership/verification status is separate from account registration; do not infer ownership from a label or uploaded screenshot.
+- Cash count and closing policies are configurable by cash location/custodian; physical count differences require separate review/approval.
+- UPI reference, manually entered UTR or screenshot is not proof of bank settlement. Use provider/bank evidence and reconciliation status under ODR-015.
+- Personal-account disclosure requires data-minimization, explicit access and later legal/privacy review. No account details should be exposed to users without a business need/permission.
+- External bank-feed integrations remain optional; core receipt recording and statement import must work without a provider API.
