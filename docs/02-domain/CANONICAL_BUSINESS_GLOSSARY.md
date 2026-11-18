@@ -10,8 +10,8 @@
 | Tenant | Isolated customer/business workspace within the SaaS | Tenant is a technical and commercial boundary; it is not automatically a legal entity |
 | Dairy Business | The real-world dairy operation using the product | May have one or multiple operating locations |
 | Tenant Owner | Person accountable for a tenant's dairy business | May personally perform operational duties |
-| Branch | A named management/operating unit within a dairy tenant | Exact relationship to OperatingLocation and shared-site use remains under ODR-002; it is not automatically a physical premises |
-| OperatingLocation | An actual physical/operational site or premises | One OperatingLocation may support multiple operational capabilities; it is not created separately for every function |
+| Branch | A tenant-owned management/operating unit within a dairy business | May be associated with multiple OperatingLocations; it is not itself necessarily a physical premises |
+| OperatingLocation | An actual physical/operational site or premises owned by one Tenant | May optionally be associated with a Branch; one Branch may have multiple OperatingLocations; shared use across Branches requires explicit governed association and access rules |
 | Operational Capability | A function enabled/performed at an OperatingLocation, such as retail sales, milk collection, storage, processing or packaging | Multiple capabilities may coexist at one physical site; capability labels do not imply separate premises |
 | Outlet / Retail Counter | Retail/counter-sales capability or the relevant counter area at an OperatingLocation | Does not require a separate OperatingLocation when retail occurs at a shared premises |
 | Collection Centre | Milk-receiving capability or designated receiving area at an OperatingLocation | Does not require a separate OperatingLocation when collection occurs at a shared premises |
