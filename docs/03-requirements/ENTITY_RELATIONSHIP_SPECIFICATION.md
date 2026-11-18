@@ -49,8 +49,10 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | FeatureEntitlement | Platform/tenant snapshot | Belongs to Plan version or tenant override | Grants feature availability/limits only |
 | TenantEntitlementOverride | Tenant-scoped governance | References entitlement, actor and effective interval | Must be audited and cannot weaken platform invariants |
 | TenantConfiguration | Tenant | Has typed settings and versions | Configuration schema/version controlled |
-| Branch | Tenant | Belongs to one Tenant; may have child operating locations | Branch count independent of GST profile |
-| OperatingLocation | Tenant | Belongs to tenant; optionally parented to Branch; typed as outlet, warehouse, collection centre, processing site, stock location, etc. | Type taxonomy and hierarchy require decision |
+| Branch | Tenant | Belongs to one Tenant; relationship to physical OperatingLocations remains subject to ODR-002 | Branch count independent of GST profile |
+| OperatingLocation | Tenant | Represents an actual physical/operational site; may be optionally associated with a Branch pending the remaining ODR-002 decision | One site may support multiple operational capabilities; it is not created separately for every function |
+| OperatingLocationCapability | OperatingLocation / tenant configuration | Associates one or more operational capabilities with an OperatingLocation | Examples: retail sales, milk collection, storage, processing and packaging; multiple capabilities may coexist at one site |
+| StockLocation | Tenant; associated with an approved inventory/operational ownership scope | Represents a stock-holding position or subdivision within/associated with a physical site | Distinct from OperatingLocation; e.g. refrigerator, room, shelf, bin or zone |
 | ServiceArea | Tenant | Served by one or more authorized branches under policy | Geographic coverage is not a physical branch |
 | BusinessCalendar / ShiftDefinition | Tenant or branch override | Used by schedules, collection, delivery, attendance and reporting | Versioned/effective-dated |
 | BusinessProfileCapability | Tenant/branch | Enables/configures optional capability | Entitlement and local configuration are separate |
@@ -246,7 +248,7 @@ The following is the logical relationship spine. Optional relationships depend o
 
 1. PlatformPrincipal 1:N platform role assignments.
 2. Tenant 1:1/N TenantBusinessProfile versions; Tenant 1:N Branch, TenantMembership, TenantConfiguration and TenantSubscription history.
-3. Tenant 1:N OperatingLocation; Branch 1:N child operating locations where configured.
+3. Tenant 1:N OperatingLocation; Branch-to-OperatingLocation association/cardinality remains open under ODR-002. One OperatingLocation may have multiple OperationalCapabilities; StockLocation is a separate inventory-control subdivision and is not a physical OperatingLocation.
 4. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
 5. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
 6. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
