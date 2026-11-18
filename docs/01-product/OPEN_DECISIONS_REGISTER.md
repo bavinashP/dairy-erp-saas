@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or Branch-associated; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch, a Branch may own multiple Routes, and a Route may cover multiple ServiceAreas only where that Branch has an effective service assignment. DeliveryRun must use a Route belonging to its Branch. Route sharing between Branches is not implicit; another Branch uses its own Route. Detailed shared-use/access policies remain open | **Partially resolved — physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch relationship baselines approved by product owner (2026-11-18); detailed shared-use/access policies remain open.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or Branch-associated; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch, a Branch may own multiple Routes, and a Route may cover multiple ServiceAreas only where that Branch has an effective service assignment. DeliveryRun must use a Route belonging to its Branch. Route sharing between Branches is not implicit; another Branch uses its own Route. Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or Branch-associated; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch, a Branch may own multiple Routes, and a Route may cover multiple ServiceAreas only where that Branch has an effective service assignment. DeliveryRun must use a Route belonging to its Branch. Route sharing between Branches is not implicit; another Branch uses its own Route. A shared OperatingLocation may be used by multiple Branches through explicit governed associations; physical space may be shared while each Branch retains separate StockLocations, stock ownership, stock control and transaction records. No cross-branch stock/data access follows from physical sharing. Detailed shared-use authorization, accountability and employee access policies remain open | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation baselines approved by product owner (2026-11-18); detailed shared-use governance and access policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -92,7 +92,7 @@ The supported operating-model examples include:
 
 ### ODR-002 — Accepted conceptual baseline: physical site, operational capabilities and stock locations
 
-**Status:** Partially resolved — the product owner accepted the physical-site/capability baseline, Branch/OperatingLocation relationship, ServiceArea/Branch relationship and Route/Branch relationship on 2026-11-18. Detailed shared-use/access policies remain open.
+**Status:** Partially resolved — the product owner accepted the physical-site/capability baseline, Branch/OperatingLocation relationship, ServiceArea/Branch relationship, Route/Branch relationship and shared-physical-site/branch-specific-stock-segregation baseline on 2026-11-18. Detailed shared-use governance, accountability and access policies remain open.
 
 **Approval evidence:** The product owner explicitly accepted the revised concept after reviewing the single-premises example of a small, sole-owner dairy business.
 
@@ -197,6 +197,42 @@ A Pune West Branch may serve both Kothrud and Bavdhan ServiceAreas. If capacity 
 **Verification:** Confirm one Branch can serve multiple ServiceAreas, one ServiceArea can be served by multiple Branches, effective-dated reassignment preserves historical records, and shared geography does not bypass branch isolation.
 
 **Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Continue ODR-002 separately for Route execution/dispatch responsibility and detailed shared-use/access rules.
+
+---
+
+### ODR-002 — Approved shared OperatingLocation and branch-specific stock segregation
+
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use governance and access policies.
+
+**Approval evidence:** The product owner explicitly accepted the arrangement in which multiple Branches can use one physical warehouse/site while their stock remains independently controlled.
+
+**Approved decision statement**
+
+- One actual physical premises remains one OperatingLocation even when multiple Branches use it; do not create duplicate OperatingLocations solely to represent each Branch's use of the same physical space.
+- Each Branch using that shared OperatingLocation must have an explicit governed association to it. The association must identify the permitted operational use/capabilities and have an effective period; the detailed authorization and accountability policy remains to be specified.
+- StockLocation records/positions must support Branch-specific stock segregation within the same physical OperatingLocation. Separate Branch stock may occupy the same premises without pretending that the physical premises are separate sites.
+- Stock ownership, stock balances, reservations, movements, adjustments, counts and transaction histories remain attributable to the appropriate Branch/authorized inventory scope. A shared address or shared room does not merge stock ownership.
+- A Branch must not automatically see, reserve, move, adjust, count or otherwise control another Branch's stock merely because both use the same OperatingLocation. Such access requires a separate explicit authorization decision and auditable grant.
+- Physical sharing does not grant general access to another Branch's employees, customers, suppliers, transactions, reports or other operational data.
+- Historical stock and operational records must preserve the Branch, StockLocation and relevant shared-site context applicable when the transaction occurred; later association changes must not rewrite history.
+
+**Illustrative application**
+
+Branch A and Branch B use the same warehouse building. The building is represented once as an OperatingLocation. Within that premises, Branch A and Branch B maintain distinct StockLocations or otherwise explicitly segregated inventory-control positions. Both may physically store goods in the same room if the inventory positions and custody rules can reliably distinguish ownership. Branch A's staff cannot view or move Branch B's stock by default.
+
+**Consequences**
+
+- One physical OperatingLocation may be associated with multiple Branches through explicit governed shared-use associations.
+- Physical-location identity and inventory ownership/control are separate dimensions.
+- StockLocation must carry or resolve an explicit Branch/inventory-ownership scope; the exact logical association pattern remains for detailed ERS refinement.
+- Shared physical infrastructure must not weaken tenant isolation or branch-level authorization.
+- This approval does not define shared-site operational responsibility, staff access, approval authority, stock custody hand-off, shared equipment use, or the complete permission matrix. Those remain open for subsequent specification.
+
+**Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; inventory and stock ledger; branch authorization; shared warehouse operations; stock counts, transfers and audit history.
+
+**Verification:** Confirm that two Branches can use one OperatingLocation, maintain separate branch-attributed StockLocations and stock ledgers within the same premises, and cannot access or mutate one another's stock without an explicit grant.
+
+**Review trigger:** Reopen only upon explicit product-owner change or evidence that the shared-site/stock-segregation baseline cannot safely support a required operating workflow. Continue ODR-002 for detailed shared-use governance and access policies.
 
 ---
 
