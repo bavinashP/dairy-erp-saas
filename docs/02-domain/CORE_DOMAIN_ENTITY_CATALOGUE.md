@@ -103,6 +103,7 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Stock Location | Inventory-control holding position/subdivision (e.g. refrigerator, room, shelf, bin or zone) within or associated with an OperatingLocation; distinct from the physical site itself; stock ownership, balances and control remain attributable to the relevant Branch/inventory scope even when multiple Branches use one physical OperatingLocation |
 | Stock Lot / Batch | Traceable stock quantity group |
 | Stock Movement | Receipt, issue, transfer, return, loss, or adjustment; retains stock-owning Branch and acting worker/grant attribution when a cross-branch stock-task grant is used |
+| Stock-Task Access Grant / Approval | Explicit, limited, effective-dated authorization for a worker to perform specified stock actions for another Branch at a shared site; activation requires approval by an authorized manager of the stock-owning Branch, with exact scope/version and approval evidence retained. Home-Branch consent remains undecided |
 | Stock Count | Physical count exercise |
 | Stock Reservation | Quantity reserved for order/delivery |
 | Waste / Loss Record | Controlled quantity loss and reason |
