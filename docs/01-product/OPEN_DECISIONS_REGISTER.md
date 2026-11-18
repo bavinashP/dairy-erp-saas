@@ -226,7 +226,7 @@ Branch A and Branch B use the same warehouse building. The building is represent
 - Physical-location identity and inventory ownership/control are separate dimensions.
 - StockLocation must carry or resolve an explicit Branch/inventory-ownership scope; the exact logical association pattern remains for detailed ERS refinement.
 - Shared physical infrastructure must not weaken tenant isolation or branch-level authorization.
-- This approval does not define shared-site operational responsibility, staff access, approval authority, stock custody hand-off, shared equipment use, or the complete permission matrix. Those remain open for subsequent specification.
+- This approval does not define detailed shared-site operational responsibility, stock custody hand-off or shared-equipment accountability; those remain open for subsequent specification. The complete cross-Branch permission matrix is separately approved under ODR-002 section 16.7.
 
 **Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; inventory and stock ledger; branch authorization; shared warehouse operations; stock counts, transfers and audit history.
 
