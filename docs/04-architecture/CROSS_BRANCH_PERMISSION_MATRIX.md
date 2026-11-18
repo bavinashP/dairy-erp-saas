@@ -43,6 +43,18 @@ Platform-provided bundles may be editable starting templates, not immutable role
 11. Permission validation and protected state-changing commits must be coordinated atomically where a race could otherwise permit a revoked/expired action.
 12. Tenant isolation, stock ownership, auditability, concurrency integrity and segregation-of-duties controls cannot be disabled by customer configuration or subscription plan.
 
+### 3.1 Permission precedence and conflict handling
+
+Apply authorization in this order:
+
+1. Fixed platform/security invariants and explicit legal/contractual prohibitions are hard constraints and cannot be overridden by a Tenant permission grant.
+2. Authentication, active Tenant membership, security boundary and resource ownership must be valid before a business permission is considered.
+3. An explicit applicable deny takes precedence over any applicable allow for the same action/resource/scope. A narrower allow cannot override a broader mandatory deny or fixed invariant.
+4. Applicable allow assignments may contribute permissions only within their own valid scopes, limits and effective periods. The effective allowed scope is the union of independently valid allow scopes after applicable denies and all higher-order constraints are applied; scope is never inferred from a role label or account type.
+5. A permission assignment cannot widen the scope or limits of its source authority. No implicit role inheritance, seniority, account-type or branch hierarchy is used.
+6. If two policies conflict, precedence cannot be established, ownership is ambiguous or required authorization data is unavailable, fail closed and deny the operation.
+7. Permission changes are versioned; in-flight operations must revalidate the current version at commit where the action changes protected state.
+
 ## 4. Cross-Branch shared-site stock-task matrix
 
 This matrix applies when a named worker handles stock owned by another Branch at a shared OperatingLocation. The worker must have both (a) an active approved StockTaskAccessGrant for the exact action and (b) the independently effective permission for that action. The grant is not general Branch membership and exposes only minimum task/stock data.
