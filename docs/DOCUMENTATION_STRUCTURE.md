@@ -14,6 +14,9 @@
 8. Treat legal and regulatory statements as evidence-backed and date-sensitive.
 9. Separate business rules from presentation and client-specific behavior.
 10. Review cross-document consistency after foundational changes.
+11. Classify every material rule as fixed, configurable, customizable, extensible or externally dependent before exposing it as a product setting.
+12. Prefer configuration and governed extension contracts over customer-specific code forks.
+13. Treat tenant plan entitlement, capability activation, configuration, authorization and extension grants as separate controls.
 
 ## 2. Status vocabulary
 | Status | Meaning |
@@ -93,6 +96,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 ### 04 — Architecture
 - [SaaS Multi-Tenancy and Data Isolation Architecture](04-architecture/SAAS_MULTI_TENANCY_AND_DATA_ISOLATION_ARCHITECTURE.md)
 - [System Architecture Overview and Integration Map](04-architecture/SYSTEM_ARCHITECTURE_OVERVIEW_AND_INTEGRATION_MAP.md)
+- [Product Configurability, Customization, Extensibility and Scale Policy](04-architecture/PRODUCT_CONFIGURABILITY_CUSTOMIZATION_EXTENSIBILITY_AND_SCALE_POLICY.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
 - [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
 - [Mobile Client and Offline Operation Architecture](04-architecture/MOBILE_CLIENT_AND_OFFLINE_OPERATION_ARCHITECTURE.md)
@@ -127,6 +131,8 @@ Proof-of-concept findings, final ADRs and approved technology baseline remain ga
 Development workflow, environment setup, branching/releases, deployment/rollback, versioning, maintenance and support (planned).
 
 ## 5. Review gates
+
+- **Variability gate:** every proposed setting, customization or extension has an owner, declared scope, validation, permissions, audit, compatibility, migration/rollback and support lifecycle.
 - **Gate A — Foundation:** vision, scope, terminology, actors, business models, constraints, open decisions.
 - **Gate B — Domain completeness:** workflows, exceptions, lifecycle states, hand-offs, dependencies.
 - **Gate C — Requirements completeness:** testability, traceability, non-duplication, status.
@@ -140,7 +146,7 @@ For each material change: identify source and evidence; list affected documents/
 ## 7. Execution order
 1. Product vision and scope.
 2. Business domain and operating-model analysis.
-3. Actors, roles and permissions.
+3. Actors, permission-first authorization and scoped access (roles are optional bundles, not authority classes).
 4. End-to-end workflows and exceptions.
 5. Module catalogue and dependency map.
 6. Functional and non-functional requirements.
@@ -148,6 +154,8 @@ For each material change: identify source and evidence; list affected documents/
 8. SaaS tenancy, branch, subscription and entitlement architecture.
 9. Security, data integrity, concurrency, audit and resilience.
 10. Reporting, BI, forecasting, budgeting and projections.
+11. Product variability, configuration governance, customization and extension contracts.
+12. Final architecture decisions and development-readiness review.
 11. Architecture alternatives and technology evaluation.
 12. Final architecture decisions and development-readiness review.
 
