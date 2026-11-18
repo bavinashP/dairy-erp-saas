@@ -80,12 +80,18 @@ A person, employee profile, user account, and role assignment must not be collap
 | Order Line | Requested product and quantity |
 | Allocation | Reservation of available stock for demand |
 | ServiceArea | Geographic customer/service coverage area | Many-to-many with Branch through an explicit effective-dated service assignment; geography does not grant cross-branch access |
-| Delivery Route | Reusable or planned route | Each Route has exactly one owning Branch; a Branch may own multiple Routes. Route coverage must stay within that Branch's effective ServiceArea assignments; another Branch uses its own Route |
-| Delivery Run | Dated execution of a route/shift | References one Branch and a Route owned by that same Branch; preserves the route/plan version and operational context used at execution |
-| Delivery Stop | Customer/location stop in a run |
-| Fulfilment Record | Actual delivered/handed-over quantity and result |
-| Delivery Exception | Failed, partial, delayed, refused, or otherwise exceptional outcome |
-| Return / Adjustment | Controlled return, correction, or credit-triggering event |
+| Route / Manual Route | Branch-owned reusable or one-off manual stop sequence and service-area coverage | Each Route has exactly one owning Branch; a Branch may own multiple Routes. Route coverage must stay within that Branch's effective ServiceArea assignments; a small Tenant need not maintain a reusable template |
+| Delivery Plan | Branch/date/shift planning container for demand allocations and one or more runs | A simple one-run flow may create the plan implicitly |
+| Delivery Demand Allocation | Explicit source demand quantity allocated to a plan/run/stop | Prevents duplicate or excess allocation across concurrent runs |
+| Delivery Run | Actual execution unit for one Branch-owned route/plan with a versioned manifest | Branch/Route/Plan must match; personnel and vehicle assignments are separate |
+| Delivery Run Personnel Assignment | Effective-dated participant and operational duty for a run | Duty label grants no permission; owner may self-assign without employee profile |
+| Delivery Run Transport Assignment | Optional time-bounded vehicle/carrier/transport resource assigned to a run segment | Sequential replacements are recorded; concurrent vehicle split uses separate runs |
+| Run Execution Event | Append-oriented actual route/dispatch/departure/arrival/deviation/hold/replacement event | Never rewrites the dispatched manifest |
+| Delivery Stop / Attempt | Customer/location stop and each actual delivery attempt | Multiple attempts/outcomes are retained with actor, time, quantities and reason |
+| Fulfilment Record / Line | Actual delivered/returned/undelivered quantity and result linked to source demand | Planned, dispatched, delivered, returned and billable quantities remain distinct |
+| Delivery Evidence | Run/stop/attempt proof or required handling evidence | Configurable and permission-controlled; preserve source/profile version |
+| Delivery Exception | Failed, partial, delayed, refused, route/vehicle or otherwise exceptional outcome | Linked to original run/stop and corrective action |
+| Return / Adjustment | Controlled return, correction, or credit-triggering event | Financial/stock effects are separate approved workflows |
 
 A generated schedule occurrence must be uniquely traceable to its source subscription line and schedule version. Re-running generation must not create duplicate occurrences.
 
@@ -123,13 +129,6 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 
 | Conceptual entity | Responsibility |
 |---|---|
-| Route / Manual Route | Branch-owned reusable or one-off manual stop sequence and service-area coverage | A route belongs to exactly one Branch; a small Tenant need not maintain reusable templates |
-| Delivery Plan | Branch/date/shift planning container for demand allocations and one or more runs | Simple one-run flow may create it implicitly |
-| Delivery Demand Allocation | Explicit source demand quantity allocated to a plan/run/stop | Prevents duplicate/over-allocation across concurrent runs |
-| Delivery Run | Actual execution unit for one Branch-owned route/plan with a versioned manifest | Branch/Route/Plan must match; personnel and vehicle assignments are separate |
-| Delivery Run Personnel Assignment | Effective-dated participant and operational duty for a run | Duty label grants no permission; owner may self-assign without employee profile |
-| Delivery Run Transport Assignment | Optional time-bounded vehicle/carrier/transport resource assigned to a run segment | Sequential replacements are recorded; concurrent vehicle split uses separate runs |
-| Run Execution Event | Append-oriented actual route/dispatch/departure/arrival/deviation/hold/replacement event | Never rewrites the dispatched manifest |
 | Sales Transaction | Commercial sale event |
 | Billing Document | Invoice/debit/credit document under policy |
 | Customer Statement | Period account summary |
