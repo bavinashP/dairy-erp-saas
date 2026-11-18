@@ -1,6 +1,6 @@
 # Actor and Access Model
 
-**Status:** Conceptual actor/workforce baseline — authorization is governed by ARC-IAM-001 and ARC-IAM-CAT-001  
+**Status:** Conceptual actor/workforce baseline — canonical permissions are governed by ARC-IAM-CAT-001; domain approval policy by ARC-IAM-CTRL-001; enforcement architecture by ARC-IAM-001  
 **Purpose:** Identify who performs work and the access dimensions the authorization design must support. This is not the final role/permission matrix.
 
 ## 1. Core principles
@@ -55,25 +55,19 @@ Authorization design must evaluate at least the following dimensions where relev
 - Time/context: active assignment, shift, temporary access, or support approval.
 - Client/device context: allowed client or trusted device only where a justified security policy requires it.
 
-## 4. Permission action vocabulary (candidate)
+## 4. Permission action vocabulary
 
-Use consistent action semantics rather than creating unrelated permission names in every module:
-- view — retrieve permitted data.
-- create — create a draft/new record.
-- update — modify a record while its state permits modification.
-- submit — submit for review/approval.
-- approve — approve within delegated scope and limits.
-- reject — reject with a reason where workflow supports it.
-- post — commit a financially/operationally material transaction.
-- reverse — create a controlled reversal/correction.
-- cancel — cancel only when state and policy allow.
-- export — extract data; treat separately from view.
-- print — generate a document/receipt where relevant.
-- configure — change tenant/branch business settings.
-- manage_access — assign/revoke users, roles, and scopes within delegation.
-- administer — perform explicitly defined administrative actions.
+Use the canonical registered permission keys and standard action semantics in [Permission Catalogue and Assignment Governance](../04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md) section 15. The verbs below explain generic semantics; they are not standalone permission keys and do not authorize an operation unless the exact registered domain/resource/action key is assigned.
 
-These verbs are candidates for a consistent vocabulary; each module must define its valid actions and state constraints.
+- discover/list/view/view_sensitive — access only the explicitly declared query surfaces, rows and fields.
+- create/update_draft/submit — prepare and route a business record through its allowed lifecycle.
+- assign/execute/capture/verify — assign or perform an operational task and record/verify evidence; these actions are distinct.
+- approve/reject — make a workflow decision for the exact resource/action/payload within the active approval policy.
+- post/reverse/cancel — commit or correct an authoritative business effect only where the owning domain explicitly defines the transition.
+- export/download/print — create or obtain a data/document output; parent-resource, row/field and export permissions remain separately enforced.
+- configure/manage_access/administer — change declared settings or access only within the actor's delegated authority and allowed configuration boundary.
+
+A permission for one verb never implies another. Each owning domain defines exact key, state transition, scope, limits, risk, approval, audit and channel metadata in ARC-IAM-CAT-001 and its domain specifications.
 
 ## 5. Separation of duties and high-risk actions
 
@@ -88,7 +82,7 @@ The design should support optional maker-checker controls for actions such as:
 - Payroll finalization.
 - User role elevation and platform support access.
 
-Small businesses may choose simpler workflows where legally and operationally appropriate, but auditability and accountability remain. The exact thresholds and mandatory controls are open decisions.
+Small businesses may use proportionate direct execution when no fixed safeguard or effective Tenant policy requires an independent reviewer; artificial second-party setup is not mandatory for routine actions. Growing and enterprise Tenants may configure versioned maker-checker, reviewer counts/quorum, thresholds, evidence and multi-stage approval. The selected risk classes R0–R3, domain action boundaries and configurable policy model are in [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md). Numeric INR/percentage/quantity/export thresholds are Tenant configuration values, not universal product constants. Fixed ownership, permission, audit, non-delegable and safety safeguards cannot be weakened.
 
 ## 6. Data visibility principles
 
@@ -136,7 +130,7 @@ Permission/access administration, Emergency Override activation/extension/review
 
 - **Resolved under ODR-004:** one global user may hold independent memberships in multiple Tenants; each Tenant membership may have zero or more workforce Branch assignments and one optional current Home/Primary Branch. These assignments never grant data access by themselves.
 - **Resolved under ODR-002 / ODR-005:** Branch access is explicit permission-and-scope based; roles are optional Tenant-configurable bundles; Tenants may configure bundles, direct/group assignments, allow/deny and effective scope within delegated authority. The canonical atomic permission-key inventory is in ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39.
-- **Remaining readiness gates:** domain-specific numeric approval thresholds, exact permission-to-resource/state/API mapping, sensitive-field classification and automated coverage as each module is finalized.
+- **Remaining readiness gates:** exact permission-key-to-resource/state/API mapping, sensitive-field classification and automated coverage as each module is finalized. Numeric thresholds are selected by each Tenant under ARC-IAM-CTRL-001 and do not require a universal product-wide amount decision.
 - Emergency Override and delegated approval constraints are governed by the approved ODR-002 decisions. Support access uses a separate purpose-bound, scoped, time-limited and auditable SupportAccessGrant; it is not a permanent bypass.
 - Authentication assurance (MFA, passkeys, OTP and password policy) by risk tier; shared POS/delivery device identity patterns; and session/device revocation windows remain under the security/mobile architecture decisions.
 
@@ -146,7 +140,9 @@ The final design must demonstrate:
 - A tenant user cannot read or mutate another tenant's data by changing identifiers or API parameters.
 - A branch-scoped user cannot access unassigned branch data unless an explicit permission grants a defined cross-branch capability.
 - A read-only user cannot mutate records through alternate API endpoints.
-- A user cannot approve their own action where maker-checker policy prohibits it.
+- A user cannot approve their own action where fixed or effective maker-checker policy prohibits it.
+- An approval request, workflow assignment or generic approval capability cannot replace the underlying domain action permission.
+- Approval decisions bind to exact source payload/version and the effective ApprovalPolicyVersion; a material change restarts approval.
 - A role assignment cannot grant permissions beyond the assigner's delegation.
 - A delegated approver can act only within the active delegation's exact category/action, Tenant/Branch/resource scope, limits and effective period.
 - Loss of the delegator's relevant approval/delegation permission or either party's active Tenant membership invalidates the delegation immediately.
