@@ -90,7 +90,7 @@ The final catalogue must define resource semantics, state constraints, sensitive
 
 **Branch-isolation baseline:** An ordinary employee's default effective scope MUST be limited to their own assigned branch. Access to another branch MUST be denied unless a specific, audited cross-branch scope grant is assigned. Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. Job titles and role labels alone do not grant that scope; effective permissions and scope assignments determine authority. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
 
-ODR-004/005 remain open for the final membership, role and delegation matrix, but their resolution MUST preserve this explicit product-owner branch-isolation constraint.
+ODR-004/005 remain open for the broader membership, role and permission/delegation matrix, but their resolution MUST preserve this explicit product-owner branch-isolation constraint and the approved ODR-002 delegated-approval baseline.
 
 ## 7. Role assignment, delegation and lifecycle
 
@@ -106,6 +106,19 @@ The platform MUST prevent privilege escalation through self-assignment, circular
 
 Custom roles, platform templates, role inheritance, direct permission grants, deny rules and precedence remain policy decisions. Avoid implicit role-weight arithmetic as a substitute for permission/scope evaluation.
 
+
+### 7.1 Permission-based delegated approval (ODR-002)
+
+Delegated Approval is a temporary, explicit authorization for a named delegate to approve only the stated category/action within a defined Tenant/Branch/resource scope and limits. It does not transfer a role, general permissions, general data access or the delegator's identity.
+
+The delegator must hold both the current approval permission for the exact scope and the separate `approval.delegate` permission for that same scope. The delegate must be an active authenticated user in the same Tenant and eligible for the specified scope. The delegation record grants only the named approval action; it does not create general Branch membership or broaden read access. The delegate must have independently authorized access to the minimum information needed to decide, or receive a minimum permission-filtered approval packet.
+
+A delegation cannot exceed or outlive the delegator's current effective approval scope or limits. The effective approval limit is the lowest applicable limit among the delegator, delegation record and governing policy. Maximum validity is 30 calendar days; no automatic renewal or extension is permitted. A new delegation requires fresh authorization. The delegator or a separately permissioned authorized user may revoke it immediately. Loss, suspension, expiry or narrowing of the delegator's relevant approval/delegation permission, scope or Tenant membership automatically invalidates it; suspension/expiry/revocation of the delegate's account or Tenant membership also invalidates it.
+
+Permission/access administration, Emergency Override activation/extension/review, stock adjustments/write-offs, financial-period close/reopen and sensitive data deletion are non-delegable. Other actions are delegable only where their governing policy explicitly marks them delegable. Subdelegation, onward/circular/self-delegation and approval of one's own initiated action or own delegation record are prohibited. Delegation cannot bypass maker-checker, independent approval or multi-stage approval.
+
+Each delegated decision must identify the actual delegate and delegator and retain the delegation identifier/version, exact resource and immutable payload/version/hash, policy version, limits, decision and timestamp. Revalidate delegation and both parties' current authority server-side and atomically at approval commit. A revocation/expiry racing with an uncommitted decision must prevent commit; an approval already committed while valid remains immutable.
+
 ## 8. Separation of duties and approvals
 
 High-risk operations may include:
@@ -118,7 +131,7 @@ High-risk operations may include:
 - Bulk Tally synchronization and mapping changes.
 - Tenant suspension, data export and deletion.
 
-The system MUST support configurable approval and separation-of-duties policies. The exact actions requiring approval, amount thresholds, delegated-approval eligibility and small-business simplifications remain open. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
+The system MUST support configurable approval and separation-of-duties policies. The exact actions requiring approval, amount thresholds and small-business simplifications remain open. ODR-002 delegated-approval controls are approved in section 7.1; the broader ODR-004/005 permission/delegation matrix remains separate. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
 
 ## 9. Platform support and privileged access
 
