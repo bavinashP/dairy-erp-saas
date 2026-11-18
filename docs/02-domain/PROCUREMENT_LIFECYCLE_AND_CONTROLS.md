@@ -1,6 +1,6 @@
 # Procurement Lifecycle and Controls
 
-**Status:** Working baseline — domain requirements  
+**Status:** Recommended domain baseline — procurement control policies selected; Tenant commercial terms and verified statutory requirements remain configurable/evidence-gated  
 **Related open decisions:** ODR-001, ODR-002, ODR-008, ODR-009, ODR-010, ODR-011, ODR-012, ODR-016, ODR-017  
 **Scope:** Procurement of raw milk from farmers/producers and goods from companies, distributors, wholesalers, and other suppliers.
 
@@ -127,16 +127,16 @@ Every report must define whether it uses document date, receipt date, posting da
 11. Retry a posting request without duplicate stock or payable effects.
 12. Detect concurrent receipt edits and require conflict resolution.
 
-## 10. Open questions
+## 10. Configuration and evidence dependencies
 
-- Which procurement profiles are enabled by default for each tenant type?
-- Can suppliers have shared tenant terms and branch overrides?
-- What are approval thresholds and tolerance bands?
-- How are supplier invoice, receipt, and payable matching handled?
-- Which tax/accounting documents are required for each transaction type?
-- Which goods require batch, expiry, serial, or lot tracking?
-- How are packaging materials and reusable containers accounted for?
-- Which procurement actions can be performed offline?
-- What supplier payment methods and reconciliation evidence are supported?
+- Procurement profile activation is capability-based; simple direct purchase/receipt is supported without forcing purchase-order workflows. Larger tenants may enable requisition, purchase order, receiving, inspection and three-way matching as configured.
+- Tenant-wide supplier terms may be used; Branch-specific override is allowed only for configuration keys that explicitly permit Branch scope. Supplier invoices, physical receipts and payable posting remain distinct evidence/events.
+- Approval thresholds, quantity/price tolerances and exception workflows are Tenant-configurable and permission-based; no role title is the authority source.
+- Match rules must preserve invoice, order, receipt and payable differences. Material discrepancies enter review rather than being silently netted.
+- Tax/accounting documents depend on verified legal profile and ODR-003/016/017; do not infer statutory requirements.
+- Batch/expiry/serial tracking is determined by product/material tracking profile, shelf life, quality risk and enabled capability; not every item requires every tracking dimension.
+- Reusable containers/cans are tracked as returnable assets/containers with custody/deposit where applicable, not automatically as ordinary saleable stock.
+- Offline procurement/stock posting is not guaranteed by ODR-020; a future offline action requires local evidence, expiry, idempotency and server revalidation.
+- Payment method/evidence follows ODR-015: manual entry is not provider/bank verification.
 
-No statutory tax treatment, mandatory approval threshold, or universal purchase-order requirement is decided here.
+No universal purchase-order, approval threshold, quality limit, tax treatment or payment provider is imposed. Selected rate/settlement controls are under ODR-010/section 16.13.
