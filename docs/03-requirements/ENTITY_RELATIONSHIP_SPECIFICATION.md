@@ -342,14 +342,20 @@ The following is the logical relationship spine. Optional relationships depend o
 - Changes to master data cannot rewrite completed delivery, issued invoice, settled procurement, posted journal or finalized payroll history.
 
 ### 13.3 Quantity and stock integrity
-- Quantity values must include unit and precision context.
-- Unit conversion must be explicit; incompatible units cannot be added or compared.
+- Every quantity-bearing fact includes a UOM/dimension and source/precision context where applicable; incompatible dimensions cannot be added, compared, averaged or generically converted.
+- Every stock-managed SKU resolves to exactly one effective base UOM; Product defaults may be inherited only by compatible variants/SKUs. Non-stockable services have no stock base-UOM requirement.
+- Original input/source quantity and UOM remain distinct from accepted, converted, normalized, posted and displayed quantities. MeasurementEvidence preserves source value, method/device, resolution, timestamp and calibration/source evidence where relevant.
+- UnitConversionVersion is explicit, versioned and effective-dated. Cross-dimensional conversions require an approved contextual formula and required inputs; no universal milk density factor is inferred.
+- PackDefinitionVersion keeps discrete pack count and content quantity/UOM separate; packaging transformations are explicit events and are not generic dimensional conversions.
+- PrecisionProfileVersion and RoundingPolicyVersion are captured in relevant transaction snapshots; precision layers and business tolerance remain separate.
 - Posted stock movements cannot be edited in place; corrections use reversal/adjustment movements.
 - Available stock is derived from posted movements, reservations and status constraints.
 - Lot traceability must remain connected through transfers and production consumption/output.
 
 ### 13.4 Financial integrity
-- Money uses exact decimal representation and an explicit rounding policy.
+- Money uses exact decimal representation and an explicit, versioned rounding policy; binary floating-point is not authoritative.
+- Ordinary INR posting defaults to paise precision, while unit rates/intermediates may use a separately governed higher precision; a verified statutory rounding rule overrides a commercial default only within its legal scope.
+- Posted monetary results retain calculation, tax/rounding policy version and reproducible inputs; journals balance exactly at posting precision.
 - Posted JournalEntry contains at least one debit and credit and equal total debit/credit.
 - JournalLine has one positive side (debit or credit), not both.
 - Control-account postings reconcile with subledger entries.
@@ -572,3 +578,18 @@ Grant authorization and task reconciliation are separate lifecycles. Expiry/revo
 Automatic invalidation covers loss of the named worker's active account/Tenant membership, the independently required stock-action permission, a workforce assignment required by active Tenant policy, target Branch activation or the approved stock-owning-Branch/StockLocation relationship. Loss of the original requester or later loss of the approver's permission does not retroactively erase a valid committed approval; current authority can explicitly revoke the grant and a suspected invalid approval is reviewed as a separate auditable decision.
 
 No maximum grant duration is hardcoded by this conceptual model. Tenant policies may impose tighter duration, action, task, quantity, evidence and approval controls; zero-grace expiry/revocation, stock-owning-Branch approval, single-worker scope, independent permission, hold/reconciliation, concurrency and immutable history remain fixed. Exact lifecycle, versioning, extension, invalidation and race semantics are defined in ODR-002 section 16.38.
+
+
+### 16.13 ODR-008 — canonical UOM, SKU base unit, precision and rounding conceptual model
+
+The recommended UOM/precision baseline is specified in DBR-004 and ODR-008 section 16.40. ERS distinguishes UOMDimension, platform-governed UnitOfMeasure, UnitConversionVersion, SKUBaseUOMAssignment, PackDefinitionVersion, PrecisionProfileVersion, RoundingPolicyVersion and MeasurementEvidence. These are conceptual entities and do not prescribe physical database tables.
+
+- UOMDimension and UnitOfMeasure are governed catalogues; each UOM belongs to one dimension. Tenant labels/custom registered units do not redefine canonical dimension or unit semantics.
+- Each stock-managed SKU has one effective SKUBaseUOMAssignment at a time. Product-level default may be inherited only where dimensions/handling semantics match. A non-stockable service has no stock base UOM.
+- UnitConversionVersion defines standard or contextual conversion with effective dates, applicability, evidence, precision and rounding. A generic cross-dimensional conversion is prohibited.
+- PackDefinitionVersion identifies discrete count and declared content; a packaging transformation is explicit, effective-dated and auditable.
+- MeasurementEvidence is linked to the source collection/quality/stock/process measurement event and retains the raw value/UOM, method/device, source resolution, operator/time and calibration/provenance where available.
+- PrecisionProfileVersion defines validated source/stored/calculation/posting/display precision by UOM/device/workflow. RoundingPolicyVersion defines explicit mode, scale, order, boundary, residual and effective interval. Transaction snapshots preserve the versions used.
+- Historical stock/financial transactions remain unchanged after unit, conversion, pack, precision or rounding policy changes. A SKU base-UOM change requires a prospective controlled migration/reconciliation or a new SKU where no safe conversion exists.
+
+Remaining evidence dependencies are exact instrument accuracy/calibration/tolerances, workflow-specific process/settlement values, Legal Metrology product/activity applicability, statutory tax rounding beyond the recorded CGST Act section 170 scope, inventory valuation and target-version Tally precision. These are reviewed by their owning ODRs and do not block the conceptual ERS baseline.
