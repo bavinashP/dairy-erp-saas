@@ -29,6 +29,7 @@
 | Notification/workflow | Approvals, reminders, exceptions | Routing and delivery of operational messages |
 | Financial posting/ledger | Sales, billing, procurement, payroll, expenses, payments | Consistent financial effects and balances |
 | Stock ledger | Purchase, procurement, processing, POS, delivery, transfer | Authoritative stock movement and valuation inputs |
+| Custody and shared-resource accountability | Inventory, procurement, milk collection, transport, processing, delivery, asset/maintenance | Physical custody, evidence-backed handover, shared resource use and incidents; linked to but independent from stock and financial ledgers |
 | Reporting data foundation | Reports, BI, forecast, budget | Validated historical and current facts |
 
 ## 3. Logical module dependencies
