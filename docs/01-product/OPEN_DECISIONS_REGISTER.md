@@ -228,7 +228,7 @@ Branch A and Branch B use the same warehouse building. The building is represent
 - Physical-location identity and inventory ownership/control are separate dimensions.
 - StockLocation must carry or resolve an explicit Branch/inventory-ownership scope; the exact logical association pattern remains for detailed ERS refinement.
 - Shared physical infrastructure must not weaken tenant isolation or branch-level authorization.
-- This approval does not define at that time, detailed operational responsibility, stock custody hand-off and shared-equipment accountability were not yet decided; the operational custody/accountability baseline is now selected under ODR-002 section 16.36, while external legal/contract/insurance liability and scenario validation remain separate. The complete cross-Branch permission matrix is approved under ODR-002 section 16.7.
+- At the time of this approval, detailed operational responsibility, stock custody hand-off and shared-equipment accountability were not yet decided. The operational custody/accountability baseline is now selected under ODR-002 section 16.36; external legal/contract/insurance liability and scenario validation remain separate. The complete cross-Branch permission matrix is approved under ODR-002 section 16.7.
 
 **Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; inventory and stock ledger; branch authorization; shared warehouse operations; stock counts, transfers and audit history.
 
@@ -387,7 +387,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; detailed shared-site custody/accountability and exception-handling workflows remain open; the complete cross-Branch permission matrix is approved in section 16.7.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the custody/accountability baseline is selected in section 16.36; further workflow validation and external legal/contract/insurance review remain separate; the complete cross-Branch permission matrix is approved in section 16.7.
 
 **Approval evidence:** The product owner approved the recommended emergency-override safeguards and confirmed that authorization is permission-based: authority follows explicit permissions, not job titles or named roles.
 
@@ -445,7 +445,7 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 ### ODR-002 — approved permission-based delegated approval
 
-**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; detailed shared-site custody/accountability and exception-handling workflows remain open; the complete cross-Branch permission matrix is approved in section 16.7. General tenant-wide approval policy ODR-004 membership cardinality is resolved in section 16.9; ODR-005 remains only for the exhaustive module-level permission catalogue and remaining domain approval rules.
+**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the custody/accountability baseline is selected in section 16.36; further workflow validation and external legal/contract/insurance review remain separate; the complete cross-Branch permission matrix is approved in section 16.7. General tenant-wide approval policy ODR-004 membership cardinality is resolved in section 16.9; ODR-005 remains only for the exhaustive module-level permission catalogue and remaining domain approval rules.
 
 **Approval evidence:** The product owner explicitly approved all recommendations: separate delegation permission, exact scoped authority, maximum 30-day validity, no automatic renewal or onward delegation, non-delegable high-risk actions, immediate invalidation when the delegator's underlying authority ceases, auditability and concurrency safeguards.
 
