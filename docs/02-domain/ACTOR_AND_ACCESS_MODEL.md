@@ -154,6 +154,9 @@ The final design must demonstrate:
 - A read-only user cannot mutate records through alternate API endpoints.
 - A user cannot approve their own action where maker-checker policy prohibits it.
 - A role assignment cannot grant permissions beyond the assigner's delegation.
+- A delegated approver can act only within the active delegation's exact category/action, Tenant/Branch/resource scope, limits and effective period.
+- Loss of the delegator's relevant approval/delegation permission or either party's active Tenant membership invalidates the delegation immediately.
+- A delegated approver cannot subdelegate, approve a non-delegable action, bypass multi-stage approval or approve an action they initiated; the audit trail identifies both delegate and delegator.
 - A disabled/expired user cannot continue using valid sessions beyond the documented revocation window.
 - A support operator cannot silently bypass tenant isolation.
 - Every privileged change and sensitive access is auditable.
