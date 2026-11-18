@@ -113,11 +113,12 @@ Posted operational/financial records → Reconciliation and close → Reporting 
 - High-volume reporting must not compromise transactional consistency or tenant isolation.
 - Integration failures must be retryable without duplicating financial, inventory, or delivery effects.
 
-## 7. Next refinement
+## 7. Boundary and evolution policy
 
-The next domain pass should produce:
-- A canonical glossary and entity relationship concepts.
-- State-transition models for subscription, delivery, procurement, stock, billing, and payment.
-- Exception and reversal matrices.
-- A requirements traceability matrix mapping domain capabilities to functional and non-functional requirements.
-- A validated capability-to-plan entitlement matrix without using plans to weaken security or data integrity.
+The module map is a logical business dependency map, not a physical service deployment plan. The initial architecture uses cohesive bounded contexts inside a modular monolith. Each module owns its domain rules and authoritative writes; other modules use published contracts/events rather than direct writes to private data. New modules must be added through explicit capability ownership, dependency, permission, audit, API/event, reporting, data-retention and operational analysis.
+
+Capability existence, plan entitlement, tenant activation, tenant configuration, user permission and extension enablement are separate dimensions. Optional modules must not impose unnecessary setup on small Tenants. A Tenant may progressively enable additional capabilities without changing the identity of existing records or rewriting prior transactions.
+
+Independent service extraction is permitted only after measurable scale, security, availability, team ownership or release-independence benefits outweigh distributed-system complexity. See ARC-PV-001 for the authoritative boundary, extension and evolution policy.
+
+The remaining work is domain-specific detail, validation of each dependency chain, and a capability-to-plan-entitlement catalogue; these must not weaken security or data integrity.
