@@ -258,4 +258,4 @@ The accepted baseline is:
 - ServiceArea remains geographic coverage, not a physical site.
 - This approval is partial: Branch-to-OperatingLocation relationship/cardinality, tenant-level/unassigned locations, shared physical-site governance, ServiceArea/route relationships and access rules remain to be resolved under ODR-002.
 
-The accepted distinction was propagated to the Open Decisions Register, DBR-002, Canonical Business Glossary, Core Domain Entity Catalogue and ERS-001. These files were fetched from `main` before editing; post-write fetch verification is required. No application code, SQL, DDL, ORM models, migrations or physical database schema were changed.
+The accepted distinction was propagated to the Open Decisions Register, DBR-002, Canonical Business Glossary, Core Domain Entity Catalogue and ERS-001. These six files were fetched again from `main` after the writes. Their saved content and the accepted/remaining decision boundaries were verified. No application code, SQL, DDL, ORM models, migrations or physical database schema were changed.
