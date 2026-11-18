@@ -35,9 +35,9 @@
 | User Account | Authentication identity |
 | Tenant Membership | User's relationship to tenant |
 | Employee Profile | HR/workforce record; may exist without login |
-| Role | Named permission bundle |
-| Permission | Atomic action capability |
-| Role Assignment | User/role/scope/effective period; may represent explicit, limited, auditable cross-branch stock-task grants without granting general target-Branch membership or data visibility |
+| Role | Optional tenant-configurable named bundle of explicit permissions; role title itself grants no authority |
+| Permission | Atomic action/data capability evaluated with explicit scope, validity and policy; missing permission defaults to deny |
+| Permission Assignment / Role Assignment | Explicit principal/group/optional-role permission assignment with scope and effective period; roles are configurable bundles only; assignments are grantable, restrictable, changeable, expirable and revocable within delegated authority; cross-Branch stock-task grants remain separate and do not grant general target-Branch membership or data visibility |
 | Approval Policy | Conditions, limits, and required approver |
 | Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegate`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
 | Device / Session | Authentication and session lifecycle |
@@ -168,3 +168,6 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 ## 10. Not yet decided
 
 The catalogue does not determine physical database design, primary key format, tenancy schema strategy, event store, microservices, or exact branch hierarchy. Those require architecture decisions after detailed workflows, scale assumptions, security requirements, and technology evaluation.
+
+
+**Authorization invariant:** User accounts authenticate actors but do not confer business permissions. No role title, job title, seniority or account type independently grants visibility, action, approval, export or administration. Customer-configurable permission assignments are the sole source of business authority, subject to fixed platform invariants and scoped authorization checks. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md`.
