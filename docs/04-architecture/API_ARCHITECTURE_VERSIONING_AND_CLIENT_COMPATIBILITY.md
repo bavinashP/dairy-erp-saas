@@ -72,6 +72,12 @@ Each operation specification MUST document:
 - Compatibility and deprecation notes.
 - Acceptance tests and traceability links.
 
+## 4.1 Contract description and extension surfaces
+
+HTTP API contracts SHOULD be maintained contract-first using the OpenAPI Specification, with schema validation, generated/documented consumer views where appropriate and automated compatibility checks. Select a specification/tooling version supported by the final stack; OpenAPI 3.2.1 was current on 2026-11-19. This does not select REST versus GraphQL/RPC or an API gateway.
+
+Extensions and partner integrations MUST use published, versioned APIs, events, webhooks or import/export adapters. They MUST NOT write directly to another module's private persistence. Each extension has a separate Tenant-bound identity, explicit permissions/scope, rate/resource limits and revocation lifecycle. Configuration and extension contracts are versioned independently from API and internal database versions.
+
 ## 5. Versioning and compatibility
 
 Use an explicit, documented public contract versioning strategy. Whether versioning is path-, header- or media-type-based remains a technology/ADR decision.
@@ -185,7 +191,8 @@ Validate payload size, file type/content, import schema, query complexity, expor
 
 ## 14. Open decisions
 
-- ODR-004/005: membership, roles, permissions and scopes.
+- ODR-004: membership cardinality and assignment lifecycle.
+- ODR-005: exhaustive atomic permission catalogue across all modules, remaining approval and scope policies; permission-first cross-Branch baseline is approved under ODR-002 section 16.7.
 - ODR-019/020: app packaging and offline behavior.
 - ODR-029: integration priority and partner contracts.
 - ODR-030: API protocol, framework, gateway and tooling.
@@ -195,3 +202,10 @@ Validate payload size, file type/content, import schema, query complexity, expor
 ## 15. Exit criteria
 
 Before API implementation, approve protocol/versioning strategy, authentication/session contract, permission mapping, error catalogue, idempotency policy, concurrency preconditions, pagination/bulk semantics, localization/time rules, mobile compatibility window and API test strategy. Each operation must map to FRS requirement IDs and domain ownership.
+
+
+## 16. Configuration and extension compatibility
+
+Configuration keys MUST have stable identifiers, declared types/scopes/defaults and compatibility metadata. Renaming or retiring a key requires an explicit migration/alias, diagnostics, effective-date handling and rollback path; a platform update MUST NOT silently reinterpret a Tenant's saved value. Historical transactions retain the configuration/rule version needed to explain their outcome.
+
+API, event, extension and configuration contract versions are independent. A compatibility matrix must state which client/extension/configuration versions are supported by each platform release. Deprecation requires affected-Tenant/consumer discovery, replacement, migration instructions, telemetry, notice and a controlled sunset. A new extension may require a newer platform contract, but installation must be denied safely when compatibility or required permission is missing.
