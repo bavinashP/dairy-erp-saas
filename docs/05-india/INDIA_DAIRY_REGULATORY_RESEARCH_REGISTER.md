@@ -66,6 +66,19 @@ FSSAI issued an advisory dated 15 October 2026 concerning handling, storage and 
 **Official primary source:** FSSAI, Advisory dated 15 October 2026, F. No. RCD-15001/11/2021-Regulatory-FSSAI:
 https://www.fssai.gov.in/docs/food-law/advisory/Advisory%20dated%2015.10.2026_Transportation%20and%20storage%20of%20perishabe%20commodities.pdf
 
+### 3.2 FSSAI Milk and Milk Products FSMS guidance — raw-milk transport and chilling examples (14 March 2019)
+
+The FSSAI Milk and Milk Products FSMS Guidance Document describes raw-milk handling from village collection through MCC/BMC and transport to a processing unit. Its guidance states that raw milk should be transported from the village-level collection point to MCC/BMC/processing, as applicable, within four hours of milking and cooled as soon as practicable to 5°C or below. It also discusses chilling at collection/chilling centres, clean milk cans/containers and equipment, insulated containers/tankers and preservation of milk integrity during transport.
+
+**Product implications for investigation:**
+- A raw-milk workflow may need effective-dated collection time, milking time where known, chilling time, temperature readings, source device/manual method, container/tanker, dispatch/arrival and receiving test evidence.
+- The values above are documented in an FSSAI sector FSMS guidance document. Do not present them as a universal statutory rule for every milk product, every process stage or every operating model. Confirm current Schedule 4/regulatory text, activity applicability and any later official amendments/clarifications before enforcing a hard dispatch block.
+- Processed/perishable products such as paneer, khoa and packaged milk require their own applicable product/transport profiles; raw-milk guidance is not substituted for those rules.
+- Preserve the exact guidance source/version and operational profile used in a decision.
+
+**Official source:** FSSAI, Food Safety Management System Guidance Document for Milk and Milk Products, uploaded 14 March 2019:
+https://mail.fssai.gov.in/upload/uploadfiles/files/Guidance_Document_Milk_14_03_2019.pdf
+
 ## 4. Milk procurement and quality operations
 
 NDDB sources describe milk collection and procurement practices including producer identification, quantity measurement, sampling, fat/SNF testing, rate calculation, transaction receipts, chilling/storage, transportation, receiving checks, and processing.
