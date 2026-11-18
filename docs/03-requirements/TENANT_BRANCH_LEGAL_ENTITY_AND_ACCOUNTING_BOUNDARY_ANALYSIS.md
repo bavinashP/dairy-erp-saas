@@ -73,7 +73,21 @@ A Branch is an operating unit within a tenant. It can be used as an operational,
 
 ### 3.6 OperatingLocation
 
-An OperatingLocation is a typed physical/operational place. Candidate types already used by the project include outlet, warehouse, collection centre, processing site and stock location. The project must define the controlled location-type catalogue, parent/child rules, address requirements and capability rules. ServiceArea remains geographic coverage, not a physical OperatingLocation.
+An OperatingLocation represents an actual physical/operational site or premises. It is not a separate record for every function performed at that site.
+
+One OperatingLocation may support multiple operational capabilities, such as:
+- Retail/counter sales (Outlet function).
+- Milk receiving from farmers/suppliers (Collection Centre function).
+- Warehousing/storage.
+- Processing and packaging.
+
+These capability labels describe what happens at the site; they do not require separate physical OperatingLocations when the functions share one premises. A small single-owner dairy business may therefore use one OperatingLocation for all its activities.
+
+**StockLocation is separate:** it represents an inventory-control holding position or subdivision (for example a refrigerator, room, shelf, bin or storage zone) within or associated with an operational site. It must not be treated as a separate physical OperatingLocation merely because stock is tracked separately.
+
+**ServiceArea** remains a geographic coverage concept, not a physical OperatingLocation.
+
+**Decision status:** The product owner accepted this physical-site / multi-capability / separate-StockLocation distinction on 2026-11-18. ODR-002 remains open for Branch-to-OperatingLocation cardinality and parentage, tenant-level/unassigned locations, shared-site governance, ServiceArea/route relationships and access rules.
 
 ## 4. Candidate conceptual relationship model
 
