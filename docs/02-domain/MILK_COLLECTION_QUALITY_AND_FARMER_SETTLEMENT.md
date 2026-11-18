@@ -1,6 +1,6 @@
 # Milk Collection, Quality and Farmer Settlement
 
-**Status:** Working baseline — domain requirements  
+**Status:** Recommended domain baseline — ODR-009/010 configurable quality and rate-chart policies selected; regulatory values remain externally verified  
 **Related open decisions:** ODR-008, ODR-009, ODR-010, ODR-011, ODR-012, ODR-016, ODR-017  
 **Scope:** Recording raw milk received from farmers/producers and determining accepted quantity, payable amount, inventory impact, and traceability.
 
@@ -166,14 +166,15 @@ Forecasts must distinguish measured historical facts from estimated future quant
 13. Retry stock/payable posting without duplicate effects.
 14. Reconcile collection quantity to stock and settlement totals.
 
-## 12. Open decisions and evidence needed
+## 12. Configuration and evidence dependencies
 
-- ODR-009: mandatory/optional quality parameters by operating profile; test methods and acceptance bands.
-- ODR-010: rate formulas, settlement periods, advances, deductions and dispute handling.
-- ODR-008: measurement units, conversion, precision and rounding.
-- ODR-011/012: blending, lot traceability, processing and inventory hand-off.
-- ODR-016/017: applicable tax/accounting treatment and supporting documents.
-- Whether weighment/analyzer integrations are needed and which devices/providers are in scope.
-- Whether farmer acknowledgement is required and acceptable evidence methods.
+- ODR-009/010 baselines are in ODR sections 16.12–16.13: versioned quality profiles, provenance-rich samples/results, explicit quality states, optional analyzer integration, configurable flat or quality-linked rate charts and explainable settlement calculations.
+- Profile parameters, test methods, collection sessions, quality limits and settlement formulas are configured per valid milk/material and operating process. The platform does not impose one universal Fat/SNF formula, rate table, statutory test frequency or pay cycle.
+- Any threshold represented as mandatory for food safety/statutory compliance must be backed by current authoritative evidence and post-project qualified review; an administrator cannot mark failed mandatory evidence as passed by changing a setting.
+- Quantity precision, unit conversion and rounding use ODR-008's governed precision catalogue and preserve source/device readings.
+- Blending, lot lineage, processing release and stock hand-off follow ODR-011/012 and retain collection source traceability.
+- Analyzer/weighment devices use optional tenant-bound adapters; manual capture remains supported with actor/source/method evidence.
+- Farmer acknowledgement/evidence method is configurable by collection/settlement workflow, with proof and dispute history retained.
+- Applicable tax/accounting treatment remains under ODR-016/017 and the post-project legal review boundary.
 
-This document does not prescribe universal Fat/SNF formulas, legal quality limits, mandatory testing frequency, or a statutory payment cycle. Those require authoritative and operational validation before approval.
+This working domain document defines capabilities and safeguards; it does not constitute a legal quality standard or approve commercial farmer rates.
