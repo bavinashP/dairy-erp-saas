@@ -2,7 +2,7 @@
 
 **Document ID:** ARC-AUTH-MATRIX-001  
 **Status:** Product-owner-approved baseline — 2026-11-19  
-**Authority:** ODR-002 section 16.7; Authentication, Authorization and Access Control Architecture; Actor and Access Model; Business Rules Catalogue.  
+**Authority:** ODR-002 sections 16.7 and 16.36–16.38; ODR-005 sections 16.39 and 16.41; Permission Catalogue and Assignment Governance; Domain Permission and Approval Control Matrix; Authentication, Authorization and Access Control Architecture; Actor and Access Model; Business Rules Catalogue.  
 **Scope:** Permission-first authorization and cross-Branch shared-site stock-task access. This document does not implement software or database structures.
 
 ## 1. Mandatory permission-first principle
@@ -161,4 +161,4 @@ Customer configurability cannot bypass maker-checker, independent approval, mult
 
 ## 8. Scope still requiring separate specification
 
-This document resolves the approved cross-Branch stock-task action baseline and the permission-first configurability principle. The exhaustive atomic permission catalogue for every dairy module, permission-management UX, customer starter templates and legally mandated access constraints must be elaborated in their respective specifications without weakening this baseline. Detailed shared-site custody/accountability and exception workflows remain separate ODR-002 work.
+This document resolves the approved cross-Branch stock-task action baseline, the delivery-run boundary and the permission-first configurability principle. The canonical atomic permission inventory is selected in ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39; the domain-level risk and approval-control baseline is selected in ARC-IAM-CTRL-001 / ODR-005 section 16.41. Shared-site custody, route/dispatch and detailed grant/task-reconciliation baselines are specified in ODR-002 sections 16.36–16.38. Remaining work is scenario and implementation-readiness validation: exact resource/state/API mapping, sensitive-field classification, automated tests, plus external legal/contract/insurance applicability review. None of these remaining gates creates a title-based or account-based access exception.
