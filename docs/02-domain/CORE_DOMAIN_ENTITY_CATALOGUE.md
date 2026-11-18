@@ -35,9 +35,9 @@
 | User Account | Authentication identity |
 | Tenant Membership | User's relationship to tenant |
 | Employee Profile | HR/workforce record; may exist without login |
-| Role | Optional tenant-configurable named bundle of explicit permissions; role title itself grants no authority |
+| Role / PermissionBundle | Optional Tenant-configurable named bundle of explicit atomic permissions; bundle label itself grants no authority |
 | Permission | Atomic action/data capability evaluated with explicit scope, validity and policy; missing permission defaults to deny |
-| Permission Assignment / Role Assignment | Explicit principal/group/optional-role permission assignment with scope and effective period; roles are configurable bundles only; assignments are grantable, restrictable, changeable, expirable and revocable within delegated authority; cross-Branch stock-task grants remain separate and do not grant general target-Branch membership or data visibility |
+| Permission Assignment / Role Assignment | Explicit principal/group permission or optional bundle assignment with scope and effective period; assignments are grantable, restrictable, changeable, expirable and revocable within delegated authority; explicit deny takes precedence; cross-Branch stock-task grants remain separate |
 | Approval Policy | Conditions, limits, and required approver |
 | Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegate`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
 | Device / Session | Authentication and session lifecycle |
@@ -180,3 +180,6 @@ The catalogue does not determine physical database design, primary key format, t
 | Tenant Membership | Independent association between a global User Account and one Tenant, with its own effective status and lifecycle | One current membership per user/Tenant pair; multiple Tenants are independent security contexts |
 | Membership Branch Assignment | Records workforce/operating context for a Tenant member at one or more Branches, optionally identifying one current Home/Primary Branch | Never grants read/write/approval permission; access is controlled separately by Permission Assignments and scope |
 | Permission Assignment | Grants explicit atomic capabilities to a principal/group within declared scope, validity and limits | Sole source of business access authority; role bundles are optional packaging only |
+
+
+**Catalogue reference:** Stable permission key semantics, action families, sensitive-data permissions, scope vocabulary, direct/group assignment and precedence are governed by [ARC-IAM-CAT-001](../04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md).
