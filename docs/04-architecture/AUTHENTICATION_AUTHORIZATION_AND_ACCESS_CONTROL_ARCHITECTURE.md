@@ -230,3 +230,17 @@ Every read, field-level disclosure, mutation, approval, report, export, configur
 Permission changes must be versioned/audited and take effect through authoritative server-side revalidation. Cache, session, mobile/offline, export, background-job and integration contexts must not preserve revoked authority. Every write must coordinate authorization revalidation with the state-changing commit where race conditions are possible.
 
 The complete approved cross-Branch stock-task action matrix and customer configurability boundaries are specified in `CROSS_BRANCH_PERMISSION_MATRIX.md`.
+
+
+### 5.2 Permission precedence and conflict resolution
+
+Authorization precedence is fail-closed:
+1. Fixed platform/security invariants and explicit legal/contractual prohibitions are hard constraints; tenant grants cannot override them.
+2. Authentication, active Tenant membership, security boundary and resource ownership must be valid before permissions are evaluated.
+3. An explicit applicable deny overrides any applicable allow for the same action/resource/scope. A narrower allow cannot override a mandatory broader deny or fixed invariant.
+4. Applicable allows contribute only within their own valid scopes, limits and effective periods. The effective allow scope is the union of independently valid allow scopes after applicable denies and higher-order constraints are applied.
+5. No implicit role inheritance, seniority, account-type or branch-hierarchy rule may widen authority. An assignment cannot exceed the source authority's delegation.
+6. Conflicting, ambiguous or unverifiable policy results default to deny.
+7. Versioned permission changes must be revalidated at commit for protected state transitions.
+
+The precedence model applies consistently to direct grants, group assignments, role bundles and temporary grants. Tenant configuration cannot change this precedence or weaken fixed invariants.
