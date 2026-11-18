@@ -1,7 +1,7 @@
 # Quantity, UOM Precision and Money Rounding Analysis
 
 **Document ID:** DBR-004  
-**Status:** Decision-support analysis — recommended engineering baseline; operating/accounting/legal policies remain open  
+**Status:** Recommended engineering baseline — precision architecture selected under the product owner's delegated decision mandate; per-workflow commercial/accounting/statutory values remain evidence-gated  
 **Date:** 2026-11-17  
 **Authority reviewed:** ERS-001, FRS-001, NFR-001, ODR-008, inventory stock ledger, milk collection/quality/farmer settlement, processing/packaging/yield, billing/receivables/payments, accounting double-entry/financial controls, canonical glossary and Tally field/voucher mapping specifications.
 
@@ -92,7 +92,9 @@ Conversion cycles must be tested. A conversion from A to B and back to A may pro
 
 ## 5. Quantity precision and rounding rules
 
-Recommended engineering baseline:
+**Selected baseline:** use a governed precision catalogue by UOM, instrument and workflow; do not impose one Tenant-wide or database-wide decimal scale. Store source readings and declared device resolution separately from normalized/base quantities, calculation precision, posting precision and display precision. Tenants may select only among validated precision profiles supported for the relevant UOM/device/workflow; they may not enter arbitrary scales that exceed tested capability or rewrite prior readings.
+
+
 1. Use decimal/fixed-point arithmetic for all authoritative quantities and rates; do not use binary floating-point as the source of truth.
 2. Preserve source measurements before normalization or display formatting.
 3. Define supported precision by UOM and workflow, considering instrument resolution, commercial practice, stock handling, process capability and downstream accounting.
@@ -122,14 +124,16 @@ Recommended engineering baseline:
 ### 6.1 Recommended engineering baseline
 
 - Use exact decimal arithmetic for prices, rates, discounts, tax calculations, settlements, allocations and journal lines.
-- INR is the current accounting currency baseline. Monetary posting amounts must resolve to the currency's supported minor unit; the normal INR presentation/accounting unit is rupees and paise. Final statutory treatment must still be checked against applicable current rules.
+- INR is the current accounting currency baseline. The standard posting representation is rupees and paise (two decimal places); retain exact decimal calculation inputs and a versioned rounding result. Statutory document rounding and any whole-rupee rounding must be verified against applicable current rules after the separately scoped legal review.
 - Keep unit rates/prices at a separately governed precision from final payable/receivable amounts. A rate per litre or kilogram may require more precision than a final invoice or settlement amount.
 - Preserve the unrounded calculation inputs and intermediate result needed to reproduce a posted amount.
 - Apply rounding once at an explicitly defined boundary unless a reviewed legal/accounting rule requires line-level rounding.
 - Posted journal lines and totals must balance exactly at posting precision. Any rounding difference must be handled by an explicit, auditable rule—not an unexplained plug.
 - Never silently truncate precision when exporting/importing Tally or another external accounting format. Detect and disclose unsupported precision or lossy mapping.
 
-### 6.2 Rounding boundaries requiring explicit policy
+### 6.2 Rounding boundaries and selected default hierarchy
+
+Use the following safe default hierarchy unless a verified statutory/accounting rule for the exact transaction type requires another method: preserve source precision; carry unrounded decimal intermediates; calculate line and document values using one versioned policy; round only at the declared final document/posting boundary; post INR amounts to paise precision; record any residual explicitly. A legal rule overrides a configurable business preference. The exact choice between per-unit rate precision, line-level tax rounding and document-level rounding is not invented here; it must be selected by a versioned domain policy after worked examples and later legal/accounting verification.
 
 The following choices must be decided and tested; they are not interchangeable:
 
@@ -142,7 +146,7 @@ The following choices must be decided and tested; they are not interchangeable:
 7. Stock valuation cost precision versus financial currency posting precision.
 8. Tally export/import precision and any target-format limitation.
 
-The final policy must define rounding mode, scale, boundary, order of operations, treatment of negative/reversal values and residual allocation.
+Every finalized rounding policy must define rounding mode, scale, boundary, order of operations, treatment of negative/reversal values and residual allocation. If no valid policy exists for an operation, it must not silently use runtime defaults.
 
 ### 6.3 Avoiding inconsistent totals
 
@@ -241,3 +245,8 @@ No ODR status is changed or closed by this analysis.
 - No universal milk density conversion or quality formula.
 - No final statutory tax/rounding interpretation.
 - No final accounting, valuation or commercial pricing policy.
+
+
+### 6.4 Configuration and historical integrity
+
+The platform precision catalogue owns supported decimal ranges and unit dimensions. Product/SKU and workflow profiles select validated source/base UOM, allowable input resolution and any narrower precision profile. Device resolution/calibration is recorded separately from business tolerance. A Tenant may choose only valid supported profiles where the domain permits; it cannot weaken physical measurement integrity or statutory rules. Every transaction stores the precision/conversion/rounding policy versions required to reproduce its result. Later policy changes apply prospectively unless a lawful, explicitly approved correction/reprocessing workflow says otherwise.
