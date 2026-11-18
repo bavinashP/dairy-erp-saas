@@ -153,6 +153,22 @@
 | Home / Primary Branch | The Branch designated as a worker's normal workforce/administrative context | Organizational context only; no automatic access, approval, veto or stock ownership follows from this designation |
 
 
+## Route execution and dispatch terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| Route | Branch-owned planned sequence/coverage for delivery stops | One Route belongs to one Branch and may serve only its effectively assigned ServiceAreas |
+| Manual Route | One-off Branch-owned ordered stop sequence created during run planning | Does not require route optimization or a reusable template |
+| Delivery Plan | Branch/date/shift plan grouping source demand allocations and one or more DeliveryRuns | Does not itself prove dispatch or delivery |
+| Delivery Demand Allocation | Explicit quantity allocation from a source demand line to a plan/run/stop | Must prevent duplicate allocation and over-fulfilment |
+| Delivery Run | Actual execution unit using a Route owned by the same Branch | Separate from reusable route, Delivery Plan and stop attempts |
+| Accountable Run Assignee | Named person responsible for the run's operational coordination | Assignment is not a permission or job-title authority |
+| Run Participant | Named person/principal assigned to a run or stop with a defined operational duty | Access still requires explicit current permissions and scope |
+| Transport Resource Assignment | Effective-dated optional assignment of a vehicle/carrier/resource to a run segment | Vehicle ownership and assignment do not grant data or dispatch permission |
+| Dispatch Readiness | Validated state that the route, demand, personnel, resource, custody and applicable product controls satisfy dispatch preconditions | Separate from dispatch authorization and actual departure |
+| Dispatched Manifest | Versioned snapshot of route/stops, demand quantities, participants, resources and policy at dispatch | Post-dispatch changes are linked exceptions, not silent edits |
+| Run Execution Event | Append-oriented evidence of actual departure, stop progression, delay, deviation, hold, replacement or completion | Planned route and actual execution remain distinguishable |
+
 ## Shared-site accountability and custody terms
 
 | Term | Canonical meaning | Boundary |
