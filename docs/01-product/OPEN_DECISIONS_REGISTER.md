@@ -374,18 +374,18 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Authorization must be rechecked server-side at each stock-affecting transition, including API, mobile/barcode, background jobs, retries and integrations. Cached authorization must not permit post-expiry/revocation writes.
 - Task state transitions and stock effects must be concurrency-safe and idempotent. A revocation racing with a stock operation must not allow an operation to commit after the grant is no longer valid; the transaction boundary must revalidate authorization atomically with the stock-affecting commit.
 - No automatic distributed rollback or exactly-once guarantee is implied. Recovery uses explicit reconciliation and append-only correction/compensation evidence.
-- This approval does not decide grant-expiry notification timing/channels, grace periods or the separate home-Branch consent policy. Delegated approval is resolved by the separately approved ODR-002 policy below.
+- This approval does not decide notification provider/channel delivery, which remains under ODR-021. The no-blanket-Home-Branch-consent and separate workforce-assignment baseline is recommended in section 16.6. Delegated approval is resolved by the separately approved ODR-002 policy below.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; grant lifecycle; stock task state machine; stock movement integrity; concurrency/idempotency; audit and acceptance tests.
 
 **Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
 
-**Review trigger:** Reopen only on explicit product-owner change or when specifying notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
+**Review trigger:** Reopen only on explicit product-owner change or when specifying notification provider/channel delivery under ODR-021 or reviewing the recommended workforce-assignment boundary in section 16.6 and detailed shared-site accountability.
 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; home-Branch consent, the complete permission matrix and detailed shared-site accountability remain open.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the complete permission matrix and detailed shared-site accountability remain open.
 
 **Approval evidence:** The product owner approved the recommended emergency-override safeguards and confirmed that authorization is permission-based: authority follows explicit permissions, not job titles or named roles.
 
@@ -498,7 +498,7 @@ Delegation validity, current delegator authority, delegate membership, scope, ac
 
 **Verification:** Test creation without `approval.delegate`; delegation exceeding delegator scope/limits; inactive or cross-Tenant delegate; exact Branch/resource/action scoping; 30-day hard maximum; no renewal/extension; immediate revocation; automatic invalidation on either party's membership or relevant permission/scope loss; all non-delegable actions; self-approval and subdelegation denial; multi-stage approval preservation; payload/policy changes; audit attribution; duplicate retries; and revocation/expiry races at commit.
 
-**Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
+**Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Notification provider/channel delivery remains under ODR-021; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
 
 
 ### ODR-002 — recommended stock-task grant expiry notification baseline and zero-grace rule
