@@ -22,7 +22,7 @@
 | Tenant Subscription | Commercial plan, billing period, status | Separate from dairy customer product subscriptions |
 | Plan / Feature Entitlement | Feature availability and usage limits | Entitlement checks must not grant data access |
 | Tenant Business Profile | Operating/legal/business profile | May hold multiple registrations only if approved by ODR-003 |
-| Branch | Management/operating unit within the tenant | Tenant-owned; may be associated with multiple OperatingLocations |
+| Branch | Management/operating unit within the tenant | Tenant-owned; may be associated with multiple OperatingLocations and may serve multiple ServiceAreas through explicit effective-dated mappings |
 | OperatingLocation | Actual physical/operational site or premises | Tenant-owned; may optionally be associated with a Branch; tenant-level/unassigned locations are permitted; shared use across Branches requires explicit governed association and access rules; one site may support multiple operational capabilities |
 | Operational Capability | Function performed/enabled at an OperatingLocation, e.g. retail sales, milk collection, storage, processing or packaging | Multiple capabilities may coexist at one OperatingLocation; capability is not itself a physical location |
 | Business Calendar / Shift | Business date, shift, cut-off settings | Effective-dated and tenant-configurable |
@@ -78,6 +78,7 @@ A person, employee profile, user account, and role assignment must not be collap
 | Order | Non-recurring or customer/staff-requested supply |
 | Order Line | Requested product and quantity |
 | Allocation | Reservation of available stock for demand |
+| ServiceArea | Geographic customer/service coverage area | Many-to-many with Branch through an explicit effective-dated service assignment; geography does not grant cross-branch access |
 | Delivery Route | Reusable or planned route |
 | Delivery Run | Dated execution of a route/shift |
 | Delivery Stop | Customer/location stop in a run |
