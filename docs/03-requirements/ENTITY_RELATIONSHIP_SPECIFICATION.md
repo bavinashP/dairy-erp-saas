@@ -34,7 +34,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 10. Balances are derived from immutable/append-only movement or posting histories; a mutable balance is not the sole evidence.
 11. Deletion, archival, retention, legal hold and anonymization rules are not assumed here; each entity class requires lifecycle policy.
 12. Any relationship that crosses tenant boundaries must be blocked by both domain validation and persistence-level integrity strategy.
-13. Ordinary employees are branch-isolated by default: branch-attributed records and branch-specific relationships are accessible only within the actor's assigned branch scope. A cross-branch exception requires an explicit, auditable authorization grant; Tenant Owner may receive all-branch visibility without thereby receiving every mutation or sensitive-field permission.
+13. Ordinary employees are branch-isolated by default: branch-attributed records and branch-specific relationships are accessible only within the actor's assigned branch scope. A cross-branch exception requires an explicit, auditable authorization grant. For shared-site stock work, a grant must be limited to a named worker, target Branch, shared OperatingLocation/StockLocation, permitted actions and effective period; it exposes only minimum task/stock data and does not confer general access to the target Branch. Tenant Owner may receive all-branch visibility without thereby receiving every mutation or sensitive-field permission.
 
 ## 4. Platform and SaaS commercial entities
 
@@ -355,7 +355,7 @@ For each class define create/update/delete/archive/restore, retention, legal hol
 ## 16. Unresolved modelling decisions
 
 1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
-2. ODR-002: detailed shared-site governance, operational accountability and cross-branch access rules; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated.
+2. ODR-002: detailed shared-site governance, operational accountability, complete permission matrix and exception/revocation workflows; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated. Shared-site workers may receive explicit, limited, effective-dated, auditable stock-handling grants for another Branch, without general access to that Branch's unrelated operational data.
 3. ODR-004/005: cross-tenant user identity, membership multiplicity, role scope and permission delegation.
 4. ODR-008: supported UOM, precision, conversion and rounding.
 5. ODR-011/012: processing and inventory valuation/ownership policy.
