@@ -159,6 +159,17 @@ These requirements apply where a Tenant enables custody tracking for the relevan
 | FRS-DLV-005 | Corrections and redelivery MUST preserve original attempt and link compensating activity. | Must |
 | FRS-DLV-006 | The system MUST define and enforce an explicit offline/conflict protocol for mobile delivery; the guaranteed offline workflows and duration remain subject to ODR-020. | Must |
 | FRS-DLV-007 | Delivery execution MUST not itself imply billing or payment unless an explicit posting event/policy triggers it. | Must |
+| FRS-DLV-008 | A DeliveryPlan MUST be able to group one or more DeliveryRuns; each DeliveryRun MUST use a Route or one-off manual Route plan owned by the same Branch as the run, within that Branch's effective ServiceArea assignments. | Must |
+| FRS-DLV-009 | DeliveryRun MUST support one accountable run assignee and one or more effective-dated participant assignments without requiring an employee record for an owner-operated Tenant; operational duties MUST NOT grant permissions. | Must |
+| FRS-DLV-010 | Vehicle/transport-resource assignment MUST be optional, time-bounded and independent of personnel assignment; where resource capacity or exclusivity is configured, the system MUST prevent over-capacity and conflicting concurrent assignments. | Must |
+| FRS-DLV-011 | Planning, assigning, dispatching, executing, exception review and closing MUST be separately permissioned actions; dispatch MUST validate Branch/Route ownership, demand allocation, stock/custody, active assignments and all applicable readiness controls. | Must |
+| FRS-DLV-012 | Dispatch MUST snapshot/version the route, stop manifest, demand allocation, participants, transport resources and relevant policy versions; post-dispatch changes MUST use an auditable exception/reassignment workflow. | Must |
+| FRS-DLV-013 | The system MUST support configurable product/transport handling requirements and evidence (including applicable hygiene, packaging, temperature, condition and traceability evidence) without applying one universal checklist or temperature to all products. | Must |
+| FRS-DLV-014 | Route optimization, maps, telematics/GPS and external carrier integrations MUST be optional extensions; optimization MUST respect Branch/service-area, capacity, workforce, customer and product-handling constraints and MUST NOT silently modify a dispatched plan. | Must |
+| FRS-DLV-015 | Where Tenant policy or verified applicable rules require driver/vehicle qualification or compliance evidence, the system MUST record source, verification state, effective dates and expiry and MUST block dispatch where required evidence is invalid or expired. | Must |
+| FRS-DLV-016 | Dispatch and delivery custody events MUST be linked to the relevant DeliveryRun and StockMovement where both physical custody and inventory effects occur; neither may imply or duplicate the other. | Must |
+| FRS-DLV-017 | Concurrent run planning/dispatch MUST prevent duplicate allocation of source demand, duplicate stop fulfilment, conflicting exclusive resource assignments and duplicate stock effects; retries and stale clients MUST be safely reconciled. | Must |
+| FRS-DLV-018 | A vehicle/participant failure or revoked assignment during a run MUST preserve completed work and current physical custody while placing affected work on hold until valid reassignment, handover or controlled exception resolution. | Must |
 
 ## 10. Billing, receivables and payments
 
