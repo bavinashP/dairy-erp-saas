@@ -356,7 +356,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete permission matrix is approved in section 16.7. The Home-Branch/workforce-assignment boundary is recommended in section 16.6. A recommended expiry-notification/zero-grace baseline is specified in section 16.5; channel/provider delivery remains under ODR-021.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for detailed shared-site custody/accountability and exception workflows; the complete permission matrix is approved in section 16.7. The Home-Branch/workforce-assignment boundary is recommended in section 16.6. Grant-version and held-task reconciliation semantics are selected in section 16.38; custody/accountability is selected in section 16.36. A recommended expiry-notification/zero-grace baseline is specified in section 16.5; channel/provider delivery remains under ODR-021.
 
 **Approval evidence:** The product owner accepted the recommended lifecycle baseline: revocation/expiry stops new work, completed history remains immutable, and in-progress work is held for controlled review rather than silently completed or rolled back.
 
@@ -376,7 +376,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Authorization must be rechecked server-side at each stock-affecting transition, including API, mobile/barcode, background jobs, retries and integrations. Cached authorization must not permit post-expiry/revocation writes.
 - Task state transitions and stock effects must be concurrency-safe and idempotent. A revocation racing with a stock operation must not allow an operation to commit after the grant is no longer valid; the transaction boundary must revalidate authorization atomically with the stock-affecting commit.
 - No automatic distributed rollback or exactly-once guarantee is implied. Recovery uses explicit reconciliation and append-only correction/compensation evidence.
-- This approval does not decide notification provider/channel delivery, which remains under ODR-021. The no-blanket-Home-Branch-consent and separate workforce-assignment baseline is recommended in section 16.6. Delegated approval is resolved by the separately approved ODR-002 policy below.
+- This approval does not decide notification provider/channel delivery, which remains under ODR-021. The no-blanket-Home-Branch-consent and separate workforce-assignment baseline is recommended in section 16.6. Detailed grant versioning, automatic invalidation and task reconciliation are selected in section 16.38. Delegated approval is resolved by the separately approved ODR-002 policy below.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; grant lifecycle; stock task state machine; stock movement integrity; concurrency/idempotency; audit and acceptance tests.
 
@@ -1157,7 +1157,7 @@ Missing, expired, revoked, conflicting or unverifiable conditions default to den
 
 The authoritative state of the grant version follows this lifecycle:
 
-`Draft → Submitted → Pending Approval → Approved / Scheduled → Active → Superseded / Expired / Revoked / Invalidated`
+`Draft → Submitted → Pending Approval → (Rejected / Withdrawn OR Approved / Scheduled) → Active → Superseded / Expired / Revoked / Invalidated`
 
 - **Draft:** Created but incomplete/editable. It authorizes nothing.
 - **Submitted:** Required fields and eligibility validations pass; the version is frozen for review. It authorizes nothing.
@@ -1174,7 +1174,7 @@ There is no general silent pause, grace or automatic renewal state. Where access
 
 **Activation and time semantics**
 - Effective start is inclusive and effective end is exclusive.
-- A version is usable only after the exact approval has committed and the effective start has arrived.
+- A version is usable only after the exact approval has committed and the effective start has arrived. If approval commits after the requested effective start, authorization begins no earlier than the approval commit time; no action performed before approval is retroactively authorized.
 - Server-side authorization is evaluated using the authoritative instant, not the device clock or a stale client countdown.
 - The exact grant version and its approval decision are revalidated at each stock-affecting state transition and again at the commit boundary.
 - A pending, failed, delayed or unread notification, a pending extension request, an offline command created earlier, or a UI state must never extend the effective period.
