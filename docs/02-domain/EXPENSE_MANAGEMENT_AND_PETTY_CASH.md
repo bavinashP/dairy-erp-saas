@@ -1,6 +1,6 @@
 # Expense Management and Petty Cash
 
-**Status:** Working baseline — domain requirements
+**Status:** Recommended expense-domain baseline — configurable approval/custody model selected; tax/accounting treatments remain evidence-gated
 
 ## 1. Objectives and principles
 Provide a simple expense workflow for owner-operated dairies and controlled multi-user workflows for larger tenants. Do not require a dedicated finance employee, corporate card, payment gateway or GST registration. Expense capture, approval, payment and accounting posting are distinct events.
@@ -39,5 +39,9 @@ Expense register by category/vendor/branch/employee; recurring expense schedule;
 8. Restrict approvals and branch visibility by role.
 9. Generate category/branch reports that drill down to source vouchers.
 
-## 10. Open decisions
-Expense approval thresholds; evidence requirements by category; recurring expense generation; petty-cash float policy; capitalization/fixed-asset boundary; tax evidence validation; retention and statutory requirements.
+## 10. Configuration and evidence dependencies
+- Expense categories, required evidence, approval thresholds, budget checks and recurring expense schedules are Tenant-configurable and effective-dated within validated policy.
+- Each action (submit, review, approve, reject, pay, reimburse, reverse, petty-cash adjustment) has a distinct explicit permission and scope; roles/titles do not grant authority.
+- Petty-cash float/custodian and count policy is configurable by Branch/location. Custody transfers and shortages are separate auditable events.
+- Capitalize-versus-expense treatment follows a versioned accounting policy and fixed-asset domain rules; do not infer from the category label alone.
+- Tax input eligibility, statutory evidence and retention follow verified ODR-016/026 requirements; no automatic credit or statutory claim from a checkbox.
