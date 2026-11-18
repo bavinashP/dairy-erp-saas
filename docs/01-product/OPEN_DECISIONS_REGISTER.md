@@ -262,7 +262,7 @@ A warehouse worker normally assigned to Branch A is also authorized to pick and 
 - Authorization checks must include actor, target Branch, shared-site/StockLocation context, action, effective time and any required approval state.
 - Audit events must preserve actor identity, actor's home/assigned Branch, target stock-owning Branch, target StockLocation, action, source task/document and grant reference.
 - APIs, search, mobile workflows, barcode scanning, reports, exports, background jobs, integrations and caches must enforce the same grant boundaries; UI hiding alone is insufficient.
-- This approval does not settle general employee multi-branch membership, all-branch visibility, emergency override, approval delegation, or complete HR/payroll access rules.
+- This approval does not settle general employee multi-branch membership, all-branch visibility, approval delegation, or complete HR/payroll access rules. Emergency Override is resolved by the separately approved ODR-002 policy below.
 
 **Verification:** Confirm that a worker with a Branch A home assignment can execute only the specifically granted stock tasks for Branch B at the approved shared site; cannot browse unrelated Branch B records; cannot perform ungranted stock mutations; and every permitted action is attributable to the worker, stock-owning Branch and grant.
 
@@ -342,14 +342,14 @@ For every item, record the decision statement; classification; chosen baseline; 
 **Consequences**
 
 - Grant creation/activation must retain the approving actor, approval time, approved grant version/scope and relevant authorization evidence.
-- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Delegated approval and emergency override is approved separately below; delegated approval remains open.
+- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Emergency Override is approved separately below; delegated approval remains open.
 - The worker's home-Branch membership and the stock-owning Branch's stock ownership remain distinct.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; authorization/approval workflow; shared-site stock operations; audit trail and acceptance tests.
 
 **Verification:** Confirm that a grant cannot be activated without approval from an authorized user holding the required approval permission of the stock-owning Branch; that the approval is bound to the exact grant scope/version; that home-Branch consent is not assumed; and that the grant cannot authorize actions or data beyond its approved least-privilege scope.
 
-**Review trigger:** Reopen only on explicit product-owner change or when defining the complete grant lifecycle, delegated approvals, emergency overrides or home-Branch consent policy.
+**Review trigger:** Reopen only on explicit product-owner change or when defining the complete grant lifecycle, delegated approvals, grant-expiry notifications/grace periods or home-Branch consent policy.
 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
@@ -380,7 +380,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 **Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
 
-**Review trigger:** Reopen only on explicit product-owner change or when specifying emergency override, delegation, notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
+**Review trigger:** Reopen only on explicit product-owner change or when specifying delegation, notification/grace-period policy, home-Branch consent or detailed shared-site accountability.
 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
