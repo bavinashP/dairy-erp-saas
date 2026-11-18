@@ -1,6 +1,6 @@
 # India Tax Configuration and Statutory Reporting
 
-**Status:** Working baseline — requirements subject to current professional/legal verification
+**Status:** Product capability baseline — tax/legal applicability review is explicitly deferred until after project completion; no current-law compliance claim is made
 
 ## 1. Product principles
 GST registration must not be mandatory for every tenant. Tax treatment depends on legal person, registration status, supply classification, product/HSN or service classification where applicable, place/time of supply, exemptions/notifications, transaction type and current law. The software must not assume all milk/dairy products have one uniform tax treatment.
@@ -52,3 +52,5 @@ Tax classification register; sales/purchase tax summary; invoice/credit/debit re
 - Relevant notifications, circulars, rules and Acts published by competent authorities.
 
 Every implementation release must refresh the source register and obtain qualified review for affected tax rules.
+
+**Project boundary:** The product owner instructed that Indian legal and regulatory review will occur after project documentation completion. This document therefore specifies a configurable, source-backed tax capability and safety controls only; it does not currently verify rates, exemptions, e-invoicing/e-way bill thresholds, filing applicability or retention periods. Do not treat this as legal advice or a current compliance certification. Before any release that uses a statutory rule, refresh official sources, record effective dates/applicability and obtain qualified professional review. See ODR-003/016/026.
