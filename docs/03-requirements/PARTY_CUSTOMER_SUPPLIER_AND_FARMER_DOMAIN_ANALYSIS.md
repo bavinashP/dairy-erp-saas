@@ -1,7 +1,7 @@
 # Party, Customer, Supplier and Farmer Domain Analysis
 
 **Document ID:** DBR-003  
-**Status:** Decision-support analysis — proposed conceptual baseline; owner decisions remain open  
+**Status:** Recommended conceptual baseline — permission-first access and safe identity-resolution rules selected under the product owner's delegated decision mandate; domain scenarios and legal identity verification remain evidence-gated  
 **Date:** 2026-11-17  
 **Authority reviewed:** ERS-001, FRS-001, Core Domain Entity Catalogue, Canonical Business Glossary, Actor and Access Model, ARC-IAM-001, ARC-TEN-001, procurement and farmer-settlement workflows, subscription/sales/billing workflows, accounting controls, Tally integration specifications, and ODR-004/005/009/010/013/014/017.
 
@@ -101,11 +101,11 @@ The product owner has explicitly stated:
 4. A branch-attributed record is visible only when its branch is within the actor's effective authorized branch scope and the actor has the required action permission.
 5. A tenant-wide master record (such as Party) is not automatically visible in full to every branch employee. Its operational association, purpose and branch scope must determine which subset is discoverable. For example, a branch employee may see a customer relationship/service address assigned to that branch without gaining visibility into unrelated branches' customers, transactions or contacts.
 6. A tenant-wide record that genuinely has no branch attribution requires an explicit policy defining which roles may view it; absence of a branch ID must never be treated as unrestricted access.
-7. Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. This visibility is a scope grant, not an implicit permission to perform every action.
+7. All-Branch visibility requires explicit effective read permissions and scope. Tenant Owner status, role title or account type does not grant visibility or any action.
 8. Other roles (including business administrators, branch managers, accountants and auditors) do not receive all-branch access merely because of their title. Any cross-branch scope must be expressly assigned, purpose-limited and auditable.
 9. Cross-branch read/report access and cross-branch transaction mutation must be separate capabilities. A person may compare reports across branches without being able to post, edit, approve or reverse another branch's transactions.
 10. Sensitive fields (identity documents, bank details, payroll, credentials and other restricted personal data) continue to require their own field-level permissions even when the actor has all-branch operational visibility.
-11. A user with multiple branch assignments may access only those specifically assigned branches; multi-branch assignment must not be inferred from tenant membership.
+11. A Tenant membership may have multiple workforce Branch assignments, but those assignments are organizational context only. Data access requires separate explicit permissions and scope; membership in one Tenant never implies membership/access in another.
 12. Role changes, branch transfers, suspension and revocation must update effective scope for subsequent requests and invalidate stale sessions/cached authorization decisions according to the approved revocation policy.
 
 ### 5.3 Branch ownership for Party-related data
@@ -163,7 +163,7 @@ Minimum conceptual controls:
 9. Provide a controlled correction/unmerge or compensating procedure where technically and legally feasible; document limits before approving merge.
 10. Log access to sensitive data used in the review.
 
-Whether merge is reversible, who can approve it, and which identity fields are mandatory remain open policy decisions.
+**Recommended safe baseline selected under the delegated decision mandate:** treat duplicate resolution as a controlled identity-resolution operation, not destructive merge. Require a dedicated `party.identity.resolve` permission scoped to the Tenant and all affected Branch relationships. Always provide a before/after impact preview and record initiator, reviewer where required, reason, evidence, source/target IDs, mapping version and timestamp. Never delete or rewrite posted financial, stock, collection, settlement, invoice, receipt or audit history. Preserve original identifiers as aliases and keep a durable source-to-survivor resolution map. Where either Party has posted transactions, open balances, verified legal/tax identifiers, bank/payee details, active subscriptions, unsettled farmer amounts or unresolved disputes, require a separate authorized reviewer and the relevant domain owners' clearance; keep original accounts/transactions intact and redirect only future permitted references through a controlled relationship. A low-risk duplicate with no material transaction, verified identifier or open balance may use a single authorized reviewer only if Tenant policy explicitly allows it. Conflicting legal/business identifiers, different real-world persons/entities, disputed ownership or cross-Tenant records MUST NOT be automatically merged. Unmerge is a compensating identity-map operation; it cannot promise to erase or reverse historical transactions already posted. Exact mandatory identity fields remain conditional on the business workflow and later legal applicability review.
 
 ## 8. Data protection and sensitive identifiers
 
@@ -243,3 +243,8 @@ This analysis can feed the next ERS refinement only after:
 4. Customer/supplier/farmer account and branch associations are traceable through representative workflows.
 5. Duplicate resolution and financial-history preservation are accepted by the relevant business/accounting owner.
 6. The revised ERS is cross-checked against FRS, glossary, catalogue, procurement, billing, accounting and Tally documents.
+
+
+### 7.1 Permission-first Party visibility
+
+A Party may be tenant-owned while its PartyRole, customer/supplier/farmer account, contact, address, service relationship, transactions and sensitive identifiers have narrower scopes. Every Party search, list, detail, duplicate match, export and merge preview must return only fields and relationships for which the principal has current explicit permissions and scope. No role title, account type or Tenant Owner status grants full Party visibility. Sensitive identifiers, bank/payee data, legal documents and personal contact data require separate field/data-category permissions. A duplicate candidate must never reveal the existence or content of another Tenant's Party.
