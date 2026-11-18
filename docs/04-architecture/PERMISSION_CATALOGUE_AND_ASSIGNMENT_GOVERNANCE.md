@@ -9,7 +9,7 @@
 
 A user account authenticates an actor. It does not grant business access. A permission is the only source of business action/data authority after the actor's Tenant membership, resource ownership, scope, validity and all governing policies are validated.
 
-No user receives a permission merely because they are a Tenant Owner, Owner, Administrator, Manager, Supervisor, Accountant, Employee, Contractor or another job/business title; a human, employee, service account, mobile/POS user, platform identity or account category; assigned to a Home/Primary Branch or multiple workforce Branches; or logged in through web, mobile, POS, barcode, API or integration.
+No user receives a permission merely because of Tenant ownership or administrator status, a job/business title, a human/employee/contractor/service-account category, a mobile/POS or platform-account type, Home/Primary Branch or workforce assignment, or the client/channel used to sign in.
 
 Different people with identical effective permissions, scope and request context must receive identical authorization outcomes. Changing a title, role name or account category alone must not change an outcome.
 
@@ -51,7 +51,7 @@ Every permission catalogue entry must define:
 - API/job/integration/mobile coverage requirements.
 - Deprecation/alias/version compatibility behavior.
 
-A permission's meaning must not change silently. A materially broader capability requires a new permission key or a versioned migration with impact analysis.
+A permission's meaning must not change silently. A materially broader capability requires a new permission key or a versioned migration with impact analysis. A read key's metadata must state whether it covers list/detail/query surfaces and which fields/rows are returned. A collection, search or discovery operation must map either to an explicit `resource.list`/`resource.discover` key or to a `resource.view` entry whose metadata explicitly includes that query surface; no implicit query privilege is inferred. Sensitive fields and exports remain independently controlled.
 
 ## 4. Standard action vocabulary
 
@@ -122,7 +122,7 @@ The following examples use exact, registered keys from section 15.2. This table 
 | Lot/traceability/recall | `traceability.lot.trace`; `traceability.hold.apply`; `traceability.recall.initiate`; `traceability.recall.approve` | Traceability access does not grant stock disposition or unrelated customer data |
 | Processing/production | `production.recipe.approve`; `production.batch.execute`; `production.quality_release.approve`; `production.variance.approve` | Recipe authoring, batch execution, quality release and posting are distinct |
 | Billing/receivables | `billing.document.preview`; `billing.document.issue`; `billing.statement.export`; `billing.receivable.reconcile` | Statement viewing does not grant invoice mutation or payment receipt |
-| Payments/cash/bank | `payments.payment.record`; `payments.payment.verify`; `payments.payment.refund.approve`; `cash.handover.accept`; `bank.statement.reconcile` | Manual entry, external verification, bank reconciliation and allocation are distinct |
+| Payments/cash/bank | `payments.payment.record`; `payments.payment.verify`; `payments.refund.approve`; `cash.handover.accept`; `bank.statement.reconcile` | Manual entry, external verification, bank reconciliation and allocation are distinct |
 | Accounting | `finance.journal.post`; `finance.journal.reverse`; `finance.period.close`; `finance.tally_sync.execute` | Period, ledger, sensitive bank/tax info and posting privileges are independent |
 | Tax | `tax.profile.configure`; `tax.classification.approve`; `tax.register.export` | Configuration cannot certify legal applicability or bypass effective statutory rules |
 | Expenses/petty cash | `expense.claim.submit`; `expense.claim.approve`; `cash_management.petty_cash.reconcile` | Claim submit, approval, accounting post, payment and physical cash custody are separate |
@@ -301,6 +301,7 @@ Each key in section 15.2 is a catalogue entry, not just a string. Before a key i
 | Scope | Allowed Tenant/Branch/OperatingLocation/StockLocation/record/task/person/report/financial-period/service-identity scopes |
 | Limits | Quantity, value, frequency, time window, record count, purpose and other applicable bounds |
 | Data sensitivity | Fields/data classes returned or changed, masking rules and export/download treatment |
+| Read/query surface | Whether the key covers detail view, collection list, search/discovery, aggregation or drill-down; exact row/field filtering and pagination/query limits |
 | Risk class | Standard, elevated, high or critical, with the reason and any mandatory safeguard |
 | Delegation | Delegable only where the owning domain explicitly allows it; otherwise non-delegable |
 | Approval | Whether approval is never required, policy-configurable or mandatory; required independence/maker-checker and approver scope |
