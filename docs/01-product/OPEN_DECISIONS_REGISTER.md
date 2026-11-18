@@ -354,7 +354,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for the remaining shared-site accountability, emergency exceptions, home-Branch consent policy and complete permission matrix.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for delegated approval, grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability.
 
 **Approval evidence:** The product owner accepted the recommended lifecycle baseline: revocation/expiry stops new work, completed history remains immutable, and in-progress work is held for controlled review rather than silently completed or rolled back.
 
@@ -374,7 +374,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 - Authorization must be rechecked server-side at each stock-affecting transition, including API, mobile/barcode, background jobs, retries and integrations. Cached authorization must not permit post-expiry/revocation writes.
 - Task state transitions and stock effects must be concurrency-safe and idempotent. A revocation racing with a stock operation must not allow an operation to commit after the grant is no longer valid; the transaction boundary must revalidate authorization atomically with the stock-affecting commit.
 - No automatic distributed rollback or exactly-once guarantee is implied. Recovery uses explicit reconciliation and append-only correction/compensation evidence.
-- This approval does not decide notification timing/channels, grace periods, delegated approval rules, grant-expiry notifications/grace periods, or the separate home-Branch consent policy.
+- This approval does not decide grant-expiry notification timing/channels, grace periods, delegated approval rules or the separate home-Branch consent policy.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; grant lifecycle; stock task state machine; stock movement integrity; concurrency/idempotency; audit and acceptance tests.
 
