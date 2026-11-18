@@ -1,7 +1,7 @@
 # Tenant, Branch, Legal Entity and Accounting Boundary Analysis
 
 **Document ID:** DBR-002  
-**Status:** Decision-support analysis — no owner, legal or accounting decision is implied  
+**Status:** Decision-support analysis — ODR-001 operating-model decision approved; legal/accounting concepts remain conceptual and are not current development blockers  
 **Date:** 2026-11-17  
 **Authority:** Project Vision and Scope; Canonical Business Glossary; Core Domain Entity Catalogue; Module Dependency Map; ERS-001; ARC-TEN-001; ARC-SYS-001; DBR-001; Open Decisions Register (ODR-001..003); Accounting Double-Entry and Financial Controls; Tax Configuration and Reporting specifications.  
 **Purpose:** Reconcile the existing tenant, branch, operating-location and accounting concepts; expose unresolved cardinalities and modelling gaps; recommend a configurable conceptual direction without closing owner/legal/accounting decisions.
@@ -21,7 +21,7 @@ These principles are already present in the glossary, ERS-001, ARC-TEN-001 and A
 
 **Recommended conceptual direction for further design:** keep Tenant, Branch, OperatingLocation, LegalEntity, TaxRegistration and AccountingBook as distinct concepts. Support a simple one-legal-entity / one-accounting-book tenant profile as a possible initial configuration, while allowing the model to represent additional legal entities, registrations or books only where explicitly enabled and approved. This is a modelling recommendation, not a decision that every tenant must support multiple entities or books.
 
-Do not add final cardinalities, statutory applicability rules, tax behaviour or physical foreign keys until ODR-001..003 and relevant accounting/legal evidence are reviewed.
+Do not add final legal/tax cardinalities or statutory behaviour by assumption. Under the product owner's 2026-11-18 scope instruction, Indian legal/regulatory review is deferred until after project completion and is not a current development blocker. ODR-002 remains a business/domain decision; ODR-003's multi-legal-entity and tax-registration details are outside the current legal review scope. Accounting-book and operational data-boundary design may continue using explicit provisional conceptual boundaries, without claiming legal conclusions.
 
 ## 2. Existing source-of-truth statements
 
@@ -37,7 +37,7 @@ Do not add final cardinalities, statutory applicability rules, tax behaviour or 
 | ERS-001 | Invoice and selected financial records have “Tenant/books scope” | Books ownership requires an explicit model |
 | ARC-TEN-001 | Branch count is independent of GST registration; branch scope is checked separately from tenant scope | Never derive GST/legal identity from branch count |
 | ARC-SYS-001 | AccountingEntity/books scope remains separate from Tenant and Branch | Maintain the cross-document boundary |
-| ODR-001 | Target legal/business structures are unresolved | Legal-entity profiles require owner and legal evidence |
+| ODR-001 | The business operating-model decision is resolved: one Tenant may support multiple dairy operating models and branches. Legal-form classification is deferred to the post-project legal review and is outside current development scope | Do not use legal-form classification as a current tenant onboarding or architecture blocker |
 | ODR-002 | Branch/outlet/collection/warehouse/processing/service-area taxonomy is unresolved | Location cardinalities and parentage are not final |
 | ODR-003 | Whether one tenant may contain multiple legal entities or GST registrations is unresolved | Multi-entity/multi-registration cardinality is not approved |
 
@@ -232,14 +232,14 @@ Do not apply these refinements as if they were approved until the decision gates
 
 | Decision | Current status | Required closure evidence / approval |
 |---|---|---|
-| ODR-001 — supported legal/business structures | Unresolved | Representative target customer profiles; official legal identity evidence; owner approval of supported onboarding profiles |
+| ODR-001 — tenant operating models | **Resolved — user-approved 2026-11-18** | Option B approved: one Tenant supports multiple dairy operating models and multiple branches. Legal-form review is post-project and outside current scope |
 | ODR-002 — branch/location taxonomy | Unresolved | Domain workflow map for outlet, collection, warehouse, processing, stock and service areas; user-facing terminology and permission consequences |
 | ODR-003 — tenant/legal entity/GST registration relationship | Unresolved | Current official GST/legal research, accounting implications, representative scenarios and explicit product-owner approval |
 | AccountingBook cardinality | Not separately resolved in ODR | Accounting workflow scenarios, statutory/reporting needs, Tally mapping and accountant/owner approval |
 | Cross-entity operations | Not separately resolved in ODR | Explicit use cases, inventory/finance controls, audit and authorization analysis |
 | Shared locations / multi-branch mapping | Not separately resolved in ODR | Physical operations and stock-custody scenarios, permission/reporting consequences |
 
-ODR-001..003 remain unresolved. This document does not change their status or imply owner approval. Any future ODR update must replace generic status with the classification, safe interim baseline, accountable owner, evidence and closure trigger required by the register's own rules.
+ODR-001's operating-model decision is resolved by explicit product-owner approval dated 2026-11-18. The legal-form aspect formerly mixed into ODR-001 is deferred to the post-project legal review and is not a current development blocker. ODR-002 remains a business/domain decision for owner review. ODR-003's legal-entity and tax-registration applicability is outside the current legal review scope; only non-legal accounting and data-boundary modelling may proceed provisionally where required. No legal conclusion or final accounting cardinality is implied.
 
 ## 10. Consistency review against existing documentation
 
@@ -272,8 +272,8 @@ ARC-SYS-001 currently uses “AccountingEntity/books scope” as a combined phra
 
 This analysis can be promoted into an approved logical model only after:
 
-- ODR-001..003 have evidence-backed classifications and required owner approvals.
-- Legal/tax applicability is verified against current official sources and qualified review where required.
+- ODR-001's approved operating-model decision is propagated consistently; ODR-002's business/location taxonomy is approved or explicitly classified.
+- Legal/tax applicability is not a current development gate under the product owner's 2026-11-18 scope instruction; it is reserved for post-project review.
 - AccountingBook ownership, chart-of-accounts scope, financial periods, posting and close controls are reconciled with the accounting specifications and Tally mapping.
 - Branch and OperatingLocation taxonomy is validated against all operational workflows.
 - Cross-entity access, transfers, consolidation and reporting requirements are either explicitly supported or explicitly excluded.
@@ -281,3 +281,10 @@ This analysis can be promoted into an approved logical model only after:
 - DBR-001 readiness checklist and Gate D evidence are updated.
 
 Until then, this document is decision-support analysis only. ERS-001 remains the proposed logical baseline, and physical database schema generation remains gated.
+
+
+## 13. Product-owner scope decision recorded on 2026-11-18
+
+The product owner approved ODR-001 Option B: one Tenant represents one independent Dairy Business Workspace and may support multiple dairy operating models and multiple branches. This is a business-operating-model decision; it does not approve or imply any legal-entity, tax-registration or accounting-book cardinality.
+
+The product owner separately instructed that Indian legal and regulatory review will occur after project completion. Such review is outside the current development scope and must not be shown as a current blocker or unresolved development decision. This scope boundary does not remove the need to model operational, accounting and data-integrity boundaries correctly; it prevents the project from making legal conclusions at this stage.
