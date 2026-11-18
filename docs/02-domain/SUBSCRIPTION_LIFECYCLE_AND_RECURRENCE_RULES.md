@@ -1,6 +1,6 @@
 # Subscription Lifecycle and Recurrence Rules
 
-**Status:** Working baseline — requirements discovery  
+**Status:** Recommended domain baseline — ODR-006/007 lifecycle and recurrence policy selected; Tenant-specific cut-offs and commercial choices remain configurable  
 **Related open decisions:** ODR-006, ODR-007, ODR-008, ODR-013, ODR-014, ODR-020, ODR-021  
 **Scope:** Dairy customer recurring supply; not the SaaS tenant's commercial subscription.
 
@@ -208,14 +208,12 @@ The later test specification must cover:
 14. Customer with multiple active subscriptions/addresses where permitted.
 15. Month-end statement/invoice calculation with adjustments and receipts.
 
-## 11. Open decisions to resolve
+## 11. Configuration and evidence dependencies
 
-- ODR-006: pause, resume, skip, holiday, substitution, cancellation semantics.
-- ODR-007: anchor, cut-offs, calendar, branch and route schedule precedence.
-- ODR-008: supported units, precision, conversions and rounding.
-- ODR-013: price effective dates, discounts and deposits.
-- ODR-014: billing basis and period treatment.
-- ODR-020: offline edits and conflict resolution.
-- ODR-021: communication channels, templates and consent.
+- ODR-006/007 baseline is selected in ODR sections 16.10–16.11: immutable past occurrences, effective-dated agreement versions, explicit recurrence anchors, configurable shifts/calendars/cut-offs and idempotent occurrence generation.
+- Tenant/Branch calendar, closed days, lead time, cut-off and subscription exceptions are configuration values; precedence must follow the configuration-key scope declared under ARC-PV-001.
+- Unit/price/discount/billing policy remains under ODR-008/013/014 and must be snapshotted on occurrences/billable fulfilment.
+- Offline mutation guarantees remain limited by ODR-020; stale subscription edits must be revalidated and never override newer versions.
+- Notification provider/channel delivery remains ODR-021; communication delivery never changes subscription state.
 
-No final recurrence syntax, database schema, or billing policy is approved by this working document.
+No recurrence or billing configuration may rewrite completed delivery/posted financial history. No physical schema is approved by this document.
