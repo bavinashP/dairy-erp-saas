@@ -1,7 +1,7 @@
 # Authentication, Authorization and Access Control Architecture
 
 **Document ID:** ARC-IAM-001  
-**Status:** Permission-first logical architecture baseline selected; technology/provider choices and exhaustive module-level catalogue details remain open  
+**Status:** Permission-first logical architecture and canonical permission-key baseline selected; domain approval-control baseline selected; technology/provider choices and exact module/API/state coverage remain implementation-readiness work  
 **Authority:** Project Vision and Scope, FRS-001, ERS-001, Actor and Access Model, Business Rules Catalogue, and ODR-004, ODR-005, ODR-019, ODR-020, ODR-025, ODR-031.  
 **Purpose:** Establish the logical identity, session, authorization and privileged-access model for platform, tenant and branch operations.
 
@@ -132,7 +132,7 @@ High-risk operations may include:
 - Bulk Tally synchronization and mapping changes.
 - Tenant suspension, data export and deletion.
 
-The system MUST support configurable approval and separation-of-duties policies. The exact domain actions/thresholds and small-business simplifications are completed by each domain permission specification under ODR-005. ODR-002 delegated-approval controls are approved in section 7.1; the cross-module permission vocabulary is in ARC-IAM-CAT-001. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
+The system MUST support configurable, versioned approval and separation-of-duties policies. Domain permission-versus-approval separation, risk classes R0–R3, single-operator/small-team/multi-Branch/enterprise starter profiles, threshold categories, reviewer/quorum controls, payload/policy binding and fixed safeguards are defined in [Domain Permission and Approval Control Matrix](DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md). Exact numeric threshold values are Tenant-specific configuration, not universal product constants. Exact resource/state/API mapping and automated authorization coverage remain implementation-readiness gates. ODR-002 delegated-approval controls are governed by section 7.1 and ODR-002; canonical permission keys are in ARC-IAM-CAT-001. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
 
 ## 9. Platform support and privileged access
 
@@ -204,7 +204,7 @@ Audit events MUST identify actor/service, tenant/security boundary, scope, times
 ## 13. Open decisions
 
 - **ODR-004:** Membership and Branch-assignment cardinality are resolved under the recommended baseline in ODR-004 section 16.9; verify workflow edge cases.
-- **ODR-005:** Complete exact atomic permission keys, per-module action/state coverage and domain approval thresholds; cross-cutting semantics are established in ARC-IAM-CAT-001 and ODR-002 section 16.7.
+- **ODR-005:** Canonical v1 atomic permission keys are selected in ARC-IAM-CAT-001 section 15 and domain approval controls in ARC-IAM-CTRL-001. Remaining implementation-readiness work is exact module/resource/state/API mapping, sensitive-field inventory and automated coverage; Tenant-specific threshold values are configured under ARC-IAM-CTRL-001.
 - **ODR-019/020:** Client strategy and offline authentication/authorization behavior.
 - **ODR-025:** Tenant suspension and permitted recovery/owner access.
 - **ODR-031:** Deployment/network boundaries and privileged operations.
@@ -216,8 +216,9 @@ This document is a logical baseline, not a final permission matrix or authentica
 2. Approve role/permission/scope and delegation semantics.
 3. Define MFA, recovery, session/device and revocation policies from the threat model.
 4. Define support and break-glass access workflows.
-5. Map every API/job/integration action to a permission and scope.
-6. Complete threat analysis and automated authorization/tenant-isolation tests.
+5. Map every API/job/integration action to a canonical permission key and scope; apply the domain approval-control matrix where an approval policy is required.
+6. Complete the permission/approval cross-channel acceptance suites AT-IAM and AT-CTRL before the corresponding module is declared implementation-ready.
+7. Complete threat analysis and automated authorization/tenant-isolation tests.
 
 
 ### 5.1 Permission-first and customer-configurable authorization
