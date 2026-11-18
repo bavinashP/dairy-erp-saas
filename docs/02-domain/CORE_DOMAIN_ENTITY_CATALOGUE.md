@@ -64,9 +64,14 @@ A person, employee profile, user account, and role assignment must not be collap
 | Product | Product definition and classification |
 | Product Variant | Distinct sellable/procurable variation |
 | SKU | Inventory/commercial identity |
-| Unit of Measure | Measurement unit |
-| Unit Conversion | Validated conversion between units |
-| Product Pack | Package definition and declared quantity |
+| UOM Dimension | Platform-governed physical/operational dimension such as mass, volume, count, time or temperature | Units from incompatible dimensions cannot be combined or generically converted |
+| Unit of Measure | Platform-governed canonical unit or registered compatible extension unit with stable identity, dimension, symbol and formal name | Display/localization changes do not alter unit semantics |
+| Unit Conversion Version | Effective-dated standard or contextual conversion rule with factor/formula, applicability and evidence | Historical transactions retain the version used; cross-dimensional conversion requires approved context |
+| SKU Base-UOM Assignment | Effective-dated assignment of the one authoritative stock base UOM to a stock-managed SKU | Exactly one current assignment; Product default only inherits where compatible |
+| Product Pack / Pack Definition Version | Versioned package hierarchy and declared content quantity/UOM for a SKU | Discrete count, content and pack/unpack transformations remain distinct |
+| Precision Profile Version | Supported source/stored/calculation/posting/display precision profile for a UOM/device/workflow | Device accuracy and business tolerance are separate from digit scale |
+| Rounding Policy Version | Versioned rounding mode, scale, operation order, boundary and residual treatment | Statutory rules override commercial defaults; posted records preserve the version |
+| Measurement Evidence | Source measurement value/UOM, method/device, resolution, timestamp and calibration/provenance | Original reading is preserved separately from accepted/converted/posted quantities |
 | Price List / Price Rule | Effective-dated selling rates |
 | Supplier Rate Rule | Effective-dated procurement rate |
 | Tax Profile | Applicable tax classification/rules, subject to verified applicability |
