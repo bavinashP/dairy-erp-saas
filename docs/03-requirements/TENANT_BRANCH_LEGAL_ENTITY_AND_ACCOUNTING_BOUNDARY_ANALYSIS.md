@@ -247,7 +247,7 @@ Do not apply these refinements as if they were approved until the decision gates
 | Decision | Current status | Required closure evidence / approval |
 |---|---|---|
 | ODR-001 — tenant operating models | **Resolved — user-approved 2026-11-18** | Option B approved: one Tenant supports multiple dairy operating models and multiple branches. Legal-form review is post-project and outside current scope |
-| ODR-002 — branch/location taxonomy | Partially resolved | Physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch baselines are approved; detailed shared-site governance, access rules and route execution policies remain to be specified |
+| ODR-002 — branch/location taxonomy | Partially resolved | Physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/branch-specific stock-segregation baselines are approved; detailed shared-use governance, accountability, employee access and route execution policies remain to be specified |
 | ODR-003 — tenant/legal entity/GST registration relationship | Unresolved | Current official GST/legal research, accounting implications, representative scenarios and explicit product-owner approval |
 | AccountingBook cardinality | Not separately resolved in ODR | Accounting workflow scenarios, statutory/reporting needs, Tally mapping and accountant/owner approval |
 | Cross-entity operations | Not separately resolved in ODR | Explicit use cases, inventory/finance controls, audit and authorization analysis |
