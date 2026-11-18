@@ -38,7 +38,7 @@ Do not add final legal/tax cardinalities or statutory behaviour by assumption. U
 | ARC-TEN-001 | Branch count is independent of GST registration; branch scope is checked separately from tenant scope | Never derive GST/legal identity from branch count |
 | ARC-SYS-001 | AccountingEntity/books scope remains separate from Tenant and Branch | Maintain the cross-document boundary |
 | ODR-001 | The business operating-model decision is resolved: one Tenant may support multiple dairy operating models and branches. Legal-form classification is deferred to the post-project legal review and is outside current development scope | Do not use legal-form classification as a current tenant onboarding or architecture blocker |
-| ODR-002 | Partially resolved: physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch baselines approved; detailed shared-use/access policies remain open | Location, service-allocation and route-ownership baselines are partly approved; shared-use/access governance remains to be finalized |
+| ODR-002 | Partially resolved: physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, branch-specific stock segregation at shared sites, and limited cross-branch stock-task grants are approved; detailed governance and permission matrix remain open | Core location, service, route and scoped shared-site workforce access baselines are approved; complete authorization, accountability and exception workflows remain to be specified |
 | ODR-003 | Whether one tenant may contain multiple legal entities or GST registrations is unresolved | Multi-entity/multi-registration cardinality is not approved |
 
 ## 3. Conceptual terms and boundaries
@@ -253,7 +253,7 @@ Do not apply these refinements as if they were approved until the decision gates
 | Cross-entity operations | Not separately resolved in ODR | Explicit use cases, inventory/finance controls, audit and authorization analysis |
 | Shared locations / multi-branch mapping | Not separately resolved in ODR | Physical operations and stock-custody scenarios, permission/reporting consequences |
 
-ODR-001's operating-model decision is resolved by explicit product-owner approval dated 2026-11-18. The legal-form aspect formerly mixed into ODR-001 is deferred to the post-project legal review and is not a current development blocker. ODR-002 remains partially resolved: its physical-site, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch relationship baselines are approved; detailed shared-use/access governance remains for owner review. ODR-003's legal-entity and tax-registration applicability is outside the current legal review scope; only non-legal accounting and data-boundary modelling may proceed provisionally where required. No legal conclusion or final accounting cardinality is implied.
+ODR-001's operating-model decision is resolved by explicit product-owner approval dated 2026-11-18. The legal-form aspect formerly mixed into ODR-001 is deferred to the post-project legal review and is not a current development blocker. ODR-002 remains partially resolved: its physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site stock-segregation and limited cross-branch stock-task grant baselines are approved; detailed shared-use governance, accountability and complete permission matrix remain for specification. ODR-003's legal-entity and tax-registration applicability is outside the current legal review scope; only non-legal accounting and data-boundary modelling may proceed provisionally where required. No legal conclusion or final accounting cardinality is implied.
 
 ## 10. Consistency review against existing documentation
 
@@ -278,7 +278,7 @@ ARC-SYS-001 currently uses “AccountingEntity/books scope” as a combined phra
 - No final decision that a tenant can or cannot contain multiple legal entities or GST registrations.
 - No final decision that every legal entity must have exactly one accounting book.
 - No assumption that every branch requires a GSTIN or separate books.
-- Detailed shared-location governance and employee cross-branch access policies remain unresolved. Route ownership is approved as Branch 1:N Route; a Route may cover only ServiceAreas assigned to its owning Branch, and a DeliveryRun's Branch must match its Route owner. The approved ServiceArea-to-Branch mapping remains many-to-many and history-preserving.
+- Detailed shared-location governance, accountability and the complete employee cross-branch permission matrix remain unresolved. Limited shared-site stock-task grants are approved as explicit, least-privilege, effective-dated and auditable; they do not grant general access to the target Branch. Route ownership is approved as Branch 1:N Route; a Route may cover only ServiceAreas assigned to its owning Branch, and a DeliveryRun's Branch must match its Route owner. The approved ServiceArea-to-Branch mapping remains many-to-many and history-preserving.
 - No physical ERD, SQL DDL, ORM models, migrations, application code or database provisioning.
 - No change to ODR-001, ODR-002 or ODR-003 status.
 
