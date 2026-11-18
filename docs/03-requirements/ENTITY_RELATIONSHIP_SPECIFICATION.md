@@ -272,18 +272,22 @@ The following is the logical relationship spine. Optional relationships depend o
 12. MilkCollectionEntry 1:N MilkSample/QualityResult and at most one active settlement allocation for the same payable quantity; split settlement requires explicit line-level allocation.
 13. ProductionBatch 1:N ProductionInputLine and ProductionOutputLine; StockLot may be consumed by many batches and each output lot must link to its producing batch.
 14. Product/SKU 1:N StockLot and StockMovement; StockMovement references source document and stock location(s).
-15. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
-16. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
-15. PaymentAccount 1:N Receipt, SupplierPayment, CashMovement and BankStatementImport as applicable.
-16. BankStatementImport 1:N BankStatementLine; ReconciliationSession 1:N ReconciliationMatch; match cardinality may be one-to-one, one-to-many or many-to-one under validation.
-17. Operational source event 0..1 or policy-defined N:1 JournalEntry through idempotent PostingRuleVersion; JournalEntry 1:N JournalLine; every posted journal balances.
-18. ExpenseClaim 1:N ApprovalAction and ExpenseLine; approved expenses generate posting instructions; payment is separately linked.
-19. PersonnelRecord 1:N Engagement, AttendanceRecord and PayrollLine over time; PayrollRun 1:N PayrollLine; PayrollLine 1:N PayrollComponentLine.
-20. AccountingEntity 1:N FinancialYear, LedgerAccount, AccountingPeriod and JournalEntry; period close applies to posting scope.
-21. SaaS accounting source record 0..1 active ExternalVoucherMapping per target company/export purpose; SyncBatch 1:N SyncBatchItem.
-22. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
-23. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
-24. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
+15. A stock/asset/container CustodySubject may have 0:N CustodyEvents; each event records the applicable actor/handler, custodian, location and policy/evidence version. CustodyAssignment is effective-dated; one primary custodian is recorded for a subject segment at a time unless an explicit co-custody profile is used.
+16. CustodyHandover 1:N linked CustodyEvents and has separately identified source/receiving custody parties. Partial receipt/dispute is represented for the accepted and outstanding subject/quantity portions; timeout does not imply acceptance.
+17. CustodyEvidence N:1 CustodyEvent; CustodyIncident may reference the subject, handover and one or more events. SharedResourceUse references one resource/asset, one using Branch/capability and a bounded usage interval. Allowed Branch/capability use is an explicit effective-dated association, not inferred from physical location.
+18. CustodyEvent and StockMovement may be associated through an explicit cross-reference where the same operation has both physical-custody and stock-ledger effects. Neither requires a one-to-one relationship; a custody-only event has no synthetic StockMovement.
+19. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
+20. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
+21. PaymentAccount 1:N Receipt, SupplierPayment, CashMovement and BankStatementImport as applicable.
+22. BankStatementImport 1:N BankStatementLine; ReconciliationSession 1:N ReconciliationMatch; match cardinality may be one-to-one, one-to-many or many-to-one under validation.
+23. Operational source event 0..1 or policy-defined N:1 JournalEntry through idempotent PostingRuleVersion; JournalEntry 1:N JournalLine; every posted journal balances.
+24. ExpenseClaim 1:N ApprovalAction and ExpenseLine; approved expenses generate posting instructions; payment is separately linked.
+25. PersonnelRecord 1:N Engagement, AttendanceRecord and PayrollLine over time; PayrollRun 1:N PayrollLine; PayrollLine 1:N PayrollComponentLine.
+26. AccountingEntity 1:N FinancialYear, LedgerAccount, AccountingPeriod and JournalEntry; period close applies to posting scope.
+27. SaaS accounting source record 0..1 active ExternalVoucherMapping per target company/export purpose; SyncBatch 1:N SyncBatchItem.
+28. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
+29. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
+30. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
 
 ## 13. Mandatory integrity invariants
 
