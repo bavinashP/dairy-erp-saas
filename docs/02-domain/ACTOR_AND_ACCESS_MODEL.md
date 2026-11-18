@@ -1,6 +1,6 @@
 # Actor and Access Model
 
-**Status:** Working baseline — actor discovery  
+**Status:** Conceptual actor/workforce baseline — authorization is governed by ARC-IAM-001 and ARC-IAM-CAT-001  
 **Purpose:** Identify who performs work and the access dimensions the authorization design must support. This is not the final role/permission matrix.
 
 ## 1. Core principles
@@ -37,7 +37,7 @@
 | Auditor/Read-only Reviewer | Reviews records and reports | Explicit read-only scope | Export and sensitive-field access must be separately controlled |
 | Temporary/Contract Worker | Performs limited assigned tasks | Narrow, time-limited operational scope | Expiry and revocation required |
 
-This list is a discovery catalogue. It does not establish a fixed hierarchy or mandate that every tenant create all these roles.
+This list is a discovery catalogue of business responsibilities only. It does not establish a fixed hierarchy, privilege class or mandate that every Tenant create all these roles. Permissions and scopes, not this list, determine access.
 
 ## 3. Access dimensions
 
@@ -141,7 +141,7 @@ Permission/access administration, Emergency Override activation/extension/review
 - Can tenants create custom roles and permission bundles?
 - How are approval limits represented and inherited?
 - Which actions require maker-checker at each plan/business scale?
-- What support access workflow is required? Emergency Override and the scoped delegated-approval policy are governed by approved ODR-002 decisions; remaining approval thresholds and the broader ODR-004/005 permission/delegation matrix remain open.
+- What support access workflow is required? Emergency Override and delegated approval are governed by approved ODR-002 decisions. ODR-004 membership cardinality is resolved in section 16.9; ODR-005 remains for the exact module-level permission catalogue and domain approval policies. See ARC-IAM-CAT-001.
 - What authentication assurance (MFA, passkeys, OTP, password policy) is required for each risk tier?
 - How are shared POS and delivery devices handled without shared identities?
 - What is the session/device revocation behavior?
@@ -175,3 +175,6 @@ Permission changes and revocations are audited and must be revalidated server-si
 ## 11. Tenant membership and Branch assignment
 
 One global user identity may hold independent memberships in multiple Tenants, with at most one current membership per user/Tenant pair. Membership in one Tenant never grants access to another. Within a Tenant, a membership may have zero or more Branch/workforce assignments and optionally one current Home/Primary Branch. These assignments identify normal workforce/operating context only; they are not permissions and do not grant record visibility. All data and action authority comes from effective explicit permissions and scopes. See ODR-004 section 16.9 and ERS section 16.8.
+
+
+The cross-module permission vocabulary, customer-configurable bundles/direct assignments, sensitive-field control and precedence rules are defined in [Permission Catalogue and Assignment Governance](../04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md).
