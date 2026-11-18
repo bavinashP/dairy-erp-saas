@@ -118,7 +118,7 @@ High-risk operations may include:
 - Bulk Tally synchronization and mapping changes.
 - Tenant suspension, data export and deletion.
 
-The system MUST support configurable approval and separation-of-duties policies. The exact actions requiring approval, amount thresholds, emergency exceptions and small-business simplifications remain open. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
+The system MUST support configurable approval and separation-of-duties policies. The exact actions requiring approval, amount thresholds, delegated-approval eligibility and small-business simplifications remain open. Emergency Override is governed separately by the approved ODR-002 policy. Where policy requires independent approval, the initiating actor MUST not satisfy the independent-approver condition.
 
 ## 9. Platform support and privileged access
 
