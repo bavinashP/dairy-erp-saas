@@ -2,7 +2,7 @@
 
 **Document ID:** ARC-IAM-CAT-001  
 **Status:** Recommended permission-first baseline selected under the product owner's delegated decision mandate — 2026-11-19  
-**Authority:** ODR-002 sections 16.7 and 16.9; ODR-005; ARC-IAM-001; ARC-AUTH-MATRIX-001; ARC-PV-001; Actor and Access Model; Business Rules Catalogue.  
+**Authority:** ODR-002 sections 16.7 and 16.9; ODR-005; ARC-IAM-001; ARC-AUTH-MATRIX-001; ARC-IAM-CTRL-001; ARC-PV-001; Actor and Access Model; Business Rules Catalogue.  
 **Purpose:** Define a consistent, extensible and customer-configurable permission language across all Dairy ERP modules without relying on job titles, role labels or account categories.
 
 ## 1. Non-negotiable principle
@@ -51,7 +51,7 @@ Every permission catalogue entry must define:
 - API/job/integration/mobile coverage requirements.
 - Deprecation/alias/version compatibility behavior.
 
-A permission's meaning must not change silently. A materially broader capability requires a new permission key or a versioned migration with impact analysis. A read key's metadata must state whether it covers list/detail/query surfaces and which fields/rows are returned. A collection, search or discovery operation must map either to an explicit `resource.list`/`resource.discover` key or to a `resource.view` entry whose metadata explicitly includes that query surface; no implicit query privilege is inferred. Sensitive fields and exports remain independently controlled.
+A permission's meaning must not change silently. A materially broader capability requires a new permission key or a versioned migration with impact analysis. Domain-level approval requirements and risk/threshold defaults are governed by [Domain Permission and Approval Control Matrix](DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md); that document cannot redefine or grant keys. A read key's metadata must state whether it covers list/detail/query surfaces and which fields/rows are returned. A collection, search or discovery operation must map either to an explicit `resource.list`/`resource.discover` key or to a `resource.view` entry whose metadata explicitly includes that query surface; no implicit query privilege is inferred. Sensitive fields and exports remain independently controlled.
 
 ## 4. Standard action vocabulary
 
@@ -221,7 +221,7 @@ The product-wide v1 atomic key inventory is specified in section 15. A domain sp
 
 A key's semantic meaning is immutable after publication. A broader action or materially different data disclosure requires a new key or a formally versioned compatibility migration. Deprecated keys remain resolvable during the declared compatibility window but cease granting authority after retirement. Unknown, malformed, unregistered or retired keys default to deny.
 
-ODR-005 remains partially open only for detailed domain approval thresholds, resource/state transition mapping and verified automated coverage as each workflow is finalized. The canonical v1 permission inventory and governance baseline are selected in section 15; this does not mean the permissions are automatically assigned or that every module is enabled for every Tenant.
+ODR-005 remains partially open only for detailed domain approval thresholds, resource/state transition mapping and verified automated coverage as each workflow is finalized. The canonical v1 permission inventory and governance baseline are selected in section 15; the domain approval-control baseline is ARC-IAM-CTRL-001. This does not mean permissions are automatically assigned or that every module is enabled for every Tenant.
 
 
 ## 15. ODR-005 — product-wide atomic permission catalogue v1
@@ -359,7 +359,7 @@ The product-wide v1 inventory in section 15.2 covers the current documented capa
 Before any module is implemented:
 1. Its domain owner maps every protected command, state transition, field/data category, report, export, job, device and integration operation to one or more keys from this catalogue.
 2. Any missing key is proposed through the controlled catalogue-change process in section 14, not invented locally.
-3. The domain documents exact scope, limits, approval/segregation, delegability, sensitive-field and audit metadata for each key.
+3. The domain documents exact scope, limits, approval/segregation, delegability, sensitive-field and audit metadata for each key, following ARC-IAM-CTRL-001 for policy/approval boundaries.
 4. The FRS, ERS, state/exception matrices, Business Rules Catalogue and RTM reference the same permission keys and concepts.
 5. Automated authorization tests prove allow, deny, scope mismatch, explicit deny, expiry/revocation, cross-channel equivalence and title/account-label neutrality.
 6. The Quality Strategy records the module-specific test identifiers; no module passes readiness with unmapped privileged operations.
