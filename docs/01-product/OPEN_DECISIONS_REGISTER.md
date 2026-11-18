@@ -351,7 +351,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 **Verification:** Confirm that a grant cannot be activated without approval from an authorized user holding the required approval permission of the stock-owning Branch; that the approval is bound to the exact grant scope/version; that the recommended separation in section 16.6 is enforced; and that the grant cannot authorize actions or data beyond its approved least-privilege scope.
 
-**Review trigger:** Reopen only on explicit product-owner change or when reviewing the recommended workforce-assignment separation in section 16.6 or defining detailed shared-site accountability.
+**Review trigger:** Reopen only on explicit product-owner change or evidence from scenario validation that the stock-grant approval safeguards are insufficient. The workforce-assignment boundary is recommended in section 16.6; custody and grant-version/task-reconciliation baselines are in sections 16.36 and 16.38.
 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
@@ -382,7 +382,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 **Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
 
-**Review trigger:** Reopen only on explicit product-owner change or when specifying notification provider/channel delivery under ODR-021 or reviewing the recommended workforce-assignment boundary in section 16.6 and detailed shared-site accountability. Detailed grant-version, invalidation and held-task reconciliation semantics are selected in section 16.38; validate the workflow scenarios against ERS section 16.12 and the State Transition Matrix.
+**Review trigger:** Reopen only on explicit product-owner change or when specifying notification provider/channel delivery under ODR-021 or evidence from scenario testing that the task-hold/reconciliation controls are insufficient. Custody and detailed grant-version/task-reconciliation baselines are in sections 16.36 and 16.38; the workforce-assignment boundary remains recommended in section 16.6. Detailed grant-version, invalidation and held-task reconciliation semantics are selected in section 16.38; validate the workflow scenarios against ERS section 16.12 and the State Transition Matrix.
 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
@@ -440,7 +440,7 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 **Verification:** Test ordinary approval, restricted self-activation only by a specifically authorized Emergency Authority, denial when no such authority exists, exact least-privilege scope, no unrelated data access, 60-minute expiry, one independently authorized extension with a 120-minute hard maximum, immediate revocation, immutable completed records, held partial tasks, review evidence, discrepancy reconciliation, API/mobile/job/integration enforcement, idempotency and expiry/revocation race conditions.
 
-**Review trigger:** Reopen only upon explicit product-owner change or evidence from operational testing that the approved emergency safeguards are unsafe or insufficient. The Home-Branch/workforce-assignment boundary is recommended in section 16.6; the complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
+**Review trigger:** Reopen only upon explicit product-owner change or evidence from operational testing that the approved emergency safeguards are unsafe or insufficient. The permission matrix, custody baseline and grant/task-reconciliation baseline are specified in sections 16.7, 16.36 and 16.38. The Home-Branch/workforce-assignment boundary remains recommended in section 16.6.
 
 
 ### ODR-002 — approved permission-based delegated approval
@@ -500,7 +500,7 @@ Delegation validity, current delegator authority, delegate membership, scope, ac
 
 **Verification:** Test creation without `approval.delegate`; delegation exceeding delegator scope/limits; inactive or cross-Tenant delegate; exact Branch/resource/action scoping; 30-day hard maximum; no renewal/extension; immediate revocation; automatic invalidation on either party's membership or relevant permission/scope loss; all non-delegable actions; self-approval and subdelegation denial; multi-stage approval preservation; payload/policy changes; audit attribution; duplicate retries; and revocation/expiry races at commit.
 
-**Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Notification provider/channel delivery remains under ODR-021; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
+**Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Notification provider/channel delivery remains under ODR-021; the permission matrix, custody and detailed grant/task-reconciliation baselines are specified in sections 16.7, 16.36 and 16.38; the Home-Branch/workforce-assignment boundary remains recommended in section 16.6.
 
 
 ### ODR-002 — recommended stock-task grant expiry notification baseline and zero-grace rule
