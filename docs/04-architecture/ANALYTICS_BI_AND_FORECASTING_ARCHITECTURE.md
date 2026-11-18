@@ -265,14 +265,14 @@ Avoid data leakage: a forecast must not train on records occurring after its sou
 11. Correct/reverse a source transaction and verify affected aggregates are updated with history preserved.
 12. Verify a forecast's source cutoff prevents future-data leakage.
 
-## 14. Remaining owner decisions (not architecture gaps)
+## 14. Selected policy baselines and remaining accountable approvals
 
-The architecture and baseline report families are defined. The following require accountable business approval rather than further generic design:
-- Which KPIs are official management targets and who owns each formula.
-- Which reports are included in each SaaS plan versus paid add-ons.
-- Which budget approvals and thresholds are mandatory for a given tenant size.
-- Which forecast horizons are operationally useful to target customers; initial product default can be short-horizon daily/weekly with user-selectable periods within bounded limits.
-- Whether any tenant opts into a future cross-tenant benchmark; default is prohibited.
+The architecture and standard report families are defined. The product/engineering baselines are selected under ODR-022/023/024: stable versioned KPI formulas, Tenant-configurable targets/dimensions, advisory baseline/statistical forecasts with backtesting, and versioned budgets/scenarios separate from posted actuals. The following still require accountable business/owner assignment before launch:
+- Assign the accountable business function/person for each official KPI formula and target. No job title alone gains report access or approval rights.
+- Approve the commercial mapping of reports/analytics to SaaS plans or add-ons; plan entitlement never grants data permission.
+- Tenants configure budget approval thresholds and specific approver permissions within maker-checker safeguards; any mandatory platform minimums remain fixed where integrity/risk requires.
+- Initial forecast defaults are short-horizon daily/weekly where sufficient history exists; Tenant users may select supported horizon and scenario inputs. Prioritize additional forecast families from pilot evidence.
+- Cross-Tenant benchmarking remains off by default and requires a separately reviewed privacy/consent/aggregation policy before activation.
 - Whether a specific report is legally/statutorily relied upon; each such report requires separate legal/accounting validation.
 
 ## 15. Exit criteria
