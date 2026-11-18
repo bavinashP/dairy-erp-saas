@@ -604,7 +604,7 @@ The recommended UOM/precision baseline is specified in DBR-004 and ODR-008 secti
 
 Remaining evidence dependencies are exact instrument accuracy/calibration/tolerances, workflow-specific process/settlement values, Legal Metrology product/activity applicability, statutory tax rounding beyond the recorded CGST Act section 170 scope, inventory valuation and target-version Tally precision. These are reviewed by their owning ODRs and do not block the conceptual ERS baseline.
 
-### 16.13 ODR-005 — domain permission and approval control matrix
+### 16.14 ODR-005 — domain permission and approval control matrix
 
 The selected logical baseline is specified in [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md). It distinguishes the underlying permission for a domain action from any additional approval requirement. ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule and ApprovalRequirement are conceptual entities for Tenant-configurable approval workflows; they do not grant permissions.
 
