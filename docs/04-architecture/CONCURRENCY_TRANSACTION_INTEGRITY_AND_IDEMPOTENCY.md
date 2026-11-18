@@ -44,6 +44,7 @@ This document defines logical consistency rules for transactional and asynchrono
 | Tally sync | Agent retries after lost acknowledgement | Stable sync record identity and external mapping/verification |
 | Payroll | Two finalization runs pay the same period twice | Unique employee/period/pay-run scope and approval lock |
 | Approvals | Initiator and approver act on stale or changed payload | Approval bound to immutable payload/version/hash and policy version |
+| Delegated approvals | Delegation expires/revokes or delegator/delegate authority changes while approval is in flight | Revalidate both parties, delegation scope/limits and payload at commit; coordinate revocation/expiry atomically; idempotent decision identity |
 | SaaS entitlement | Concurrent requests exceed a usage limit | Atomic quota reservation/consumption; reconciliation for abandoned reservations |
 | File import | Same file/batch submitted repeatedly | File fingerprint plus tenant/operation idempotency and row-level identity |
 | Analytics | Multiple refreshes overwrite newer snapshots with older data | Source watermark, run version and monotonic publication rule |
@@ -138,6 +139,8 @@ Plan usage limits, approval thresholds and configurable business policies can be
 
 A policy change must define whether it affects in-flight requests. Do not retroactively reinterpret finalized transactions without an explicit migration/recalculation process.
 
+Delegated approval validity, both parties' current membership/permissions, scope, limits and the immutable approval payload/policy version must be revalidated server-side at the approval commit boundary. The validation and commit must be coordinated atomically with delegation revocation/expiry and authority changes. A revocation, expiry or loss of underlying authority that wins the race must reject an uncommitted approval; a decision already committed while valid remains immutable. Duplicate retries must not create a second approval action.
+
 ## 11. Failure and recovery semantics
 
 Classify outcomes:
@@ -164,6 +167,8 @@ Use deterministic barriers/latches or equivalent coordination to force races; ti
 - Two accounting workers posting the same source event.
 - Period close racing with a journal post.
 - Approval decision racing with payload/policy change.
+- Delegation revocation/expiry or delegator/delegate permission loss racing with an approval commit.
+- Duplicate submission/retry of the same delegated approval decision.
 - Quota consumption at the last available unit.
 - Tally sync retry after remote success but before local acknowledgement.
 - Outbox publisher crash after send but before marking delivered.
