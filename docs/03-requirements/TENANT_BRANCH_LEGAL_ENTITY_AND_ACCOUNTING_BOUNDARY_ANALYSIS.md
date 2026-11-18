@@ -12,7 +12,7 @@ The existing documentation consistently establishes four important distinctions:
 
 1. **Tenant** is the SaaS isolation and business-workspace boundary. It is not automatically a legal entity.
 2. **Branch** is a tenant-owned operating unit. Its count and identity are independent of GST registration.
-3. **OperatingLocation** is a typed operational place (for example outlet, warehouse, collection centre, processing site or stock location). It is not automatically a branch or legal entity.
+3. **OperatingLocation** is a tenant-owned physical/operational site or premises. It may support multiple operational capabilities (such as retail sales, milk receiving, storage, processing and packaging), and may optionally be associated with a Branch. **StockLocation** is a separate inventory-control subdivision, not an OperatingLocation type. OperatingLocation is not automatically a Branch or legal entity.
 4. **Accounting books** and legal/tax identity must not be inferred from branch membership.
 
 These principles are already present in the glossary, ERS-001, ARC-TEN-001 and ARC-SYS-001. This analysis preserves them.
