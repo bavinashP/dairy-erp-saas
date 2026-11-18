@@ -78,7 +78,7 @@ Use synthetic or properly de-identified data. Production personal/financial reco
 Use stable test identifiers AT-IAM-009..016 for ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39:
 
 - **AT-IAM-009:** Every protected command, field disclosure, report/export, job, event handler, device action and integration operation in each enabled module resolves to one or more registered canonical permission keys; an unmapped operation fails closed.
-- **AT-IAM-010:** Unknown, malformed, retired or incompatible keys are denied. A key's machine identifier and semantic meaning do not change when its display label, language, Tenant bundle name or UI text changes.
+- **AT-IAM-010:** Core keys validate against the canonical three-part `domain.resource.action` format; extension keys validate against their registered namespace. Unknown, malformed, retired or incompatible keys are denied. A key's machine identifier and semantic meaning do not change when its display label, language, Tenant bundle name or UI text changes.
 - **AT-IAM-011:** A Tenant can create/version editable bundles and starter copies, assign/restrict/revoke eligible keys directly or through governed groups, and scope assignments; the assigning principal cannot exceed its own delegation authority.
 - **AT-IAM-012:** Explicit deny wins over applicable allow; missing scope, invalid membership, expired/revoked assignment, unsupported scope or ambiguous policy defaults to deny across every execution channel.
 - **AT-IAM-013:** View/list/search access, sensitive-field access, report drill-down, export, download and bulk operations are independently tested. Export/download cannot expose rows/fields the principal cannot otherwise access.
