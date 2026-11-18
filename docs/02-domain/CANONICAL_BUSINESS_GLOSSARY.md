@@ -117,6 +117,9 @@
 | Emergency Authority | User explicitly designated through a current, scoped permission assignment to activate the restricted ODR-002 Emergency Override when the ordinary approver is unavailable | This is an authorization assignment, not a job title or general role; self-activation remains limited to the approved emergency policy |
 | Emergency Override | Temporary, narrowly scoped break-glass authorization for minimum protective stock actions during a qualifying emergency | Initial validity is 60 minutes; one independently authorized extension may add up to 60 minutes; hard maximum 120 minutes; expiry/revocation blocks further stock mutations |
 | Emergency Incident / Retrospective Review | Auditable record of the emergency, activation, affected stock/location, actions, evidence, independent review and reconciliation | Self-activated overrides require retrospective review by a different authorized user |
+| Approval Delegation | A temporary, explicit authorization allowing a named delegate to perform specified approval actions within a defined scope and limits | Requires the delegator's approval permission and `approval.delegate`; maximum 30 calendar days; non-transferable, non-renewing, revocable and automatically invalidated when underlying authority ceases |
+| Delegator | The authorized user who creates a scoped Approval Delegation | Must hold the underlying approval permission and separate delegation permission for the same scope |
+| Delegate | The named active user who receives the temporary approval capability under an Approval Delegation | May perform only the specified approval action(s); cannot subdelegate or approve their own initiated actions |
 
 ## Terminology rules
 
