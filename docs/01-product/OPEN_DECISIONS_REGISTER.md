@@ -514,7 +514,7 @@ An in-progress task is held at expiry/revocation under the approved task-hold an
 **Notification events and default timing**
 
 - **Grant activation/approval:** Send an immediate confirmation to the assigned worker and the user who created/activated the grant. State the approved scope, permitted actions and exact expiry.
-- **24-hour reminder:** For grants whose approved duration is at least 24 hours, send one reminder 24 hours before expiry.
+- **24-hour reminder:** For grants whose approved duration is greater than 24 hours, send one reminder 24 hours before expiry.
 - **1-hour reminder:** For grants whose approved duration is greater than one hour, send one reminder one hour before expiry. For grants longer than 24 hours, this is in addition to the 24-hour reminder.
 - **Short grants:** For grants with a duration of one hour or less, the activation confirmation and expiry event are sufficient; do not send a misleading reminder at or after the expiry boundary.
 - **Expiry:** Send an immediate expiry notice when the grant becomes inactive. If assigned tasks remain incomplete, identify that the task(s) are held and direct the user to the approved reauthorization/reassignment process.
