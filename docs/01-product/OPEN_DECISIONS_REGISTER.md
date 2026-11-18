@@ -445,7 +445,7 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 ### ODR-002 — approved permission-based delegated approval
 
-**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the custody/accountability baseline is selected in section 16.36; further workflow validation and external legal/contract/insurance review remain separate; the complete cross-Branch permission matrix is approved in section 16.7. General tenant-wide approval policy ODR-004 membership cardinality is resolved in section 16.9; ODR-005 remains only for the exhaustive module-level permission catalogue and remaining domain approval rules.
+**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; the Home-Branch/workforce-assignment boundary is recommended in section 16.6; the custody/accountability baseline is selected in section 16.36; further workflow validation and external legal/contract/insurance review remain separate; the complete cross-Branch permission matrix is approved in section 16.7. General Tenant membership cardinality is resolved under ODR-004 section 16.9. ODR-005 canonical key inventory and domain approval-control baseline are selected in sections 16.39 and 16.41; only exact module/resource/API/state mapping, sensitive-field inventory and automated coverage remain as implementation-readiness work.
 
 **Approval evidence:** The product owner explicitly approved all recommendations: separate delegation permission, exact scoped authority, maximum 30-day validity, no automatic renewal or onward delegation, non-delegable high-risk actions, immediate invalidation when the delegator's underlying authority ceases, auditability and concurrency safeguards.
 
@@ -1282,7 +1282,7 @@ Record every create, submit, validation failure, approval, rejection, activation
 - RTM and Quality Strategy must trace and test catalogue coverage across all modules and execution channels.
 - Every module must map each protected command, event, field, report, export, job, device and integration operation to the canonical catalogue before implementation. A missing permission key must be proposed centrally, not invented locally.
 
-**Remaining boundary:** ODR-005 remains partially open for domain-specific numeric approval thresholds, exact resource/state/API mapping, sensitive-field classification and automated coverage for each finalized workflow. This is a controlled implementation-readiness gate; it does not mean the product-wide v1 permission-key inventory is incomplete.
+**Remaining boundary:** ODR-005 remains partially open only for exact module/resource/API/state mapping, sensitive-field classification and automated coverage for each finalized workflow. Numeric thresholds are Tenant-specific configuration values governed by ARC-IAM-CTRL-001, not unresolved universal product constants. This is an implementation-readiness gate; it does not mean the v1 key inventory or domain approval-control baseline is incomplete.
 
 
 
@@ -1307,7 +1307,7 @@ ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule, ApprovalRequir
 **Affected documents and verification**
 - ARC-IAM-CTRL-001 is the domain-level logical control matrix and test owner.
 - ARC-IAM-CAT-001 section 15 remains the canonical permission key inventory.
-- ERS section 16.13 and relationship map define the approval policy conceptual model.
+- ERS section 16.14 and relationship map define the approval policy conceptual model.
 - FRS IAM-027..030 define requirements; RTM maps them to AT-CTRL-001..022.
 - Business Rules Catalogue defines fixed permission/approval separation and configurable approval policy profile controls.
 - Quality Strategy records the AT-CTRL suite and validates small, multi-Branch and enterprise policy profiles.
