@@ -97,9 +97,14 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | ProductVariant | Tenant | Belongs to Product | Optional |
 | SKU | Tenant | References product/variant and inventory identity | Uniqueness policy open |
 | ProductCategory | Tenant | Parent-child hierarchy | Optional classification |
-| UnitOfMeasure | Controlled catalogue/tenant extension | Used by products, procurement, stock, sales and processing | Unit conversion/precision policy open |
-| UnitConversion | Controlled/tenant scoped | Defines valid conversion between units | Versioned where changes affect calculations |
-| PackDefinition | Tenant | References product/SKU and content unit/quantity | Pack content differs from selling unit |
+| UOMDimension | Platform-governed catalogue | Defines one canonical physical/operational dimension and compatibility rules for units | Core dimensions: mass, volume, count, time and temperature; additional dimensions require controlled registration |
+| UnitOfMeasure | Platform-governed canonical catalogue entry or registered Tenant extension within an allowed dimension | References one UOMDimension; used by products, procurement, stock, sales, processing and measurements | Stable machine ID, symbol, formal name, localized labels, exact reference factor where applicable and lifecycle version; labels do not alter semantics |
+| UnitConversionVersion | Platform or Tenant-governed versioned rule | References source/target UOMs, dimension, exact factor/formula, applicability, conditions and effective period | Same-dimension standard conversions use exact factors; contextual cross-dimension conversion requires approved inputs/formula; generic incompatible conversion prohibited |
+| SKUBaseUOMAssignment | Tenant | Assigns one stock base UOM to one SKU for an effective interval | Exactly one active base UOM per stock-managed SKU; Product default may be inherited only where compatible; historical movements retain prior assignment |
+| PackDefinitionVersion | Tenant | References SKU/package, count UOM, content quantity/UOM, packaging level and effective interval | Pack count and content remain separate; packaging transformations are explicit stock/production events |
+| PrecisionProfileVersion | Platform catalogue and Tenant selection | Defines supported source/input, stored, calculation, posting and display precision for a UOM/device/workflow | Tenant selects validated supported profiles; device accuracy and business tolerance are separate |
+| RoundingPolicyVersion | Platform/Domain default with permitted Tenant policy selection | Defines currency/quantity scale, rounding mode, operation order, boundary, residual treatment and effective interval | Statutory rule takes precedence; finalized transactions retain policy version |
+| MeasurementEvidence | Tenant | Links a source measurement event to raw value/UOM, method/device, resolution, calibration evidence, operator and timestamp | Source observation is immutable; accepted/converted/posted quantities are separate derived facts |
 | PriceList | Tenant | Has effective-dated price entries | Scope may be branch/customer/channel |
 | PriceEntry | Tenant | References product/SKU, unit, price list and effective interval | Snapshot at transaction |
 | TaxClassification | Controlled, effective-dated | Referenced by product/transaction and tax rule | Verified tax policy required |
@@ -311,6 +316,13 @@ The following is the logical relationship spine. Optional relationships depend o
 36. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
 37. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
 38. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
+
+39. UOMDimension 1:N UnitOfMeasure; a UnitOfMeasure has exactly one dimension. Units with incompatible dimensions cannot be added/compared/converted through a generic conversion.
+40. UnitConversionVersion references one source and one target UnitOfMeasure, with applicable product/material/workflow/location conditions and an immutable effective interval/version. Changes supersede prospectively and do not alter historical transaction results.
+41. Each stock-managed SKU has one effective SKUBaseUOMAssignment at a time, referencing one UnitOfMeasure dimension-compatible with the stock identity. Product-level defaults may be inherited only where compatible; non-stockable services have no stock base-UOM requirement.
+42. PackDefinitionVersion references a SKU/package, discrete count UOM and declared content quantity/UOM; a package/case hierarchy is explicit and effective-dated. Pack/unpack events reference the applicable version and preserve original and resulting quantities.
+43. MeasurementEvidence N:1 source measurement event; it retains the original value/UOM, source resolution, device/method, calibration/source evidence and timestamp. Normalized, accepted, converted and posted values remain separately attributable.
+44. PrecisionProfileVersion and RoundingPolicyVersion are referenced by each relevant transaction/calculation snapshot; a later profile/policy change does not rewrite historical outcomes.
 39. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
 40. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
 41. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
