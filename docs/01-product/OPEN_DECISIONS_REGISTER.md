@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, must approve each cross-branch stock-task grant before it becomes effective; home-Branch consent is not yet decided. Grant-expiry notifications/grace periods, home-Branch consent, detailed shared-site accountability and the complete permission matrix remain to be specified; delegated approval is separately approved below | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation and limited cross-branch stock-task grant baselines approved by product owner (2026-11-18); detailed shared-use accountability and complete permission-matrix policies remain open.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or used by multiple Branches through explicit governed associations; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch and DeliveryRun must use a Route belonging to its Branch; shared physical premises may be used by multiple Branches while each Branch retains separately attributable StockLocations, stock ownership, stock control and transaction records. Physical sharing grants no cross-branch stock/data access. A shared-site worker may perform specifically authorized stock-handling actions for more than one Branch only through an explicit, limited, effective-dated and auditable grant; this does not grant general branch membership or visibility into the other Branch's full operational data. The authorized user holding the required approval permission of the stock-owning Branch, or a currently valid delegate under the approved ODR-002 delegated-approval policy, must approve each cross-branch stock-task grant before it becomes effective; home-Branch consent is not yet decided. Grant-expiry notification timing and zero-grace baseline are recommended in section 16.5; notification channel/provider delivery remains under ODR-021. Home-Branch consent, detailed shared-site accountability and the complete permission matrix remain open; delegated approval is separately approved below | **Partially resolved — core physical-site, Branch/OperatingLocation, ServiceArea/Branch, Route/Branch and shared-site/stock-segregation and limited cross-branch stock-task grant baselines approved by product owner (2026-11-18); detailed shared-use accountability and complete permission-matrix policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -354,7 +354,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved shared-site stock-task grant revocation, expiry and in-progress task handling
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for home-Branch consent, complete permission matrix and detailed shared-site accountability. A recommended expiry-notification/zero-grace baseline is specified in section 16.5; channel/provider delivery remains under ODR-021.
 
 **Approval evidence:** The product owner accepted the recommended lifecycle baseline: revocation/expiry stops new work, completed history remains immutable, and in-progress work is held for controlled review rather than silently completed or rolled back.
 
@@ -385,7 +385,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002; it does not close grant-expiry notifications/grace periods, home-Branch consent, the complete permission matrix or detailed shared-site accountability.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. This closes the emergency-override policy question within ODR-002. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; home-Branch consent, the complete permission matrix and detailed shared-site accountability remain open.
 
 **Approval evidence:** The product owner approved the recommended emergency-override safeguards and confirmed that authorization is permission-based: authority follows explicit permissions, not job titles or named roles.
 
@@ -443,7 +443,7 @@ Authorization must be revalidated server-side at every stock-affecting transitio
 
 ### ODR-002 — approved permission-based delegated approval
 
-**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. It does not close grant-expiry notifications/grace periods, home-Branch consent, the complete permission matrix or detailed shared-site accountability. General tenant-wide approval policy and the broader ODR-004/005 permission/delegation matrix remain subject to their own scope.
+**Status:** Approved subdecision — explicit product-owner approval in the conversation on 2026-11-19. This resolves the delegated-approval policy question for the ODR-002 shared-site stock-task grant workflow. The grant-expiry notification/zero-grace baseline is recommended in section 16.5; home-Branch consent, the complete permission matrix and detailed shared-site accountability remain open. General tenant-wide approval policy and the broader ODR-004/005 permission/delegation matrix remain subject to their own scope.
 
 **Approval evidence:** The product owner explicitly approved all recommendations: separate delegation permission, exact scoped authority, maximum 30-day validity, no automatic renewal or onward delegation, non-delegable high-risk actions, immediate invalidation when the delegator's underlying authority ceases, auditability and concurrency safeguards.
 
@@ -499,3 +499,53 @@ Delegation validity, current delegator authority, delegate membership, scope, ac
 **Verification:** Test creation without `approval.delegate`; delegation exceeding delegator scope/limits; inactive or cross-Tenant delegate; exact Branch/resource/action scoping; 30-day hard maximum; no renewal/extension; immediate revocation; automatic invalidation on either party's membership or relevant permission/scope loss; all non-delegable actions; self-approval and subdelegation denial; multi-stage approval preservation; payload/policy changes; audit attribution; duplicate retries; and revocation/expiry races at commit.
 
 **Review trigger:** Reopen only upon explicit product-owner change or evidence that the approved constraints are unsafe or insufficient. Grant-expiry notifications/grace periods, home-Branch consent, complete permission matrix and detailed shared-site accountability remain separate ODR-002 work items.
+
+
+### ODR-002 — recommended stock-task grant expiry notification baseline and zero-grace rule
+
+**Status:** Recommended engineering baseline — selected on 2026-11-19 under the product owner's instruction to decide independently where a safe, non-conflicting decision is possible. This is not represented as an explicit product-owner approval. The immediate expiry/revocation enforcement and hold of in-progress tasks are already approved; the notification timing below is the recommended operational baseline. Provider/channel configuration and delivery mechanics remain governed by ODR-021.
+
+**Purpose and fixed expiry rule**
+
+A shared-site stock-task grant expires at its exact effective end timestamp. The effective end is exclusive. There is **no grace period** for starting new tasks or performing further stock-affecting actions after expiry or revocation. This follows the already approved ODR-002 rule that expiry/revocation immediately blocks further stock mutation. A notification delay, failure, unread message, offline device or worker unavailability must never extend authorization.
+
+An in-progress task is held at expiry/revocation under the approved task-hold and reconciliation policy. It is not automatically completed or rolled back. Continuity must be arranged before expiry through a newly approved grant/version or reassignment to another currently authorized user.
+
+**Notification events and default timing**
+
+- **Grant activation/approval:** Send an immediate confirmation to the assigned worker and the user who created/activated the grant. State the approved scope, permitted actions and exact expiry.
+- **24-hour reminder:** For grants whose approved duration is at least 24 hours, send one reminder 24 hours before expiry.
+- **1-hour reminder:** For grants whose approved duration is greater than one hour, send one reminder one hour before expiry. For grants longer than 24 hours, this is in addition to the 24-hour reminder.
+- **Short grants:** For grants with a duration of one hour or less, the activation confirmation and expiry event are sufficient; do not send a misleading reminder at or after the expiry boundary.
+- **Expiry:** Send an immediate expiry notice when the grant becomes inactive. If assigned tasks remain incomplete, identify that the task(s) are held and direct the user to the approved reauthorization/reassignment process.
+- **Revocation or automatic invalidation:** Send an immediate notice when a grant is revoked or becomes invalid because a required user, membership, permission or scope is no longer valid.
+- **Approved extension/version change:** Send a new confirmation with the newly approved scope and expiry. Until the new approved version becomes effective, the existing expiry remains in force.
+
+A scheduled reminder must be suppressed if the grant has already been revoked, invalidated, superseded or expired. Do not send a late reminder after the expiry boundary.
+
+**Recipients and information minimization**
+
+- Activation and pre-expiry reminders go to the assigned worker and the grant creator/activating user.
+- Expiry, revocation and automatic-invalidation notices go to the assigned worker, the grant creator and only those users who currently hold the relevant grant-review/reconciliation permission for the stock-owning Branch.
+- Do not broadcast to all Branch users or notify the worker's home Branch by default. Home-Branch consent/notification remains separate and must not be inferred.
+- Include only the minimum information needed to identify the grant, its expiry/status and any held task. External channels must not expose unrelated customer, supplier, employee, financial or stock data.
+
+**Channels and delivery failure**
+
+- An in-app notification is the mandatory baseline.
+- Push, email or SMS may be used only where the relevant channel is configured, permitted and consented to under the tenant/user notification policy. No provider is selected by this decision.
+- Notification delivery is informational and is never an authorization token or a prerequisite for expiry/revocation enforcement.
+- Delivery failure must not extend the grant, restore access, prevent task hold or reverse a stock transaction. Delivery attempts and final outcomes are auditable; provider routing, retry/backoff and channel preferences remain governed by ODR-021.
+- A user who does not receive or read a notification remains subject to the exact effective end timestamp.
+
+**Extension and operational continuity**
+
+A grant's expiry may be changed only through a fresh, explicitly approved grant version before the current version expires. A request or pending approval for an extension does not extend the active grant. If no new version is approved and effective before expiry, the existing grant expires normally and in-progress work is held. No grace period, silent extension or automatic renewal is permitted.
+
+**Audit and verification**
+
+Retain scheduled event type/time, recipient identity and permission basis, channel selected, delivery attempts/outcome, grant/version and expiry, revocation/invalidation/supersession state, reminder suppression reason and any held-task references. Test the 24-hour/1-hour timing boundaries, short-grant behavior, expiry/revocation suppression, automatic invalidation, delivery failure, privacy-filtered recipients, no-grace enforcement and extension approval racing with expiry.
+
+**Affected areas:** ODR-021 notification architecture/configuration; ERS-001; audit/observability; Core Domain Entity Catalogue; Canonical Business Glossary; stock-task lifecycle and acceptance tests.
+
+**Review trigger:** Reopen only on explicit product-owner change or operational evidence that the reminder schedule creates missed work or excessive noise. Notification providers, consent, templates, retry/backoff and channel preferences remain part of ODR-021.
