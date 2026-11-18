@@ -217,6 +217,38 @@ The approver's later loss of access does not retroactively erase a valid committ
 
 A notification, task reassignment request, pending grant approval or offline command does not change a held task's authorization state. Non-mutating safety/incident reporting and evidence capture may continue only under separate valid permissions. No automatic completion, rollback, stock write-off, custody transfer or balance adjustment is implied.
 
+### 3.13 ApprovalPolicyProfile and ApprovalPolicyVersion lifecycle
+
+An ApprovalPolicyProfile is Tenant-owned configuration. It is not a user class, permission bundle or authority. Every material configuration is stored as a new ApprovalPolicyVersion; published versions are immutable and effective-dated.
+
+| Current state | Command / next state | Guards | Side effects / restrictions |
+|---|---|---|---|
+| Draft | Submit → Submitted | Exact scoped policy.configure permission; rule keys registered; units/scopes valid; policy payload/version frozen | No business approval decisions use the draft |
+| Submitted | Classify → Ready to Publish / Independent Review Required | Compare with active policy and fixed safeguards; determine whether controls are tightened, unchanged or weakened | Store impact analysis, changed rules and policy hash; a weakening change cannot publish yet |
+| Independent Review Required | Approve → Approved | Separate authorized reviewer with approval.policy.approve; reviewer differs from policy initiator; exact payload/version unchanged | Bind approval to immutable version and weakening classification |
+| Ready to Publish / Approved | Publish → Scheduled / Active | Exact approval where required; approval.policy.publish permission; valid effective period; no fixed safeguard weakened | Future versions have no effect before start; publish and activation are audited |
+| Scheduled | Effective start → Active | Policy version current, scope valid and no conflicting version | Preserve predecessor and policy-resolution history |
+| Active | Replace → Superseded | Approved/publishable successor with valid transition time; scope and precedence unambiguous | Historical requests retain their matched version/evaluation snapshot |
+| Draft / Submitted / Review Required | Reject / Withdraw → Rejected / Withdrawn | Exact submitter/reviewer permission and reason | Terminal version; a new candidate version is required for reconsideration |
+| Active / Scheduled | Retire → Retired | Exact approval.policy.retire or governed publish authority; no unhandled weakening/gap; independent approval if retirement weakens control | Historical decisions remain; effective replacement or default fixed policy is validated before retirement |
+
+**Policy change classification**
+- A tightening-only version (lower threshold, more reviewers/stages/evidence, narrower scope, shorter validity) may be published by an authorized principal with exact configure/publish permissions where no stricter policy requires independent review.
+- A weakening version (higher threshold, fewer reviewers/stages/evidence, broader scope, relaxed maker-checker/independence, wider export/data limits or newly delegable action) requires independent approval by a different authorized principal with the exact approval.policy.approve permission. The initiator cannot approve their own weakening change.
+- No policy version can weaken a fixed platform/domain invariant, non-delegable action or required stock-owning-Branch grant approval.
+
+### 3.14 ApprovalRequest policy re-evaluation while in flight
+
+| Current request state | Effective policy change | Next state / command | Required outcome |
+|---|---|---|---|
+| Pending / Partially Approved | New policy adds stricter conditions | Re-evaluate → Additional Review Required | Link new evaluation snapshot; invalidate/repeat affected completed stages; add reviewers/evidence before commit |
+| Pending / Partially Approved | New policy is less restrictive | Continue under stricter original snapshot | Do not remove existing stages, reduce reviewer count or lower required evidence for the pending request |
+| Pending / Approved but not committed | Policy conflict, missing version or incomparable thresholds/scopes | Hold → Policy Conflict Review | Deny protected commit until authorized policy correction/review resolves the conflict |
+| Pending / Approved but not committed | Current stricter policy now applies | Re-evaluate → Additional Review Required | Current policy must be satisfied at commit; prior snapshot remains immutable and new evaluation is linked |
+| Committed | Later policy change | No retroactive state change | Preserve the committed decision/business effect and policy evidence; corrections use controlled domain workflows, not policy rewrite |
+
+Every ApprovalAction and protected commit must be bound to the exact source payload/version and the policy evaluation snapshot that authorized it. The authoritative commit revalidates current permissions, policy versions, threshold units, reviewer/quorum and fixed safeguards. A stale policy cache or an old approval cannot authorize a commit after a stricter applicable policy becomes effective.
+
 ## 4. Cross-domain transition dependencies
 
 - Subscription activation/amendment creates or versions future schedule occurrences.
