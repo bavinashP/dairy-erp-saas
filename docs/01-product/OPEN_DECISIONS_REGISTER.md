@@ -382,7 +382,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 
 **Verification:** Test immediate denial of new work after revocation/expiry; denial of all further stock mutations under the ended grant; immutable completed history; preservation and hold of partial work; safe reauthorization/reassignment/cancellation; auditable reconciliation; and a race test where revocation overlaps a stock-affecting commit.
 
-**Review trigger:** Reopen only on explicit product-owner change or when specifying notification provider/channel delivery under ODR-021 or reviewing the recommended workforce-assignment boundary in section 16.6 and detailed shared-site accountability.
+**Review trigger:** Reopen only on explicit product-owner change or when specifying notification provider/channel delivery under ODR-021 or reviewing the recommended workforce-assignment boundary in section 16.6 and detailed shared-site accountability. Detailed grant-version, invalidation and held-task reconciliation semantics are selected in section 16.38; validate the workflow scenarios against ERS section 16.12 and the State Transition Matrix.
 
 
 ### ODR-002 — approved emergency override for shared-site stock-handling tasks
