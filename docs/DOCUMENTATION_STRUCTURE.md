@@ -100,6 +100,7 @@ Project governance, glossary, requirements traceability, change control and risk
 - [Product Configurability, Customization, Extensibility and Scale Policy](04-architecture/PRODUCT_CONFIGURABILITY_CUSTOMIZATION_EXTENSIBILITY_AND_SCALE_POLICY.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
 - [Permission Catalogue and Assignment Governance](04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md)
+- [Domain Permission and Approval Control Matrix](04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md)
 - [Cross-Branch Permission Matrix](04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md)
 - [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
 - [Mobile Client and Offline Operation Architecture](04-architecture/MOBILE_CLIENT_AND_OFFLINE_OPERATION_ARCHITECTURE.md)
