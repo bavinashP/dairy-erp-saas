@@ -342,7 +342,7 @@ For every item, record the decision statement; classification; chosen baseline; 
 **Consequences**
 
 - Grant creation/activation must retain the approving actor, approval time, approved grant version/scope and relevant authorization evidence.
-- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Emergency Override is approved separately below; delegated approval remains open.
+- Revocation and expiry follow the approved ODR-002 lifecycle subdecision: stop new tasks and further stock mutations immediately, preserve completed history, and hold in-progress tasks for controlled review/reconciliation. Scope changes require approval before use. Emergency Override and delegated approval are approved separately below.
 - The worker's home-Branch membership and the stock-owning Branch's stock ownership remain distinct.
 
 **Affected areas:** ERS-001; Core Domain Entity Catalogue; DBR-002; authorization/approval workflow; shared-site stock operations; audit trail and acceptance tests.
