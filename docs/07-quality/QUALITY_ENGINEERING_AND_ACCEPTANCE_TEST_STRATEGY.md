@@ -92,6 +92,10 @@ Use stable test identifiers AT-IAM-009..020 for ARC-IAM-CAT-001 section 15 / ODR
 
 These tests are additive to AT-IAM-001..008 and AT-GNT-001..018. Together AT-IAM-009..020 verify the catalogue metadata and authorization behavior without implying that each permission is assigned or that each capability is enabled. The v1 catalogue lists eligible capabilities; it does not assign them to a user or enable the corresponding Tenant module.
 
+### 5.3.1 Domain permission and approval control matrix
+
+Use stable acceptance identifiers AT-CTRL-001..022 from [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md) section 11. These checks cover authorization evaluation order, list/search/field/export scope, direct/bundle/group assignments, risk-tiered approval, single-operator usability, independent review, threshold configuration, payload/policy binding, generic approval separation, emergency override separation and historical reproducibility. The matrix owns the canonical test descriptions; test execution evidence is recorded here.
+
 ### 5.4 Sensitive-data boundaries
 Test masking/field permissions for bank/payee details, identity documents, payroll, compensation, tax identifiers, customer personal data, payment evidence, secrets and audit investigation records. Export permission must not bypass field permissions.
 
