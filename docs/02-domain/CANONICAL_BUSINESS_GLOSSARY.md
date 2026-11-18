@@ -29,7 +29,14 @@
 | Product | Sellable or procurable good/service definition | Product identity is distinct from a stock lot or package instance |
 | Variant | Defined product option such as size, fat category, flavour, or pack | Only use when it has a distinct operational/commercial identity |
 | SKU | Stock-keeping identity used to distinguish inventory-managed items | SKU policy and uniqueness scope require final design |
-| Unit of Measure (UOM) | Standard measurement such as litre, kilogram, piece, or pack | Conversion and precision must be explicit and controlled |
+| UOM Dimension | Physical/operational category to which a unit belongs, such as mass, volume, count, time or temperature | Incompatible dimensions cannot be added or generically converted |
+| Unit of Measure (UOM) | Platform-governed measurement unit with stable identity, dimension, canonical symbol and formal name | Tenant labels/translations do not redefine unit semantics |
+| SKU Base UOM | The one effective unit in which a stock-managed SKU's authoritative stock ledger quantity is maintained | Product default may be inherited only where compatible; one active base unit per SKU |
+| Unit Conversion Version | Effective-dated, immutable rule converting a quantity between compatible units or through a specifically approved contextual formula | Source and derived values remain separate; no universal milk density factor |
+| Pack Definition Version | Versioned definition of a package's discrete count, content quantity/UOM and packaging hierarchy | Pack count and pack content are distinct; packaging transformations are explicit |
+| Measurement Evidence | Original device/manual measurement, unit, source resolution, method/device, timestamp and calibration/provenance where available | Not equivalent to accepted, converted, posted or displayed quantity |
+| Precision Profile | Validated policy separating source, stored, calculation, posting and display precision for a UOM/device/workflow | Instrument accuracy and business tolerance are separate |
+| Rounding Policy | Versioned rule specifying rounding mode, precision, operation order, boundary and residual handling | Statutory rule overrides commercial preference; historical transactions retain the applied version |
 | Pack Size | Declared quantity/content of a packaged product | Not interchangeable with selling unit or stock base unit |
 | Subscription | Customer agreement/configuration for recurring supply | Not itself a delivery, sale, invoice, or payment |
 | Subscription Schedule | Rule describing when and how much is planned for supply | Generates dated occurrences; must be versioned/effective-dated |
@@ -152,6 +159,18 @@
 | Membership Branch Assignment | A workforce/operating-context relationship between a Tenant membership and a Branch | May be multiple; optionally one Home/Primary Branch at a time; does not grant data visibility or action authority |
 | Home / Primary Branch | The Branch designated as a worker's normal workforce/administrative context | Organizational context only; no automatic access, approval, veto or stock ownership follows from this designation |
 
+
+## Units, measurement and rounding terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| Source Quantity | The originally entered or device-measured quantity and its UOM | Must be preserved even when accepted/converted/posted quantity differs |
+| Normalized Quantity | Quantity expressed in the SKU's effective base UOM after an approved conversion | Must retain source quantity and conversion version |
+| Accepted Quantity | Amount accepted by the relevant business/quality workflow | Not a replacement for the source measurement |
+| Derived Quantity | A value calculated from source inputs using a versioned formula or conversion | Source values and derived value remain separately traceable |
+| Business Tolerance | Allowed operational variance for a device, product or process | Not a rounding rule and not permission to alter a source value |
+| Posting Precision | Precision allowed at the final stock, settlement, invoice or accounting posting boundary | Governed per domain/transaction type, not by display formatting |
+| Commercial Rounding | Versioned ordinary business rounding used where no stricter legal/contract rule applies | HALF_UP is the selected default at the declared boundary; statutory rules may override within scope |
 
 ## Permission catalogue and authorization terms
 
