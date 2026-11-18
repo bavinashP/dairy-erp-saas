@@ -141,7 +141,7 @@ Permission/access administration, Emergency Override activation/extension/review
 - Can tenants create custom roles and permission bundles?
 - How are approval limits represented and inherited?
 - Which actions require maker-checker at each plan/business scale?
-- What support access workflow is required? Emergency Override and delegated approval are governed by approved ODR-002 decisions. ODR-004 membership cardinality is resolved in section 16.9; ODR-005 remains for the exact module-level permission catalogue and domain approval policies. See ARC-IAM-CAT-001.
+- What support access workflow is required? Emergency Override and delegated approval are governed by approved ODR-002 decisions. ODR-004 membership cardinality is resolved in section 16.9; ODR-005 section 16.39 and ARC-IAM-CAT-001 section 15 define the canonical permission catalogue v1; exact domain thresholds, action-to-API/state mapping and acceptance coverage remain readiness gates.
 - What authentication assurance (MFA, passkeys, OTP, password policy) is required for each risk tier?
 - How are shared POS and delivery devices handled without shared identities?
 - What is the session/device revocation behavior?
@@ -165,11 +165,11 @@ The final design must demonstrate:
 
 ## 10. Tenant-configurable permission-first authorization
 
-The authenticated user account identifies the actor; the account type, job title and role label do not determine business access. A Tenant may configure reusable permission bundles and assign, amend, restrict, expire or revoke them for eligible principals within the assigning authority's own delegation. A role is optional convenience for grouping permissions, not a fixed privilege class or hierarchy. Direct or group-based scoped grants may be supported under tenant policy, but every effective capability must resolve to an explicit atomic permission and scope.
+The authenticated user account identifies the actor; the account type, job title and role label do not determine business access. A Tenant may configure reusable permission bundles and assign, amend, restrict, expire or revoke them for eligible principals within the assigning authority's own delegation. A role is optional convenience for grouping permissions, not a fixed privilege class or hierarchy. Direct or group-based scoped grants may be supported under Tenant policy, but every effective capability must resolve to an active registered atomic permission key and scope from ARC-IAM-CAT-001 section 15. Tenants may configure bundles and assignments but cannot invent or redefine core permission semantics; extension keys require a registered, namespaced contract.
 
 Every read, mutation, approval, export, report, sensitive-field access and access-administration action is evaluated independently. Permissions must be separable by action and resource, and may be scoped to Tenant, Branch, OperatingLocation, StockLocation, assigned task/resource, fields/data categories, limits and effective period. No permission is inferred from another action, a feature entitlement, account category, client type or role title. Default deny applies where a required permission/scope/condition is absent or invalid. Customer configuration cannot disable tenant isolation, audit, stock ownership, segregation of duties or other fixed invariants.
 
-Permission changes and revocations are audited and must be revalidated server-side across all channels, including cached sessions, mobile/offline queues, exports, jobs and integrations. Role/account label changes alone must not change authorization results. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md` for the approved cross-Branch stock-task action matrix.
+Permission changes and revocations are audited and must be revalidated server-side across all channels, including cached sessions, mobile/offline queues, exports, jobs and integrations. Role/account label changes alone must not change authorization results. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md` for the approved cross-Branch stock-task action matrix and `../04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md` section 15 for the canonical v1 permission-key inventory.
 
 
 ### 10.1 Delivery-run and transport assignment
