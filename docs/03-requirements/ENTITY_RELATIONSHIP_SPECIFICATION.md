@@ -76,8 +76,14 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | RoleAssignment | Tenant or platform scope | Assigns an optional PermissionBundleVersion to a principal within explicit scope/effective period | Expands only the assigned version's atomic permissions; role name/title/account type grants no authority |
 | PermissionAssignment | Tenant (and platform scope only where defined) | Grants or denies one PermissionCatalogueEntry to a principal or governed access group, with explicit scope, limits, effective period and reason | Direct/group assignment is configurable only within the assigner's delegation authority; explicit deny, audit and revocation apply |
 | ExtensionPermissionRegistration | Platform registry entry for a versioned extension's namespaced resource/action keys | Belongs to an approved extension identity/version and records scope, risk, data and contract metadata | Registration does not grant access; Tenant assignment and any host permission grant remain separate |
-| ApprovalLimit | Tenant | Associated with role/person/scope/category/amount | Effective-dated |
+| ApprovalPolicyProfile | Tenant | Named editable starter or customer policy profile for one or more domain/risk scopes | Template name is not an authority; effective permissions remain independent |
+| ApprovalPolicyVersion | Tenant | Immutable version of approval profile, effective dates, precedence and configuration snapshot | Material change creates a new version; historical decisions retain the applied version |
+| ApprovalPolicyRule | Tenant | Maps domain action/risk/resource/scope to approval requirement and threshold calculation | Only declared overrideable settings may be changed; fixed safeguards prevail |
+| ApprovalRequirement | Tenant/workflow | Defines reviewer count/quorum, independence, stage order, delegability and expiry for a matched rule | Maker-checker and non-delegable constraints cannot be bypassed |
+| ApprovalLimit | Tenant | Associated with an approval policy/action/resource/scope and, where configured, a principal-specific ceiling | Effective-dated; no privilege is inferred from a role or job title |
 | ApprovalDelegation | Tenant | Links delegator, delegate, approval category/action, resource/Branch scope, limits and validity | Explicit `approval.delegation.create` permission; max 30 calendar days; non-transferable, non-renewing and revocable; cannot widen underlying authority |
+| ApprovalRequest | Tenant/platform | References one target resource/action, exact payload/version, matched ApprovalPolicyVersion, initiator and approval state | A task assignment/routing event does not grant permission or authorize the target action |
+| ApprovalAction | Tenant/platform | Records one actual approver/delegate decision for a specific ApprovalRequest stage | Immutable; identifies actor, permission/scope, policy version, threshold evidence, decision, reason and time |
 | DeviceRegistration | Platform/tenant association | Belongs to UserAccount and optional TenantMembership | Revocable, device policy |
 | UserSession | Platform identity | Belongs to UserAccount/device | Revocation and audit |
 
@@ -325,6 +331,10 @@ The following is the logical relationship spine. Optional relationships depend o
 44. PrecisionProfileVersion and RoundingPolicyVersion are referenced by each relevant transaction/calculation snapshot; a later profile/policy change does not rewrite historical outcomes.
 45. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
 46. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
+47. Tenant 1:N ApprovalPolicyProfile; each profile 1:N immutable ApprovalPolicyVersion. A policy version contains one or more ApprovalPolicyRules and their ApprovalRequirements. Policy precedence is explicit and a conflicting/ambiguous match fails closed.
+48. Each ApprovalRequest references one exact target action/resource and source payload/version, and one matched ApprovalPolicyVersion. ApprovalRequest 1:N ApprovalAction; each ApprovalAction represents one required stage/reviewer and is immutable.
+49. ApprovalPolicyRule matches only registered domain permission keys, declared resource/scope, risk class, threshold type/value and effective interval. It cannot grant or substitute for the underlying domain action permission.
+50. ApprovalLimit is interpreted as a scoped limit on an approval policy/action or explicit principal-specific ceiling; it is not assigned by job title or role label. A stricter principal ceiling or domain limit prevails.
 47. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
 48. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
 
@@ -593,3 +603,14 @@ The recommended UOM/precision baseline is specified in DBR-004 and ODR-008 secti
 - Historical stock/financial transactions remain unchanged after unit, conversion, pack, precision or rounding policy changes. A SKU base-UOM change requires a prospective controlled migration/reconciliation or a new SKU where no safe conversion exists.
 
 Remaining evidence dependencies are exact instrument accuracy/calibration/tolerances, workflow-specific process/settlement values, Legal Metrology product/activity applicability, statutory tax rounding beyond the recorded CGST Act section 170 scope, inventory valuation and target-version Tally precision. These are reviewed by their owning ODRs and do not block the conceptual ERS baseline.
+
+### 16.13 ODR-005 — domain permission and approval control matrix
+
+The selected logical baseline is specified in [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md). It distinguishes the underlying permission for a domain action from any additional approval requirement. ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule and ApprovalRequirement are conceptual entities for Tenant-configurable approval workflows; they do not grant permissions.
+
+A Tenant may define versioned policy profiles and scope them to domain action, risk, Branch/resource, amount/quantity/UOM, data sensitivity or period. Profiles may define whether approval is required, threshold calculation, independent reviewer count/quorum, stage order, maker-checker and evidence. A one-person business may use proportionate direct execution for actions where independent approval is not fixed or triggered; a larger business may require maker-checker or multi-stage approval. These profiles are editable templates, not user classes or role hierarchies.
+
+Fixed rules prevail over Tenant policy. In particular, stock-owning-Branch approval of a cross-Branch stock-task grant, ODR-002 Emergency Override controls, non-delegable actions, independent approval where explicitly required, audit/history integrity and current permission/scope validation cannot be disabled. Generic approval workflow authority never substitutes for the exact domain permission. Every decision binds to the source payload/version and policy version and is revalidated at the commit boundary.
+
+The v1 domain coverage and acceptance baseline are in ARC-IAM-CTRL-001. Numeric threshold values are Tenant policy values, not universal product constants; each domain must select supported values during configuration and implementation readiness. Exact API/resource/state mapping remains tied to finalized domain workflow/API contracts and is not a database-schema decision.
+
