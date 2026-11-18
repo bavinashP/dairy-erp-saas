@@ -61,8 +61,7 @@ Project governance, glossary, requirements traceability, change control and risk
 - [Core Domain Entity Catalogue](02-domain/CORE_DOMAIN_ENTITY_CATALOGUE.md)
 - [Canonical Business Glossary](02-domain/CANONICAL_BUSINESS_GLOSSARY.md)
 - [Module Dependency Map](02-domain/MODULE_DEPENDENCY_MAP.md)
-- [Canonical Business Glossary](02-domain/CANONICAL_BUSINESS_GLOSSARY.md)
-- [Core Domain Entity Catalogue](02-domain/CORE_DOMAIN_ENTITY_CATALOGUE.md)
+- [Shared-Site Accountability and Custody Management](02-domain/SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md)
 - [Subscription Lifecycle and Recurrence Rules](02-domain/SUBSCRIPTION_LIFECYCLE_AND_RECURRENCE_RULES.md)
 - [Delivery Lifecycle and Exception Rules](02-domain/DELIVERY_LIFECYCLE_AND_EXCEPTION_RULES.md)
 - [Procurement Lifecycle and Controls](02-domain/PROCUREMENT_LIFECYCLE_AND_CONTROLS.md)
@@ -101,6 +100,7 @@ Project governance, glossary, requirements traceability, change control and risk
 - [Product Configurability, Customization, Extensibility and Scale Policy](04-architecture/PRODUCT_CONFIGURABILITY_CUSTOMIZATION_EXTENSIBILITY_AND_SCALE_POLICY.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
 - [Permission Catalogue and Assignment Governance](04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md)
+- [Cross-Branch Permission Matrix](04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md)
 - [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
 - [Mobile Client and Offline Operation Architecture](04-architecture/MOBILE_CLIENT_AND_OFFLINE_OPERATION_ARCHITECTURE.md)
 - [Concurrency, Transaction Integrity and Idempotency](04-architecture/CONCURRENCY_TRANSACTION_INTEGRITY_AND_IDEMPOTENCY.md)
@@ -161,8 +161,7 @@ For each material change: identify source and evidence; list affected documents/
 9. Security, data integrity, concurrency, audit and resilience.
 10. Reporting, BI, forecasting, budgeting and projections.
 11. Product variability, configuration governance, customization and extension contracts.
-12. Final architecture decisions and development-readiness review.
-13. Architecture alternatives and technology evaluation.
-14. Final architecture decisions and development-readiness review.
+12. Architecture alternatives and technology evaluation.
+13. Final architecture decisions and development-readiness review.
 
 This is a documentation sequence, not a reduction of product scope.
