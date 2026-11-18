@@ -10,12 +10,15 @@
 | Tenant | Isolated customer/business workspace within the SaaS | Tenant is a technical and commercial boundary; it is not automatically a legal entity |
 | Dairy Business | The real-world dairy operation using the product | May have one or multiple operating locations |
 | Tenant Owner | Person accountable for a tenant's dairy business | May personally perform operational duties |
-| Branch | A named operating unit/location of a dairy business | Exact relationship to legal registration and other location types remains open |
-| Outlet / Retail Counter | Physical point where walk-in/counter sales occur | May be located at a branch but should not be assumed identical to a branch |
-| Collection Centre | Location where milk is received from farmers/suppliers | May be a branch or a separately modelled operational location |
-| Warehouse / Stock Location | Place where stock is stored and controlled | A branch may contain multiple stock locations |
-| Processing Unit | Facility where raw material is processed or packed | Optional for businesses that only resell packaged products |
-| Delivery Area / Service Area | Geographic area in which a branch serves customers | Not necessarily a physical branch |
+| Branch | A named management/operating unit within a dairy tenant | Exact relationship to OperatingLocation and shared-site use remains under ODR-002; it is not automatically a physical premises |
+| OperatingLocation | An actual physical/operational site or premises | One OperatingLocation may support multiple operational capabilities; it is not created separately for every function |
+| Operational Capability | A function enabled/performed at an OperatingLocation, such as retail sales, milk collection, storage, processing or packaging | Multiple capabilities may coexist at one physical site; capability labels do not imply separate premises |
+| Outlet / Retail Counter | Retail/counter-sales capability or the relevant counter area at an OperatingLocation | Does not require a separate OperatingLocation when retail occurs at a shared premises |
+| Collection Centre | Milk-receiving capability or designated receiving area at an OperatingLocation | Does not require a separate OperatingLocation when collection occurs at a shared premises |
+| Warehouse / Storage | Storage capability or designated storage area at an OperatingLocation | A physical site may also support retail, collection or processing |
+| Stock Location | Inventory-control holding position or subdivision, such as a refrigerator, room, shelf, bin or zone | Separate from OperatingLocation; it need not be an independently addressable physical site |
+| Processing / Packaging | Processing or packaging capability at an OperatingLocation | Does not require a separate OperatingLocation when performed at a shared premises |
+| Delivery Area / Service Area | Geographic area in which one or more authorized branches serve customers | Geographic coverage, not a physical OperatingLocation or Branch |
 | Route | Ordered or planned set of delivery stops for a run/shift | Route plan can change without changing the customer's subscription |
 | Delivery Run | An execution instance of a route/dispatch plan for a date and shift | Distinct from reusable route template |
 | Party | Tenant-owned counterparty identity root for a person or organization that may hold one or more business roles | Shared identity does not imply unrestricted branch visibility; see DBR-003 |
