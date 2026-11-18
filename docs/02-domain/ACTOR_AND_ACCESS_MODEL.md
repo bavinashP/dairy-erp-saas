@@ -135,7 +135,7 @@ Permission/access administration, Emergency Override activation/extension/review
 ## 8. Open decisions
 
 - Can one user access more than one tenant?
-- Can one user be assigned to multiple branches simultaneously?
+- **Resolved under ODR-004:** a Tenant membership may have zero or more workforce Branch assignments; one optional Home/Primary Branch may be effective at a time. These assignments never grant data access by themselves.
 - Is branch access inherited from a tenant-wide role or always explicit?
 - Which roles are system-defined and which are tenant-customizable?
 - Can tenants create custom roles and permission bundles?
@@ -170,3 +170,8 @@ The authenticated user account identifies the actor; the account type, job title
 Every read, mutation, approval, export, report, sensitive-field access and access-administration action is evaluated independently. Permissions must be separable by action and resource, and may be scoped to Tenant, Branch, OperatingLocation, StockLocation, assigned task/resource, fields/data categories, limits and effective period. No permission is inferred from another action, a feature entitlement, account category, client type or role title. Default deny applies where a required permission/scope/condition is absent or invalid. Customer configuration cannot disable tenant isolation, audit, stock ownership, segregation of duties or other fixed invariants.
 
 Permission changes and revocations are audited and must be revalidated server-side across all channels, including cached sessions, mobile/offline queues, exports, jobs and integrations. Role/account label changes alone must not change authorization results. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md` for the approved cross-Branch stock-task action matrix.
+
+
+## 11. Tenant membership and Branch assignment
+
+One global user identity may hold independent memberships in multiple Tenants, with at most one current membership per user/Tenant pair. Membership in one Tenant never grants access to another. Within a Tenant, a membership may have zero or more Branch/workforce assignments and optionally one current Home/Primary Branch. These assignments identify normal workforce/operating context only; they are not permissions and do not grant record visibility. All data and action authority comes from effective explicit permissions and scopes. See ODR-004 section 16.9 and ERS section 16.8.
