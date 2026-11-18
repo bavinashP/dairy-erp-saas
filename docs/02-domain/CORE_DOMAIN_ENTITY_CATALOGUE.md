@@ -193,7 +193,7 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 
 ## 10. Not yet decided
 
-The catalogue does not determine physical database design, primary key format, tenancy schema strategy, event store, microservices, or exact branch hierarchy. Those require architecture decisions after detailed workflows, scale assumptions, security requirements, and technology evaluation.
+The catalogue does not determine physical database design, primary key format, tenancy schema strategy, event store, microservices, or exact branch hierarchy. Those require architecture decisions after detailed workflows, scale assumptions, security requirements, and technology evaluation. UOM dimensions, canonical unit semantics, SKU base-UOM assignment, contextual conversion governance, pack/content separation and the versioned precision/rounding conceptual model are selected in DBR-004 / ODR-008 section 16.40; device-specific tolerance, statutory applicability and target-system compatibility remain evidence-gated.
 
 
 **Authorization invariant:** User accounts authenticate actors but do not confer business permissions. No role title, job title, seniority or account type independently grants visibility, action, approval, export or administration. Customer-configurable permission assignments are the sole source of business authority, subject to fixed platform invariants and scoped authorization checks. See `../04-architecture/CROSS_BRANCH_PERMISSION_MATRIX.md`.
