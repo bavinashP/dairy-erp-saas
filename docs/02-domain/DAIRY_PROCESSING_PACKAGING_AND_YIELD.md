@@ -61,7 +61,9 @@ A production batch must distinguish:
 
 Units and conversions must be explicit. The platform must not assume litres, kilograms, pieces and packs are interchangeable.
 
-Mass balance or yield checks should be configurable by process and measurement basis. A variance outside approved tolerance should require explanation and, where configured, review. Avoid false precision when input and output measurements use different units or measurement conditions.
+Mass balance or yield checks should be configurable by process and measurement basis. A variance outside approved tolerance should require explanation and, where configured, review. Avoid false precision when input and output measurements use different units or measurement conditions. The measurement basis must reference DBR-004/ODR-008: every input/output/by-product/loss/WIP quantity carries a UOM dimension, source or derived status, precision profile and conversion rule version where applicable. Mass and volume cannot be directly balanced without an approved contextual conversion basis and evidence. Preserve original measured quantities separately from converted, accepted and posted values.
+
+Packaging keeps discrete pack count separate from declared content quantity/UOM. PackDefinitionVersion controls content and hierarchy; filling, repacking, case-break, unpacking and bulk-to-pack transformations are explicit versioned production/stock events. A pack count is never summed directly with litres or kilograms.
 
 ## 5. Yield and wastage
 
@@ -102,7 +104,7 @@ Where applicable, capture:
 - Label/artwork version reference.
 - Required declarations and verification status.
 
-Label content and legal metrology/food labelling requirements must be separately researched against current official Indian sources before approval. Do not infer mandatory declarations from a generic ERP template.
+Label content and Legal Metrology/food labelling requirements must be separately researched against current official Indian sources before approval. Do not infer mandatory declarations, permitted units or measurement tolerances from a generic ERP template. See the India Dairy Regulatory Research Register and DBR-004.
 
 ## 8. Costing boundary
 
