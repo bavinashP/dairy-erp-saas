@@ -53,7 +53,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | OperatingLocation | Tenant | Represents an actual physical/operational site; may optionally be associated with a Branch; tenant-level/unassigned locations are permitted | One site may support multiple operational capabilities; shared use across Branches requires an explicit governed association and access rules |
 | OperatingLocationCapability | OperatingLocation / tenant configuration | Associates one or more operational capabilities with an OperatingLocation | Examples: retail sales, milk collection, storage, processing and packaging; multiple capabilities may coexist at one site |
 | StockLocation | Tenant; associated with an approved inventory/operational ownership scope | Represents a stock-holding position or subdivision within/associated with a physical site | Distinct from OperatingLocation; e.g. refrigerator, room, shelf, bin or zone |
-| ServiceArea | Tenant | Served by one or more authorized branches under policy | Geographic coverage is not a physical branch |
+| ServiceArea | Tenant | May be served by one or more Branches through an explicit effective-dated Branch-ServiceArea association | A Branch may serve multiple ServiceAreas; reassignment is prospective and historical delivery context is immutable; geographic overlap does not grant cross-branch access |
 | BusinessCalendar / ShiftDefinition | Tenant or branch override | Used by schedules, collection, delivery, attendance and reporting | Versioned/effective-dated |
 | BusinessProfileCapability | Tenant/branch | Enables/configures optional capability | Entitlement and local configuration are separate |
 
@@ -114,7 +114,8 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | POSRegister | Tenant/branch | Belongs to a branch/outlet | Optional |
 | POSSession | Tenant | Belongs to register and operator | Opening/closing cash and reconciliation |
 | Tender/PaymentCapture | Tenant | Belongs to sale/receipt and method | Distinct from settlement evidence |
-| ServiceArea / RouteTemplate | Tenant | Links service geography and planned stop sequence | Reusable planning |
+| BranchServiceAreaAssignment | Tenant; references one Branch and one ServiceArea | Records which Branch is authorized/assigned to serve a ServiceArea for an effective period | Explicit many-to-many mapping; retain assignment history; do not infer access grants from this mapping |
+| RouteTemplate | Tenant; references planning scope as later approved | Defines reusable/planned stop sequence | Route-to-Branch/ServiceArea cardinality remains unresolved under ODR-002 |
 | DeliveryRun | Tenant | References date, shift, branch, route/dispatch plan and assigned personnel | Execution instance |
 | DeliveryStop | Tenant | Belongs to DeliveryRun and references customer/service address/demand | |
 | DeliveryAttempt | Tenant | Belongs to stop; records time, actor and outcome | Multiple attempts allowed |
@@ -249,6 +250,7 @@ The following is the logical relationship spine. Optional relationships depend o
 1. PlatformPrincipal 1:N platform role assignments.
 2. Tenant 1:1/N TenantBusinessProfile versions; Tenant 1:N Branch, TenantMembership, TenantConfiguration and TenantSubscription history.
 3. Tenant 1:N OperatingLocation; one Branch may be associated with 0:N OperatingLocations, and an OperatingLocation may be unassigned to a Branch or associated with a Branch under policy. Shared use by multiple Branches requires an explicit governed association and access rules. One OperatingLocation may have multiple OperationalCapabilities; StockLocation is a separate inventory-control subdivision and is not a physical OperatingLocation.
+4. Branch and ServiceArea have an approved many-to-many service-allocation relationship through an explicit effective-dated association. One Branch may serve 0:N ServiceAreas and one ServiceArea may be served by 1:N Branches according to configured assignments. Historical delivery records preserve the branch/service context applicable when they were created; changing an assignment does not rewrite completed records. This association does not grant cross-branch data access.
 4. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
 5. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
 6. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
@@ -352,7 +354,7 @@ For each class define create/update/delete/archive/restore, retention, legal hol
 ## 16. Unresolved modelling decisions
 
 1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
-2. ODR-002: branch/outlet/collection/warehouse/processing/service-area taxonomy and hierarchy.
+2. ODR-002: Route-to-Branch/ServiceArea cardinality, route ownership/dispatch responsibility, detailed shared-site governance and cross-branch access rules.
 3. ODR-004/005: cross-tenant user identity, membership multiplicity, role scope and permission delegation.
 4. ODR-008: supported UOM, precision, conversion and rounding.
 5. ODR-011/012: processing and inventory valuation/ownership policy.
