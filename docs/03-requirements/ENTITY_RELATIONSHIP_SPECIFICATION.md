@@ -284,34 +284,34 @@ The following is the logical relationship spine. Optional relationships depend o
 12. PermissionBundle 1:N PermissionBundleVersion; each version is an immutable set of registered PermissionCatalogueEntry keys. RoleAssignment references one explicit published bundle version, principal, scope and effective period.
 13. PermissionAssignment references exactly one registered PermissionCatalogueEntry and one principal or governed access group, with allow/deny effect, scope, limits, effective interval, reason and audit/version evidence. An assignment cannot refer to an unknown, retired or platform-only key outside its permitted authority.
 14. ExtensionPermissionRegistration references one approved extension identity/version and one namespaced permission definition. Registration is separate from Tenant assignment and does not grant core-resource access.
-11. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
-12. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
-13. ScheduleOccurrence / OrderLine 1:N demand allocation and fulfilment references; a source demand line may be partially fulfilled by multiple fulfilment lines only under explicit policy.
-14. DeliveryStop 1:N DeliveryAttempt; successful/partial attempts may create linked Fulfilment records.
-15. SupplierAccount 1:N MilkCollectionEntry and PurchaseOrder; MilkCollectionEntry N:1 MilkCollectionSession; collection entries N:1 effective ProcurementRateVersion snapshot.
-16. MilkCollectionEntry 1:N MilkSample/QualityResult and at most one active settlement allocation for the same payable quantity; split settlement requires explicit line-level allocation.
-17. ProductionBatch 1:N ProductionInputLine and ProductionOutputLine; StockLot may be consumed by many batches and each output lot must link to its producing batch.
-18. Product/SKU 1:N StockLot and StockMovement; StockMovement references source document and stock location(s).
-19. A stock/asset/container CustodySubject may have 0:N CustodyEvents; each event records the applicable actor/handler, custodian, location and policy/evidence version. CustodyAssignment is effective-dated; one primary custodian is recorded for a subject segment at a time unless an explicit co-custody profile is used.
-20. CustodyHandover 1:N linked CustodyEvents and has separately identified source/receiving custody parties. Partial receipt/dispute is represented for the accepted and outstanding subject/quantity portions; timeout does not imply acceptance.
-21. CustodyEvidence N:1 CustodyEvent; CustodyIncident may reference the subject, handover and one or more events. SharedResourceUse references one resource/asset, one using Branch/capability and a bounded usage interval. Allowed Branch/capability use is an explicit effective-dated association, not inferred from physical location.
-22. CustodyEvent and StockMovement may be associated through an explicit cross-reference where the same operation has both physical-custody and stock-ledger effects. Neither requires a one-to-one relationship; a custody-only event has no synthetic StockMovement.
-23. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
-24. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
-25. PaymentAccount 1:N Receipt, SupplierPayment, CashMovement and BankStatementImport as applicable.
-26. BankStatementImport 1:N BankStatementLine; ReconciliationSession 1:N ReconciliationMatch; match cardinality may be one-to-one, one-to-many or many-to-one under validation.
-27. Operational source event 0..1 or policy-defined N:1 JournalEntry through idempotent PostingRuleVersion; JournalEntry 1:N JournalLine; every posted journal balances.
-28. ExpenseClaim 1:N ApprovalAction and ExpenseLine; approved expenses generate posting instructions; payment is separately linked.
-29. PersonnelRecord 1:N Engagement, AttendanceRecord and PayrollLine over time; PayrollRun 1:N PayrollLine; PayrollLine 1:N PayrollComponentLine.
-30. AccountingEntity 1:N FinancialYear, LedgerAccount, AccountingPeriod and JournalEntry; period close applies to posting scope.
-31. SaaS accounting source record 0..1 active ExternalVoucherMapping per target company/export purpose; SyncBatch 1:N SyncBatchItem.
-32. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
-33. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
-34. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
-35. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
-36. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
-37. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
-38. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
+15. Party 1:N PartyRole, PartyContact and PartyAddress; CustomerAccount/SupplierAccount are role-specific account projections/extensions of Party.
+16. CustomerAccount 1:N CustomerSubscription and CustomerOrder; CustomerSubscription 1:N SubscriptionLine; SubscriptionLine 1:N ScheduleVersion and ScheduleOccurrence.
+17. ScheduleOccurrence / OrderLine 1:N demand allocation and fulfilment references; a source demand line may be partially fulfilled by multiple fulfilment lines only under explicit policy.
+18. DeliveryStop 1:N DeliveryAttempt; successful/partial attempts may create linked Fulfilment records.
+19. SupplierAccount 1:N MilkCollectionEntry and PurchaseOrder; MilkCollectionEntry N:1 MilkCollectionSession; collection entries N:1 effective ProcurementRateVersion snapshot.
+20. MilkCollectionEntry 1:N MilkSample/QualityResult and at most one active settlement allocation for the same payable quantity; split settlement requires explicit line-level allocation.
+21. ProductionBatch 1:N ProductionInputLine and ProductionOutputLine; StockLot may be consumed by many batches and each output lot must link to its producing batch.
+22. Product/SKU 1:N StockLot and StockMovement; StockMovement references source document and stock location(s).
+23. A stock/asset/container CustodySubject may have 0:N CustodyEvents; each event records the applicable actor/handler, custodian, location and policy/evidence version. CustodyAssignment is effective-dated; one primary custodian is recorded for a subject segment at a time unless an explicit co-custody profile is used.
+24. CustodyHandover 1:N linked CustodyEvents and has separately identified source/receiving custody parties. Partial receipt/dispute is represented for the accepted and outstanding subject/quantity portions; timeout does not imply acceptance.
+25. CustodyEvidence N:1 CustodyEvent; CustodyIncident may reference the subject, handover and one or more events. SharedResourceUse references one resource/asset, one using Branch/capability and a bounded usage interval. Allowed Branch/capability use is an explicit effective-dated association, not inferred from physical location.
+26. CustodyEvent and StockMovement may be associated through an explicit cross-reference where the same operation has both physical-custody and stock-ledger effects. Neither requires a one-to-one relationship; a custody-only event has no synthetic StockMovement.
+27. SalesTransaction 1:N SalesLine; Invoice 1:N InvoiceLine; BillableItem must not be billed more than permitted quantity under billing policy.
+28. Receipt 1:N ReceiptAllocation; a receipt may allocate to multiple invoices and an invoice may receive multiple receipts.
+29. PaymentAccount 1:N Receipt, SupplierPayment, CashMovement and BankStatementImport as applicable.
+30. BankStatementImport 1:N BankStatementLine; ReconciliationSession 1:N ReconciliationMatch; match cardinality may be one-to-one, one-to-many or many-to-one under validation.
+31. Operational source event 0..1 or policy-defined N:1 JournalEntry through idempotent PostingRuleVersion; JournalEntry 1:N JournalLine; every posted journal balances.
+32. ExpenseClaim 1:N ApprovalAction and ExpenseLine; approved expenses generate posting instructions; payment is separately linked.
+33. PersonnelRecord 1:N Engagement, AttendanceRecord and PayrollLine over time; PayrollRun 1:N PayrollLine; PayrollLine 1:N PayrollComponentLine.
+34. AccountingEntity 1:N FinancialYear, LedgerAccount, AccountingPeriod and JournalEntry; period close applies to posting scope.
+35. SaaS accounting source record 0..1 active ExternalVoucherMapping per target company/export purpose; SyncBatch 1:N SyncBatchItem.
+36. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
+37. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
+38. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
+39. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
+40. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
+41. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
+42. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
 
 ## 13. Mandatory integrity invariants
 
