@@ -88,7 +88,7 @@ The final catalogue must define resource semantics, state constraints, sensitive
 - **Read versus mutate:** Cross-branch reporting visibility may be granted separately from transaction mutation.
 - **Sensitive data scope:** Payroll, bank details, payment evidence, personal data and credentials may require separate permissions/field masking.
 
-**Branch-isolation baseline:** An ordinary employee's default effective scope MUST be limited to their own assigned branch. Access to another branch MUST be denied unless a specific, audited cross-branch scope grant is assigned. Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. A role title alone (including Branch Manager or Business Administrator) does not grant that scope. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
+**Branch-isolation baseline:** An ordinary employee's default effective scope MUST be limited to their own assigned branch. Access to another branch MUST be denied unless a specific, audited cross-branch scope grant is assigned. Tenant Owner is the explicit example of a role that may receive all-branch operational visibility. Job titles and role labels alone do not grant that scope; effective permissions and scope assignments determine authority. All-branch visibility is distinct from permission to mutate, approve, export or view restricted fields. Cross-branch read/report and cross-branch mutation MUST be separately permissionable. Tenant-wide master records with branch-specific relationships MUST be filtered to the actor's authorized branch context; an un-attributed record is not implicitly public to all tenant users.
 
 ODR-004/005 remain open for the final membership, role and delegation matrix, but their resolution MUST preserve this explicit product-owner branch-isolation constraint.
 
@@ -132,7 +132,20 @@ A support grant SHOULD record:
 - Whether read-only or mutation is allowed.
 - Actions and data accessed during the grant.
 
-Support access MUST be deny-by-default, explicitly activated, time-bounded where feasible and audited. It MUST NOT disable tenant isolation or create an unlogged global bypass. Emergency access requires a separately governed break-glass procedure and retrospective review.
+Support access MUST be deny-by-default, explicitly activated, time-bounded where feasible and audited. It MUST NOT disable tenant isolation or create an unlogged global bypass. Emergency access must follow the approved ODR-002 Emergency Override policy: narrowly scoped, permission-based, time-limited, auditable and subject to retrospective review. It must not create a general authorization bypass.
+
+
+### 9.1 Emergency Override (ODR-002)
+
+Emergency Override is a controlled break-glass exception for an immediate threat to human safety, product quality, refrigeration/contamination control, physical safety or material stock loss. It is not a general administrator bypass.
+
+Any authenticated user may report an emergency, but only an authorized user with the required stock-owning-Branch approval permission may approve the normal path. If that approver is unavailable and delay would cause material harm, a predesignated Emergency Authority may self-activate only with an explicit, current, correctly scoped emergency-activation permission. Emergency Authority is an explicit permission assignment, not a job title. If no eligible authority is available, the software must deny override activation.
+
+The grant must identify the actor, stock-owning Branch, affected OperatingLocation/StockLocation, affected stock/batch/task, exact protective actions, reason and expiry. It may permit only necessary stock visibility and protective handling, emergency receiving/put-away or quarantine/isolation. It must not grant unrelated Branch visibility or stock adjustment, write-off, valuation, pricing, purchasing, sales, financial, export, access-administration or self-approval permissions.
+
+Initial validity is 60 minutes, with one independently authorized extension of up to 60 minutes and a 120-minute hard maximum. No automatic renewal is permitted. Every activation, use, denied attempt, extension, revocation and expiry is audited. Self-activation requires independent retrospective review, targeted within one business day after the override ends.
+
+Expiry/revocation immediately blocks further stock mutations; completed records remain immutable and in-progress tasks are held for controlled reconciliation. Authorization and override validity must be rechecked server-side and coordinated atomically with stock commits across every execution channel. See ODR-002 in the Open Decisions Register for the complete approved policy.
 
 ## 10. API, jobs and integration enforcement
 
