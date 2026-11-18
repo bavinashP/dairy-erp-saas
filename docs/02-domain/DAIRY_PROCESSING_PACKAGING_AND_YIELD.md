@@ -1,6 +1,6 @@
 # Dairy Processing, Packaging and Yield Management
 
-**Status:** Working baseline — domain requirements  
+**Status:** Recommended domain baseline — optional process profiles and versioned recipe controls selected; quality/costing evidence remains domain-specific  
 **Related decisions:** ODR-008, ODR-009, ODR-011, ODR-012, ODR-016, ODR-017  
 **Scope:** Optional processing and packing capability for tenants converting raw milk or other inputs into packaged or derived dairy products.
 
@@ -148,14 +148,13 @@ Forecasting must use historical data with visible assumptions and confidence lim
 13. Concurrent batch edits are detected and resolved.
 14. Production cost flows to inventory without double counting.
 
-## 12. Open decisions
+## 12. Configuration and evidence dependencies
 
-- Which process types and product families are in initial scope.
-- Whether simple packing is a separate workflow from manufacturing.
-- Recipe/BOM authoring and approval permissions.
-- Required quality checkpoints by product.
-- Yield tolerances and measurement basis.
-- Packaging and label compliance requirements.
-- Cost allocation and valuation method.
-- Equipment, analyzer and weighing-scale integrations.
-- Whether contract processing is required.
+- Processing remains an optional capability. Retail/resale tenants do not need manufacturing setup.
+- Simple packing may use a lightweight packing run with defined input/output/packaging and traceability; it need not require a full multi-stage manufacturing workflow. More complex processing uses versioned recipes/process steps.
+- Recipe creation, approval and effective dating are controlled by explicit permissions and policy, not titles.
+- Quality checkpoints and release criteria are defined by product/process profiles under ODR-009. Failed/held output cannot enter ordinary available stock.
+- Yield tolerances and measurement basis are defined by versioned process/product configuration with actual input/output/loss evidence; no universal yield percentage is assumed.
+- Packaging/label statutory claims require post-project current legal review. Product label content, print templates and language are configurable only within verified rules.
+- Cost allocation, WIP valuation and by-product accounting follow ODR-017 and the accounting policy; no hidden automatic journal assumptions.
+- Equipment/analyzer/scales use optional adapters with calibrated source evidence; contract processing is an optional capability and requires separate ownership/traceability and settlement contracts if enabled.
