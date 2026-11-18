@@ -17,7 +17,8 @@ The following concepts MUST remain distinct:
 
 - **Person:** A real-world individual where the business needs a person record.
 - **User account:** A login identity with authentication factors and account status.
-- **Tenant membership:** The user's association with a tenant, including status and permitted association.
+- **Tenant membership:** An independent, revocable association between a global user identity and one Tenant; one user may have memberships in several Tenants, but each Tenant membership is validated independently.
+- **Membership Branch assignment:** Optional workforce/operating context linking a Tenant membership to one or more Branches, with at most one current Home/Primary Branch where applicable; this is not an access permission.
 - **Personnel record/engagement:** Optional business workforce information; not required for every login.
 - **Platform principal:** Identity authorized for platform-level operations.
 - **Role:** A reusable named bundle of permissions.
@@ -202,7 +203,7 @@ Audit events MUST identify actor/service, tenant/security boundary, scope, times
 
 ## 13. Open decisions
 
-- **ODR-004:** Can a user belong to multiple tenants and/or branches? What is the default assignment?
+- **ODR-004:** Membership and Branch-assignment cardinality are resolved under the recommended baseline in ODR-004 section 16.9; verify edge cases during workflow design.
 - **ODR-005:** Role catalogue, permission actions, scope inheritance, delegation, custom roles, direct grants and approval limits.
 - **ODR-019/020:** Client strategy and offline authentication/authorization behavior.
 - **ODR-025:** Tenant suspension and permitted recovery/owner access.
@@ -244,3 +245,8 @@ Authorization precedence is fail-closed:
 7. Versioned permission changes must be revalidated at commit for protected state transitions.
 
 The precedence model applies consistently to direct grants, group assignments, role bundles and temporary grants. Tenant configuration cannot change this precedence or weaken fixed invariants.
+
+
+### 7.2 Tenant membership and workforce assignment lifecycle
+
+A global human identity may hold multiple independent TenantMemberships, at most one current membership for a given Tenant. Each membership is activated, suspended, expired and revoked independently. A Tenant context is resolved and validated per request; no cross-Tenant operation is implied by multiple memberships. Each membership may have zero or more effective workforce Branch assignments and optionally one current Home/Primary Branch. These assignments support scheduling/organizational context only and never grant access. Explicit permissions and scopes remain mandatory. Membership revocation invalidates the associated Tenant permissions/delegations/sessions according to the immediate security revocation policy. See ODR-004 section 16.9 and ERS section 16.8.
