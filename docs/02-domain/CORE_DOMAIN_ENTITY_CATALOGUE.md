@@ -38,6 +38,9 @@
 | Role / PermissionBundle | Optional Tenant-configurable named bundle of explicit atomic permissions; bundle label itself grants no authority |
 | Permission | Atomic action/data capability evaluated with explicit scope, validity and policy; missing permission defaults to deny |
 | Permission Assignment / Role Assignment | Explicit principal/group permission or optional bundle assignment with scope and effective period; assignments are grantable, restrictable, changeable, expirable and revocable within delegated authority; explicit deny takes precedence; cross-Branch stock-task grants remain separate |
+| Permission Catalogue Entry | Platform-governed stable atomic permission key with resource/action semantics, scope, risk, data-sensitivity, delegation, approval, audit and lifecycle metadata | Unknown/retired/incompatible keys fail closed; labels/translations do not alter semantics |
+| Permission Bundle Version | Immutable published snapshot of registered permission keys included in a Tenant bundle or platform starter | RoleAssignment references an explicit version; no silent permission widening |
+| Extension Permission Registration | Versioned namespaced permission definition for declared extension resources/actions and data contract | Registration does not grant access; installation/activation remains separate from Tenant assignment and host grants |
 | Approval Policy | Conditions, limits, and required approver |
 | Approval Delegation | Temporary, explicit authorization for a named delegate to approve specified categories/actions within a Tenant/Branch/resource scope and limits; requires the delegator's approval permission plus `approval.delegate`; max 30 calendar days, no renewal/subdelegation, revocable and automatically invalidated when underlying authority or membership ceases |
 | Device / Session | Authentication and session lifecycle |
@@ -115,7 +118,6 @@ A generated schedule occurrence must be uniquely traceable to its source subscri
 | Stock Task | Operational work item that references the grant version used for an authorized cross-Branch stock action | Task state and grant authorization state remain separate |
 | Stock Task Hold | Hold on an in-progress task after its grant expires, is revoked or becomes invalid | Preserves posted effects, custody, completed steps and outstanding work; blocks further stock mutation |
 | Stock Task Reconciliation | Append-oriented decision/evidence for reauthorization, reassignment, correction/compensation, controlled closure or escalation | Original stock/custody events are never erased or silently rewritten |
-| Stock Task Hold / Reconciliation | Holds an in-progress task after grant revocation/expiry, preserves completed steps and custody evidence, and records authorized reauthorization, reassignment or controlled cancellation/reconciliation without rewriting original stock events |
 | Emergency Override / Break-Glass Grant | Temporary, narrowly scoped and auditable authority for protective stock actions during a qualifying emergency; requires explicit permission, defined actor/scope/actions/reason, 60-minute initial validity, one independently authorized extension up to a 120-minute total maximum, and immediate expiry/revocation enforcement |
 | Emergency Incident / Retrospective Review | Records the emergency reason/evidence, activation mode, affected stock and locations, actions/quantities/custody, independent review, findings and corrective/reconciliation actions |
 | Stock Count | Physical count exercise |
