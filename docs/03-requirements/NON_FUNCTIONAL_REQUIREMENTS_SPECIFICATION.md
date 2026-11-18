@@ -45,6 +45,9 @@ Numeric workload and service objectives are not invented. The engineering baseli
 | NFR-SEC-018 | Privileged access | Platform and support access to tenant data MUST require explicit scope, purpose, expiry/revocation and attributable audit; no implicit global bypass is permitted. | Support-access abuse and expiry tests |
 | NFR-SEC-019 | Custody evidence access | Custody events, measurements, signatures and attachments MUST enforce Tenant/Branch/resource permissions on view, upload, download, export and background processing; device connection alone MUST NOT grant access. | Cross-Tenant/Branch evidence access and revoked-device tests |
 | NFR-SEC-020 | Cross-Branch stock-task authorization | Grant administration and use MUST require explicit scoped permissions, stock-owning-Branch approval, one named worker and independently current membership/action permission; grant records MUST NOT expose unrelated Branch data. | Grant scope, approval, privilege escalation, worker permission loss and cross-channel denial tests |
+| NFR-SEC-021 | Permission key registry integrity | Authorization MUST resolve only registered, active permission keys with versioned semantics and declared scope. Unknown, malformed, retired or incompatible keys MUST fail closed; permission display labels MUST NOT change authorization semantics. | Unknown-key denial, key lifecycle/version migration, label-neutrality and unmapped operation tests |
+| NFR-SEC-022 | Permission assignment boundary | Tenant permission bundle/direct/group assignment MUST enforce the assigning principal's delegation ceiling, registered-key eligibility, scope/limit constraints and explicit deny precedence. | Self-escalation, out-of-scope assignment, direct/group assignment, deny/allow conflict and revocation tests |
+| NFR-SEC-023 | Extension permission isolation | Extension permission registrations MUST be namespaced, versioned and bound to declared resources/contracts; installation/activation MUST NOT grant extension or core-resource data access. | Extension registration, credential issuance, revoked extension, core-resource denial and cross-Tenant tests |
 | NFR-REL-001 | Reliability | A committed business operation MUST have a durable, unambiguous outcome; clients must not be told it failed merely because a later notification failed. | Fault-injection and workflow tests |
 | NFR-REL-002 | Idempotency | Retryable material commands MUST prevent duplicate business effects using stable operation identity and persisted outcomes. | Replay/retry tests |
 | NFR-REL-003 | Recovery | Recoverable failures MUST expose status, error classification, retryability and a safe recovery path. | Exception matrix execution |
@@ -168,7 +171,7 @@ For each quality requirement, retain:
 
 | Decision | NFR impact |
 |---|---|
-| ODR-004/005 | Membership/cardinality and the exhaustive module-level permission catalogue, while permission-first authorization is approved |
+| ODR-004/005 | Membership cardinality is selected in ODR-004 section 16.9; the canonical permission catalogue v1 is selected in ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39. Domain-specific key/API/state mapping, approval thresholds and acceptance coverage remain readiness gates |
 | ODR-019/020 | Client strategy and offline guarantees |
 | ODR-021 | Notification reliability, consent, provider fallback and retry policy |
 | ODR-022/023/024 | Analytics freshness, forecast quality and workload |
