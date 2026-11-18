@@ -75,7 +75,7 @@ Use synthetic or properly de-identified data. Production personal/financial reco
 
 ### 5.3 Canonical permission catalogue and Tenant configuration
 
-Use stable test identifiers AT-IAM-009..016 for ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39:
+Use stable test identifiers AT-IAM-009..020 for ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39:
 
 - **AT-IAM-009:** Every protected command, field disclosure, report/export, job, event handler, device action and integration operation in each enabled module resolves to one or more registered canonical permission keys; an unmapped operation fails closed.
 - **AT-IAM-010:** Core keys validate against the canonical three-part `domain.resource.action` format; extension keys validate against their registered namespace. Unknown, malformed, retired or incompatible keys are denied. A key's machine identifier and semantic meaning do not change when its display label, language, Tenant bundle name or UI text changes.
@@ -85,8 +85,12 @@ Use stable test identifiers AT-IAM-009..016 for ARC-IAM-CAT-001 section 15 / ODR
 - **AT-IAM-014:** Platform-only permissions cannot be assigned by a Tenant. Platform/support access to Tenant data requires a separate purpose-bound, scoped, expiring and auditable SupportAccessGrant.
 - **AT-IAM-015:** An extension registers a namespaced, versioned permission for declared extension resources/actions; installation, activation, API credential creation or device pairing alone grants no extension or core-resource data access.
 - **AT-IAM-016:** Permission deprecation/alias/version migration preserves the declared compatibility window and retirement date; unknown/retired aliases fail closed and no migration silently broadens effective authority.
+- **AT-IAM-017:** The canonical v1 inventory contains only unique, registered three-part core keys in the exact `domain.resource.action` form; the inventory has no duplicate definitions, two-part shorthand keys, malformed identifiers or ambiguous aliases.
+- **AT-IAM-018:** Each collection/list, search/discovery, detail, aggregation and drill-down endpoint maps to a registered key whose metadata explicitly permits that query surface; field/row filters, purpose and pagination/resource limits are enforced. No view permission implies export or sensitive-field visibility.
+- **AT-IAM-019:** Permission assignment changes, explicit deny, expiry and revocation take effect at the authoritative effective time across API, web/mobile, POS, barcode, report/export/download, jobs, event handlers and integrations; stale session/cache/offline state cannot preserve access.
+- **AT-IAM-020:** A permission revocation/deny racing with a protected write is coordinated at commit: the write either commits while the permission is valid or is denied; duplicate retries cannot create duplicate business effects. Security break-glass permissions cannot activate an inventory emergency override, and inventory emergency-override permissions cannot grant general security/platform access.
 
-These tests are additive to AT-IAM-001..008 and AT-GNT-001..018. The v1 catalogue lists eligible capabilities; it does not assign them to a user or enable the corresponding Tenant module.
+These tests are additive to AT-IAM-001..008 and AT-GNT-001..018. Together AT-IAM-009..020 verify the catalogue metadata and authorization behavior without implying that each permission is assigned or that each capability is enabled. The v1 catalogue lists eligible capabilities; it does not assign them to a user or enable the corresponding Tenant module.
 
 ### 5.4 Sensitive-data boundaries
 Test masking/field permissions for bank/payee details, identity documents, payroll, compensation, tax identifiers, customer personal data, payment evidence, secrets and audit investigation records. Export permission must not bypass field permissions.
