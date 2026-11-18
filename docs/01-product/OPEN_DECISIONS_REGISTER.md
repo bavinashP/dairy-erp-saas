@@ -6,7 +6,7 @@
 | ID | Area | Open decision / question | Why it matters | Required evidence / investigation | Status |
 |---|---|---|---|---|---|
 | ODR-001 | Business identity and operating model | A tenant represents one Dairy Business Workspace. May that workspace support multiple dairy operating models and multiple branches? | Tenant onboarding, capability configuration, module availability and future extensibility | Product-owner decision recorded below; legal form and regulatory applicability are explicitly outside the current development scope and will be reviewed after project completion | **Resolved — user-approved project decision (2026-11-18): Option B.** One tenant supports multiple operating models and multiple branches. |
-| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or Branch-associated; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping. Route relationships and detailed shared-use/access policies remain open | **Partially resolved — physical-site/capability, Branch/OperatingLocation and ServiceArea/Branch relationship baselines approved by product owner (2026-11-18); Route and detailed shared-use/access policies remain open.** |
+| ODR-002 | Branch and operating-location model | Define Branch, OperatingLocation, its operational capabilities, StockLocation, ServiceArea and their relationships. | Avoids conflating management units, physical sites, operational functions, inventory sublocations and geographic coverage | Approved: one physical site may support multiple capabilities; StockLocation is separate; Branch is a management/operating unit; one Branch may be associated with multiple OperatingLocations; OperatingLocation may be unassigned or Branch-associated; one Branch may serve multiple ServiceAreas and one ServiceArea may be served by multiple Branches through explicit effective-dated mapping; each Route belongs to exactly one Branch, a Branch may own multiple Routes, and a Route may cover multiple ServiceAreas only where that Branch has an effective service assignment. DeliveryRun must use a Route belonging to its Branch. Route sharing between Branches is not implicit; another Branch uses its own Route. Detailed shared-use/access policies remain open | **Partially resolved — physical-site/capability, Branch/OperatingLocation, ServiceArea/Branch and Route/Branch relationship baselines approved by product owner (2026-11-18); detailed shared-use/access policies remain open.** |
 | ODR-003 | Tenant hierarchy | Can one tenant contain multiple legal entities or GST registrations? | Tax, accounting, ownership | Legal/tax research and business scenarios | Open |
 | ODR-004 | User membership | Can a user belong to multiple tenants or branches? What is the default assignment? Ordinary employees must remain limited to their own assigned branch unless a specific audited cross-branch grant applies. | Identity, authorization, session context | Access scenarios and threat analysis; preserve the explicit branch-isolation constraint in DBR-003 and ARC-TEN-001 | Open |
 | ODR-005 | Authorization | What roles, permission actions, scopes, delegation, and approval limits are needed? Tenant Owner is the explicit example of an all-branch visibility role; role titles alone do not grant this scope, and cross-branch read must remain distinct from mutation. | Cross-module access and segregation of duties | Actor catalogue and permission matrix; define auditable scope grants, cross-branch read/mutate separation and sensitive-field permissions | Open |
@@ -92,7 +92,7 @@ The supported operating-model examples include:
 
 ### ODR-002 — Accepted conceptual baseline: physical site, operational capabilities and stock locations
 
-**Status:** Partially resolved — the product owner accepted the physical-site/capability baseline, Branch/OperatingLocation relationship and ServiceArea/Branch relationship on 2026-11-18. Route relationships and detailed shared-use/access policies remain open.
+**Status:** Partially resolved — the product owner accepted the physical-site/capability baseline, Branch/OperatingLocation relationship, ServiceArea/Branch relationship and Route/Branch relationship on 2026-11-18. Detailed shared-use/access policies remain open.
 
 **Approval evidence:** The product owner explicitly accepted the revised concept after reviewing the single-premises example of a small, sole-owner dairy business.
 
@@ -168,7 +168,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 
 ### ODR-002 — Approved ServiceArea and Branch relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for Route relationships and detailed shared-use/access policies.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use/access policies.
 
 **Approval evidence:** The product owner confirmed: “संकल्पना योग्य असून मला मान्य आहे.”
 
@@ -190,13 +190,48 @@ A Pune West Branch may serve both Kothrud and Bavdhan ServiceAreas. If capacity 
 - The conceptual relationship is many-to-many, implemented through an explicit governed association rather than a direct single-branch field on ServiceArea.
 - The association needs effective-from/effective-to semantics or an equivalent immutable version/history mechanism.
 - Operational authorization remains separately enforced at Branch and record level.
-- This approval does not decide Route-to-Branch or Route-to-ServiceArea cardinality, route ownership, dispatch responsibility, shared physical-site governance, or detailed cross-branch read/mutation permissions.
+- This approval does not decide Route execution/dispatch responsibility, shared physical-site governance, or detailed cross-branch read/mutation permissions.
 
 **Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; service-area administration; delivery planning; historical reporting and branch authorization.
 
 **Verification:** Confirm one Branch can serve multiple ServiceAreas, one ServiceArea can be served by multiple Branches, effective-dated reassignment preserves historical records, and shared geography does not bypass branch isolation.
 
-**Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Continue ODR-002 separately for Route relationships and detailed shared-use/access rules.
+**Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Continue ODR-002 separately for Route execution/dispatch responsibility and detailed shared-use/access rules.
+
+---
+
+### ODR-002 — Approved Route and Branch relationship
+
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 as a whole remains partially open for detailed shared-use/access policies.
+
+**Approval evidence:** The product owner explicitly confirmed that the proposed Route/Branch structure was acceptable.
+
+**Approved decision statement**
+
+- Each reusable/planned Route belongs to exactly one Branch.
+- A Branch may own multiple Routes.
+- A Route may include delivery stops across one or more ServiceAreas, but only where its owning Branch has an effective Branch-ServiceArea assignment for each relevant ServiceArea.
+- A DeliveryRun is associated with one Branch and a Route owned by that same Branch; the Branch/Route combination must be validated as consistent.
+- A Route is not implicitly shared with another Branch. If another Branch serves the same ServiceArea, it must use a Route of its own.
+- Route revisions and service-allocation changes must not rewrite completed DeliveryRuns, DeliveryStops, fulfilments or their historical operational context. Execution records retain the route/plan version and relevant context used at dispatch.
+
+**Illustrative application**
+
+Pune West Branch may own separate Kothrud and Bavdhan Routes, or a combined route covering both areas if it is operationally appropriate and the Branch is authorized to serve both. If another Branch also serves Bavdhan, that Branch creates and operates its own Route; it does not run the Pune West Route merely because the geographic ServiceArea overlaps.
+
+**Consequences**
+
+- Conceptual cardinality: Branch 1:N Route.
+- Each Route has one owning Branch; Route-to-ServiceArea coverage may be 1:N through the Branch's effective service assignments.
+- DeliveryRun must reference a Branch and a Route whose ownership matches that Branch.
+- Geographic overlap does not grant route ownership, dispatch authority or cross-branch data access.
+- This approval does not decide detailed dispatch assignment, driver/vehicle allocation, route optimization, multi-shift route reuse, shared-site governance or employee cross-branch permissions.
+
+**Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; route planning; delivery dispatch; delivery-run history; branch authorization.
+
+**Verification:** Confirm one Branch can own multiple Routes, each Route has one Branch owner, a Route can cover multiple ServiceAreas only within that Branch's authorized service assignments, DeliveryRun Branch and Route ownership always match, and another Branch must use its own Route.
+
+**Review trigger:** Reopen only upon explicit product-owner change or a materially different route operating model. Continue ODR-002 separately for detailed shared-use/access policies.
 
 ---
 
