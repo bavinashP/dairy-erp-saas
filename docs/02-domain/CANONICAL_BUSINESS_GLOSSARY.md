@@ -161,6 +161,14 @@
 | Risk Class | Action/data risk category used to determine proportionate safeguards (R0–R3 in ARC-IAM-CTRL-001) | Risk depends on action/resource/data/context, not actor title |
 | Approval Decision | Immutable approve/reject result for an exact source payload/version and policy version | Material source changes invalidate or restart the approval; approval does not itself post the domain transaction |
 | Maker-Checker | A control requiring an approver distinct from the action initiator for a specified workflow | Applies only where fixed or effective policy requires it; cannot be bypassed by delegation or role labels |
+| Approval Policy Profile | Tenant-owned editable configuration container for approval rules across declared domain/action/risk/resource scopes | It is not a user type, role bundle or permission assignment |
+| Approval Policy Version | Immutable effective-dated published snapshot of profile rules, thresholds, reviewers, stages, evidence and precedence | Material changes create a new version; prior decisions retain their exact policy history |
+| Approval Policy Evaluation Snapshot | Immutable resolved result of all policy versions/rules matched to one ApprovalRequest, including scope, thresholds and combined requirements | A later stricter evaluation is linked as a new snapshot; the original is never overwritten |
+| Approval Policy Match | Evidence linking an evaluation snapshot to each matched policy version/rule and why it applied | Supports overlapping-profile precedence and historical replay |
+| Policy Weakening Change | A policy change that raises thresholds, reduces reviewers/stages/evidence, broadens scope, relaxes independence or increases delegability | Requires independent approval by a different authorized user before publication |
+| Tightening-only Policy Change | A policy change that lowers thresholds, adds reviewers/stages/evidence, narrows scope or reduces permitted limits | May be published by an authorized principal with exact configure/publish permissions unless stricter policy requires review |
+| In-flight Approval Policy Re-evaluation | Re-check of an uncommitted ApprovalRequest against a newly effective policy version | Stricter changes add requirements; less restrictive changes never relax requirements already attached to the pending request |
+
 
 
 | Tenant Membership | A separately managed association between a global user identity and one Tenant | May coexist with memberships in other Tenants; each membership is an independent security context; it does not grant business permissions |
