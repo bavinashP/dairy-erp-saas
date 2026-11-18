@@ -1,7 +1,7 @@
 # Audit Logging and Observability Architecture
 
 **Document ID:** ARC-OBS-001  
-**Status:** Proposed architecture baseline — retention, SLOs and tooling choices open  
+**Status:** Recommended audit/observability baseline selected; retention periods, SLOs and technology tooling remain evidence-gated  
 **Product:** Dairy ERP SaaS (India)  
 **Authority:** Project Vision and Scope, ARC-TEN-001, ARC-IAM-001, ARC-EVT-001, ARC-CONC-001, ARC-SEC-001, ARC-STO-001, NFR-001 and ODR-021/026/027/028/030/031/034.  
 **Purpose:** Define how the platform records accountable business/security actions and diagnoses system behavior while preserving tenant isolation, privacy, data integrity and operational recoverability.
@@ -248,14 +248,12 @@ Requirements:
 - Log/trace provider account compromise or telemetry data breach.
 - Backup restore omits audit records or breaks correlation references.
 
-## 15. Open decisions
+## 15. Governance and evidence dependencies
 
-- **ODR-026:** legal/business retention, legal holds, offboarding and deletion across data classes.
-- **ODR-027:** expected/peak workload and capacity scenarios for telemetry sizing.
-- **ODR-028:** availability, recovery objectives and incident recovery priorities.
-- **ODR-030:** logging, metrics, tracing, alerting and audit storage technology.
-- **ODR-031:** deployment/network topology, regional placement and failure-domain separation.
-- **ODR-034:** audit event catalogue/retention, operational telemetry retention, access governance, alert ownership and incident escalation policy.
+- **ODR-026:** data-class retention, legal holds, offboarding and deletion; exact statutory periods await post-project review.
+- **ODR-027/028:** workload-based telemetry sizing, production SLO and recovery commitments; human approval is required before launch.
+- **ODR-030/031:** logging/metrics/tracing/alerting/audit storage tooling and deployment failure-domain choices require PoC/provider evidence.
+- **ODR-034:** the audit-vs-telemetry split, durable material-event audit, append-oriented protection and permission-controlled queries are selected in section 16.34 of the ODR; named alert owners/escalation and exact retention schedules remain production dependencies.
 
 ## 16. Exit criteria
 
