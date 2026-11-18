@@ -78,6 +78,7 @@ Do not store full request/response bodies by default. Any exceptional payload ca
 - Support grant request, approval, activation, use, expiry, revocation and break-glass review.
 - Emergency Override incident/request, activation mode (ordinary approval or restricted self-activation), Emergency Authority permission evidence, affected stock-owning Branch/location/stock/batch/task, exact scope/version, reason/evidence, activation/expiry/extension/revocation, every attempted and completed action, quantities/custody changes, retrospective reviewer/findings and reconciliation/corrective actions.
 - Approval delegation creation and authorization evidence, delegator/delegate identities, Tenant/Branch/resource/action scope, limits, effective period, reason, revocation, automatic invalidation and expiry; each delegated decision must record the actual delegate, delegator, delegation ID/version, exact payload/version/hash, policy version, limits, outcome, timestamp and reason.
+- Stock-task grant expiry notification scheduling, event type (activation, 24-hour reminder, 1-hour reminder, expiry, revocation, automatic invalidation or approved version change), grant/version and exact expiry, recipient identity and current permission basis, channel, delivery attempts/outcome, suppression reason and held-task reference. Notification delivery failure must never alter authorization state.
 - Authorization denials for sensitive resources and repeated suspicious access attempts.
 
 ### 5.2 Business and financial controls
