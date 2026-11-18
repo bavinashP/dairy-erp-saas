@@ -154,6 +154,11 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | StockLocation | Tenant | Must resolve to one explicit Branch/inventory-ownership scope and a physical holding context; multiple Branch-specific StockLocations may exist within one shared OperatingLocation | Physical co-location does not merge ownership or authorize cross-branch stock access |
 | StockLot | Tenant | References product/SKU, source receipt/production and expiry/batch | Optional tracking policy |
 | StockMovement | Tenant | References product, lot, from/to locations, source document and movement type | Authoritative stock quantity/location/status history; distinct from physical custody events |
+| StockTaskAccessGrant | Tenant | Named worker, stock-owning Branch, shared OperatingLocation/StockLocation and request/approval authority | One worker only; task-specific cross-Branch authorization exception; never general Branch membership or a permission grant |
+| StockTaskAccessGrantVersion | Tenant | Belongs to one StockTaskAccessGrant; immutable approved payload, action/resource/task/quantity scope, effective period, reason and policy version | Material amendments create a new version; approval binds to exact version/hash; historical versions remain immutable |
+| StockTask | Tenant | References source operational work and the exact grant version used for the cross-Branch stock action | Independent task and stock ledger facts; any required workforce assignment is separate |
+| StockTaskHold | Tenant | References one in-progress StockTask and the grant version/expiry/revocation/invalidation event that caused the hold | Preserves completed steps, posted effects, current custody and outstanding work; blocks further stock mutation |
+| StockTaskReconciliation | Tenant | References a StockTaskHold, authorized decision actor, evidence and outcome | Records reauthorization, reassignment, controlled cancellation/closure, correction/compensation or escalation without rewriting original events |
 | CustodySubject | Tenant | References stock quantity/lot, container, asset or other tracked resource | Identifies what is physically held/handled; ownership and stock attribution remain separate |
 | CustodyAssignment | Tenant | Assigns a named person/service/external party as recorded custodian for a subject/scope and effective period | Does not confer stock ownership, general access or mutation permission |
 | CustodyEvent | Tenant | References subject, actor/handler, custodian, location, event/action, time, evidence and policy version | Append-oriented physical custody fact; does not itself create stock or financial movement |
@@ -297,6 +302,10 @@ The following is the logical relationship spine. Optional relationships depend o
 32. Source facts 1:N analytical derivations over time; KPI definition version identifies how a metric was computed.
 33. Budget 1:N BudgetVersion; BudgetVersion 1:N BudgetLine; ForecastRun 1:N ForecastValue; Scenario 1:N ScenarioResult.
 34. ApprovalDelegation 1:N ApprovalAction where a delegated decision is used; each such ApprovalAction references exactly one active delegation version and records the actual delegate and delegator separately. Non-delegated ApprovalAction has no delegation reference.
+35. StockTaskAccessGrant 1:N StockTaskAccessGrantVersion; each version is an immutable authorization envelope for exactly one named worker and one stock-owning Branch/resource scope. A grant has no group/role-wide authority.
+36. Each submitted StockTaskAccessGrantVersion has one approval workflow bound to its exact version/payload hash; ApprovalRequest 1:N ApprovalAction records each required approval stage and the actual approver/delegate evidence. A version cannot become active until all required approvals are committed.
+37. StockTaskAccessGrantVersion 1:N StockTask references the version used for each cross-Branch task. A task's committed StockMovement and CustodyEvent references remain independently attributable.
+38. A StockTaskHold references the in-progress task and the ended grant version; one hold may have 0:N StockTaskReconciliation events. Reconciliation decisions are append-oriented; the hold is closed only when physical custody, stock effects and outstanding work have a recorded outcome.
 
 ## 13. Mandatory integrity invariants
 
@@ -521,3 +530,24 @@ A DeliveryPlan may group several DeliveryRuns and explicit demand allocations. E
 Dispatch is distinct from planning, assignment and execution. It validates Branch/Route/ServiceArea integrity, demand and stock allocations, current run assignments/permissions, required workforce allocation, transport resource readiness/capacity, relevant custody and product-handling evidence, and any required approval. Dispatch snapshots route, manifest, assigned people/resources and policy versions. Post-dispatch changes require linked exception/reassignment events.
 
 Vehicle/driver qualification and food-business compliance evidence is recorded where required by Tenant policy or verified applicable rules; the product does not infer legal compliance from document upload. Exact mandatory document categories and external legal applicability remain evidence-dependent. Route optimization and GPS/telematics are optional extensions and cannot silently mutate a dispatched plan.
+
+
+### 16.12 ODR-002 — detailed StockTaskAccessGrant lifecycle and task reconciliation
+
+The recommended baseline is selected in ODR-002 section 16.38 and specified in [Open Decisions Register](../01-product/OPEN_DECISIONS_REGISTER.md). A StockTaskAccessGrant is one named worker's approved, Tenant-bound cross-Branch stock-task exception. It does not grant general Branch membership, create an independent permission, change workforce assignment or transfer stock ownership.
+
+The logical model distinguishes:
+- **StockTaskAccessGrant:** aggregate grant identity and current authorization status.
+- **StockTaskAccessGrantVersion:** immutable submitted/approved authorization envelope with exact action/resource/task/product/lot/quantity/period scope, reason, version and payload hash.
+- **ApprovalRequest / ApprovalAction:** existing governed approval workflow bound to the exact grant version and policy; each required stage and actual approver/delegate is retained.
+- **StockTask:** operational work item referencing the grant version used.
+- **StockTaskHold:** hold created when an in-progress task loses grant authority through expiry, revocation or invalidation.
+- **StockTaskReconciliation:** append-oriented evidence of reauthorization, reassignment, correction/compensation, controlled closure or escalation.
+
+The recommended grant-version authorization states are Draft, Submitted, Pending Approval, Rejected, Approved/Scheduled, Active, Superseded, Expired, Revoked and Invalidated. Effective start is inclusive and effective end exclusive. Only a fully approved version within its effective period and with the worker's independently current permission, membership, exact resource/task scope, limits and required workforce assignment can authorize a stock action. Material changes require a new immutable version and fresh approval. A worker change requires a new grant request for the replacement worker.
+
+Grant authorization and task reconciliation are separate lifecycles. Expiry/revocation/invalidation immediately blocks new tasks and further stock-affecting transitions; completed history remains immutable. In-progress work enters a hold that preserves committed steps, quantities, custody, stock effects and outstanding work. A held task may proceed only through a currently approved grant for the same worker/scope, a new approved grant for a replacement worker with a real handover where needed, or controlled cancellation/closure and explicit reconciliation. No automatic completion, rollback, phantom custody transfer or silent balance correction is allowed.
+
+Automatic invalidation covers loss of the named worker's active account/Tenant membership, the independently required stock-action permission, a workforce assignment required by active Tenant policy, target Branch activation or the approved stock-owning-Branch/StockLocation relationship. Loss of the original requester or later loss of the approver's permission does not retroactively erase a valid committed approval; current authority can explicitly revoke the grant and a suspected invalid approval is reviewed as a separate auditable decision.
+
+No maximum grant duration is hardcoded by this conceptual model. Tenant policies may impose tighter duration, action, task, quantity, evidence and approval controls; zero-grace expiry/revocation, stock-owning-Branch approval, single-worker scope, independent permission, hold/reconciliation, concurrency and immutable history remain fixed. Exact lifecycle, versioning, extension, invalidation and race semantics are defined in ODR-002 section 16.38.
