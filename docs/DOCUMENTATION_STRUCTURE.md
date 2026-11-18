@@ -1,6 +1,6 @@
 # Documentation Structure and Governance
 
-**Status:** Initial baseline  
+**Status:** Maintained documentation index and governance baseline  
 **Purpose:** Define the authoritative documentation system, evidence standards, and review gates.
 
 ## 1. Principles
@@ -47,7 +47,7 @@ Claims about law, tax, compliance, or provider capability must record source, ap
 
 ### 00 — Governance
 - [Continuation State Audit — 2026-11-17](CONTINUATION_STATE_AUDIT_2026-11-17.md)
-Project governance, glossary, requirements traceability, change control, risk and assumption register (planned).
+Project governance, glossary, requirements traceability, change control and risk/assumption management are governed through the ODR, RTM, ADR and risk evidence sections; dedicated register refinements remain in progress.
 
 ### 01 — Product
 - [Project Vision and Scope](01-product/PROJECT_VISION_AND_SCOPE.md)
@@ -58,6 +58,8 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Domain Landscape and Capability Model](02-domain/DOMAIN_LANDSCAPE_AND_CAPABILITY_MODEL.md)
 - [End-to-End Business Workflows](02-domain/END_TO_END_BUSINESS_WORKFLOWS.md)
 - [Actor and Access Model](02-domain/ACTOR_AND_ACCESS_MODEL.md)
+- [Core Domain Entity Catalogue](02-domain/CORE_DOMAIN_ENTITY_CATALOGUE.md)
+- [Canonical Business Glossary](02-domain/CANONICAL_BUSINESS_GLOSSARY.md)
 - [Module Dependency Map](02-domain/MODULE_DEPENDENCY_MAP.md)
 - [Canonical Business Glossary](02-domain/CANONICAL_BUSINESS_GLOSSARY.md)
 - [Core Domain Entity Catalogue](02-domain/CORE_DOMAIN_ENTITY_CATALOGUE.md)
@@ -98,6 +100,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [System Architecture Overview and Integration Map](04-architecture/SYSTEM_ARCHITECTURE_OVERVIEW_AND_INTEGRATION_MAP.md)
 - [Product Configurability, Customization, Extensibility and Scale Policy](04-architecture/PRODUCT_CONFIGURABILITY_CUSTOMIZATION_EXTENSIBILITY_AND_SCALE_POLICY.md)
 - [Authentication, Authorization and Access Control Architecture](04-architecture/AUTHENTICATION_AUTHORIZATION_AND_ACCESS_CONTROL_ARCHITECTURE.md)
+- [Permission Catalogue and Assignment Governance](04-architecture/PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md)
 - [API Architecture, Versioning and Client Compatibility](04-architecture/API_ARCHITECTURE_VERSIONING_AND_CLIENT_COMPATIBILITY.md)
 - [Mobile Client and Offline Operation Architecture](04-architecture/MOBILE_CLIENT_AND_OFFLINE_OPERATION_ARCHITECTURE.md)
 - [Concurrency, Transaction Integrity and Idempotency](04-architecture/CONCURRENCY_TRANSACTION_INTEGRITY_AND_IDEMPOTENCY.md)
@@ -109,7 +112,7 @@ Project governance, glossary, requirements traceability, change control, risk an
 - [Production VPS Deployment and Infrastructure Architecture](04-architecture/PRODUCTION_VPS_DEPLOYMENT_AND_INFRASTRUCTURE_ARCHITECTURE.md)
 - [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
 - [Audit Logging and Observability Architecture](04-architecture/AUDIT_LOGGING_AND_OBSERVABILITY_ARCHITECTURE.md)
-- Physical database architecture and ERD (planned; dependent on ERS-001 readiness review).
+- Physical database architecture and ERD remain deferred until ERS readiness, ODR-003/008/017 and technology PoC dependencies are satisfied; no DDL/schema is authorized in the current phase.
 
 ### 05 — India requirements
 - [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
@@ -118,17 +121,20 @@ Project governance, glossary, requirements traceability, change control, risk an
 ### 06 — Security and operations
 - [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
 - [Audit Logging and Observability Architecture](04-architecture/AUDIT_LOGGING_AND_OBSERVABILITY_ARCHITECTURE.md)
-Tenant-isolation verification and incident response (detailed operational documents planned); backup/restore/DR baseline is specified in ARC-DR-001.
+- [Production Operations, Incident Response and Support Runbook](06-security-operations/PRODUCTION_OPERATIONS_INCIDENT_RESPONSE_AND_SUPPORT_RUNBOOK.md)
+Tenant-isolation verification, named responders, support grants and production-specific provider details require environment-specific evidence and human assignment; backup/restore/DR baseline is specified in ARC-DR-001.
 
 ### 07 — Quality engineering
-Test strategy, unit/integration/API/E2E/security/performance tests, test data, acceptance/release gates, regression and compatibility (planned).
+- [Quality Engineering and Acceptance Test Strategy](07-quality/QUALITY_ENGINEERING_AND_ACCEPTANCE_TEST_STRATEGY.md)
+Detailed executable test cases, test data fixtures and automated coverage remain to be produced from the FRS/RTM during the later implementation phase.
 
 ### 08 — Technology evaluation
 - [Technology Evaluation and Provisional Technology Baseline](08-technology/TECHNOLOGY_EVALUATION_AND_PROVISIONAL_BASELINE.md)
 Proof-of-concept findings, final ADRs and approved technology baseline remain gated by reproducible evidence and explicit review.
 
 ### 09 — Delivery and maintenance
-Development workflow, environment setup, branching/releases, deployment/rollback, versioning, maintenance and support (planned).
+- [Development, Release and Change Governance](09-delivery/DEVELOPMENT_RELEASE_AND_CHANGE_GOVERNANCE.md)
+Detailed environment-specific setup, branch/CI configuration, deployment scripts, provider operations and customer support assignments are finalized after ODR-030/031 and named operational owners.
 
 ## 5. Review gates
 
@@ -156,7 +162,7 @@ For each material change: identify source and evidence; list affected documents/
 10. Reporting, BI, forecasting, budgeting and projections.
 11. Product variability, configuration governance, customization and extension contracts.
 12. Final architecture decisions and development-readiness review.
-11. Architecture alternatives and technology evaluation.
-12. Final architecture decisions and development-readiness review.
+13. Architecture alternatives and technology evaluation.
+14. Final architecture decisions and development-readiness review.
 
 This is a documentation sequence, not a reduction of product scope.
