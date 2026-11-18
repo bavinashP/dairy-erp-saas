@@ -1,7 +1,7 @@
 # India Dairy Regulatory Research Register
 
 **Status:** Research register — not a legal opinion  
-**Last reviewed:** 2026-11-17  
+**Last reviewed:** 2026-11-19  
 **Purpose:** Identify regulatory topics that may affect product requirements and preserve source evidence. Applicability must be determined for each tenant's actual activities, size, location, and legal profile.
 
 ## 1. Critical product-design principle
@@ -46,6 +46,25 @@ Official sources:
 - https://fssai.gov.in/inspection/hygiene-requirements
 - https://www.fssai.gov.in/business/guidance
 - https://fssai.gov.in/food-law/regulations
+
+### 3.1 FSSAI — advisory on controlled-temperature transport/storage of perishable food commodities (15 October 2026)
+
+FSSAI issued an advisory dated 15 October 2026 concerning handling, storage and transportation of perishable food commodities under controlled-temperature conditions. The advisory refers to commodities such as khoa, paneer, meat and fish and directs Food Business Operators handling the commodities within its stated scope to:
+- Transport them only in clean, covered and hygienic vehicles/conveyances suitable for food.
+- Maintain the prescribed temperature conditions throughout storage and transportation.
+- Use food-grade packaging and suitable secondary packaging.
+- Protect products from dust, moisture, pests, physical damage and cross-contamination during storage, loading, unloading and transportation.
+- Maintain appropriate consignment records and traceability and produce invoices or relevant documents when required by the competent authority.
+
+**Product implications for investigation:**
+- Delivery/transport profiles must support product- and activity-specific vehicle suitability, hygiene/cleanliness checks, temperature evidence, food-grade packaging, loading/unloading condition checks, traceable consignment references and exception/hold records.
+- These controls must be scoped by actual product, business activity and applicability. The advisory must not be translated into one universal temperature or checklist for all dairy SKUs, retail-only activities, raw milk and processed dairy products.
+- Where a relevant control is legally mandatory, a Tenant cannot disable it through a lower-level preference. The application must retain source, effective date, jurisdiction, applicability and the verified rule/profile version.
+- The advisory does not itself provide one numeric temperature for all commodities; do not hardcode one value based on this advisory.
+- Legal applicability, amendments, other product-specific rules and any vehicle/transport documentation requirements must be reviewed against the current official source before compliance enforcement is implemented.
+
+**Official primary source:** FSSAI, Advisory dated 15 October 2026, F. No. RCD-15001/11/2021-Regulatory-FSSAI:
+https://www.fssai.gov.in/docs/food-law/advisory/Advisory%20dated%2015.10.2026_Transportation%20and%20storage%20of%20perishabe%20commodities.pdf
 
 ## 4. Milk procurement and quality operations
 
@@ -119,6 +138,7 @@ Prefer:
 
 Official source links:
 - FSSAI advisory, 11 March 2026: https://fssai.gov.in/upload/uploadfiles/files/Advisory%20dated%2011_03_2026%20related%20to%20Milk%20Producers%20and%20Milk%20vendors.pdf
+- FSSAI advisory, 15 October 2026 — perishable food transport/storage: https://www.fssai.gov.in/docs/food-law/advisory/Advisory%20dated%2015.10.2026_Transportation%20and%20storage%20of%20perishabe%20commodities.pdf
 - FSSAI regulations index: https://fssai.gov.in/food-law/regulations
 - FSSAI dairy FSMS guidance: https://www.fssai.gov.in/business/guidance
 - NDDB Milkipedia: https://www.nddb.coop/ccnddb/milkipedia
@@ -127,6 +147,7 @@ Official source links:
 ## 9. Unresolved research tasks
 
 - Confirm the current status and subsequent updates to the 11 March 2026 FSSAI advisory.
+- Verify the product/activity-specific scope and implementation implications of the 15 October 2026 FSSAI perishable transport/storage advisory, including any later clarifications.
 - Build a FSSAI applicability matrix by activity and business scale; obtain qualified legal/regulatory review before enforcement logic.
 - Build a GST applicability and product-tax matrix using primary sources.
 - Research Legal Metrology applicability for loose milk measurement and packaged products.
