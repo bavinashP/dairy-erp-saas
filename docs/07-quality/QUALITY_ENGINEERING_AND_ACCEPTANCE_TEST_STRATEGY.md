@@ -101,18 +101,18 @@ Use property-based or generated boundary tests for money, quantities, conversion
 ### 6.1 Physical custody and shared-resource assurance
 
 Test the selected custody assurance profile at each applicable operating scale:
-- Small owner-operated workflow completes a basic single-party capture without requiring a second employee account or enterprise-only setup.
-- Acknowledged cross-Branch/carrier handover requires the actual receiving party's acknowledgement under the selected profile; notification delivery and timeout never imply acceptance.
-- Partial receipt records accepted and outstanding quantities separately; a rejected shipment preserves the actual custodian and known location.
-- Custody-only event does not create a stock movement or financial posting; an actual stock location/quantity change records a separate linked movement.
-- A missing handover response, offline device or duplicate event never creates a custody gap or phantom acceptance.
-- Raw milk/perishable profile captures configured timestamps, container/lot, required temperature/condition and quality evidence; invalid/missing/out-of-range evidence follows the configured hold/review policy.
-- Sensor/device readings retain device identity, source timestamp, calibration/reference and raw value; unverified/manual readings are not misrepresented as sensor-confirmed.
-- Shared equipment use across Branches preserves asset ownership, permitted-use scope, custody, booking, cleaning/calibration/maintenance and any separately approved cost allocation.
-- A stock-task grant expiring while stock is physically held blocks further stock mutation but preserves the last verified custodian/location until a real handover or incident resolution.
-- Custody permissions, evidence attachments and Branch-scoped data are tested across web, API, mobile/barcode, reports, exports, jobs and integrations.
-- A custody incident or discrepancy never automatically creates a write-off, supplier deduction, payroll deduction, liability finding or financial posting.
-- Historical custody output reproduces the profile/configuration version and evidence available at the time.
+- **AT-CST-001:** Small owner-operated workflow completes a basic single-party capture without requiring a second employee account or enterprise-only setup.
+- **AT-CST-002:** Acknowledged cross-Branch/carrier handover requires the actual receiving party's acknowledgement under the selected profile; notification delivery and timeout never imply acceptance.
+- **AT-CST-003:** Partial receipt records accepted and outstanding quantities separately; a rejected shipment preserves the actual custodian and known location.
+- **AT-CST-004:** A custody-only event does not create a stock movement or financial posting; an actual stock location/quantity change records a separate linked movement.
+- **AT-CST-005:** A missing handover response, offline device or duplicate event never creates a custody gap or phantom acceptance.
+- **AT-CST-006:** Raw milk/perishable profile captures configured timestamps, container/lot, required temperature/condition and quality evidence; invalid/missing/out-of-range evidence follows the configured hold/review policy.
+- **AT-CST-007:** Sensor/device readings retain device identity, source timestamp, calibration/reference and raw value; unverified/manual readings are not misrepresented as sensor-confirmed.
+- **AT-CST-008:** Shared equipment use across Branches preserves asset ownership, permitted-use scope, custody, booking, cleaning/calibration/maintenance and any separately approved cost allocation.
+- **AT-CST-009:** A stock-task grant expiring while stock is physically held blocks further stock mutation but preserves the last verified custodian/location until a real handover or incident resolution.
+- **AT-CST-010:** Custody permissions, evidence attachments and Branch-scoped data are tested across web, API, mobile/barcode, reports, exports, jobs and integrations.
+- **AT-CST-011:** A custody incident or discrepancy never automatically creates a write-off, supplier deduction, payroll deduction, liability finding or financial posting.
+- **AT-CST-012:** Historical custody output reproduces the profile/configuration version and evidence available at the time.
 
 ## 7. Concurrency, idempotency and failure testing
 
