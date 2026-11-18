@@ -50,9 +50,9 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | TenantEntitlementOverride | Tenant-scoped governance | References entitlement, actor and effective interval | Must be audited and cannot weaken platform invariants |
 | TenantConfiguration | Tenant | Has typed settings and versions | Configuration schema/version controlled |
 | Branch | Tenant | Belongs to one Tenant; may be associated with multiple OperatingLocations | Branch is a management/operating unit, not necessarily a physical site |
-| OperatingLocation | Tenant | Represents an actual physical/operational site; may optionally be associated with a Branch; tenant-level/unassigned locations are permitted | One site may support multiple operational capabilities; shared use across Branches requires an explicit governed association and access rules |
+| OperatingLocation | Tenant | Represents an actual physical/operational site; may be unassigned or used by one or more Branches through explicit governed, effective-dated associations | One site may support multiple operational capabilities; shared physical use does not merge branch stock or grant cross-branch access |
 | OperatingLocationCapability | OperatingLocation / tenant configuration | Associates one or more operational capabilities with an OperatingLocation | Examples: retail sales, milk collection, storage, processing and packaging; multiple capabilities may coexist at one site |
-| StockLocation | Tenant; associated with an approved inventory/operational ownership scope | Represents a stock-holding position or subdivision within/associated with a physical site | Distinct from OperatingLocation; e.g. refrigerator, room, shelf, bin or zone |
+| StockLocation | Tenant; associated with an explicit Branch/inventory-ownership scope and an OperatingLocation or other approved holding context | Represents a stock-holding position or subdivision within/associated with a physical site | Distinct from OperatingLocation; e.g. refrigerator, room, shelf, bin or zone. Multiple Branches may maintain separate StockLocations within one shared physical OperatingLocation; ownership, balances, reservations, movements, counts and control remain branch-attributed |
 | ServiceArea | Tenant | May be served by one or more Branches through an explicit effective-dated Branch-ServiceArea association | A Branch may serve multiple ServiceAreas; reassignment is prospective and historical delivery context is immutable; geographic overlap does not grant cross-branch access |
 | BusinessCalendar / ShiftDefinition | Tenant or branch override | Used by schedules, collection, delivery, attendance and reporting | Versioned/effective-dated |
 | BusinessProfileCapability | Tenant/branch | Enables/configures optional capability | Entitlement and local configuration are separate |
@@ -144,7 +144,7 @@ The ERS is subordinate to the Project Vision and Scope and must remain consisten
 | ProductionBatch | Tenant | References definition version, facility and inputs/outputs | |
 | ProductionInputLine | Tenant | References source stock lot and consumed quantity | |
 | ProductionOutputLine | Tenant | References finished product/lot and output quantity | |
-| StockLocation | Tenant | Belongs to branch or independent operating location | |
+| StockLocation | Tenant | Must resolve to one explicit Branch/inventory-ownership scope and a physical holding context; multiple Branch-specific StockLocations may exist within one shared OperatingLocation | Physical co-location does not merge ownership or authorize cross-branch stock access |
 | StockLot | Tenant | References product/SKU, source receipt/production and expiry/batch | Optional tracking policy |
 | StockMovement | Tenant | References product, lot, from/to locations, source document and movement type | Authoritative stock history |
 | StockReservation | Tenant | References demand line and stock location/lot | Not a physical issue |
@@ -249,7 +249,7 @@ The following is the logical relationship spine. Optional relationships depend o
 
 1. PlatformPrincipal 1:N platform role assignments.
 2. Tenant 1:1/N TenantBusinessProfile versions; Tenant 1:N Branch, TenantMembership, TenantConfiguration and TenantSubscription history.
-3. Tenant 1:N OperatingLocation; one Branch may be associated with 0:N OperatingLocations, and an OperatingLocation may be unassigned to a Branch or associated with a Branch under policy. Shared use by multiple Branches requires an explicit governed association and access rules. One OperatingLocation may have multiple OperationalCapabilities; StockLocation is a separate inventory-control subdivision and is not a physical OperatingLocation.
+3. Tenant 1:N OperatingLocation; one Branch may be associated with 0:N OperatingLocations, and an OperatingLocation may be unassigned or used by one or more Branches through explicit governed, effective-dated associations. One OperatingLocation may have multiple OperationalCapabilities; StockLocation is a separate inventory-control subdivision and is not a physical OperatingLocation. Multiple Branches may maintain separate StockLocations within the same physical OperatingLocation; every StockLocation must resolve to one explicit Branch/inventory-ownership scope, and stock balances/movements/counts/reservations remain attributable to that scope. Physical sharing does not merge stock or grant cross-branch stock access.
 4. Branch and ServiceArea have an approved many-to-many service-allocation relationship through an explicit effective-dated association. One Branch may serve 0:N ServiceAreas and one ServiceArea may be served by 1:N Branches according to configured assignments. Historical delivery records preserve the branch/service context applicable when they were created; changing an assignment does not rewrite completed records. This association does not grant cross-branch data access.
 5. Branch 1:N RouteTemplate; each RouteTemplate belongs to exactly one Branch. A RouteTemplate may cover one or more ServiceAreas only where its owning Branch has an effective BranchServiceAreaAssignment. RouteTemplate is not shared across Branches by implication; another Branch serving the same ServiceArea uses its own RouteTemplate. Each DeliveryRun references a Branch and a RouteTemplate owned by that same Branch; mismatch is invalid. Completed runs retain the route/plan version and operational context used at execution.
 6. UserAccount 1:N TenantMembership; TenantMembership 1:N RoleAssignment and DeviceRegistration as policy allows.
@@ -355,7 +355,7 @@ For each class define create/update/delete/archive/restore, retention, legal hol
 ## 16. Unresolved modelling decisions
 
 1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
-2. ODR-002: detailed shared-site governance and cross-branch access rules; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification.
+2. ODR-002: detailed shared-site governance, operational accountability and cross-branch access rules; dispatch responsibility, driver/vehicle assignment and route execution policies also require separate workflow specification. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated.
 3. ODR-004/005: cross-tenant user identity, membership multiplicity, role scope and permission delegation.
 4. ODR-008: supported UOM, precision, conversion and rounding.
 5. ODR-011/012: processing and inventory valuation/ownership policy.
