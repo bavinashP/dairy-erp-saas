@@ -125,6 +125,13 @@ The future requirements must cover:
 
 Emergency Authority is not a job category or standing administrative role. It is a specifically assigned, current and scoped permission to activate the restricted ODR-002 Emergency Override when the ordinary approver is unavailable and a qualifying emergency makes delay materially harmful. The authority must be explicitly permissioned, audited and time-bounded; no title or general administrator status is sufficient. Emergency activation, extension and retrospective review are separate permission checks.
 
+
+### Delegated Approval (ODR-002)
+
+Delegated Approval is a temporary, explicitly permissioned authorization, not a job category or role inheritance. The delegator must hold the relevant approval permission and the separate `approval.delegate` permission for the same scope. The delegate receives only the specified approval action, category, Branch/resource scope and limits for no more than 30 calendar days. The delegation cannot widen data visibility, exceed the delegator's current authority, renew automatically or be passed onward. It is immediately revocable and automatically invalidated when either party's relevant Tenant membership or the delegator's underlying approval/delegation authority ceases to be valid.
+
+Permission/access administration, Emergency Override activation/extension/review, stock adjustments/write-offs, financial-period close/reopen and sensitive data deletion are non-delegable. Other approval actions are delegable only when their governing policy explicitly permits it. Delegated approval cannot bypass maker-checker, independent or multi-stage approval; a delegate cannot approve an action they initiated or their own delegation record. Actual delegate and delegator identities must both be retained in the audit evidence.
+
 ## 8. Open decisions
 
 - Can one user access more than one tenant?
@@ -134,7 +141,7 @@ Emergency Authority is not a job category or standing administrative role. It is
 - Can tenants create custom roles and permission bundles?
 - How are approval limits represented and inherited?
 - Which actions require maker-checker at each plan/business scale?
-- What support access workflow is required? Emergency Override is governed by the approved ODR-002 policy; delegated approval and remaining approval limits require separate decisions.
+- What support access workflow is required? Emergency Override and the scoped delegated-approval policy are governed by approved ODR-002 decisions; remaining approval thresholds and the broader ODR-004/005 permission/delegation matrix remain open.
 - What authentication assurance (MFA, passkeys, OTP, password policy) is required for each risk tier?
 - How are shared POS and delivery devices handled without shared identities?
 - What is the session/device revocation behavior?
