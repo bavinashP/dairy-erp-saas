@@ -187,6 +187,33 @@ Use stable test identifiers AT-DLV-001..030 for delivery acceptance coverage:
 - **AT-DLV-029:** Perishable consignment evidence retains product/lot, parties, origin/destination, timestamps, packaging, applicable vehicle/temperature and disposition data under the effective profile.
 - **AT-DLV-030:** Small, growing multi-Branch and enterprise profiles execute the same route/run semantics with proportionate controls, tenant quotas and no separate code forks.
 
+### 6.3 UOM, quantity precision, conversion and rounding acceptance
+
+Use stable test identifiers AT-UOM-001..020 for DBR-004 / ODR-008 section 16.40:
+
+- **AT-UOM-001:** Canonical UOM entries resolve to exactly one registered dimension, stable machine identity, symbol/formal name and catalogue version; changing labels/translations does not change dimensional semantics.
+- **AT-UOM-002:** Adding, comparing, averaging or converting quantities with incompatible dimensions is rejected unless a separately approved contextual conversion rule is supplied.
+- **AT-UOM-003:** Each stock-managed SKU has exactly one effective base UOM; duplicate overlapping assignments are rejected.
+- **AT-UOM-004:** A Product default base UOM may be inherited only where the SKU/variant is dimensionally and operationally compatible; conflicting SKU assignment is resolved explicitly. Non-stockable services do not require a stock base UOM.
+- **AT-UOM-005:** A transaction accepts only an enabled UOM and an active, applicable conversion/pack rule; original entered quantity/UOM and normalized quantity remain separately available.
+- **AT-UOM-006:** Exact standard conversions (e.g. g/kg, mL/L) use the correct catalogue version and do not introduce avoidable intermediate rounding.
+- **AT-UOM-007:** Milk mass-volume conversion is unavailable without approved contextual density/temperature evidence; when enabled, source and derived values plus rule/version/conditions are both retained.
+- **AT-UOM-008:** Temperature conversion applies the correct offset formula, preserves source scale and does not treat temperature readings as additive stock quantities.
+- **AT-UOM-009:** Pack count, declared content and derived total content remain distinct; a count of bottles/packs cannot be directly added to litres/kilograms.
+- **AT-UOM-010:** Pack/unpack/case-break/repack is an explicit versioned stock/production transformation, preserves source/result identities and is idempotent.
+- **AT-UOM-011:** A source device/human measurement preserves its actual input resolution, method/device, timestamp and calibration/provenance; extra stored digits do not imply extra measurement accuracy.
+- **AT-UOM-012:** Source, stored, calculation, posting, display precision and business tolerance are tested independently; unsupported Tenant precision profiles fail closed.
+- **AT-UOM-013:** Changing a UOM, SKU base assignment, conversion, pack definition or precision profile affects only eligible future transactions; historical results remain reproducible.
+- **AT-UOM-014:** Quantity tolerance and rounding remain separate: an in-tolerance measurement is not silently overwritten or rounded to the target.
+- **AT-UOM-015:** Ordinary commercial HALF_UP rounding is deterministic at declared positive/negative tie boundaries and does not depend on runtime defaults.
+- **AT-UOM-016:** CGST Act section 170 nearest-rupee rounding is applied only to verified in-scope tax/other amounts under that Act; ordinary selling prices, farmer rates and stock values are not universally rounded to whole rupees.
+- **AT-UOM-017:** INR monetary posting balances at paise precision; rate precision may be higher; rounding residuals are explicit, auditable and never unexplained plugs. Reversals reproduce original posted values.
+- **AT-UOM-018:** Tally target-company/release UOM and currency precision is detected; unsupported precision is blocked or handled by explicitly approved mapping/rounding and reconciliation, never silently truncated.
+- **AT-UOM-019:** Reports disclose unit basis, source/derived status, conversion/profile version and aggregation grain; incompatible dimensions cannot be combined.
+- **AT-UOM-020:** Concurrent/retried conversion, stock posting, settlement and invoice calculations produce one deterministic effect and retain the same policy/version snapshot; configuration changes cannot alter an in-flight/finalized result.
+
+These tests complement the existing financial, stock, measurement, processing and Tally acceptance suites; implementation must also include representative property-based and boundary vectors for supported unit families and workflow profiles.
+
 ## 7. Concurrency, idempotency and failure testing
 
 For each critical write path, test:
