@@ -29,6 +29,8 @@ Capacity planning must model the workload rather than a single tenant/user count
 - Branches/outlets/collection points/warehouses per tenant.
 - Active users, concurrent users, role mix and shift overlap.
 - POS terminals/devices, delivery operators and shared operational devices.
+- Route templates/manual routes, DeliveryPlans and concurrent DeliveryRuns per Branch/date/shift.
+- Delivery stops, attempts, fulfilment events, assigned participants, vehicles/transport resources and exclusive resource-booking windows.
 - Customer/subscription count and number of active subscription schedules.
 - Suppliers/farmers, products/SKUs, batches/lots and stock locations.
 
@@ -38,13 +40,14 @@ Capacity planning must model the workload rather than a single tenant/user count
 - Delivery stops, fulfilment updates and exception events per route/shift.
 - Milk collection entries, quality tests, procurement settlements and stock movements.
 - Invoice/receipt/payment/journal entries and reconciliation volume.
-- API requests per second by route class, payload size and read/write ratio.
+- API requests per second by operation class, payload size and read/write ratio.
+- Dispatch events, route/stop updates, offline synchronization commands, geocoding/map requests, route-optimization jobs and telematics/device events by Tenant.
 - Idempotency retries, webhook bursts and integration polling frequency.
 
 ### 2.3 Data and artifact dimensions
 - Database row growth by domain and tenant.
 - Average and maximum attachment/PDF size, object count and download frequency.
-- Audit/event/outbox growth and retention classes.
+- Audit/event/outbox growth and retention classes, including run/assignment history and dispatch snapshots.
 - Custody event frequency, raw sensor/device reading rate, evidence attachment volume, object-storage retrieval/egress and device connectivity patterns by Tenant/workflow.
 - Report/forecast dataset size, execution frequency and concurrency.
 - Backup volume, change rate, WAL/binlog generation and restore throughput.
@@ -55,6 +58,7 @@ Capacity planning must model the workload rather than a single tenant/user count
 - Month-end billing, statements, collections and payment reconciliation.
 - Weekly procurement and settlement patterns.
 - Festival, seasonal milk demand and promotion spikes.
+- Delivery-window concentration (morning/evening), weather/road disruption, school/office holiday effects and peak route replanning demand.
 - Payroll/accounting close and tax/reporting periods.
 - Tenant onboarding, bulk imports and data migrations.
 
@@ -98,6 +102,7 @@ The platform must be tested at expected peak and at a documented stress multipli
 ### 4.3 Background processing
 - Scale worker pools independently by queue class and resource profile.
 - Separate critical business processing from best-effort notifications and analytics.
+- Run route optimization, geocoding, map enrichment and bulk fleet/telematics reconciliation asynchronously in bounded tenant-aware queues; a failed or saturated optimization provider must not block manual dispatch.
 - Use per-tenant fairness/concurrency limits to prevent noisy-neighbour starvation.
 - Apply idempotency, bounded retries, leases, dead-letter/manual resolution and queue-age monitoring.
 - Long jobs must checkpoint progress and resume safely.
@@ -130,6 +135,7 @@ The platform must be tested at expected peak and at a documented stress multipli
 - Define plan-based limits for business entitlements separately from platform-wide safety ceilings.
 - Meter database-heavy operations and reject or queue pathological filters/exports.
 - Bound file size, batch size, pagination size, webhook payload and retry rate.
+- Bound route stops per optimization request, route/plan complexity, provider map/geocoding requests and per-Tenant concurrent optimization runs; enforce external provider rate limits and safe fallback to manual route ordering.
 - Use per-tenant storage quotas and warnings; critical business/audit artifacts must not be silently discarded at quota exhaustion.
 - Detect unusual growth, retry loops and automated abuse; provide safe throttling and operator visibility.
 - Platform operators may impose temporary protective limits during incidents, with audit and customer communication.
