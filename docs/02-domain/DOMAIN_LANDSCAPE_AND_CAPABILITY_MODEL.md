@@ -33,7 +33,7 @@
 | Processing and Packaging | Convert raw inputs to finished goods | Batch, recipe/formula, yield, loss, packaging, traceability | Only where tenant processes/packages |
 | Product and Price Catalogue | Define sellable/buyable items | Product types, units, packs, variants, price lists, effective dates | Every product-selling tenant |
 | Inventory and Warehousing | Control stock | Receipts, issues, transfers, adjustments, expiry, batch/lot, wastage, linked custody events and reconciliation | As stock is physically managed |
-| Distribution and Delivery | Fulfil doorstep demand | Routes, stops, runs, allocation, dispatch, delivery outcome, returns | When delivery is offered |
+| Distribution and Delivery | Fulfil doorstep demand | Branch-owned Routes/manual routes, date/shift DeliveryPlans, run allocation, personnel and optional vehicle assignment, dispatch readiness, stops, custody, delivery outcomes, returns and exceptions | When delivery is offered; fleet/optimization capabilities remain optional |
 | Billing and Receivables | Charge customers and track dues | Billing cycles, statements, invoices where applicable, debit/credit adjustments, receipts | Customer credit/recurring billing |
 | Payments and Reconciliation | Record and reconcile money movement | Cash, UPI QR, bank transfer, gateway reference, matching, refund | Whenever money is received/paid |
 | Accounting and Finance | Represent financial position | Accounts, vouchers, journals, ledgers, cash/bank, expenses, statements | According to selected finance scope |
@@ -125,15 +125,19 @@ The following are cross-domain requirements to detail later:
 
 Shared-site custody is a cross-cutting operational control used by inventory, procurement, milk collection, transport, processing, delivery and asset/resource management where the Tenant enables it. It distinguishes stock ownership and ledger attribution from physical custody, actual handling, workforce assignment and permission. The capability supports proportionate single-party capture through high-assurance handover evidence, without forcing the high-assurance process on every small Tenant. Custody events do not independently create stock or financial movements. Full domain policy is in [Shared-Site Accountability and Custody Management](SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md).
 
-## 8. Exclusions and boundaries
+## 8. Route execution and transport capability
+
+Route planning, personnel/transport assignment and dispatch are distinct capabilities. A one-person business can use a one-off manual Branch-owned Route and one DeliveryRun without maintaining a fleet registry or route optimizer. A larger Tenant can group multiple runs in a DeliveryPlan, split demand across vehicles, validate capacity/readiness, configure independent dispatch approval and add mapping/telematics/optimization adapters. Route/Branch/ServiceArea ownership, explicit permissions, stock allocation, custody and product-handling controls remain fixed. The authoritative workflow is in [Delivery Lifecycle and Exception Rules](DELIVERY_LIFECYCLE_AND_EXCEPTION_RULES.md) and ODR-002 section 16.37.
+
+## 9. Exclusions and boundaries
 Customer self-service login and consumer e-commerce storefront remain outside the approved current boundary. A future proposal must be handled through change control. No technical microservice boundaries are implied by this domain map.
 
-## 9. Research notes
+## 10. Research notes
 - NDDB describes milk collection operations involving producer identification, quantity measurement, sampling/testing, rate calculation, transaction receipt, shift summaries, and milk dispatch. This supports modelling collection as a controlled multi-step transaction rather than a single purchase entry.
 - NDDB describes raw-milk testing, chilling/storage, transport, receiving inspection, and processing as distinct stages. These capabilities apply only to tenants whose operating model includes those stages.
 - FSSAI materials distinguish hygiene requirements across petty food operators and manufacturing/processing/packaging/storage/distribution, with a specific dairy and milk-products hygiene section. Product workflows must therefore be configurable by actual activity and applicability; legal applicability must be separately verified.
 
-## 10. Sources
+## 11. Sources
 1. NDDB, Milkipedia — testing, storage, transportation, and processing of milk: https://www.nddb.coop/ccnddb/milkipedia
 2. NDDB, Dairying through Cooperatives — milk procurement infrastructure manual: https://beta.nddb.coop/wp-content/uploads/2025/11/Manual_Component_A_Strengthening_Milk_Procurement_Infrastructure.pdf
 3. FSSAI, Hygiene Requirements: https://fssai.gov.in/inspection/hygiene-requirements
@@ -142,7 +146,7 @@ Customer self-service login and consumer e-commerce storefront remain outside th
 
 **Caution:** This is domain analysis, not legal advice or a final compliance applicability determination.
 
-## 11. Product variability and growth
+## 12. Product variability and growth
 
 The platform must present a composable capability model rather than separate product editions with permanently different code. Tenant business profiles and starter templates are editable starting points only; one Tenant may combine capabilities and evolve over time. Plan entitlement, capability activation, operational configuration, permission assignment and extension enablement are independent controls.
 
