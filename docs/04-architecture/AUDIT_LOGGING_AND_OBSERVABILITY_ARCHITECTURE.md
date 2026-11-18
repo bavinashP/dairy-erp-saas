@@ -99,6 +99,19 @@ Do not store full request/response bodies by default. Any exceptional payload ca
 
 Not every ordinary read needs a durable audit event. Define read-audit requirements by data sensitivity, abuse risk and legal/contractual need to avoid excessive collection.
 
+### 5.4 Custody and shared-resource accountability
+
+Where custody/resource tracking is enabled, durable business audit evidence must include:
+- Custody assignment creation/change/expiry/revocation and the actor's effective permission/scope.
+- Custody offer, dispatch, carrier acceptance, in-transit handover, receipt, partial acceptance, rejection, dispute, alternative resolution and closure.
+- Subject identity, stock-owning Branch, source/destination Branch/location, actual custodian, handler, sender/receiver, event times, quantity/UOM/condition and policy/assurance-profile version.
+- Sensor/manual/device measurements, device identity, calibration reference, seals/containers, scans, signatures, evidence attachments and verification state as applicable.
+- Custody incident report, evidence, containment, review, disposition, linked stock/financial correction and outstanding claim/dispute status.
+- Shared-resource booking, actual use, custodian, Branch/capability, meter/usage readings, cleaning, calibration, inspection, maintenance, downtime and approved cost-allocation decision.
+- Grant/permission expiry or revocation while physical custody is outstanding, including access hold, handover/reassignment and reconciliation outcomes.
+
+Custody events and StockMovement records are separate domain facts. Where both occur, they must be correlated without double-counting stock. Audit records must distinguish observed readings, user assertions, device evidence and reviewed conclusions. An incident allegation is not a finding of negligence or liability.
+
 ### 5.5 Delivery route, assignment and dispatch accountability
 
 For every DeliveryPlan/DeliveryRun lifecycle, durably record where applicable:
@@ -112,18 +125,6 @@ For every DeliveryPlan/DeliveryRun lifecycle, durably record where applicable:
 
 Route, assignment and transport-resource changes after dispatch must be recorded as linked events; never overwrite the original manifest or assignment evidence. Audit must distinguish planned from actual route/vehicle/personnel and distinguish a user-entered assertion from independently verified evidence.
 
-### 5.4 Custody and shared-resource accountability
-
-Where custody/resource tracking is enabled, durable business audit evidence must include:
-- Custody assignment creation/change/expiry/revocation and the actor's effective permission/scope.
-- Custody offer, dispatch, carrier acceptance, in-transit handover, receipt, partial acceptance, rejection, dispute, alternative resolution and closure.
-- Subject identity, stock-owning Branch, source/destination Branch/location, actual custodian, handler, sender/receiver, event times, quantity/UOM/condition and policy/assurance-profile version.
-- Sensor/manual/device measurements, device identity, calibration reference, seals/containers, scans, signatures, evidence attachments and verification state as applicable.
-- Custody incident report, evidence, containment, review, disposition, linked stock/financial correction and outstanding claim/dispute status.
-- Shared-resource booking, actual use, custodian, Branch/capability, meter/usage readings, cleaning, calibration, inspection, maintenance, downtime and approved cost-allocation decision.
-- Grant/permission expiry or revocation while physical custody is outstanding, including access hold, handover/reassignment and reconciliation outcomes.
-
-Custody events and StockMovement records are separate domain facts. Where both occur, they must be correlated without double-counting stock. Audit records must distinguish observed readings, user assertions, device evidence and reviewed conclusions. An incident allegation is not a finding of negligence or liability.
 
 ## 6. Reliability and transaction boundaries
 
