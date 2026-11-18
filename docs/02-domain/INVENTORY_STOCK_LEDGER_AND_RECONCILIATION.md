@@ -45,7 +45,11 @@ Movement types may include:
 - Physical count gain/loss adjustment.
 - Reversal or correction.
 
-A movement should record product, quantity, base UOM, location, lot where applicable, stock status, business date, posting timestamp, source reference, actor and reason. Preserve the original entered quantity and conversion details where UOM conversion is involved.
+A movement should record product/SKU, quantity, SKU base UOM, location, lot where applicable, stock status, business date, posting timestamp, source reference, actor and reason. Preserve the original entered quantity/UOM, source precision, normalized base quantity, conversion factor/rule version, precision profile and relevant evidence where UOM conversion is involved.
+
+Each stock-managed SKU has exactly one effective base UOM at a time (Product defaults may be inherited only where compatible). The stock ledger uses that SKU base UOM consistently. Purchase, receipt, issue, sale, transfer and count may use a permitted alternate UOM only through an active compatible UnitConversionVersion. Incompatible dimensions cannot be added or generically converted. Pack count and declared content remain separate; pack/unpack/case-break/repack is a controlled versioned event, not a generic UOM conversion.
+
+A later base-UOM, conversion, pack-definition or precision-profile change applies prospectively and never rewrites posted movements or historic quantity interpretation. An unsafe/incommensurate base-UOM change requires a controlled migration/reconciliation or a new SKU.
 
 ## 4. Availability and stock status
 
@@ -147,7 +151,7 @@ Every report must specify business date, posting date, location scope, status in
 
 ## 12. Configuration and evidence dependencies
 
-- ODR-008 precision architecture is selected: use the governed UOM precision catalogue, product base UOM and validated conversion profiles; do not impose a universal scale.
+- ODR-008/DBR-004 select a governed UOM dimension and precision catalogue, one effective base UOM per stock-managed SKU, validated effective-dated conversions and immutable source/derived quantity snapshots; no universal scale or cross-dimensional factor is permitted.
 - Tracking profile determines whether lot/batch/expiry/serial details are mandatory by product, shelf life, traceability and quality risk. A product cannot disable tracking required by its verified profile.
 - Stock ledger and physical custody are distinct but linked: StockMovement is authoritative for quantity/location/status effects; CustodyEvent records who physically held/handled the subject and where/when. A custody-only event does not create a stock movement. See [Shared-Site Accountability and Custody Management](SHARED_SITE_ACCOUNTABILITY_AND_CUSTODY_MANAGEMENT.md) and ODR-002 section 16.36. Inter-Branch ownership transfer is a separate workflow; a shared-site stock grant is not ownership transfer.
 - Negative available stock is denied by default. A narrow Tenant-configured exception may apply only to eligible non-serialized/non-lot-controlled items, with explicit permission, audit and reconciliation; never bypass quality hold, expiry, ownership or closed-period controls.
