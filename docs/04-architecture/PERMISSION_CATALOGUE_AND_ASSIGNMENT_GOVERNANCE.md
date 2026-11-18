@@ -136,6 +136,19 @@ The following is the product-wide catalogue baseline. Resource-specific permissi
 
 Permission keys above are representative candidates. Before module implementation, the owning domain must validate exact resource semantics and action states. No wildcard such as *.admin or all_permissions is a default grant. If a wildcard is ever supported for convenience, it must expand into explicit catalogue permissions at assignment time, show the full impact preview, require a dedicated permission and never include platform/non-delegable/security permissions implicitly.
 
+### 6.1 Delivery and transport action independence
+
+For delivery workflows, the catalogue's representative permissions are distinct:
+- Route view/create/update/publish/archive and Branch-ServiceArea coverage management.
+- DeliveryPlan create, demand allocate/split and plan submit.
+- DeliveryRun plan, assign, reassign, dispatch, execute, hold, resume, close and close-with-exceptions.
+- DeliveryStop view/execute/outcome capture and proof/evidence capture.
+- Delivery exception review/resolve and correction/reopen.
+- Transport resource view/reserve/assign/release and vehicle-readiness evidence review.
+- Driver/participant qualification evidence view/record/verify where enabled.
+
+An operational duty label (driver, handler, helper, accountable run assignee) is not an access grant. Assigning a person to a run does not grant permission to dispatch, view unrelated customer records, collect payments, change subscriptions, alter prices or close the run. Vehicle assignment does not grant run/customer data access. Route ownership and ServiceArea assignment do not confer cross-Branch membership. Cross-Branch delivery follows ARC-AUTH-MATRIX-001 section 4.1 and ODR-002 section 16.37. A StockTaskAccessGrant never substitutes for a DeliveryRun personnel assignment or delivery permission.
+
 ## 7. Sensitive data permissions
 
 Treat high-risk fields/data categories separately from ordinary entity visibility. Examples include personal identity documents and verified identifiers; bank account/payee details, payment instruments and statements; salary, compensation, payslips and payroll liabilities; tax identifiers, legal documents and statutory exports; customer contact data where use is purpose-limited; security credentials, recovery evidence and session metadata; and detailed audit/security investigations.
