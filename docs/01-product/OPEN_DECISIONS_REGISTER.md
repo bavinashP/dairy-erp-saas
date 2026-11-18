@@ -528,7 +528,7 @@ A scheduled reminder must be suppressed if the grant has already been revoked, i
 - Activation and pre-expiry reminders go to the assigned worker and the grant creator/activating user.
 - Expiry, revocation and automatic-invalidation notices go to the assigned worker, the grant creator and only those users who currently hold the relevant grant-review/reconciliation permission for the stock-owning Branch.
 - Do not broadcast to all Branch users or notify the worker's home Branch by default. Home-Branch consent/notification remains separate and must not be inferred.
-- Include only the minimum information needed to identify the grant, its expiry/status and any held task. External channels must not expose unrelated customer, supplier, employee, financial or stock data.
+- Before sending, validate each recipient's active account/Tenant membership and permission to receive the notification category. If a recipient no longer has the required access, suppress Branch, stock and task details; send only a generic access-status notice if separately permitted. Include only the minimum information needed to identify the grant, its expiry/status and any held task. External channels must not expose unrelated customer, supplier, employee, financial or stock data.
 
 **Channels and delivery failure**
 
