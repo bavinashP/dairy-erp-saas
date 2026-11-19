@@ -124,7 +124,8 @@ An attempt outcome must not automatically imply billing, payment receipt or cust
 
 | Record | Candidate states | Guards / downstream effects |
 |---|---|---|
-| Transfer | Draft → Requested → Approved → Dispatched → Partially Received / Received → Closed / Exceptioned | Dispatch reduces source available stock; in-transit custody tracked; destination increases only on receipt |
+| Internal StockLocation Transfer | Draft → Requested → Approved (if required) → Dispatched → Partially Received / Received → Closed / Exceptioned | Source and destination StockLocations MUST have the same stock-owning Branch; Branch attribution is unchanged; dispatch, in-transit custody and accepted receipt remain separate |
+| Branch Stock-Attribution Transfer | Draft → Source Approval → Destination Approval → Ready to Dispatch → Dispatched / In Transit → Partially Received / Received Pending Acceptance → Partially Accepted / Accepted → Posted / Exceptioned / Closed | Distinct Branches; dedicated `inventory.stock_attribution_transfer.*` permissions; both source release and destination acceptance scopes are mandatory; only accepted quantities may change destination Branch attribution; see section 3.15 |
 | Stock count | Draft → In Progress → Submitted → Reviewed → Approved → Posted → Closed | Count cut-off, movement-aware reconciliation, approval and stock adjustment movement |
 | Stock adjustment | Draft → Pending Approval → Posted / Rejected | Reason, source count/exception, actor and linked movement |
 
@@ -249,6 +250,36 @@ An ApprovalPolicyProfile is Tenant-owned configuration. It is not a user class, 
 | Committed | Later policy change | No retroactive state change | Preserve the committed decision/business effect and policy evidence; corrections use controlled domain workflows, not policy rewrite |
 
 Every ApprovalAction and protected commit must be bound to the exact source payload/version and the policy evaluation snapshot that authorized it. The authoritative commit revalidates current permissions, policy versions, threshold units, reviewer/quorum and fixed safeguards. A stale policy cache or an old approval cannot authorize a commit after a stricter applicable policy becomes effective.
+
+
+
+### 3.15 Branch stock-attribution transfer
+
+A Branch stock-attribution transfer changes **operational stock-ledger attribution** from one Branch to another. It is separate from (a) an internal transfer between StockLocations of the same stock-owning Branch and (b) cross-Branch stock handling at a shared site where attribution remains with the source Branch. It does not establish or change legal/economic title, sale/purchase treatment, accounting entity or tax treatment.
+
+| Current state | Command / next state | Guards | Side effects / restrictions |
+|---|---|---|---|
+| Draft | Submit → Submitted | Distinct active source/destination Branches in the same Tenant; each StockLocation resolves to its stated Branch attribution; eligible stock/lot/UOM/quantity; reason; no disallowed holds/reservations | Freeze a transfer version and payload; no stock or attribution effect |
+| Submitted | Approve source → Source Approved | Exact `inventory.stock_attribution_transfer.approve_source` permission scoped to source Branch; source stock available; approval binds exact version/payload | Records source release authorization only; no destination attribution and no dispatch |
+| Source Approved | Approve destination → Destination Approved | Exact `inventory.stock_attribution_transfer.approve_destination` permission scoped to destination Branch; destination is active/eligible; exact payload unchanged | Records destination acceptance authorization; both Branch-side approvals are mandatory |
+| Destination Approved | Validate → Ready to Dispatch | Both approvals current; transfer envelope/limits valid; lot/quality/recall/expiry/stock/custody checks pass; legal/accounting/tax gate passes where required | Freeze dispatch-ready version and in-transit policy |
+| Ready to Dispatch | Dispatch → Dispatched / In Transit | Exact dispatch permission; current transfer version; source stock/lot/quantity revalidated; actual handler/carrier and required custody evidence captured | Remove dispatched quantity from source available stock and retain source Branch attribution while in transit; create linked StockMovement and CustodyEvent/Handover as applicable; no destination attribution yet |
+| Dispatched / In Transit | Receive → Received Pending Verification | Exact receive permission; actual receiver/time/location, quantity, condition and lot/container evidence captured | Record actual received quantity; do not yet post destination attribution |
+| Received Pending Verification | Accept all/part → Partially Accepted / Accepted | Exact destination acceptance/receive authority; accepted quantity and quality/condition evidence valid; transfer policy permits partial acceptance | Mark only accepted quantity eligible for destination posting; disputed/rejected/outstanding quantity remains separately tracked |
+| Partially Accepted / Accepted | Post → Partially Posted / Posted | Exact `inventory.stock_attribution_transfer.post` permission; both approvals still valid for the exact version; accepted quantity reconciles; all fixed/entity/accounting/tax gates satisfied | Apply destination Branch stock attribution to accepted quantity exactly once; preserve source/transit and custody lineage; never create automatic sale/purchase/tax/journal merely from this operation |
+| Dispatched / In Transit / Received Pending Verification | Dispute / Exception → Exception Review | Exact reconcile/review permission, reason and evidence; mismatch, damage, missing goods, quality or custody uncertainty | Preserve last verified custodian/location and source attribution for unaccepted quantity; no silent return, destination posting or write-off |
+| Exception Review | Reconcile → Partially Accepted / Returned / Reassigned / Closed with Exceptions | Exact `inventory.stock_attribution_transfer.reconcile` permission, current Branch/stock scope, evidence, actual custody and correction path | Record explicit resolution for each quantity; return/compensation is a separate linked event and requires actual handover |
+| Draft / Submitted / Approved but not dispatched | Cancel → Cancelled | Exact cancel permission; no irreversible dispatch or stock effect | Preserve approvals and reason; release reservations safely |
+| Dispatched / In Transit / Posted | Cancel / Reverse → Controlled Exception Review | Exact permission and current transfer/version; actual custody/stock consequences reconciled | No simple cancellation after dispatch; posted attribution requires linked compensating/reversal movement; original transfer remains immutable |
+
+**Non-negotiable guards**
+- Internal same-Branch transfer uses `inventory.stock.transfer`; it MUST reject source/destination StockLocations with different stock-owning Branch attribution.
+- Cross-Branch handling at a shared site may use a StockTaskAccessGrant only for exact authorized stock actions. It MUST NOT create, approve, dispatch, receive, post or reverse a Branch stock-attribution transfer.
+- Source release approval and destination acceptance approval are separate mandatory authorization stages. A single actor may satisfy both only when that actor independently holds both exact Branch-scoped permissions and no fixed/active approval policy requires distinct actors.
+- A dispatch/receipt/custody handover alone does not change Branch attribution. Only the final accepted-quantity posting transition changes the operational destination attribution.
+- Partial, rejected, disputed and outstanding quantities remain separate. Only accepted quantities can post to destination. No acknowledgement, timeout or notification can imply acceptance.
+- If legal entity/accounting entity relationships or statutory applicability needed for final posting are unknown, inconsistent or unverified, hold the affected final posting path; do not assume all Branches in a Tenant share one legal entity.
+- The transfer does not automatically issue invoices, debit/credit notes, GST events, supplier/customer balances or accounting journals. Such effects require their own legal/accounting workflows and permissions.
 
 ## 4. Cross-domain transition dependencies
 
