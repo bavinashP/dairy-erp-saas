@@ -16,7 +16,7 @@
 | ODR-009 | Milk quality and testing | Define quality profiles, sample/test records, methods, result states, acceptance/hold/rejection and traceability. | Procurement settlement, processing and food safety | Configurable quality-profile baseline in section 16.12; validate device methods and post-project legal/food-safety applicability | **Recommended baseline selected under delegated decision mandate; legal thresholds and specific instrument methods remain evidence-gated.** |
 | ODR-010 | Procurement rates and farmer settlement | Define effective-dated rate charts, quality-linked calculations, deductions, advances, settlement periods and disputes. | Supplier balances, procurement incentives and accounting | Versioned rate-chart and settlement baseline in section 16.13; validate example calculations with representative dairy workflows | **Recommended baseline selected under delegated decision mandate; tenant-specific commercial formulas and values remain configurable.** |
 | ODR-011 | Processing and packaging | Define optional process profiles, versioned recipes, input/output/by-product/loss, batch lineage, quality release and yield tolerance. | Manufacturing, stock, cost and recall | Optional, versioned process baseline in section 16.14; validate representative process families and mass-balance evidence | **Recommended baseline selected under delegated decision mandate; process templates and tolerances remain product/process configurable.** |
-| ODR-012 | Inventory and stock control | Define stock ledger, reservations, transfers, lots/expiry profiles, counts, adjustments, negative stock and valuation boundaries. | Stock accuracy, traceability, cost and audit | Inventory baseline in section 16.15; complete valuation and legal/accounting dependencies through ODR-017/003 | **Recommended baseline selected under delegated decision mandate; valuation/costing method and limited exception settings remain evidence/policy gated.** |
+| ODR-012 | Inventory and stock control | Define stock ledger, reservations, transfers, lots/expiry profiles, counts, adjustments, negative stock and valuation boundaries. | Stock accuracy, traceability, cost and audit | Inventory baseline in section 16.15; Branch stock-attribution transfer boundary in section 16.44; complete valuation and legal/accounting dependencies through ODR-017/003 | **Recommended baseline selected under delegated decision mandate; valuation/costing and Branch stock-attribution transfer policy are specified in sections 16.15 and 16.44; legal-entity/accounting/tax applicability remains evidence-gated.** |
 | ODR-013 | Pricing and commercial terms | Define versioned price lists, precedence, effective dates, customer/segment terms, discounts, deposits and approval limits. | POS, subscriptions, profitability and billing | Pricing baseline in section 16.16; tenant-owned values and validated override/approval ranges remain configurable | **Recommended baseline selected under delegated decision mandate; actual rates, discounts and credit terms are Tenant business decisions/configuration.** |
 | ODR-014 | Billing and receivables | Define configurable billing periods/cut-offs, invoice/statement distinction, advances, credit, proration, disputes and linked corrections. | Receivables, customer balances and financial reporting | Billing baseline in section 16.17; legal document requirements remain subject to ODR-003/016 post-project review | **Recommended baseline selected under delegated decision mandate; billing-cycle and credit settings remain Tenant-configurable within verified rules.** |
 | ODR-015 | Payment evidence and verification | Distinguish payment intent, manual receipt entry, provider confirmation, bank statement evidence, reconciliation and settlement. | Avoids false payment verification and duplicate settlement | Evidence-state baseline in section 16.18; specific provider/bank integration capability remains PoC-dependent | **Recommended baseline selected under delegated decision mandate; provider selection remains evidence/cost dependent.** |
@@ -1465,4 +1465,104 @@ Tenants may create/version permission bundles, assign eligible sensitive-view/do
 
 The list above is a product-level baseline, not a legal classification opinion. The exact lawful basis/purpose, statutory retention, required disclosures, customer/employee privacy notices and jurisdiction-specific handling must be verified during the product's post-project legal/privacy review under ODR-026 and the project scope instruction. No data category may be treated as public or visible to all Tenant users while that review is pending.
 
+
+
+
+### 16.44 — ODR-012: Branch stock-attribution transfer boundary
+
+**Status:** Recommended domain baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This closes the operational distinction between internal stock-location movement, cross-Branch handling at a shared site and a true change of Branch stock-ledger attribution. It does **not** decide legal title, sale/purchase treatment, inter-entity accounting or tax applicability.
+
+**Selected terminology and fixed distinction**
+
+- **Internal StockLocation Transfer:** movement between two StockLocations that resolve to the same stock-owning Branch. It uses the ordinary `inventory.stock.transfer` permission and inventory transfer workflow. The stock-owning Branch attribution does not change.
+- **Cross-Branch handling at a shared site:** a worker physically handles stock that remains attributed to another Branch. It requires the exact independently assigned stock-action permission and an approved StockTaskAccessGrant where the worker operates across Branch scope. Custody may change; Branch stock-ledger attribution does not.
+- **Branch Stock-Attribution Transfer:** a controlled operation that changes which Branch is responsible for the relevant stock-ledger attribution after source release and destination acceptance. It is not an ordinary location edit, stock-task grant, physical custody handover or internal transfer. It must use a separate `StockAttributionTransfer` workflow and dedicated atomic permissions.
+
+"Branch stock attribution" in this decision means operational stock-ledger responsibility within the Tenant. It does not itself prove or change legal/economic title, beneficial ownership, GST supply, accounting entity ownership or contractual liability. Those are independent legal/accounting facts.
+
+**Mandatory transfer envelope**
+
+Each transfer request must identify:
+- One Tenant and exact source and destination Branches; they must be different and active.
+- Source and destination StockLocations, their OperatingLocations and the verified ownership/attribution relationship.
+- Product/SKU, stock status, lot/batch/serial/container references where enabled, original/base UOM, proposed quantity and precision/conversion policy version.
+- Current source stock availability, reservations, quality/expiry/recall holds, existing custody and outstanding transfers.
+- Business reason, requested effective period, transfer mode/route or carrier where applicable, and expected custody handovers.
+- Source-side and destination-side authorization decisions, policy versions, evidence, actual dispatch/receipt times and quantities.
+- The linked StockMovement, CustodyEvent/Handover, exception/reconciliation and financial/tax review references where applicable.
+
+The transfer must not rely on a client-supplied Branch identifier without resolving the source/destination StockLocations and current authoritative attribution server-side.
+
+**Required authority and approval path**
+
+The dedicated permission family is registered in ARC-IAM-CAT-001 section 15.2:
+- `inventory.stock_attribution_transfer.create/update_draft/submit` creates and submits the exact transfer request.
+- `inventory.stock_attribution_transfer.approve_source` authorizes release of the specified quantity from the source Branch's stock attribution.
+- `inventory.stock_attribution_transfer.approve_destination` authorizes the destination Branch to accept the specified quantity and attribution.
+- `inventory.stock_attribution_transfer.dispatch/receive/post` controls dispatch, actual receipt and the final accepted-quantity attribution posting.
+- `inventory.stock_attribution_transfer.reconcile/cancel/reverse` controls discrepancies, pre-post cancellation and linked post-post corrections.
+
+Both source and destination Branch-side approvals are mandatory before the final attribution change. Each must be made by an authorized user with the exact permission and scope for that side. A single human may satisfy both stages only if that principal has both independently assigned Branch-scoped permissions and no fixed or active Tenant separation-of-duties policy requires distinct approvers. A role title, Home/Primary Branch, general Tenant access or stock-task grant is never sufficient.
+
+The domain approval policy may impose stricter thresholds, additional reviewers, quantity/value limits, evidence, maker-checker or multi-stage review. It cannot remove the two Branch-side authorization conditions or any fixed stock, custody, audit, concurrency or legal/contract constraint.
+
+**Lifecycle and stock/custody effects**
+
+Recommended lifecycle:
+
+`Draft → Submitted → Source Approval → Destination Approval → Ready to Dispatch → Dispatched / In Transit → Partially Received / Received Pending Acceptance → Accepted / Partially Accepted / Disputed → Posted / Exceptioned / Closed`
+
+- Before dispatch, the source stock and destination capacity/eligibility are validated. Approved quantity cannot exceed the unreserved, eligible source quantity under the applicable policy.
+- At dispatch, record the exact source Branch, source StockLocation, actual quantity/lot/status, dispatch actor, source authorization and actual physical custody handover. The stock quantity leaves ordinary source availability and is represented in the approved in-transit state while preserving source Branch attribution until destination acceptance/posting.
+- Physical custody passes only when the receiving carrier/party explicitly accepts it under the effective custody assurance profile. Dispatch or vehicle assignment alone does not prove custody acceptance.
+- At destination, capture actual received, accepted, rejected, damaged, missing and disputed quantities separately with receiver, time, condition, lot/container and required evidence.
+- Only the accepted quantity may be posted to the destination Branch's stock attribution. Rejected, disputed or outstanding quantity remains linked to the transfer and its actual last verified custodian/location; it must not be silently credited to the destination or presumed returned to the source.
+- Partial receipt/acceptance is supported. The accepted portion may be posted only if the transfer version and approval envelope explicitly permit partial acceptance and the applicable policy/evidence checks pass. The remaining portion stays open/in-transit/exceptioned.
+- A transfer may be cancelled before irreversible dispatch under the applicable permission and evidence rules. After dispatch, it cannot be erased or treated as a simple cancellation; it requires controlled return, exception or reconciliation, with actual custody handover.
+- Posted attribution changes are immutable. Corrections/reversals use linked `inventory.stock_attribution_transfer.reverse` and compensating StockMovement records. Original source/destination movements, approvals and custody events remain visible.
+- A custody-only handover does not itself change Branch attribution. A StockMovement does not itself prove physical handover acceptance. Link both only when both occurred; do not double-count quantity.
+
+**Legal entity, accounting and tax boundary**
+
+- A Branch stock-attribution transfer must not automatically generate a sale, purchase, tax invoice, GST supply, inter-company journal, payable/receivable or legal-title change.
+- Before final posting, the product must resolve the relevant TenantBusinessProfile/LegalEntity/AccountingEntity and applicable stock ownership/valuation policy where those capabilities are enabled.
+- If source and destination Branch legal/accounting entity relationships are unknown, inconsistent, legally distinct or not yet verified, the system must hold the legal/accounting/tax-dependent completion/posting path for review. It must not assume that same Tenant means same legal entity, nor that different Branches imply different legal entities.
+- An operational attribution transfer may be recorded only within the verified scope allowed by Tenant policy and fixed platform rules. Any legal sale/supply or inter-entity treatment is a separate governed workflow based on current applicable law and qualified review.
+- Inventory valuation/cost basis is preserved and transferred under the selected, versioned costing policy. Valuation and financial posting use their own permissions and approval policy; transfer approval alone does not authorize journal posting.
+
+**Cross-Branch and StockTaskAccessGrant boundary**
+
+- `inventory.stock.transfer` is limited to a source and destination StockLocation within the same stock-owning Branch.
+- A StockTaskAccessGrant may authorize its one named worker to perform the exact stock-handling actions for a Branch that owns the stock; it cannot authorize `inventory.stock_attribution_transfer.*`.
+- Shared physical location, same Tenant, overlapping ServiceArea, Home/Primary Branch, common vehicle/carrier or possession of goods never changes stock attribution by implication.
+- A cross-Branch task that leaves ownership/attribution unchanged remains a stock-handling/custody workflow, not a Branch stock-attribution transfer.
+
+**Concurrency, audit and recovery**
+
+- Approval is bound to the immutable transfer version, exact source/destination Branches/StockLocations, lots, quantities, UOM/conversion, policy version and approval payload hash. Any material change requires a new version and fresh source/destination approvals.
+- Source and destination approvals, stock reservation/dispatch and receipt/posting must be concurrency-coordinated. A stale or duplicate request cannot reserve, issue, receive or post the same quantity twice.
+- At commit, revalidate both Branch-side approvals, both exact permissions/scopes, Tenant membership, transfer version, source stock/lot/status, destination eligibility, quality/recall status, custody and all applicable legal/accounting gates.
+- Concurrent transfers cannot over-allocate source stock or double-claim destination capacity where capacity is controlled. Idempotency keys and authoritative stock-ledger checks are required across API, mobile/offline, job, barcode and integrations.
+- Every request, approval/rejection, dispatch, handover, receipt, partial acceptance, dispute, posting, cancellation, reconciliation and reversal is auditable with actual actor, Branch, scope, payload/version, quantity/UOM/lot, evidence, policy version, timestamps and correlation/idempotency references.
+- A transfer discrepancy must not automatically create a write-off, employee/supplier deduction, valuation change, financial posting or liability conclusion. Each requires its separate domain permission and policy.
+
+**Configuration and verification**
+
+Tenant policy may configure stricter transfer thresholds, eligible product/status/lot categories, required evidence, carrier/route handling, quantity/variance tolerances, approval limits, reviewer count and exception escalation. It cannot weaken source/destination authorization, immutable transfer/stock/custody history, no-duplicate stock effects, current membership/permission checks, or legal/accounting applicability gates.
+
+Required acceptance scenarios include:
+- Internal same-Branch StockLocation transfer uses `inventory.stock.transfer` and does not change Branch attribution.
+- A shared-site worker handles stock for another Branch under a valid StockTaskAccessGrant; stock attribution remains with the source stock-owning Branch.
+- A Branch stock-attribution transfer cannot be created, approved, dispatched, received or posted using `inventory.stock.transfer` or StockTaskAccessGrant alone.
+- Source release and destination acceptance each require their exact Branch-scoped permission.
+- One authorized principal can satisfy both Branch stages only where explicitly assigned both permissions and no independent-approver policy applies; otherwise self-approval is denied.
+- Partial, rejected, disputed and missing quantities remain explicit; only accepted quantities post to destination.
+- A legal/accounting entity mismatch or unknown required applicability blocks the relevant final posting path without fabricating a tax/sale event.
+- Duplicate, stale, replayed and concurrent transfers cannot over-allocate, double-post or silently rewrite attribution.
+- Corrections after posting create linked compensating movements and preserve original records.
+- Cross-Branch route, physical co-location, employee assignment and custody handover do not independently change stock attribution.
+
+**Affected documents:** ARC-IAM-CAT-001, ARC-IAM-MAP-001, ARC-IAM-CTRL-001, ARC-AUTH-MATRIX-001, FRS, ERS, State Transition Matrix, RTM, Business Rules Catalogue, Exception/Reversal/Recovery Matrix, Inventory Stock Ledger, End-to-End Business Workflows, Core Domain Entity Catalogue, Canonical Glossary, Audit/Concurrency and Quality Engineering.
+
+**Evidence boundary:** This baseline defines an operational Tenant/Branch stock-attribution workflow. Legal title, tax classification, GST documents, legal entity/cardinality, accounting recognition and contractual liability remain evidence-gated under ODR-003/016/017 and qualified post-project review.
 
