@@ -329,9 +329,9 @@ The mapping is common across all Tenant sizes. Scale changes enabled capabilitie
 
 ## 7. Implementation-readiness gates
 
-Because the project has not yet defined physical API routes or implemented modules, the following are **explicit pre-implementation gates**, not assumed-complete work:
-1. For every FRS command, query surface, state transition and exception, identify the canonical resource key(s) and exact allowed effect.
-2. For every API route/command/event/job/device/integration operation, record its concrete contract identifier, primary resource, affected resources and complete required key set.
+The conceptual resource/scope map covers all 704 canonical permission keys across 205 resource namespaces. The action-to-key index in section 5.1 covers every workflow currently represented in State Transition Matrix sections 3.1–3.15. Because the project has not yet defined physical API routes or implemented modules, the following remain **explicit pre-implementation gates**, not assumed-complete work:
+1. For any additional FRS/domain command, query surface or exception path not represented in the current state machines, identify the canonical resource key(s), exact allowed effect and state/approval preconditions.
+2. After API/event/device contracts are designed, record each concrete API route/command/event/job/device/integration identifier, primary resource, affected resources and complete required key set.
 3. Map every sensitive field and data category to its exact registered view/download/export key(s), mask and purpose.
 4. Map every resource to Tenant/Branch/OperatingLocation/StockLocation/person/task/financial-period ownership and cross-Branch rules.
 5. Bind each approval-triggered transition to its exact ApprovalPolicyRule, threshold unit, reviewer/quorum, delegability and required ApprovalPolicyEvaluationSnapshot.
