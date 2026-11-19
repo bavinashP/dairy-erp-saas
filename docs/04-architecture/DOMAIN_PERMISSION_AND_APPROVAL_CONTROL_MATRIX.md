@@ -2,12 +2,12 @@
 
 **Document ID:** ARC-IAM-CTRL-001  
 **Status:** Recommended v1 governance baseline selected under the product owner's delegated decision mandate — 2026-11-19  
-**Authority:** ODR-002 sections 16.3–16.9; ODR-005 sections 16.39–16.42; ARC-IAM-001; ARC-IAM-CAT-001; ARC-IAM-MAP-001; ARC-AUTH-MATRIX-001; ARC-PV-001; FRS; ERS; Business Rules Catalogue.  
+**Authority:** ODR-002 sections 16.3–16.9; ODR-005 sections 16.39–16.43; ARC-IAM-001; ARC-IAM-CAT-001; ARC-IAM-MAP-001; ARC-AUTH-MATRIX-001; ARC-PV-001; FRS; ERS; Business Rules Catalogue.  
 **Purpose:** Translate the canonical permission vocabulary into domain-level authorization and approval rules that work consistently for a one-person dairy, a growing multi-Branch business and an enterprise Tenant without using job titles, fixed account types or mandatory role hierarchies.
 
 ## 1. Governing decision
 
-The canonical permission key inventory in [Permission Catalogue and Assignment Governance](PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md) section 15 is the single source of truth for permission identifiers and their invariant semantics. The [Domain Permission and Resource Mapping Register](DOMAIN_PERMISSION_AND_RESOURCE_MAPPING_REGISTER.md) links those keys to conceptual resources, scopes and domain lifecycle sources. This document governs how domain workflows consume those keys and how additional approval controls are layered over permissions.
+The canonical permission key inventory in [Permission Catalogue and Assignment Governance](PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md) section 15 is the single source of truth for permission identifiers and their invariant semantics. The [Domain Permission and Resource Mapping Register](DOMAIN_PERMISSION_AND_RESOURCE_MAPPING_REGISTER.md) links those keys to conceptual resources, scopes, domain lifecycle sources and sensitive data classes. This document governs how domain workflows consume those keys and how additional approval controls are layered over permissions.
 
 **Permission and approval are separate controls.**
 - A permission authorizes one named action on defined resources/data within its effective scope, limits and time window.
