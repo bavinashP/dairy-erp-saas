@@ -3,8 +3,8 @@
 **Audit date:** 2026-11-19  
 **Repository:** https://github.com/bavinashP/dairy-erp-saas  
 **Branch:** `main`  
-**Verified branch head before this report was created:** `33f81a5283135404cb1b39b498d49f477d0342a5`  
-**Repository documentation inventory:** 63 Markdown files under `docs/` at the time of the audit  
+**Verified branch head before this report was updated:** `36bc0b6ab09675735f34cae309575893ff443f2c`  
+**Repository documentation inventory:** 64 Markdown files under `docs/` at the time of this update  
 **Work type:** Documentation-only continuation, consistency audit and decision-register reconciliation  
 **Application code / physical database schema changes in this work:** None
 
@@ -30,7 +30,7 @@ The repository is **not** represented as production-ready. Concrete API/command/
 - The recursive repository tree reported 63 Markdown documents under `docs/`.
 - The existing system overview, tenancy, API, mobile/offline, concurrency, outbox, storage, recovery, scalability, analytics, VPS deployment, security, audit, technology and domain documents remain in place.
 - The architecture documentation index already lists the Permission Catalogue, Domain Permission and Approval Control Matrix, Domain Permission and Resource Mapping Register, and Cross-Branch Permission Matrix.
-- The 2026-11-17 continuation audit is retained as a historical record. This report is the later current-state snapshot.
+- The 2026-11-17 continuation audit is retained as a historical record. This report is the later current-state snapshot. Its original 63-file/earlier-branch-head figures have been refreshed in this update.
 
 ## 3. ODR-002 operational baseline
 
@@ -53,7 +53,7 @@ The above is a documentation baseline and scenario design. It is not a claim tha
 
 ## 4. ODR-005 — canonical permission and authorization coverage
 
-The current conceptual permission documentation was re-fetched from `main` and checked across the catalogue, resource mapping, State Transition Matrix, FRS, RTM, Exception Matrix, Business Rules, NFR and QES.
+The current conceptual permission documentation was re-fetched from `main` and checked across the catalogue, resource mapping, State Transition Matrix, FRS, RTM, Exception Matrix, Business Rules, NFR and QES. ODR-005 has since been refined in ODR sections 16.39–16.43 and 16.45; ODR-012's internal versus Branch stock-attribution transfer boundary is specified in section 16.44.
 
 ### 4.1 Verified coverage counts
 
@@ -64,16 +64,18 @@ The current conceptual permission documentation was re-fetched from `main` and c
 | Permission keys mapped to resource namespaces | 704 / 704; no missing or additional key |
 | Resource namespaces in the mapping table | 205 / 205 unique; no duplicate namespace row |
 | State Transition Matrix workflows | 15 workflows (§3.1–§3.15) |
+| Distinct canonical permission keys in those state-machine action bindings | 251; no unregistered key |
+| State-machine binding rows in ARC-IAM-MAP-001 §5.1 | 15 / 15, ordered STM §3.1–§3.15 |
 | Distinct canonical permission keys used by current state-machine bindings | 251; no key outside the canonical catalogue |
 | FRS requirements | 195 unique IDs |
 | FRS requirements mapped in RTM-001 | 195 / 195, with no missing, extra or duplicate requirement ID |
 | FRS requirement ranges mapped in ARC-IAM-MAP-001 §5.2.1 | 195 / 195, with no missing, extra or duplicate requirement ID |
 | Current exception cases | ERR-001 through ERR-064 (64 cases) |
-| Exception/recovery mapping groups in ARC-IAM-MAP-001 §5.2.2 | 17 groups covering ERR-001..064 |
+| Exception/recovery mapping groups in ARC-IAM-MAP-001 §5.2.2 | 17 groups covering ERR-001..064 exactly once; no gaps or duplicates |
 | Permission/approval control acceptance tests | AT-CTRL-001..026 |
 | FRS/permission mapping acceptance tests | AT-IAM-021..030 |
 
-The resource mapping table was also checked for repeated resource names within each FRS/ERR mapping row; duplicate resource references found during review were removed.
+The resource mapping table was also checked for repeated resource names within each FRS/ERR mapping row; duplicate resource references found during review were removed. The key-to-resource check was re-run after subsequent edits: 704/704 keys appear exactly once under 205/205 unique resource namespaces.
 
 ### 4.2 Selected authorization semantics
 
@@ -116,18 +118,19 @@ The following consistency issues were found and corrected:
 - Duplicate `analytics.report` references in the FRS analytics mapping and ERR-030 mapping were removed.
 - Two duplicate resource references in permission mapping rows were removed.
 - The QES Authority and FRS/NFR ODR dependency descriptions were refreshed to distinguish completed conceptual mappings from future implementation-contract and automated-test gates.
+- ODR decision sections 16.39–16.45 were checked and reordered numerically; the permission-to-resource map's STM §3.1–§3.15 binding rows were also placed in numerical order. The ERR-030 mapping row's table delimiter spacing was normalized.
 - The documentation index already contains the permission catalogue, approval-control matrix and resource mapping register; no duplicate documents were created.
 
 ## 6. Other ODRs — genuine approval and evidence dependencies
 
-The following remain visible and must not be mechanically marked resolved:
+The following remain visible and must not be mechanically marked resolved. The later decision records 16.39–16.45 refine these gates without claiming external approval:
 
 | ODR | Remaining dependency | Correct classification |
 |---|---|---|
 | ODR-003 | LegalEntity / AccountingEntity / AccountingBook / registration cardinalities and their legal/accounting meaning | Deferred post-project legal/accounting review; do not infer |
-| ODR-008 | Actual instrument tolerances, device methods, Legal Metrology applicability, statutory rounding, inventory valuation and Tally target precision-loss cases | Evidence-gated |
+| ODR-008 | Canonical unit dimensions, SKU base-UOM, pack/content separation, precision layers, contextual conversion and rounding hierarchy are selected in DBR-004 / ODR-002 §16.40; actual instrument tolerances, device methods, Legal Metrology applicability, statutory rounding, inventory valuation and Tally target precision-loss cases | Evidence-gated |
 | ODR-009 | Current legal quality thresholds and instrument-specific methods | Evidence-gated; product/process profiles are configurable |
-| ODR-012 / ODR-017 | Costing/valuation, books and accounting recognition; ODR-012 §16.44 stock-attribution boundary must respect the separate legal-entity/accounting/tax gate | Evidence-gated and qualified accounting review |
+| ODR-012 / ODR-017 | ODR-012 §16.44 selects a separate Branch stock-attribution transfer workflow with source/destination approvals, accepted-quantity posting and same-verified-LegalEntity prerequisite; valuation/costing, books, accounting recognition, inter-book treatment and legal/tax effect | Operational transfer semantics selected; legal/accounting/tax treatment remains evidence-gated and requires qualified review |
 | ODR-016 | GST classification, documents, e-invoice/e-way-bill and retention applicability | Deferred post-project authoritative legal/tax review |
 | ODR-018 | Labour/payroll statutory applicability | Deferred post-project qualified legal review |
 | ODR-019 / ODR-020 | Mobile UX field trials, device support, offline duration/cache policy and conflict evidence | Pilot/owner evidence gate |
@@ -182,3 +185,27 @@ Before development/production, the relevant gates still include:
 - [Delivery Lifecycle and Exception Rules](02-domain/DELIVERY_LIFECYCLE_AND_EXCEPTION_RULES.md)
 
 **No application implementation was performed as part of this audit.**
+
+
+## 9. Supplemental integrity verification — current main snapshot
+
+The repository was re-fetched after the above documentation changes. The following source-text checks passed:
+
+- The canonical catalogue contains 704 key occurrences and 704 unique identifiers.
+- ARC-IAM-MAP-001 section 3 contains 205 unique resource namespaces and 704 unique key mappings; every canonical key maps exactly once, with no missing, extra or duplicate mapping.
+- ARC-IAM-MAP-001 section 5.1 contains 15 State Transition Matrix binding rows, ordered §3.1–§3.15. The rows use 251 distinct registered canonical keys; no unregistered key was found.
+- FRS-001 contains 195 unique requirement IDs. RTM-001 range expansion and ARC-IAM-MAP-001 section 5.2.1 both cover all 195 IDs with no missing or extra ID.
+- ERR-001..ERR-064 are 64 unique exception cases. ARC-IAM-MAP-001 section 5.2.2 covers them in 17 ranges/groups, without gaps or duplicates.
+- QES-001 contains AT-IAM-021..030 for mapping/sensitive-data coverage, AT-CTRL-001..026 for domain permission and approval controls, AT-GNT-001..018, AT-CST-001..012 and AT-DLV-001..030. These are documented test identifiers/scenarios; executable test runs have not been performed in this documentation-only phase.
+- ODR decision headings 16.39–16.45 are sequentially ordered. The ODR table continues to distinguish explicit owner approvals, recommended engineering baselines and external evidence/production-owner dependencies.
+
+**Additional ODR decisions reflected in this snapshot**
+- ODR-005 §16.39: 704-key product-wide atomic permission catalogue v1.
+- ODR-005 §16.41: domain permission/approval control baseline, risk classes and Tenant-configurable threshold categories; policy/key semantics remain fixed.
+- ODR-005 §16.42: immutable policy versions, weakening-change independence and in-flight policy re-evaluation.
+- ODR-005 §16.43: sensitive data categories, exact field-level permission and purpose-limited disclosure baseline; implementation-level field mapping and legal privacy purpose/retention remain later gates.
+- ODR-005 §16.45: conceptual mapping of all current FRS requirements and ERR-001..064 to canonical resources/permission actions.
+- ODR-008 §16.40 / DBR-004: canonical UOM, quantity precision, conversion and monetary-rounding architecture; real device tolerances and statutory values remain evidence-gated.
+- ODR-012 §16.44: Branch stock-attribution transfer is distinct from same-Branch StockLocation transfer and cross-Branch shared-site handling; source/destination authorization and accepted-quantity posting are required. Legal-entity, accounting-book and tax applicability are not inferred.
+
+These checks validate documentation structure and traceability only. They do not validate implementation behavior, legal compliance, real-world field workflows, external provider behavior, or production performance/recovery.
