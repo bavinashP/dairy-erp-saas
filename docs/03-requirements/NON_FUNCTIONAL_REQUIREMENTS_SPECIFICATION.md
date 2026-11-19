@@ -180,7 +180,7 @@ For each quality requirement, retain:
 
 | Decision | NFR impact |
 |---|---|
-| ODR-004/005 | Membership cardinality is selected in ODR-004 section 16.9; the canonical permission catalogue v1 is selected in ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39, resource/scope mapping in ARC-IAM-MAP-001, domain approval controls in section 16.41–16.42 and sensitive-data disclosure baseline in section 16.43. Exact command/state/API mapping, field-by-field classification and automated coverage remain readiness gates |
+| ODR-004/005 | Membership cardinality is selected in ODR-004 section 16.9; the canonical permission catalogue v1 is selected in ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39; resource/scope, STM, FRS and ERR-001..064 conceptual mappings are specified in ARC-IAM-MAP-001 sections 3 and 5.1–5.2 / ODR-005 section 16.45; domain approval controls in ODR-005 sections 16.41–16.42; sensitive-data disclosure baseline in section 16.43. Concrete API/event/job/device/integration contracts, implementation-level field-by-field classification and executable automated coverage remain readiness gates |
 | ODR-008 | Canonical UOM, base-unit, precision and conversion policy are selected in DBR-004/ODR-008 section 16.40; device-specific tolerance, legal trade-unit applicability, workflow posting values and target-version Tally loss tests remain evidence-gated |
 | ODR-019/020 | Client strategy and offline guarantees |
 | ODR-021 | Notification reliability, consent, provider fallback and retry policy |
