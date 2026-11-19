@@ -99,6 +99,9 @@ Use stable identifiers AT-IAM-021..025 for [Domain Permission and Resource Mappi
 - **AT-IAM-023:** Each protected business lifecycle transition in the owning domain's State Transition Matrix maps to its exact action permission(s); view, capture, submit, approve, post, reverse, release, export and configure remain independent.
 - **AT-IAM-024:** Each sensitive field/data category, attachment, search/list result, report, drill-down and export is mapped to the appropriate sensitive/query/export permission; parent-record access or broad report permission cannot expose unapproved fields or rows.
 - **AT-IAM-025:** Before a module enters implementation, every concrete API route/command/event handler/job/device action/integration operation is registered against the resource mapping and canonical key(s); an absent or stale mapping fails closed. No speculative endpoint name is treated as a real contract.
+- **AT-IAM-026:** Each sensitive data category in ARC-IAM-MAP-001 section 4 is mapped to one or more exact registered sensitive-view/download keys plus its parent-resource permission and resource scope. Ordinary record-view permission alone returns only permitted non-sensitive fields.
+- **AT-IAM-027:** Sensitive data access records the actual actor, permission/scope, purpose, target data category/resource, source/channel, outcome and timestamp. Masked fields remain masked in list/search/autocomplete, summaries, analytics, exports, attachments and bulk jobs unless all exact permissions are satisfied.
+- **AT-IAM-028:** Customer full service addresses/contact directions, Party contact/address details, bank/payee information, identity documents, delivery proof/GPS, payroll/salary/payslip, tax/compliance records, detailed audit events and session/device metadata are denied outside their authorized resource/purpose scope; export/download rechecks the same field/row permissions at access time.
 
 
 
