@@ -83,19 +83,45 @@ Where a tenant uses subscriptions, orders or delivery runs, stock may be reserve
 
 A reservation is not a physical stock movement unless the ledger policy explicitly represents it as a paired status movement. Avoid counting reservation as both an issue and an on-hand reduction.
 
-## 7. Inter-location transfers
+## 7. Internal StockLocation transfers
 
-A transfer should have a controlled lifecycle:
-1. Draft/requested.
-2. Approved where policy requires.
-3. Dispatched from source location.
-4. In transit.
-5. Received at destination with actual quantities and discrepancies.
-6. Closed or exceptioned.
+An internal transfer is a movement between two StockLocations that have the **same stock-owning Branch attribution**. It is governed by `inventory.stock.transfer` and the ordinary inventory transfer lifecycle:
+1. Draft/request.
+2. Approval where Tenant policy requires.
+3. Dispatch from the source StockLocation.
+4. In-transit status/custody where applicable.
+5. Receipt at the destination with actual quantities and discrepancies.
+6. Close or controlled exception.
 
-Source and destination must be authorized locations. Dispatch reduces source available/on-hand according to policy and records the required in-transit stock state. The custody chain separately records the actual sender, carrier/holder, location and receiving acknowledgement. Receipt records destination stock only for accepted quantities. Shortage, damage, missing acknowledgement or rejection during transit must be separately recorded and investigated.
+The system must validate both StockLocations against the same current stock-owning Branch. It must reject this workflow if the source and destination resolve to different Branch attribution scopes. It preserves product, lot, serial/container, UOM, stock status and cost basis as applicable. It does not change Branch attribution.
 
-Do not treat a transfer as a sale or purchase. A transfer must preserve lot identity and cost basis where applicable.
+Dispatch and receipt stock effects remain linked to actual custody evidence where physical custody changes. Missing acknowledgement, damage, shortage or rejection remains an explicit exception. A transfer is not a sale or purchase.
+
+### 7.1 Branch stock-attribution transfers
+
+A Branch stock-attribution transfer is a separate workflow that changes **operational stock-ledger attribution** from a source Branch to a different destination Branch. It is not an internal transfer, a StockTaskAccessGrant, a shared-site handling task, a location edit or a custody handover alone.
+
+It must use `StockAttributionTransfer` and the dedicated `inventory.stock_attribution_transfer.*` permission family:
+- `inventory.stock_attribution_transfer.create/update_draft/submit` creates and submits a versioned request for distinct source/destination Branches and exact StockLocations, products/lots, UOMs, quantities, reason and custody/evidence profile.
+- `inventory.stock_attribution_transfer.approve_source` authorizes release by a principal with the exact source Branch scope.
+- `inventory.stock_attribution_transfer.approve_destination` authorizes acceptance by a principal with the exact destination Branch scope.
+- Both Branch-side approvals are mandatory and bound to the same immutable transfer version. One human may perform both stages only when independently assigned both permissions and no fixed/active separation-of-duties rule requires distinct users.
+- `inventory.stock_attribution_transfer.dispatch/receive` records actual dispatch and receipt. In-transit quantity remains source-attributed until destination acceptance and posting.
+- `inventory.stock_attribution_transfer.post` changes Branch attribution only for the quantity actually accepted and only after required evidence, scope, approval and entity/accounting/tax applicability checks succeed.
+- `inventory.stock_attribution_transfer.reconcile/cancel/reverse` handles discrepancies, pre-dispatch cancellation and linked compensating corrections. After dispatch, no simple cancellation or assumed return is allowed.
+
+**Quantity/custody treatment**
+- At dispatch, the dispatched quantity leaves source available stock and is represented in the controlled in-transit state while preserving source Branch attribution.
+- Physical custody is separately transferred only when the actual recipient accepts it under the effective custody assurance profile.
+- At destination, received, accepted, rejected, damaged, disputed and outstanding quantities are captured separately.
+- Only accepted quantities may be attributed to the destination Branch. Partial and rejected quantities remain linked to the transfer and last verified custodian/location until evidence-backed resolution.
+- A StockMovement records the stock quantity/status/attribution effect. A CustodyEvent/Handover records physical custody. Link them where both facts occur; never double-count quantity or infer acceptance from time/notification.
+- The stock task grant and ordinary `inventory.stock.transfer` cannot authorize, approve, dispatch, receive, post or reverse a Branch stock-attribution transfer.
+
+**Legal/accounting boundary**
+Branch attribution is an operational inventory responsibility, not a declaration of legal/economic title. The transfer does not automatically create a sale, purchase, GST supply, invoice, payable/receivable or journal. Before final posting, resolve relevant LegalEntity/AccountingEntity and applicable tax/accounting policy where those capabilities are enabled. Unknown, inconsistent or legally distinct relationships hold the dependent final posting path for evidence/qualified review under ODR-003/016/017; do not assume all Branches in one Tenant share one legal entity or that every Branch is a separate entity.
+
+Valuation/cost-basis treatment follows the separately versioned ODR-017 policy. Transfer permissions do not imply valuation adjustment, write-off or financial posting.
 
 ## 8. Physical counts and adjustments
 
