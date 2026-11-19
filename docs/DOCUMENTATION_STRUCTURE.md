@@ -47,7 +47,8 @@ Claims about law, tax, compliance, or provider capability must record source, ap
 
 ### 00 — Governance
 - [Continuation State Audit — 2026-11-17](CONTINUATION_STATE_AUDIT_2026-11-17.md)
-Project governance, glossary, requirements traceability, change control and risk/assumption management are governed through the ODR, RTM, ADR and risk evidence sections; dedicated register refinements remain in progress.
+- [Continuation State Audit — 2026-11-19](CONTINUATION_STATE_AUDIT_2026-11-19.md)
+The 2026-11-19 continuation audit supersedes the 2026-11-17 snapshot for current status; preserve both for history. Project governance, glossary, requirements traceability, change control and risk/assumption management are governed through the ODR, RTM, ADR and risk evidence sections.
 
 ### 01 — Product
 - [Project Vision and Scope](01-product/PROJECT_VISION_AND_SCOPE.md)
