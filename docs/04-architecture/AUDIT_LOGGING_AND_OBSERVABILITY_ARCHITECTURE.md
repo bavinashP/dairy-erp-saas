@@ -152,6 +152,19 @@ For every DeliveryPlan/DeliveryRun lifecycle, durably record where applicable:
 Route, assignment and transport-resource changes after dispatch must be recorded as linked events; never overwrite the original manifest or assignment evidence. Audit must distinguish planned from actual route/vehicle/personnel and distinguish a user-entered assertion from independently verified evidence.
 
 
+### 5.6 Branch stock-attribution transfer accountability
+
+For every `StockAttributionTransfer`, durably record:
+- Transfer ID, immutable version/payload hash, Tenant, source/destination Branches and StockLocations, product/SKU, lot/serial/container, original and normalized quantities/UOM, limits, reason and applicable policy/configuration versions.
+- Requester, exact source-Branch approval actor and permission/scope, exact destination-Branch approval actor and permission/scope, whether the same principal satisfied both stages, and the matched maker-checker/separation-of-duties policy snapshot.
+- Any approval request, rejection, withdrawal, material version change, validation/authorization denial, cancellation, expiry/closure and reviewer/reconciliation decision.
+- Source stock reservation/release, dispatch, source StockMovement, in-transit state, actual sender/carrier, custody handover offer/dispatch/acceptance/dispute, receiver, actual receipt, accepted/rejected/damaged/disputed/outstanding quantities and destination StockMovement/posting.
+- Legal entity/accounting entity/tax applicability gate status and evidence references where required; record a hold/denial reason where the required evidence is unknown or unverified. Do not infer that an operational Branch attribution change is a legal-title transfer, sale/purchase or tax event.
+- Every partial acceptance, discrepancy, return, incident, reconciliation, cancel, reversal and linked compensating movement; preserve original source/destination attribution and custody history.
+- Correlation/causation/idempotency identifiers and concurrency/version-conflict outcomes across API, mobile/offline, barcode, jobs and integrations.
+
+The audit must distinguish internal same-Branch StockLocation transfer, cross-Branch stock handling under StockTaskAccessGrant and Branch stock-attribution transfer. Ordinary `inventory.stock.transfer` and StockTaskAccessGrant must not be logged as a Branch attribution transfer. Never overwrite original transfer approval, StockMovement or CustodyEvent records.
+
 ## 6. Reliability and transaction boundaries
 
 - For a material business operation requiring audit, write the domain state and audit intent atomically in the same database transaction or through a proven durable outbox mechanism.
