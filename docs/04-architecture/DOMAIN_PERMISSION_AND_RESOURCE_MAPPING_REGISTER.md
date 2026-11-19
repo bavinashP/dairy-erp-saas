@@ -2,7 +2,7 @@
 
 **Document ID:** ARC-IAM-MAP-001  
 **Status:** Recommended logical mapping baseline selected under the product owner's delegated decision mandate — 2026-11-19  
-**Authority:** ODR-005 sections 16.39–16.42; ARC-IAM-CAT-001 section 15; ARC-IAM-CTRL-001; ARC-AUTH-MATRIX-001; FRS; ERS; Business Rules Catalogue; State Transition Matrix; RTM.  
+**Authority:** ODR-002 section 16.7; ODR-005 sections 16.39–16.45; ARC-IAM-CAT-001 section 15; ARC-IAM-CTRL-001; ARC-AUTH-MATRIX-001; FRS; ERS; Business Rules Catalogue; State Transition Matrix; RTM; Exception/Reversal/Recovery Matrix.  
 **Purpose:** Provide one cross-module register linking canonical atomic permissions to conceptual resources, resource scopes, lifecycle controls, sensitive data boundaries and owning domain specifications for a dairy SaaS product ranging from owner-operated businesses to multi-Branch enterprises.
 
 ## 1. Status and source-of-truth rules
@@ -351,7 +351,7 @@ Each row points to canonical resource namespaces already registered in section 3
 | FRS-TLY-001..006 | finance.tally_mapping; finance.tally_sync; integration.connection; integration.sync; integration.api_credential; document.file; finance.journal | Tally mapping, company binding, batch execution, item retry and reconciliation remain separate and Tenant-bound. |
 | FRS-HR-001..006; FRS-AST-001 | workforce.person; workforce.engagement; workforce.assignment; workforce.shift; workforce.attendance; workforce.leave; workforce.document; payroll.run; payroll.salary; payroll.bank_details; payroll.payslip; asset.asset; asset.shared_resource; maintenance.work_order | Workforce assignment, attendance, leave, payroll/sensitive pay and asset/maintenance authority remain independent. |
 | FRS-TAX-001..006 | tenant.business_profile; tax.profile; tax.classification; tax.register; compliance.record; compliance.document; billing.document; finance.tax_report | Tax configuration, verified legal/compliance evidence, statutory documents and export are separate and evidence-gated. |
-| FRS-ANA-001..009 | analytics.dashboard; analytics.kpi; analytics.report; analytics.forecast; analytics.scenario; finance.budget; report.definition; report.dataset| Dashboard, formula definition, dataset/row/field access, forecast, budget and export are separately permissioned. |
+| FRS-ANA-001..009 | analytics.dashboard; analytics.kpi; analytics.report; analytics.forecast; analytics.scenario; finance.budget; report.definition; report.dataset | Dashboard, formula definition, dataset/row/field access, forecast, budget and export are separately permissioned. |
 | FRS-WFL-001..003; FRS-INT-001..003 | workflow.definition; approval.request; approval.action; approval.policy; approval.delegation; notification.template; notification.preference; notification.delivery; integration.connection; integration.sync; integration.webhook; integration.api_credential; extension.package; extension.data_access; audit.event | Workflow routing, approval decisions, notifications, provider integrations, credentials, extensions and audit are independent capabilities. |
 
 ### 5.2.2 Exception/Reversal/Recovery Matrix binding
