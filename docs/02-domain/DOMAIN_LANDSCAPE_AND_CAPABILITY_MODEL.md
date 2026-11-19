@@ -32,7 +32,7 @@
 | Milk Quality and Testing | Record quality evidence | Sample, test, parameter, result, equipment, rejection reason | Based on procurement/processing model and policy |
 | Processing and Packaging | Convert raw inputs to finished goods | Batch, recipe/formula, yield, loss, packaging, traceability | Only where tenant processes/packages |
 | Product and Price Catalogue | Define sellable/buyable items | Product types, units, packs, variants, price lists, effective dates | Every product-selling tenant |
-| Inventory and Warehousing | Control stock | Receipts, issues, transfers, adjustments, expiry, batch/lot, wastage, linked custody events and reconciliation | As stock is physically managed |
+| Inventory and Warehousing | Control stock and operational Branch attribution | Receipts, issues, same-Branch StockLocation transfers, separately governed Branch stock-attribution transfers, reservations, adjustments, expiry, batch/lot, wastage, linked custody events and reconciliation | As stock is physically managed; lot and Branch-attribution controls depend on policy |
 | Distribution and Delivery | Fulfil doorstep demand | Branch-owned Routes/manual routes, date/shift DeliveryPlans, run allocation, personnel and optional vehicle assignment, dispatch readiness, stops, custody, delivery outcomes, returns and exceptions | When delivery is offered; fleet/optimization capabilities remain optional |
 | Billing and Receivables | Charge customers and track dues | Billing cycles, statements, invoices where applicable, debit/credit adjustments, receipts | Customer credit/recurring billing |
 | Payments and Reconciliation | Record and reconcile money movement | Cash, UPI QR, bank transfer, gateway reference, matching, refund | Whenever money is received/paid |
