@@ -438,38 +438,23 @@ Physical ERD must classify each entity as:
 
 For each class define create/update/delete/archive/restore, retention, legal hold, export and anonymization behavior. Hard deletion of posted accounting, stock, delivery, audit or finalized statutory evidence is prohibited except through a separately approved legal retention/deletion procedure that preserves required integrity.
 
-## 16. Unresolved modelling decisions
+## 16. Decision-specific modelling baselines and remaining dependencies
 
-1. ODR-001/003: whether tenant may own multiple legal entities/books/GST registrations and exact accounting ownership.
-2. ODR-002: shared-site custody/resource accountability is specified in section 16.10/ODR-002 section 16.36; route, personnel/vehicle assignment and dispatch accountability are specified in section 16.11/ODR-002 section 16.37; the complete cross-Branch permission matrix is resolved in section 16.7. Further scenario validation and external legal/contract/insurance/vehicle-qualification applicability review remain. The approved baseline permits multiple Branches to use one physical OperatingLocation while keeping StockLocations and stock ownership/control branch-segregated. Shared-site workers may receive explicit, limited, effective-dated, auditable stock-handling grants for another Branch, without general access to that Branch's unrelated operational data. Each such grant requires approval by an authorized user holding the required stock-owning-Branch approval permission, or a currently valid delegate under section 16.4, before activation; approval is bound to the exact grant scope/version. The recommended Home-Branch/workforce-assignment boundary is in section 16.6.
-3. ODR-005: the canonical product-wide atomic permission-key inventory and conceptual PermissionCatalogueEntry / PermissionBundleVersion / ExtensionPermissionRegistration entities are selected in ARC-IAM-CAT-001 section 15 and ERS sections 5/12. Remaining readiness dependencies are domain-specific approval thresholds, exact resource/state/API mapping, sensitive-field metadata and verified acceptance coverage. ODR-004 membership cardinality is resolved under ODR section 16.9.
-4. ODR-008: canonical UOM dimensions, SKU base-UOM rules, pack/count separation, precision layers, conversion governance and monetary rounding hierarchy are selected in DBR-004 and ODR-008 section 16.40. Device/instrument tolerances, workflow-specific validated profiles, Legal Metrology applicability, statutory tax rules, inventory valuation and target-version Tally precision remain evidence-gated.
-5. ODR-011/012: processing and inventory valuation/ownership policy.
-6. ODR-014/016/017: billing legal document model, tax treatment and accounting books policy.
-7. ODR-018: employee/contractor classification and payroll statutory data model.
-8. ODR-020: offline local storage, sync conflict and data expiry.
-9. ODR-022/023/024: KPI grain, analytics history, forecast model and budget dimension policy.
-10. ODR-026: retention, archival, deletion and legal hold.
-11. ODR-027/028/031: scale, sharding/partitioning, tenancy isolation tier and recovery targets.
-12. Tally mapping depth: detailed versus summarized sales, inventory sync and TDL-specific fields.
+1. **ODR-001 / ODR-003 — Tenant and legal/accounting identity:** The one-Tenant/multiple-operating-model and multi-Branch product boundary is resolved. LegalEntity, TaxRegistration and AccountingBook cardinality/applicability remain deliberately deferred to the post-project authoritative legal, tax and qualified accounting review; do not infer legal ownership from Tenant or Branch.
+2. **ODR-002 — Shared-site, stock-task, workforce, custody and delivery:** The physical-site, Branch/OperatingLocation, ServiceArea, Route, stock segregation, grant approval/lifecycle, delegated approval, Emergency Override, permission matrix, custody, route/dispatch and grant/task-reconciliation baselines are specified in sections 16.1–16.7 and 16.10–16.12 and ODR sections 16.1–16.8 and 16.36–16.38. Scenario coverage is documented in QES suites AT-GNT-001..018, AT-CST-001..012 and AT-DLV-001..030; executable/field validation remains a pre-release evidence gate. External legal/contract/insurance/vehicle-qualification applicability review is separate.
+3. **ODR-005 — Permission architecture:** The 704-key canonical inventory, 205-resource map and current State Transition Matrix §3.1–3.15 action bindings are selected in ARC-IAM-CAT-001 / ARC-IAM-MAP-001. Domain approval, policy lifecycle and sensitive-data baselines are selected in ARC-IAM-CTRL-001 and ODR sections 16.41–16.43. Remaining readiness work covers additional FRS/domain commands or exception paths not represented in the current state machines, concrete API/event/job/device/integration contracts after design, implementation-level field classification and executable automated coverage.
+4. **ODR-008 — UOM and precision:** Canonical dimensions, SKU base-UOM, pack/content separation, conversion governance, precision layers and rounding hierarchy are selected in DBR-004 and ODR section 16.40. Device/process tolerances, Legal Metrology applicability, statutory/accounting rounding, inventory valuation and Tally target-version precision remain evidence-gated.
+5. **ODR-011 / ODR-012 — Processing and inventory:** The versioned processing/packaging, stock ledger, traceability, internal transfer and Branch stock-attribution transfer conceptual baselines are selected. Exact product/process tolerances, inventory valuation/costing, negative-stock exception policy and accounting/legal treatment remain under the relevant evidence and policy gates.
+6. **ODR-014 / ODR-016 / ODR-017 — Billing, tax and accounting:** Billing/receivables, payment evidence and double-entry architecture baselines are documented. Legal invoice/document requirements, GST applicability, books/legal-entity mapping, valuation and accountant-approved recognition/posting policies require post-project authoritative review.
+7. **ODR-018 — Workforce:** The optional people/engagement/shift/attendance/payroll capability baseline is specified. Employee/contractor legal classification and statutory labour/payroll obligations remain for post-project qualified legal review.
+8. **ODR-019 / ODR-020 — Mobile and offline:** The unified permission/context-aware mobile baseline and narrow assigned-delivery offline model are selected. Maximum offline duration, device support, cache TTL, local data protection and field-sync conflict policy require pilot evidence and owner acceptance before production.
+9. **ODR-022 / ODR-023 / ODR-024 — Analytics, forecast and budget:** Logical metric grain, forecast governance and versioned budget/scenario boundaries are specified. Official KPI ownership/definitions, forecast output priorities, report entitlements and budget approval templates/thresholds require owner approval/pilot evidence before launch.
+10. **ODR-025 — SaaS commercial model:** Entitlement, capability, configuration and permission separation is selected. Pricing, packages, trials, commercial grace, contractual service tiers and upgrade/downgrade commitments require explicit product-owner approval before launch.
+11. **ODR-026 — Data lifecycle:** Classification, access, archival, export, deletion and legal-hold architecture is specified. Exact retention periods and statutory/contractual deletion obligations require authoritative legal review and data-owner approval.
+12. **ODR-027 / ODR-028 / ODR-031 — Scale, recovery and deployment:** Workload envelopes, scaling profiles, recovery architecture and deployment options are specified. Production adoption assumptions, numeric RPO/RTO/SLO approval, responder ownership, provider/region/topology and risk acceptance require pilot measurements and accountable human approval.
+13. **ODR-029 / ODR-030 / ODR-032 — Integrations, technology and localization:** Tally remains the first accounting integration priority; technology candidates, deployment compatibility and localization architecture are documented. Exact provider/release compatibility, final technology stack approval, rollout languages, translation ownership and integration sequence require capability/PoC/cost evidence and owner approval.
 
-## 17. ERD readiness checklist
-
-Before physical schema design:
-- [ ] Resolve or explicitly model alternatives for legal entity/books and branch/location taxonomy.
-- [ ] Validate canonical Party/Customer/Supplier/Farmer identity model with realistic examples.
-- [ ] Complete cardinality and optionality review for all high-volume workflows.
-- [ ] Verify DBR-004 / ODR-008 section 16.40 is reflected in conceptual ERS; map each SKU base UOM, transaction UOM, contextual conversion, measurement evidence, precision profile, rounding policy version and historical snapshot. Complete device/process test vectors and external legal/accounting/Tally compatibility evidence.
-- [ ] Approve stock movement and accounting posting source-of-truth contracts.
-- [ ] Define lifecycle/state machine and immutable snapshot boundaries.
-- [ ] Define tenant/branch foreign-reference enforcement and row-scope threat tests.
-- [ ] Define uniqueness, concurrency and idempotency keys for critical events.
-- [ ] Define privacy classification, retention and audit requirements.
-- [ ] Validate Tally exchange mappings against a supported release proof of concept.
-- [ ] Map every FRS requirement to entities and acceptance tests.
-- [ ] Complete NFR workload model before indexes, partitioning and capacity design.
-
-**No physical database schema should be generated from this ERS until the ERD readiness checklist and Gate D review are complete.**
+The list above distinguishes selected design baselines from genuine external, commercial or production-acceptance dependencies. None authorizes premature physical schema or application implementation.
 
 
 ### 16.1 ODR-002 — approval authority for cross-branch stock-task grants
@@ -640,3 +625,23 @@ The conceptual transfer records a distinct source Branch and destination Branch,
 Only accepted quantities may be posted to destination Branch stock attribution. Disputed, rejected or outstanding quantities remain separately traceable to their actual last verified custody and source/in-transit attribution. Corrections after posting are linked compensating movements; original approvals, movements and custody events remain immutable. The model does not determine legal title, sale/purchase, GST, accounting entity, payable/receivable or financial journal treatment. Unknown/unverified or different LegalEntity relationships prevent dispatch through this workflow and require ODR-003/016/017 evidence and qualified review; distinct AccountingEntities/books within the same verified LegalEntity require an approved inter-book policy before dispatch. Final posting revalidates the same conditions.
 
 `inventory.stock.transfer` is reserved for same-stock-owning-Branch StockLocation transfer. `inventory.stock_attribution_transfer.*` is required for Branch attribution changes. StockTaskAccessGrant never authorizes this workflow.
+
+## 17. ERD readiness checklist
+
+Before physical schema design:
+- [ ] Resolve or explicitly model alternatives for legal entity/books and branch/location taxonomy.
+- [ ] Validate canonical Party/Customer/Supplier/Farmer identity model with realistic examples.
+- [ ] Complete cardinality and optionality review for all high-volume workflows.
+- [ ] Verify DBR-004 / ODR-008 section 16.40 is reflected in conceptual ERS; map each SKU base UOM, transaction UOM, contextual conversion, measurement evidence, precision profile, rounding policy version and historical snapshot. Complete device/process test vectors and external legal/accounting/Tally compatibility evidence.
+- [ ] Approve stock movement and accounting posting source-of-truth contracts.
+- [ ] Define lifecycle/state machine and immutable snapshot boundaries.
+- [ ] Define tenant/branch foreign-reference enforcement and row-scope threat tests.
+- [ ] Define uniqueness, concurrency and idempotency keys for critical events.
+- [ ] Define privacy classification, retention and audit requirements.
+- [ ] Validate Tally exchange mappings against a supported release proof of concept.
+- [ ] Map every FRS requirement to entities and acceptance tests.
+- [ ] Complete NFR workload model before indexes, partitioning and capacity design.
+
+**No physical database schema should be generated from this ERS until the ERD readiness checklist and Gate D review are complete.**
+
+
