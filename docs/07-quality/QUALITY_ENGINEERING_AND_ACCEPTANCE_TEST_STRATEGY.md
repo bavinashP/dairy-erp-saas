@@ -92,6 +92,16 @@ Use stable test identifiers AT-IAM-009..020 for ARC-IAM-CAT-001 section 15 / ODR
 
 These tests are additive to AT-IAM-001..008 and AT-GNT-001..018. Together AT-IAM-009..020 verify the catalogue metadata and authorization behavior without implying that each permission is assigned or that each capability is enabled. The v1 catalogue lists eligible capabilities; it does not assign them to a user or enable the corresponding Tenant module.
 
+Use stable identifiers AT-IAM-021..025 for [Domain Permission and Resource Mapping Register](../04-architecture/DOMAIN_PERMISSION_AND_RESOURCE_MAPPING_REGISTER.md):
+
+- **AT-IAM-021:** Every registered core permission key in ARC-IAM-CAT-001 section 15.2 appears exactly once in ARC-IAM-MAP-001 under one canonical resource namespace; no unregistered key, duplicate mapping or unmapped key is present.
+- **AT-IAM-022:** Every mapped resource resolves to the authoritative Tenant/Branch/location/StockLocation/person/task/financial-period/service scope and owning domain specification; missing or ambiguous ownership/scope denies access.
+- **AT-IAM-023:** Each protected business lifecycle transition in the owning domain's State Transition Matrix maps to its exact action permission(s); view, capture, submit, approve, post, reverse, release, export and configure remain independent.
+- **AT-IAM-024:** Each sensitive field/data category, attachment, search/list result, report, drill-down and export is mapped to the appropriate sensitive/query/export permission; parent-record access or broad report permission cannot expose unapproved fields or rows.
+- **AT-IAM-025:** Before a module enters implementation, every concrete API route/command/event handler/job/device action/integration operation is registered against the resource mapping and canonical key(s); an absent or stale mapping fails closed. No speculative endpoint name is treated as a real contract.
+
+
+
 ### 5.3.1 Domain permission and approval control matrix
 
 Use stable acceptance identifiers AT-CTRL-001..026 from [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md) section 11. These checks cover authorization evaluation order, list/search/field/export scope, direct/bundle/group assignments, risk-tiered approval, single-operator usability, independent review, threshold configuration, payload/policy binding, generic approval separation, emergency override separation, policy-version lifecycle, weakening-change review and in-flight stricter/less-restrictive re-evaluation. The matrix owns the canonical test descriptions; test execution evidence is recorded here.
