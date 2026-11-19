@@ -47,7 +47,7 @@
 
 - **Requirement-to-domain mapping:** initial mapping complete at capability level.
 - **Requirement-to-entity mapping:** logical candidate mapping complete at capability level; ERS detailed entity coverage must be checked requirement-by-requirement during physical design.
-- **Requirement-to-test mapping:** acceptance suite identifiers proposed; executable test scenarios and expected results remain to be authored.
+- **Requirement-to-test mapping:** stable acceptance identifiers and documented scenario definitions are present in the Quality Strategy and owning control/domain documents; executable automated test harnesses, test data, run evidence and field-pilot evidence remain to be produced after implementation contracts and test environments exist.
 - **Requirement-to-API mapping:** intentionally deferred until API contract design.
 - **Requirement-to-deployment/component mapping:** intentionally deferred until architecture decisions.
 - **Legal/tax requirement evidence:** must be linked to current official sources before any compliance claim.
