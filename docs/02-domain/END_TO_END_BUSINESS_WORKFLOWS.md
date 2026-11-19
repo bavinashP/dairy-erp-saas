@@ -213,21 +213,28 @@ A workflow may be simplified or not used by a tenant if its operating profile do
 
 ## 12. Branch transfer
 
-**Trigger:** A branch requests stock from another branch/location.
+**Trigger:** Stock is requested at another StockLocation or another Branch's stock-ledger attribution is to be assumed.
 
-1. Create transfer request with source, destination, products, and quantities.
-2. Validate permission and available stock.
-3. Reserve or issue stock from source.
-4. Record the actual handover to a carrier/custodian, dispatch time, vehicle/container/seal and required quantity/condition evidence under the configured custody assurance profile.
-5. Record transit custody and each intermediate carrier/holding handover where applicable.
-6. Mark quantity in transit under stock policy; keep physical custody evidence separate from the stock ledger.
-7. Receive at destination; capture actual receiver, time, quantity/condition and required evidence. Record accepted quantity and variance separately.
-8. Complete the handover only for acknowledged/accepted quantities; preserve pending/disputed custody and create discrepancy workflow for the remainder.
-9. Preserve linked source/destination stock ledger and custody events without duplicating stock effects.
+First classify the operation; do not treat every movement to another Branch/location as the same transfer:
+- **Internal StockLocation transfer:** source and destination StockLocations have the same stock-owning Branch. Use `inventory.stock.transfer`; Branch attribution does not change.
+- **Cross-Branch handling at a shared site:** a worker of another Branch handles stock while stock attribution remains with the source stock-owning Branch. Use the exact independent stock-action permission plus an approved StockTaskAccessGrant where required; record actual custody. This is not a Branch stock-attribution transfer.
+- **Branch stock-attribution transfer:** source and destination are different Branches and the stock-ledger attribution is intended to change. Use the separate `StockAttributionTransfer` workflow and `inventory.stock_attribution_transfer.*`; do not use a stock-task grant or internal transfer key.
 
-**Outputs:** Transfer request, source issue, in-transit record, destination receipt, variance/claim.
+**Branch stock-attribution transfer workflow**
+1. Create a versioned request identifying source/destination Branches and StockLocations, products/lots/serials, quantities/UOM, reason, custody profile and applicable accounting/entity context.
+2. Validate the source and destination stock locations against their respective Branch attribution, active membership, exact resource scopes, product/lot/status, available/unreserved source quantity and destination eligibility.
+3. Obtain source-Branch release approval using `inventory.stock_attribution_transfer.approve_source`.
+4. Obtain destination-Branch acceptance approval using `inventory.stock_attribution_transfer.approve_destination`. Both approvals must be bound to the same immutable transfer version. One authorized human may satisfy both only if that human independently holds both scoped permissions and no maker-checker/separation rule requires different actors.
+5. Validate legal/accounting/tax applicability before any related financial/statutory posting. If relevant legal-entity/accounting relationships are unknown or different and rules are not validated, hold the dependent final posting path.
+6. Dispatch the approved quantity, record source stock issue/in-transit state while retaining source Branch attribution, and record actual custody handover to carrier/recipient under the configured assurance profile.
+7. Capture actual receipt and separately record accepted, rejected, damaged, disputed and outstanding quantities with evidence.
+8. Post destination Branch attribution only for accepted quantities. Leave remaining quantities in transit/exception under source attribution until a real handover or evidence-backed resolution is recorded.
+9. Reconcile shortages/discrepancies through separate, permissioned and auditable correction/return/compensation events. Do not assume auto-return, legal title change, sale/purchase, GST event or accounting journal.
+10. Preserve original source/destination ledger movements, custody events, transfer versions and approvals; use linked compensating entries for any post-post correction.
 
-**Exceptions/open rules:** Partial receipt; lost/damaged goods; missing carrier/receiver acknowledgement; custody dispute; temperature/condition excursion; transfer cancellation; external liability/insurance; branch closure; inter-entity transfer. Custody evidence follows DOM-CUST-001; legal ownership/liability remains external-review dependent.
+**Outputs:** Internal transfer record or StockAttributionTransfer version, source/destination approvals, source issue/in-transit record, custody handovers, accepted destination attribution posting, discrepancy/reconciliation and audit history.
+
+**Exceptions/evidence dependencies:** Partial acceptance; lost/damaged goods; missing carrier/receiver acknowledgement; custody dispute; quality/temperature excursion; transfer cancellation before dispatch; post-dispatch return/reversal; Branch suspension/closure; unknown/different legal entities; accounting valuation; inter-entity sale/tax treatment; external liability/insurance. Custody evidence follows DOM-CUST-001; legal title/liability and statutory/accounting treatment remain evidence-gated under ODR-003/016/017.
 
 ## 13. Employee/field activity workflow
 
