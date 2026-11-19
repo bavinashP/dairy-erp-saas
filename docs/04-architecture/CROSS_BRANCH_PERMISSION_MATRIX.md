@@ -72,7 +72,7 @@ This matrix applies when a named worker handles stock owned by another Branch at
 | Quarantine / isolate | Allow only with explicit protective-action permission | Does not authorize release, disposal, write-off or valuation change |
 | Release from quarantine | Deny by default | Separate explicit release permission and required independent approval |
 | Stock reservation / allocation | Deny by default | Only a separate task-bound reservation permission may allow a narrow reservation |
-| Stock ownership transfer to another Branch | Deny under stock-task grant | Separate inter-Branch workflow, permissions and approvals |
+| Branch stock-attribution transfer to another Branch | Deny under StockTaskAccessGrant and ordinary `inventory.stock.transfer` | Separate `inventory.stock_attribution_transfer.*` workflow; exact source-Branch release and destination-Branch acceptance permissions/approvals; only accepted quantities change Branch stock-ledger attribution. This is operational attribution, not proof/change of legal title. |
 | Stock adjustment / correction | Deny under stock-task grant | Separate authorized workflow; no ordinary handling grant |
 | Write-off / wastage posting | Deny under stock-task grant | Separate permission and independent approval under inventory policy |
 | Stock variance approval | Deny under count-capture permission | Separate variance-review/approval permission and maker-checker controls |
