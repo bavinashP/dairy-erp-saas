@@ -94,7 +94,6 @@
 | Reversal | Linked accounting entry that negates a prior posting | Does not delete or rewrite the original journal |
 | Tally Mapping | Versioned mapping between SaaS identity and Tally master/voucher identity | External mapping; never primary SaaS identity |
 | Synchronization Batch | Auditable set of records exchanged with an external system | Must support idempotency, checksums, results and retry |
-| General Ledger (GL) | Accounting record of posted financial effects | Operational subledgers should reconcile to GL under defined rules |
 | Business Date | Tenant-defined operational date used for shifts/cut-offs | May differ from server timestamp/calendar date |
 | Effective Date | Date/time from which a rate, rule, or configuration applies | Historical transactions retain the applied version |
 | Entitlement | Feature/limit granted by a SaaS plan or approved override | Entitlement does not replace authorization |
@@ -148,7 +147,6 @@
 | Term | Canonical meaning | Boundary |
 |---|---|---|
 | Permission | An atomic capability to view data or perform a specific action on a defined resource | Evaluated with explicit scope, validity, ownership and policy; never inferred from a title or account type |
-| Permission Assignment | An auditable grant of one or more permissions to an eligible principal/group, with applicable scope and effective period | May be granted, restricted, amended, expired or revoked only within the assigning authority's delegated permissions |
 | Permission Bundle | A customer-configurable collection of atomic permissions that may be reused for assignment | Optional convenience; bundle name/title has no independent authority |
 | Role | An optional named permission bundle used to organize assignments | Role title or role assignment grants no permission beyond the bundle's current explicit contents and scope |
 | Effective Permission Set | Permissions that remain valid after evaluating assignments, scope, time, revocation, membership and applicable policy | Sole basis for business authorization; missing or ambiguous permission defaults to deny |
