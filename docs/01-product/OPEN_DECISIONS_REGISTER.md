@@ -1285,37 +1285,6 @@ Record every create, submit, validation failure, approval, rejection, activation
 
 **Remaining boundary:** The conceptual key inventory and resource/scope map cover all 704 canonical keys across 205 resource namespaces; the action-to-key index covers every current State Transition Matrix workflow in sections 3.1–3.15. ODR-005 remains partially open only for any additional FRS/domain command or exception path not represented in those state machines, concrete API/event/job/device/integration contract mapping after those contracts are designed, implementation-level field-by-field classification and executable automated coverage for each finalized workflow. Numeric thresholds are Tenant-specific configuration values governed by ARC-IAM-CTRL-001, not unresolved universal product constants. These are pre-implementation/readiness gates, not permission-key naming or current state-matrix mapping gaps.
 
-
-
-### 16.41 — ODR-005: Domain permission and approval control matrix
-
-**Status:** Recommended v1 domain-control baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This complements ODR-002 permission-first decisions and ODR-005's canonical key inventory; it does not create a role hierarchy or fixed commercial approval amounts.
-
-**Selected decision**
-- Use [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md) as the canonical logical mapping of authorization evaluation order, read/query boundaries, risk classes, approval defaults, domain action controls, threshold categories and acceptance tests.
-- A user's permission to perform a domain action is distinct from an additional workflow approval requirement. Workflow assignment, notification, generic approval action or delegated reviewer status does not grant the underlying domain permission or resource scope.
-- Each protected operation uses the registered canonical key in ARC-IAM-CAT-001 section 15.2. Each key declares its exact resource/action/query surface, scope, limits, sensitivity, risk, delegability, approval metadata and execution channels.
-- Risk classes R0–R3 guide proportional control. R0/read/basic and ordinary R1 operations normally require exact permission and validation but no extra approval unless a fixed rule or Tenant policy triggers it. R2/high-impact actions use separate approval by default under the recommended profile. R3/critical actions use dedicated authority and independent review where the governing fixed/policy rule requires it.
-- Tenant-configurable, versioned ApprovalPolicyProfiles may set approval-required conditions, INR/percentage/quantity/UOM/export/data-sensitivity thresholds, reviewer counts/quorum, maker-checker, stage order, evidence and escalation. Profiles are editable templates and do not grant permissions or create user/account classes.
-- Provide proportionate editable starter profiles for single-operator, small-team, multi-Branch and enterprise operations. All profiles use the same fixed authorization, ownership, audit, concurrency and historical-integrity semantics.
-- Every ApprovalRequest/ApprovalAction is bound to the source resource, exact immutable payload/version and ApprovalPolicyVersion. A material source change restarts/invalidates approval. Permission, policy, scope, threshold and state must be revalidated at the authoritative commit boundary.
-- Generic `approval.action.approve` is not sufficient to approve or post a domain action without the owning domain's explicit permission. Protective deny/revoke/quarantine actions may take effect immediately where explicitly authorized; they do not imply release, adjustment, reversal or financial posting.
-- Existing fixed rules remain unchanged: cross-Branch stock-task grants require stock-owning-Branch approval; Emergency Override follows ODR-002 section 16.3; Delegated Approval follows section 16.4 and cannot bypass maker-checker/non-delegable actions; zero-grace expiry, immutable history, stock/financial ownership and current server-side authorization remain fixed.
-
-**Conceptual entities**
-ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule, ApprovalRequirement and ApprovalLimit are Tenant-governed, effective-dated conceptual records. ApprovalRequest and ApprovalAction retain the actual request, policy, initiator, approver/delegate, threshold evaluation, payload/version, decision, reason, evidence and timestamp. These are logical requirements only and do not prescribe physical tables or schema.
-
-**Affected documents and verification**
-- ARC-IAM-CTRL-001 is the domain-level logical control matrix and test owner.
-- ARC-IAM-CAT-001 section 15 remains the canonical permission key inventory.
-- ERS section 5 and relationship map §12 define the approval policy conceptual model, including sequenced immutable evaluation snapshots and policy matches.
-- FRS IAM-027..036 define requirements; RTM maps them to AT-CTRL-001..026.
-- Business Rules Catalogue defines fixed permission/approval separation and configurable approval policy profile controls.
-- Quality Strategy records the AT-CTRL suite and validates small, multi-Branch and enterprise policy profiles.
-
-**Remaining implementation-readiness work:** Exact module/API/state mapping, sensitive field inventory and automated coverage must be finalized with each domain's endpoint/event/report contracts. Numeric INR/quantity/percentage thresholds are deliberately Tenant configuration values. They are not universal product defaults and must be configured by each customer before operational use. External statutory approval, payroll, tax, food-safety, privacy and record-retention obligations remain reserved for the post-project legal review already directed by the product owner.
-
-
 ### 16.40 — ODR-008: Canonical UOM, quantity precision, conversion and monetary rounding baseline
 
 **Status:** Recommended domain baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This records the common product rules; it is not a final legal-metrology, tax or accounting opinion and does not approve exact device tolerances or every Tenant-specific commercial formula.
@@ -1372,6 +1341,34 @@ ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule, ApprovalRequir
 - Numeric device resolution/accuracy, process tolerances, statutory tax/document rounding, inventory valuation and target-version Tally limits remain under ODR-009/010/011/012/016/017/029 and the applicable evidence/review gates.
 
 **Source basis:** BIPM SI units and accepted units; Legal Metrology Act 2009 sections 4, 5, 7, 10 and 11; CGST Act 2017 section 170; TallyHelp UOM and currency setup guidance last updated 14 October 2026. Exact source links and scope notes are recorded in DBR-004 section 13.
+
+### 16.41 — ODR-005: Domain permission and approval control matrix
+
+**Status:** Recommended v1 domain-control baseline selected on 2026-11-19 under the product owner's delegated decision mandate. This complements ODR-002 permission-first decisions and ODR-005's canonical key inventory; it does not create a role hierarchy or fixed commercial approval amounts.
+
+**Selected decision**
+- Use [Domain Permission and Approval Control Matrix](../04-architecture/DOMAIN_PERMISSION_AND_APPROVAL_CONTROL_MATRIX.md) as the canonical logical mapping of authorization evaluation order, read/query boundaries, risk classes, approval defaults, domain action controls, threshold categories and acceptance tests.
+- A user's permission to perform a domain action is distinct from an additional workflow approval requirement. Workflow assignment, notification, generic approval action or delegated reviewer status does not grant the underlying domain permission or resource scope.
+- Each protected operation uses the registered canonical key in ARC-IAM-CAT-001 section 15.2. Each key declares its exact resource/action/query surface, scope, limits, sensitivity, risk, delegability, approval metadata and execution channels.
+- Risk classes R0–R3 guide proportional control. R0/read/basic and ordinary R1 operations normally require exact permission and validation but no extra approval unless a fixed rule or Tenant policy triggers it. R2/high-impact actions use separate approval by default under the recommended profile. R3/critical actions use dedicated authority and independent review where the governing fixed/policy rule requires it.
+- Tenant-configurable, versioned ApprovalPolicyProfiles may set approval-required conditions, INR/percentage/quantity/UOM/export/data-sensitivity thresholds, reviewer counts/quorum, maker-checker, stage order, evidence and escalation. Profiles are editable templates and do not grant permissions or create user/account classes.
+- Provide proportionate editable starter profiles for single-operator, small-team, multi-Branch and enterprise operations. All profiles use the same fixed authorization, ownership, audit, concurrency and historical-integrity semantics.
+- Every ApprovalRequest/ApprovalAction is bound to the source resource, exact immutable payload/version and ApprovalPolicyVersion. A material source change restarts/invalidates approval. Permission, policy, scope, threshold and state must be revalidated at the authoritative commit boundary.
+- Generic `approval.action.approve` is not sufficient to approve or post a domain action without the owning domain's explicit permission. Protective deny/revoke/quarantine actions may take effect immediately where explicitly authorized; they do not imply release, adjustment, reversal or financial posting.
+- Existing fixed rules remain unchanged: cross-Branch stock-task grants require stock-owning-Branch approval; Emergency Override follows ODR-002 section 16.3; Delegated Approval follows section 16.4 and cannot bypass maker-checker/non-delegable actions; zero-grace expiry, immutable history, stock/financial ownership and current server-side authorization remain fixed.
+
+**Conceptual entities**
+ApprovalPolicyProfile, ApprovalPolicyVersion, ApprovalPolicyRule, ApprovalRequirement and ApprovalLimit are Tenant-governed, effective-dated conceptual records. ApprovalRequest and ApprovalAction retain the actual request, policy, initiator, approver/delegate, threshold evaluation, payload/version, decision, reason, evidence and timestamp. These are logical requirements only and do not prescribe physical tables or schema.
+
+**Affected documents and verification**
+- ARC-IAM-CTRL-001 is the domain-level logical control matrix and test owner.
+- ARC-IAM-CAT-001 section 15 remains the canonical permission key inventory.
+- ERS section 5 and relationship map §12 define the approval policy conceptual model, including sequenced immutable evaluation snapshots and policy matches.
+- FRS IAM-027..036 define requirements; RTM maps them to AT-CTRL-001..026.
+- Business Rules Catalogue defines fixed permission/approval separation and configurable approval policy profile controls.
+- Quality Strategy records the AT-CTRL suite and validates small, multi-Branch and enterprise policy profiles.
+
+**Remaining implementation-readiness work:** Exact module/API/state mapping, sensitive field inventory and automated coverage must be finalized with each domain's endpoint/event/report contracts. Numeric INR/quantity/percentage thresholds are deliberately Tenant configuration values. They are not universal product defaults and must be configured by each customer before operational use. External statutory approval, payroll, tax, food-safety, privacy and record-retention obligations remain reserved for the post-project legal review already directed by the product owner.
 
 ### 16.42 — ODR-005: Approval policy versioning, control weakening and in-flight decisions
 
@@ -1464,9 +1461,6 @@ Tenants may create/version permission bundles, assign eligible sensitive-view/do
 **Remaining evidence boundary**
 
 The list above is a product-level baseline, not a legal classification opinion. The exact lawful basis/purpose, statutory retention, required disclosures, customer/employee privacy notices and jurisdiction-specific handling must be verified during the product's post-project legal/privacy review under ODR-026 and the project scope instruction. No data category may be treated as public or visible to all Tenant users while that review is pending.
-
-
-
 
 ### 16.44 — ODR-012: Branch stock-attribution transfer boundary
 
@@ -1589,4 +1583,3 @@ Required acceptance scenarios include:
 **Affected documents:** FRS-001, RTM-001, ARC-IAM-CAT-001, ARC-IAM-MAP-001, ARC-IAM-CTRL-001, Business Rules Catalogue, Exception/Reversal/Recovery Matrix, QES-001 and owning domain specifications.
 
 **Remaining implementation gate:** Each concrete API route/command/event/job/device/integration contract must be mapped to the relevant FRS ID, exact key(s), scope, approval policy and test. Field-level sensitive-data classification must be finalized against actual payloads/responses. Executable automated test evidence is produced only when implementation contracts and test environments exist. No production authorization may rely on the conceptual mapping alone without completing those gates.
-
