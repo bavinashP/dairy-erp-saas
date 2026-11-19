@@ -2,7 +2,7 @@
 
 **Document ID:** ARC-AUTH-MATRIX-001  
 **Status:** Product-owner-approved baseline — 2026-11-19  
-**Authority:** ODR-002 sections 16.7 and 16.36–16.38; ODR-005 sections 16.39 and 16.41; Permission Catalogue and Assignment Governance; Domain Permission and Approval Control Matrix; Authentication, Authorization and Access Control Architecture; Actor and Access Model; Business Rules Catalogue.  
+**Authority:** ODR-002 sections 16.7 and 16.36–16.38; ODR-005 sections 16.39–16.42; Permission Catalogue and Assignment Governance; Domain Permission and Resource Mapping Register; Domain Permission and Approval Control Matrix; Authentication, Authorization and Access Control Architecture; Actor and Access Model; Business Rules Catalogue.  
 **Scope:** Permission-first authorization and cross-Branch shared-site stock-task access. This document does not implement software or database structures.
 
 ## 1. Mandatory permission-first principle
