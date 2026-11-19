@@ -204,7 +204,7 @@ Audit events MUST identify actor/service, tenant/security boundary, scope, times
 ## 13. Open decisions
 
 - **ODR-004:** Membership and Branch-assignment cardinality are resolved under the recommended baseline in ODR-004 section 16.9; verify workflow edge cases.
-- **ODR-005:** Canonical v1 atomic permission keys are selected in ARC-IAM-CAT-001 section 15 and domain approval controls in ARC-IAM-CTRL-001. Remaining implementation-readiness work is exact module/resource/state/API mapping, sensitive-field inventory and automated coverage; Tenant-specific threshold values are configured under ARC-IAM-CTRL-001.
+- **ODR-005:** The 704-key canonical v1 inventory is selected in ARC-IAM-CAT-001 section 15; the 205-resource conceptual map and State Transition Matrix §3.1–3.15 action binding are selected in ARC-IAM-MAP-001; and domain approval controls are selected in ARC-IAM-CTRL-001. Remaining readiness work is additional FRS/domain command/exception mapping not represented by the current state machines, future concrete API/event/job/device/integration contract mapping, implementation-level sensitive-field classification and executable automated coverage. Tenant-specific threshold values are configured under ARC-IAM-CTRL-001.
 - **ODR-019/020:** Client strategy and offline authentication/authorization behavior.
 - **ODR-025:** Tenant suspension and permitted recovery/owner access.
 - **ODR-031:** Deployment/network boundaries and privileged operations.
