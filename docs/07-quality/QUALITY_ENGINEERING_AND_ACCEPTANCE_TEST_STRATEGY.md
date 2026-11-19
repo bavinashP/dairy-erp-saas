@@ -73,6 +73,19 @@ Use synthetic or properly de-identified data. Production personal/financial reco
 - Feature entitlement, activation, configuration, feature flags and extension installation never grant permissions.
 - Test every alternate entry point: UI, API, bulk endpoints, mobile/offline sync, POS, barcode, search, reports, exports/downloads, files, jobs, webhooks and third-party adapters.
 
+### 5.2.1 Foundational IAM acceptance tests
+
+Use stable identifiers AT-IAM-001..008 for the foundational identity, Tenant membership and permission-first requirements referenced by RTM-001:
+
+- **AT-IAM-001:** Authentication establishes the principal only. A valid login, active account or selected client does not authorize any business record/action without active Tenant membership, exact registered permission, resource scope and applicable policy.
+- **AT-IAM-002:** A user with memberships in two Tenants has isolated authorization contexts. Revocation/suspension in one Tenant does not grant, revoke or widen permissions in another; client-supplied Tenant identifiers cannot switch the server-side context.
+- **AT-IAM-003:** Tenant isolation prevents IDOR through resource IDs, nested references, search, list, aggregate, reports, files, exports, jobs, event callbacks and integrations; foreign Tenant resources are indistinguishable from unavailable resources under the disclosure policy.
+- **AT-IAM-004:** Branch, OperatingLocation, StockLocation, service area and assigned-resource scope are independent. Home/Primary Branch, workforce assignment, shared physical premises, geographic overlap or co-location alone grants no read/action permission.
+- **AT-IAM-005:** Role/job title, seniority, account category, Owner/Administrator label, user type and client type are authorization-neutral. Two principals with identical effective permissions, scopes, validity, limits and context receive the same outcome regardless of labels.
+- **AT-IAM-006:** Direct principal, governed group and optional PermissionBundleVersion assignments resolve to explicit atomic permission keys and scope. A bundle/group/member assignment does not create broader authority, and an assigner cannot exceed its own delegation ceiling.
+- **AT-IAM-007:** Explicit deny takes precedence; missing/expired/revoked/ambiguous permission or scope fails closed. View/list/capture/submit/approve/post/reverse/export/configure/manage_access are independent and are verified through alternate API, bulk, report, mobile, job and integration paths.
+- **AT-IAM-008:** Feature entitlement, capability activation, plan, feature flag, device registration, service identity, extension installation or platform identity alone grants no Tenant business access. Platform/support access requires a separate purpose-bound SupportAccessGrant and exact permissions.
+
 ### 5.3 Canonical permission catalogue and Tenant configuration
 
 Use stable test identifiers AT-IAM-009..020 for ARC-IAM-CAT-001 section 15 / ODR-005 section 16.39:
@@ -156,6 +169,34 @@ Mandatory invariants:
 - Tally import/export detects lossy precision, duplicate voucher, unsupported mapping and unknown external outcomes.
 
 Use property-based or generated boundary tests for money, quantities, conversions, rounding, balance equations, reservation allocation and idempotency where useful. Avoid binary floating-point as an authoritative source.
+
+### 6.0 Inventory ledger, internal transfer and Branch stock-attribution transfer
+
+Use stable acceptance identifiers AT-INV-001..023 for inventory/stock correctness and ODR-012 section 16.44:
+
+- **AT-INV-001:** Posted stock balances are reproducible from immutable StockMovement records, controlled openings, reservations and status rules; direct balance overwrite is denied.
+- **AT-INV-002:** An internal transfer between two StockLocations with the same stock-owning Branch uses `inventory.stock.transfer` and leaves Branch attribution unchanged.
+- **AT-INV-003:** An internal StockLocation transfer whose source and destination resolve to different stock-owning Branches is rejected, even if both locations share one physical OperatingLocation.
+- **AT-INV-004:** A cross-Branch worker physically handles source-Branch stock at a shared site using the independently assigned action permission and valid StockTaskAccessGrant; stock-ledger attribution remains with the source Branch.
+- **AT-INV-005:** A StockTaskAccessGrant or ordinary `inventory.stock.transfer` permission cannot create, approve, dispatch, receive, post, reconcile or reverse a Branch stock-attribution transfer.
+- **AT-INV-006:** A Branch stock-attribution transfer requires a distinct immutable transfer request identifying source/destination Branches and StockLocations, product/lot/serial/container, quantity/UOM, limits, reason and applicable policy/evidence version.
+- **AT-INV-007:** Source release requires `inventory.stock_attribution_transfer.approve_source` scoped to the source Branch; destination acceptance requires `inventory.stock_attribution_transfer.approve_destination` scoped to the destination Branch.
+- **AT-INV-008:** Both Branch-side approvals are bound to the exact same immutable transfer version/payload. A material change to either Branch, StockLocation, lot, quantity, UOM, limit, route, effective period or custody terms requires a new version and fresh approvals.
+- **AT-INV-009:** One authorized principal may satisfy both source and destination approval stages only when independently assigned both exact Branch-scoped permissions and no fixed/active maker-checker or separation-of-duties rule requires different actors.
+- **AT-INV-010:** Dispatch validates current source stock, lot/status/expiry/quality holds, reservations, quantity/UOM and destination eligibility; insufficient/ineligible stock or a stale version is denied.
+- **AT-INV-011:** Dispatch removes the quantity from source available stock and records the approved in-transit state while preserving source Branch attribution; dispatch alone does not create destination Branch stock attribution.
+- **AT-INV-012:** Physical custody changes only when the actual receiving party accepts under the effective custody assurance profile; selecting a carrier, assigning a vehicle, dispatch timestamp or notification does not imply acceptance.
+- **AT-INV-013:** Receipt captures actual receiver, time, quantity, condition, lot/container and required evidence; received quantity is distinct from accepted quantity.
+- **AT-INV-014:** Only the quantity actually accepted under the approved transfer version can be posted to destination Branch attribution. Unaccepted, disputed, rejected, damaged or outstanding quantities remain separately traceable to the source/in-transit attribution and last verified custodian/location.
+- **AT-INV-015:** Partial receipt/acceptance creates separate accepted and outstanding transfer-line portions; accepted quantity posts once and outstanding quantity cannot be silently credited, returned or written off.
+- **AT-INV-016:** A transfer with unknown, inconsistent or legally/accounting-distinct source/destination entity relationships is held from the dependent final posting path until required ODR-003/016/017 applicability evidence is verified.
+- **AT-INV-017:** A Branch stock-attribution transfer does not automatically create a sale, purchase, GST supply, invoice, payable/receivable, financial journal, legal-title change or employee/supplier liability.
+- **AT-INV-018:** A custody-only handover creates no synthetic StockMovement; a stock attribution movement does not itself prove custody acceptance. Where both occur, linked movements/events reconcile exactly once.
+- **AT-INV-019:** Pre-dispatch cancellation uses the exact cancel permission and preserves request/approval history. Post-dispatch work cannot be simply cancelled; it requires real return/exception/custody reconciliation.
+- **AT-INV-020:** A posted stock-attribution transfer is immutable. Any correction/reversal uses a linked compensating StockMovement and the exact reverse permission; original approvals, movements and custody evidence remain available.
+- **AT-INV-021:** Concurrent transfers cannot over-allocate source stock, double-claim accepted quantities or post the same source quantity to two destination Branches; source, transfer version and accepted quantity are protected at commit.
+- **AT-INV-022:** Duplicate/replayed/stale/offline commands across API, mobile, barcode, job and integration channels cannot create duplicate transfer approvals, dispatches, custody handovers or stock effects; current permissions and transfer state are revalidated at commit.
+- **AT-INV-023:** Valuation, cost-basis change, financial posting, write-off, adjustment, export or tax treatment remains independently permissioned and governed; stock-attribution transfer approval does not imply any of these actions.
 
 ### 6.1 Physical custody and shared-resource assurance
 
