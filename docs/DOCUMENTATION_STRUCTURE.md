@@ -93,7 +93,7 @@ The 2026-11-19 continuation audit supersedes the 2026-11-17 snapshot for current
 - [State Transition Matrix](03-requirements/STATE_TRANSITION_MATRIX.md)
 - [Exception, Reversal and Recovery Matrix](03-requirements/EXCEPTION_REVERSAL_AND_RECOVERY_MATRIX.md)
 - [Non-Functional Requirements Specification](03-requirements/NON_FUNCTIONAL_REQUIREMENTS_SPECIFICATION.md)
-- Detailed executable test cases and API traceability remain planned.
+- FRS/RTM, state-transition, exception/recovery mappings and acceptance scenarios are documented. Executable automated tests/test data/run evidence and concrete API route/command/event/job/device/integration traceability remain later implementation-readiness gates.
 
 ### 04 — Architecture
 - [SaaS Multi-Tenancy and Data Isolation Architecture](04-architecture/SAAS_MULTI_TENANCY_AND_DATA_ISOLATION_ARCHITECTURE.md)
@@ -119,7 +119,8 @@ The 2026-11-19 continuation audit supersedes the 2026-11-17 snapshot for current
 
 ### 05 — India requirements
 - [India Dairy Regulatory Research Register](05-india/INDIA_DAIRY_REGULATORY_RESEARCH_REGISTER.md)
-- GST applicability and invoicing; payments and reconciliation; address/PIN/mobile handling; privacy and retention (detailed research and requirements planned).
+- India tax configuration and statutory-document product capability is described in [India Tax Configuration and Statutory Reporting](02-domain/INDIA_TAX_CONFIGURATION_AND_STATUTORY_REPORTING.md); billing/payment and cash/bank product workflows are described in [Billing, Receivables, Payments and Reconciliation](02-domain/BILLING_RECEIVABLES_PAYMENTS_AND_RECONCILIATION.md) and [Cash, Bank Accounts and Financial Reconciliation](02-domain/CASH_BANK_MANAGEMENT_AND_RECONCILIATION.md).
+- Current legal/tax applicability, GST classification/document obligations, Legal Metrology, state/local obligations, lawful data purposes and statutory retention remain evidence-gated for the expressly deferred post-project qualified review under ODR-003/016/026. Existing product capability documents do not certify legal compliance.
 
 ### 06 — Security and operations
 - [Security Threat Model and Security Architecture](04-architecture/SECURITY_THREAT_MODEL_AND_SECURITY_ARCHITECTURE.md)
@@ -129,7 +130,7 @@ Tenant-isolation verification, named responders, support grants and production-s
 
 ### 07 — Quality engineering
 - [Quality Engineering and Acceptance Test Strategy](07-quality/QUALITY_ENGINEERING_AND_ACCEPTANCE_TEST_STRATEGY.md)
-Detailed executable test cases, test data fixtures and automated coverage remain to be produced from the FRS/RTM during the later implementation phase.
+Acceptance scenarios and stable test identifiers are documented and traced to FRS/RTM, domain rules and permission mappings. Executable automated test cases, fixtures, test environments and run evidence remain to be produced during the later implementation phase.
 
 ### 08 — Technology evaluation
 - [Technology Evaluation and Provisional Technology Baseline](08-technology/TECHNOLOGY_EVALUATION_AND_PROVISIONAL_BASELINE.md)
