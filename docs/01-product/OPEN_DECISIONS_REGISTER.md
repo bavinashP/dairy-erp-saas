@@ -123,13 +123,13 @@ A larger business may configure multiple OperatingLocations under its approved B
 - A capability being enabled does not by itself create another Branch or OperatingLocation.
 - Inventory-control subdivisions must be modelled separately from physical premises.
 - Small single-premises businesses and multi-site businesses must both be supported without different conceptual models.
-- At the time of this initial subdecision, Branch-to-OperatingLocation cardinality, unassigned locations, shared-site governance, ServiceArea mapping, route relationships and employee access were not yet decided. Subsequent ODR-002 subdecisions in this register establish the Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site/stock-segregation, permission and custody/accountability baselines; further scenario validation and external legal/contract responsibility review remain separate.
+- At the time of this initial subdecision, Branch-to-OperatingLocation cardinality, unassigned locations, shared-site governance, ServiceArea mapping, route relationships and employee access were not yet decided. Subsequent ODR-002 subdecisions in this register establish the Branch/OperatingLocation, ServiceArea/Branch, Route/Branch, shared-site/stock-segregation, permission, grant lifecycle, custody and dispatch baselines. Scenario coverage is documented in the Quality Strategy; executable/field validation remains a pre-release evidence gate, while external legal/contract responsibility review remains separate.
 
 **Affected areas:** Canonical Business Glossary; Core Domain Entity Catalogue; ERS-001; DBR-002; inventory/location modelling; onboarding and capability configuration.
 
 **Verification:** Confirm that one OperatingLocation can enable multiple operational capabilities, that StockLocation is distinct from OperatingLocation, and that a single-premises dairy workflow does not require fictitious physical sites.
 
-**Review trigger:** Reopen this accepted baseline only if the product owner changes the single-premises/multi-capability requirement. Continue ODR-002 separately for the remaining branch/location relationships and access rules.
+**Review trigger:** Reopen this accepted baseline only if the product owner changes the single-premises/multi-capability requirement. The Branch/location/access baselines are specified in ODR-002 sections 16.1–16.7 and 16.36; scenario execution remains a pre-release evidence gate.
 
 ---
 
@@ -164,7 +164,7 @@ A larger business may configure multiple OperatingLocations under its approved B
 
 **Verification:** Confirm that a Branch can be associated with multiple OperatingLocations, an OperatingLocation can exist without mandatory Branch assignment, and shared physical use does not bypass branch data isolation.
 
-**Review trigger:** Reopen this approved relationship only upon explicit product-owner change. Continue ODR-002 for detailed shared-use/access rules.
+**Review trigger:** Reopen this approved relationship only upon explicit product-owner change. Shared-use, access and custody baselines are specified in ODR-002 sections 16.7 and 16.36; execute their linked Quality Strategy scenarios before release.
 
 ---
 
@@ -198,7 +198,7 @@ A Pune West Branch may serve both Kothrud and Bavdhan ServiceAreas. If capacity 
 
 **Verification:** Confirm one Branch can serve multiple ServiceAreas, one ServiceArea can be served by multiple Branches, effective-dated reassignment preserves historical records, and shared geography does not bypass branch isolation.
 
-**Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Continue ODR-002 for additional scenario validation and external legal/contract/vehicle-qualification review; Route execution/dispatch is selected in section 16.37 and shared-use/access baselines are specified in sections 16.7 and 16.36.
+**Review trigger:** Reopen only upon explicit product-owner change or a materially different service-allocation business requirement. Route execution/dispatch is selected in section 16.37 and shared-use/access baselines are specified in sections 16.7 and 16.36. Scenario execution remains a pre-release evidence gate; external legal/contract/vehicle-qualification review is separate post-documentation work.
 
 ---
 
@@ -234,7 +234,7 @@ Branch A and Branch B use the same warehouse building. The building is represent
 
 **Verification:** Confirm that two Branches can use one OperatingLocation, maintain separate branch-attributed StockLocations and stock ledgers within the same premises, and cannot access or mutate one another's stock without an explicit grant.
 
-**Review trigger:** Reopen only upon explicit product-owner change or evidence that the shared-site/stock-segregation baseline cannot safely support a required operating workflow. Continue ODR-002 for detailed scenario validation and external legal/contract/insurance responsibility review; operational custody/access baselines are now specified in sections 16.7 and 16.36.
+**Review trigger:** Reopen only upon explicit product-owner change or evidence that the shared-site/stock-segregation baseline cannot safely support a required operating workflow. Operational custody/access baselines are specified in sections 16.7 and 16.36. Scenario coverage is documented in the Quality Strategy and execution remains a pre-release evidence gate; external legal/contract/insurance responsibility review is separate.
 
 ---
 
@@ -268,13 +268,13 @@ A warehouse worker normally assigned to Branch A is also authorized to pick and 
 
 **Verification:** Confirm that a worker with a Branch A home assignment can execute only the specifically granted stock tasks for Branch B at the approved shared site; cannot browse unrelated Branch B records; cannot perform ungranted stock mutations; and every permitted action is attributable to the worker, stock-owning Branch and grant.
 
-**Review trigger:** Reopen only upon explicit product-owner change or a material change to the shared-site operating model. Continue ODR-002 for scenario validation and external ownership/liability/insurance/vehicle-qualification review; permission matrix, custody/accountability and route/run/dispatch baselines are specified in sections 16.7 and 16.36–16.37.
+**Review trigger:** Reopen only upon explicit product-owner change or a material change to the shared-site operating model. The permission matrix, custody/accountability and route/run/dispatch baselines are specified in sections 16.7 and 16.36–16.37. Scenario execution remains a pre-release evidence gate; external ownership/liability/insurance/vehicle-qualification review is separate.
 
 ---
 
 ### ODR-002 — Approved Route and Branch relationship
 
-**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. ODR-002 remains partially open for further scenario validation and external legal/contract/insurance ownership-liability review; the complete cross-Branch permission matrix is approved in section 16.7 and custody/accountability baseline is selected in section 16.36.
+**Status:** Approved subdecision — explicit product-owner approval on 2026-11-18. The complete cross-Branch permission matrix is approved in section 16.7 and custody/accountability baseline is selected in section 16.36. Scenario coverage is documented in the Quality Strategy; executable/field validation remains a pre-release evidence gate. External legal/contract/insurance ownership-liability review remains separate.
 
 **Approval evidence:** The product owner explicitly confirmed that the proposed Route/Branch structure was acceptable.
 
@@ -303,7 +303,7 @@ Pune West Branch may own separate Kothrud and Bavdhan Routes, or a combined rout
 
 **Verification:** Confirm one Branch can own multiple Routes, each Route has one Branch owner, a Route can cover multiple ServiceAreas only within that Branch's authorized service assignments, DeliveryRun Branch and Route ownership always match, and another Branch must use its own Route.
 
-**Review trigger:** Reopen only upon explicit product-owner change or a materially different route operating model. Continue ODR-002 separately for detailed shared-use accountability and complete permission-matrix policies.
+**Review trigger:** Reopen only upon explicit product-owner change or a materially different route operating model. Shared-use accountability and the complete permission matrix are specified in ODR-002 sections 16.36 and 16.7; scenario execution remains a pre-release evidence gate.
 
 ---
 
@@ -652,7 +652,7 @@ Tenant isolation, Branch ownership, stock ownership, server-side authorization, 
 9. Revoked/expired permissions and grants deny subsequent operations; stale clients cannot commit unauthorized work.
 10. Every grant, change, revocation, denial and sensitive access is auditable.
 
-The exhaustive atomic permission catalogue for every dairy module, permission-management UX and customer starter templates are elaborated in their respective specifications without weakening this approved baseline. The custody/accountability baseline is selected in ODR-002 section 16.36; remaining ODR-002 work covers further scenario validation, route/dispatch workflow details and external legal/contract/insurance responsibility review.
+The exhaustive atomic permission catalogue for every dairy module, permission-management UX and customer starter templates are elaborated in their respective specifications without weakening this approved baseline. The custody/accountability and route/dispatch baselines are selected in ODR-002 sections 16.36–16.37. The related scenario coverage is documented in Quality Strategy suites AT-CST and AT-DLV; executable/field validation remains a pre-release evidence gate. External legal/contract/insurance responsibility review remains separate.
 
 
 **Permission precedence baseline (included in the 2026-11-19 approval):** Fixed platform/security invariants and applicable prohibitions are non-overridable; active membership, security boundary and resource ownership are prerequisites; an applicable explicit deny overrides an allow; applicable allows contribute only within their own valid scopes/limits/periods; no implicit inheritance or title/account-type elevation is permitted; conflicts or unverifiable authorization fail closed. This precedence applies to role bundles, group assignments, direct grants and temporary grants.
