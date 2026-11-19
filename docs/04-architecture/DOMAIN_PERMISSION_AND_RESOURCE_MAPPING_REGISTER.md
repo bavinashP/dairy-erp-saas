@@ -9,7 +9,7 @@
 
 This register maps business resources and operations to the canonical keys in [Permission Catalogue and Assignment Governance](PERMISSION_CATALOGUE_AND_ASSIGNMENT_GOVERNANCE.md) section 15.2. It does not define new permission semantics and does not assign permissions to anyone. Section 15.2 remains the single source of truth for key identity and metadata; this register is the resource/lifecycle/scope mapping index.
 
-The entries below cover **692 canonical keys across 204 resource namespaces**. A key may appear only once in this register. Any new core key must first be registered in ARC-IAM-CAT-001 through its catalogue-change governance. Unknown, retired, ambiguous or unmapped protected operations fail closed.
+The entries below cover **704 canonical keys across 205 resource namespaces**. A key may appear only once in this register. Any new core key must first be registered in ARC-IAM-CAT-001 through its catalogue-change governance. Unknown, retired, ambiguous or unmapped protected operations fail closed.
 
 **API boundary:** Concrete HTTP route names, controller method names, RPC symbols and event/job identifiers are intentionally not invented because the project is still in documentation-only phase and those contracts have not been designed. Before implementation, each conceptual command/read/export/job/device/integration operation must be mapped to its exact API/command/event identifier and tested against the same canonical key(s). This register supplies the business resource and permission decision layer; it is not a speculative API contract.
 
@@ -287,7 +287,7 @@ The resource action keys above are evaluated with ARC-IAM-CTRL-001:
 
 ## 5.1 State Transition Matrix to canonical permission binding index
 
-This index completes the **conceptual business-state/action-to-permission mapping** for the state machines currently documented in [State Transition Matrix](../03-requirements/STATE_TRANSITION_MATRIX.md) sections 3.1–3.14. It is not an API route catalogue. The HTTP route, command handler, event/job/device or integration contract identifiers are intentionally not invented; they are added only after those contracts are designed.
+This index completes the **conceptual business-state/action-to-permission mapping** for the state machines currently documented in [State Transition Matrix](../03-requirements/STATE_TRANSITION_MATRIX.md) sections 3.1–3.15. It is not an API route catalogue. The HTTP route, command handler, event/job/device or integration contract identifiers are intentionally not invented; they are added only after those contracts are designed.
 
 Every key named in a row is an **independent atomic permission**. The row is a coverage set, not a permission bundle: an actor needs only the key(s) corresponding to the actual transition and effects being performed, not every key listed in that workflow row. Where one transition has multiple separately protected effects, validate each affected resource/action. A specific domain approval permission remains mandatory; `approval.action.approve` or workflow routing never substitutes for it. A protected write also requires current membership, exact resource scope, valid state, effective assignment, applicable grant, limit and commit-time revalidation.
 
