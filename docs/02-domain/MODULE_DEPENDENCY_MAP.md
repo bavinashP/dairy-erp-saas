@@ -52,7 +52,7 @@
 | Purchased Goods Procurement | Supplier, product, purchase/receipt, tax/accounting policy | Stock ledger, supplier payable, reports |
 | Quality and Testing | Product/material, supplier, sample, equipment, quality policy | Procurement acceptance, processing release, compliance |
 | Processing and Packaging | Raw-material stock, quality, versioned process definitions, equipment where used | WIP, finished goods, batch lineage, inventory, yield and cost analysis |
-| Inventory/Warehouse | Product/unit, location, source transactions, lot policy | Stock ledger, availability, reservations, transfers, valuation inputs and reports |
+| Inventory/Warehouse | Product/unit, Branch-owned StockLocations, source transactions, lot policy, custody and approval policies | Stock ledger, availability, reservations, same-Branch internal transfers, separately governed Branch stock-attribution transfers, valuation inputs and reports |
 | Batch/Lot Traceability | Supplier/collection lots, inventory movements, process batches | Expiry control, recalls, downstream traceability and compliance evidence |
 | Stock Count/Reconciliation | Stock ledger, location, count sessions, transaction cut-offs | Approved variance adjustments and inventory accuracy metrics |
 | Distribution/Delivery | Subscription/order, customer/address, Branch-owned Route/ServiceArea, DeliveryPlan, demand allocations, stock, workforce, optional transport resource and product-handling profile | Dispatch, stop execution, custody/handovers, fulfilment, exceptions, billing, vehicle/participant utilization and performance reports |
@@ -73,6 +73,13 @@
 | Forecasting/Projections | Historical data, known future events, assumptions, model validation | Demand/procurement/cash/stock/staffing forecasts |
 | Budgeting/Scenario Planning | Actuals, chart/dimensions, assumptions, forecasts | Budget versions, variance, what-if decisions |
 | Integrations/API Management | Stable domain contracts, auth, tenant context, audit | External provider/system connectivity |
+
+### 3.1 Inventory transfer dependency boundaries
+
+- Same-stock-owning-Branch StockLocation transfer uses `inventory.stock.transfer` and does not change Branch stock-ledger attribution.
+- Cross-Branch stock handling at a shared OperatingLocation can change physical custody while the stock remains attributed to its owning Branch; it depends on the exact stock permissions, StockTaskAccessGrant where required and custody workflow.
+- A change of Branch stock-ledger attribution depends on the separate StockAttributionTransfer workflow, source/destination Branch approvals, immutable transfer envelope, accepted-quantity-only posting and legal/accounting/tax applicability checks. It does not automatically create sale/purchase or financial postings.
+- Stock ledger remains authoritative for quantity/location/status/attribution effects. Custody records are distinct and linked only where physical custody changes.
 
 ## 4. High-impact business dependency chains
 
