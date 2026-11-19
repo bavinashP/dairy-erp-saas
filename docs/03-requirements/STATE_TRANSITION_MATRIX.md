@@ -229,7 +229,8 @@ An ApprovalPolicyProfile is Tenant-owned configuration. It is not a user class, 
 | Ready to Publish / Approved | Publish → Scheduled / Active | Exact approval where required; approval.policy.publish permission; valid effective period; no fixed safeguard weakened | Future versions have no effect before start; publish and activation are audited |
 | Scheduled | Effective start → Active | Policy version current, scope valid and no conflicting version | Preserve predecessor and policy-resolution history |
 | Active | Replace → Superseded | Approved/publishable successor with valid transition time; scope and precedence unambiguous | Historical requests retain their matched version/evaluation snapshot |
-| Draft / Submitted / Review Required | Reject / Withdraw → Rejected / Withdrawn | Exact submitter/reviewer permission and reason | Terminal version; a new candidate version is required for reconsideration |
+| Submitted / Independent Review Required | Reject → Rejected | Exact approval.policy.reject permission, reviewer scope and recorded reason | Immutable rejected version; a new candidate version is required for reconsideration |
+| Draft / Submitted / Independent Review Required | Withdraw → Withdrawn | Exact approval.policy.withdraw permission, requester/reviewer scope and reason | Terminal withdrawn version; no policy decision authority was granted |
 | Active / Scheduled | Retire → Retired | Exact approval.policy.retire or governed publish authority; no unhandled weakening/gap; independent approval if retirement weakens control | Historical decisions remain; effective replacement or default fixed policy is validated before retirement |
 
 **Policy change classification**
