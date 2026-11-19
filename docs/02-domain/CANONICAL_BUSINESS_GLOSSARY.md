@@ -153,6 +153,10 @@
 | Role | An optional named permission bundle used to organize assignments | Role title or role assignment grants no permission beyond the bundle's current explicit contents and scope |
 | Effective Permission Set | Permissions that remain valid after evaluating assignments, scope, time, revocation, membership and applicable policy | Sole basis for business authorization; missing or ambiguous permission defaults to deny |
 | Default Deny | An action or data disclosure is denied unless all required permissions and scope conditions are affirmatively valid | Applies consistently across every client, API, report, export, job and integration |
+| Sensitive Data Category | A registered data/field/evidence class requiring specific masking, purpose, access and audit controls | Parent-record access or ordinary view does not automatically disclose the category |
+| Sensitive View Permission | A separately registered permission to reveal a declared sensitive field/data class for a scoped purpose | Requires parent-resource permission and exact resource scope; it does not grant update, export or download |
+| Purpose-Limited Disclosure | Access to sensitive data for a declared business purpose and assigned resource/task | Purpose, actor, scope, time and outcome are auditable; access must not broaden to unrelated records |
+
 | Approval | A separate workflow decision required by a fixed domain safeguard or an effective versioned Tenant approval policy | Approval never creates or substitutes for the underlying action permission |
 | Approval Policy Profile | Editable Tenant configuration template grouping risk/action rules and reviewer controls | Not a user type, role or permission bundle |
 | Approval Policy Version | Immutable effective-dated snapshot of approval thresholds, reviewer/quorum, evidence and stage rules | Each approval decision preserves the matched version |
