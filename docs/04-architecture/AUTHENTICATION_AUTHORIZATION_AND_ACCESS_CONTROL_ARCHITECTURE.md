@@ -211,14 +211,14 @@ Audit events MUST identify actor/service, tenant/security boundary, scope, times
 
 ## 14. Exit criteria
 
-This document is a logical baseline, not a final permission matrix or authentication implementation decision. Before development:
-1. Approve identity and membership lifecycle.
-2. Approve role/permission/scope and delegation semantics.
-3. Define MFA, recovery, session/device and revocation policies from the threat model.
-4. Define support and break-glass access workflows.
-5. Map every API/job/integration action to a canonical permission key and scope; apply the domain approval-control matrix where an approval policy is required.
-6. Complete the permission/approval cross-channel acceptance suites AT-IAM and AT-CTRL before the corresponding module is declared implementation-ready.
-7. Complete threat analysis and automated authorization/tenant-isolation tests.
+This document records the selected logical identity and permission-first authorization baseline; it is not an application implementation or concrete API contract. Before a module is declared implementation-ready:
+1. Translate the selected identity, Tenant membership, permission, resource-scope, delegation and approval-policy semantics into its finalized domain and client contracts; do not reopen the baseline without new evidence or owner direction.
+2. Complete threat-based MFA, account recovery, session/device trust, shared-device and revocation-window decisions under the security/mobile architecture and obtain any required production risk acceptance.
+3. Define exact purpose-bound SupportAccessGrant and platform privileged-operation contracts before enabling support data access.
+4. Map every finalized business command, query surface, field disclosure, API, event, job, device and integration operation to canonical key(s) in ARC-IAM-CAT-001 and resource/scope mappings in ARC-IAM-MAP-001.
+5. Complete implementation-level sensitive-field classification and map row/field/purpose controls to actual response, search, report, file and export surfaces.
+6. Implement and execute AT-IAM, AT-CTRL, AT-GNT and relevant domain acceptance suites across every enabled execution channel; retain build/commit, configuration and test evidence.
+7. Complete threat analysis, Tenant-isolation tests, authorization race/idempotency tests and operational review before production release.
 
 
 ### 5.1 Permission-first and customer-configurable authorization
