@@ -115,6 +115,8 @@ Use stable identifiers AT-IAM-021..025 for [Domain Permission and Resource Mappi
 - **AT-IAM-026:** Each sensitive data category in ARC-IAM-MAP-001 section 4 is mapped to one or more exact registered sensitive-view/download keys plus its parent-resource permission and resource scope. Ordinary record-view permission alone returns only permitted non-sensitive fields.
 - **AT-IAM-027:** Sensitive data access records the actual actor, permission/scope, purpose, target data category/resource, source/channel, outcome and timestamp. Masked fields remain masked in list/search/autocomplete, summaries, analytics, exports, attachments and bulk jobs unless all exact permissions are satisfied.
 - **AT-IAM-028:** Customer full service addresses/contact directions, Party contact/address details, bank/payee information, identity documents, delivery proof/GPS, payroll/salary/payslip, tax/compliance records, detailed audit events and session/device metadata are denied outside their authorized resource/purpose scope; export/download rechecks the same field/row permissions at access time.
+- **AT-IAM-029:** Every FRS requirement range and every ERR-001..064 exception/recovery row maps to registered resource namespaces and exact action keys in ARC-IAM-MAP-001 sections 5.2.1–5.2.2; a new or unmapped case fails closed until mapped.
+- **AT-IAM-030:** An exception reporter/viewer/reviewer cannot perform a retry, correction, release, reversal, write-off, posting or financial/stock effect without the exact independent action permission and any required approval; one exception does not grant a generic recovery capability.
 
 
 
