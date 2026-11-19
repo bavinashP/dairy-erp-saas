@@ -217,6 +217,15 @@
 | Dispatched Manifest | Versioned snapshot of route/stops, demand quantities, participants, resources and policy at dispatch | Post-dispatch changes are linked exceptions, not silent edits |
 | Run Execution Event | Append-oriented evidence of actual departure, stop progression, delay, deviation, hold, replacement or completion | Planned route and actual execution remain distinguishable |
 
+## Branch stock-attribution transfer terms
+
+| Term | Canonical meaning | Boundary |
+|---|---|---|
+| Internal StockLocation Transfer | Movement between StockLocations that have the same stock-owning Branch attribution | Uses `inventory.stock.transfer`; does not change Branch stock-ledger attribution |
+| Cross-Branch Stock Handling | Authorized worker physically handles another Branch's stock at a shared site under an exact StockTaskAccessGrant | Custody/handler may change; stock-ledger attribution remains with the stock-owning Branch |
+| Stock Attribution Transfer | Controlled operational change of stock-ledger attribution from a source Branch to a different destination Branch after source release and destination acceptance | Uses `inventory.stock_attribution_transfer.*`; does not itself establish legal/economic title, sale/purchase, accounting entity or tax treatment |
+| Stock Attribution Transfer Line | Transfer-specific quantity/lot/UOM allocation and its dispatched, received, accepted, rejected and outstanding quantities | Only accepted quantities may post to destination attribution; partial/disputed portions remain explicit |
+
 ## Shared-site accountability and custody terms
 
 | Term | Canonical meaning | Boundary |
