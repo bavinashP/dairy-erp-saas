@@ -2,7 +2,7 @@
 
 **Document ID:** QES-001  
 **Status:** Recommended engineering baseline selected under the product owner's delegated decision mandate — 2026-11-19  
-**Authority:** Project Vision and Scope; FRS-001; NFR-001; ERS-001; RTM-001; Business Rules Catalogue; ARC-PV-001; ARC-IAM-001; ARC-IAM-CAT-001; ARC-AUTH-MATRIX-001; ARC-CONC-001; ARC-API-001; ARC-SEC-001; ARC-OBS-001; ARC-SCALE-001; ODR-001..036.  
+**Authority:** Project Vision and Scope; FRS-001; NFR-001; ERS-001; RTM-001; Business Rules Catalogue; ARC-PV-001; ARC-IAM-001; ARC-IAM-CAT-001; ARC-AUTH-MATRIX-001; ARC-CONC-001; ARC-API-001; ARC-SEC-001; ARC-OBS-001; ARC-SCALE-001; ODR-001..036; ODR-002 sections 16.36–16.38; ODR-005 sections 16.39–16.45.  
 **Purpose:** Define quality, testability and release acceptance for one comprehensive Dairy ERP SaaS product serving small owner-operated to large enterprise workloads.
 
 ## 1. Quality objectives
